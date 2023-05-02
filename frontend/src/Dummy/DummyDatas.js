@@ -1,4 +1,4 @@
-const campgrounds = [
+export const campgrounds = [
   {
     id: 1,
     name: "서천 서울 캠핑장 (2023년 5월)",
@@ -9,7 +9,9 @@ const campgrounds = [
     restriction: "1회 1팀",
     cancel: "이용일 1일 전깢;",
     free: false,
+    price: "1억원",
     call: "123-4567-8910",
+    img: "https://yeyak.seoul.go.kr/cmsdata/web_upload/svc/20230329/1680050914280HZAYFX8GLLMTVZI2H6BD0WGPV_IM02.jpg",
   },
   {
     id: 2,
@@ -21,7 +23,9 @@ const campgrounds = [
     restriction: "1회 1팀",
     cancel: "이용일 1일 전깢;",
     free: false,
+    price: "1억원",
     call: "123-4567-8910",
+    img: "https://yeyak.seoul.go.kr/cmsdata/web_upload/svc/20230329/1680050914280HZAYFX8GLLMTVZI2H6BD0WGPV_IM02.jpg",
   },
   {
     id: 3,
@@ -33,7 +37,9 @@ const campgrounds = [
     restriction: "1회 1팀",
     cancel: "이용일 1일 전깢;",
     free: false,
+    price: "1억원",
     call: "123-4567-8910",
+    img: "https://yeyak.seoul.go.kr/cmsdata/web_upload/svc/20230329/1680050914280HZAYFX8GLLMTVZI2H6BD0WGPV_IM02.jpg",
   },
   {
     id: 4,
@@ -45,7 +51,9 @@ const campgrounds = [
     restriction: "1회 1팀",
     cancel: "이용일 1일 전깢;",
     free: false,
+    price: "1억원",
     call: "123-4567-8910",
+    img: "https://yeyak.seoul.go.kr/cmsdata/web_upload/svc/20230329/1680050914280HZAYFX8GLLMTVZI2H6BD0WGPV_IM02.jpg",
   },
   {
     id: 5,
@@ -57,7 +65,9 @@ const campgrounds = [
     restriction: "1회 1팀",
     cancel: "이용일 1일 전깢;",
     free: false,
+    price: "1억원",
     call: "123-4567-8910",
+    img: "https://yeyak.seoul.go.kr/cmsdata/web_upload/svc/20230329/1680050914280HZAYFX8GLLMTVZI2H6BD0WGPV_IM02.jpg",
   },
   {
     id: 6,
@@ -69,7 +79,9 @@ const campgrounds = [
     restriction: "1회 1팀",
     cancel: "이용일 1일 전깢;",
     free: false,
+    price: "1억원",
     call: "123-4567-8910",
+    img: "https://yeyak.seoul.go.kr/cmsdata/web_upload/svc/20230329/1680050914280HZAYFX8GLLMTVZI2H6BD0WGPV_IM02.jpg",
   },
   {
     id: 7,
@@ -81,7 +93,9 @@ const campgrounds = [
     restriction: "1회 1팀",
     cancel: "이용일 1일 전깢;",
     free: false,
+    price: "1억원",
     call: "123-4567-8910",
+    img: "https://yeyak.seoul.go.kr/cmsdata/web_upload/svc/20230329/1680050914280HZAYFX8GLLMTVZI2H6BD0WGPV_IM02.jpg",
   },
   {
     id: 8,
@@ -93,6 +107,8 @@ const campgrounds = [
     restriction: "1회 1팀",
     cancel: "이용일 1일 전깢;",
     free: false,
+    price: "1억원",
     call: "123-4567-8910",
+    img: "https://yeyak.seoul.go.kr/cmsdata/web_upload/svc/20230329/1680050914280HZAYFX8GLLMTVZI2H6BD0WGPV_IM02.jpg",
   },
 ];
