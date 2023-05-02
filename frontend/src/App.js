@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Header from "./Components/Header";
+import ModeBtn from "./Components/ModeBtn";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -10,7 +11,6 @@ const Wrapper = styled.div`
 const Container = styled.div`
   width: 100%;
   height: 100vh; // 임시
-  background-color: pink;
 `;
 
 function App() {
@@ -18,6 +18,7 @@ function App() {
     <Wrapper>
       <Header />
       <Container></Container>
+      <ModeBtn />
     </Wrapper>
   );
 }
