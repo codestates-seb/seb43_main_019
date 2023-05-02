@@ -4,6 +4,7 @@ import { createGlobalStyle } from "styled-components";
 import App from "./App";
 import { store } from "./Redux/Stores";
 import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -69,8 +70,10 @@ a {
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Provider store={store}>
-    <GlobalStyle />
-    <App />
-  </Provider>
+  <BrowserRouter>
+    <Provider store={store}>
+      <GlobalStyle />
+      <App />
+    </Provider>
+  </BrowserRouter>
 );
