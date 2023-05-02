@@ -13,6 +13,12 @@ const Container = styled.div`
   background-color: pink;
 `;
 
+const Container2 = styled.div`
+  width: 100%;
+  height: 100vh; // 임시
+  background-color: pink;
+`;
+
 function App() {
   return (
     <Wrapper>
