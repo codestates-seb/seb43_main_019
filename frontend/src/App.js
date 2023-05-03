@@ -4,6 +4,8 @@ import ModeBtn from "./Components/ModeBtn";
 import { Routes, Route, useParams, useLocation } from "react-router-dom";
 import Main from "./Pages/Main";
 import Join from "./Pages/Join";
+import Login from "./Pages/Login";
+
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -26,6 +28,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/join" element={<Join />} />
+
+          <Route path="/login" element={<Login />} />
         </Routes>
       </Container>
       <ModeBtn />
