@@ -1,7 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createGlobalStyle } from "styled-components";
+import { ThemeProvider, createGlobalStyle } from "styled-components";
 import App from "./App";
+import store from "./Redux/Store/index";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import { theme } from "./theme";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -67,8 +71,12 @@ a {
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <>
-    <GlobalStyle />
-    <App />
-  </>
+  <BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <GlobalStyle />
+        <App />
+      </Provider>
+    </ThemeProvider>
+  </BrowserRouter>
 );
