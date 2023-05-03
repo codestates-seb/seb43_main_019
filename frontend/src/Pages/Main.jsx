@@ -57,6 +57,7 @@ const options = {
 export default function Main() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   // 타겟 요소 지정
   let containerRef = useRef(null);
