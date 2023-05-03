@@ -4,7 +4,7 @@ const Container = styled.header`
   width: 100%;
   height: 120px;
   position: fixed;
-  background-color: #0d630d;
+  background-color: var(--emerald-700);
 `;
 
 export default function Header() {
