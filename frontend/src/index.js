@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createGlobalStyle } from "styled-components";
 import App from "./App";
-import { store } from "./Redux/Stores";
+import store from "./Redux/Store/index";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
