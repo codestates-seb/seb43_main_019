@@ -3,11 +3,11 @@ import Header from "./Components/Header";
 import ModeBtn from "./Components/ModeBtn";
 import { Routes, Route, useParams, useLocation } from "react-router-dom";
 import Main from "./Pages/Main";
+import Join from "./Pages/Join";
 
 const Wrapper = styled.div`
   width: 100vw;
   height: auto;
-  background-color: pink;
   //height: auto;
 `;
 
@@ -25,6 +25,7 @@ function App() {
       <Container>
         <Routes>
           <Route path="/" element={<Main />} />
+          <Route path="/join" element={<Join />} />
         </Routes>
       </Container>
       <ModeBtn />
