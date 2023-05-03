@@ -11,10 +11,10 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/reservations") // 클래스에 대한 HTTP 요청 매핑을 정의하기 위한 애너테이션
+@RequestMapping("/api/reservations") // 클래스에 대한 HTTP 요청 매핑을 정의하기 위한 애너테이션
 @Validated // 입력값 검증 위한 애너테이션
 public class ReservationController {
-    private final static String RESERVATION_DEFAULT_URL = "/reservations";
+    private final static String RESERVATION_DEFAULT_URL = "/api/reservations";
 //    private final static ReservationService reservationService; // ReservationService 구현되면 주석 해제
 //    private final ReservationMapper mapper; // ReservationMapper 구현되면 주석 해제
 //    private final MemberService memberService; // MemberService 구현되면 주석 해제
