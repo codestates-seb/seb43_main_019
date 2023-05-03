@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import Header from "./Components/Header";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Mypage from "./Pages/Mypage";
+import Main from "./Components/Main";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -7,24 +10,17 @@ const Wrapper = styled.div`
   //height: auto;
 `;
 
-const Container = styled.div`
-  width: 100%;
-  height: 100vh; // 임시
-  background-color: pink;
-`;
-
-const Container2 = styled.div`
-  width: 100%;
-  height: 100vh; // 임시
-  background-color: pink;
-`;
-
 function App() {
   return (
+    <BrowserRouter>
     <Wrapper>
       <Header />
-      <Container></Container>
+      <Routes>
+      <Route path="/" element={<Main />}></Route>
+      <Route path="/Mypage" element={<Mypage />}></Route>
+      </Routes>
     </Wrapper>
+    </BrowserRouter>
   );
 }
 

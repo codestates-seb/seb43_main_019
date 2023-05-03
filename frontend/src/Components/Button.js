@@ -10,11 +10,6 @@ export const CommonButton = styled.button`
   background-color: var(--emerald-700);
   border: none;
   border-radius: 45px;
-  /* box-shadow: 0px 8px 15px rgba(0, 0, 0, 0); */
-  /* transition: all 0.3s ease 0s; */
-  /* cursor: pointer; */
-  /* outline: none; */
-
 `;
 
 // 사용예시

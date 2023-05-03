@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { CommonButton } from "./Button";
+import { Link } from "react-router-dom";
 
 const Container = styled.header`
   width: 100%;
@@ -17,9 +18,11 @@ const Container = styled.header`
 export default function Header() {
   return(
    <Container>
+    <Link to="/Mypage">
     <div className="button-container">
-      <CommonButton>MyPage</CommonButton>
+      <CommonButton>MyPage</CommonButton>  
     </div>
+    </Link>
   </Container>
   );
 }
