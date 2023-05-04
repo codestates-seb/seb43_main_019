@@ -3,14 +3,15 @@ import styled from "styled-components";
 import { handleMode } from "../Redux/Actions";
 
 const Container = styled.div`
-  font-size: 35px;
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
+  font-size: 20px;
+  width: 100px;
+  height: 50px;
+  border-radius: 50px;
   position: fixed;
-  bottom: 100px;
-  left: 100px;
-  background-color: ${(props) => (props.isDark ? "black" : "yellow")};
+  bottom: 20px;
+  left: 50px;
+  background-color: ${(props) =>
+    props.isDark ? "var(--black-700)" : "var(--white)"};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,6 +19,12 @@ const Container = styled.div`
   &:hover {
     cursor: pointer;
   }
+`;
+
+const Icon = styled.span`
+  transition: all 0.3s ease-in-out;
+  transform: ${(props) =>
+    props.isDark ? "translateX(-20px)" : "translateX(20px)"};
 `;
 
 export default function ModeBtn() {
@@ -30,7 +37,7 @@ export default function ModeBtn() {
 
   return (
     <Container onClick={handleModeChange} isDark={isDark}>
-      {isDark ? "🌞" : "🌙"}
+      <Icon isDark={isDark}> {isDark ? "🌙" : "🌞"}</Icon>
     </Container>
   );
 }

@@ -11,12 +11,13 @@ const Wrapper = styled.div`
   width: 100vw;
   height: auto;
   //height: auto;
+  position: relative;
 `;
 
 const Container = styled.div`
   width: 100%;
   height: auto;
-  margin-top: 120px; // 헤더의 height 값이 120px
+
   // height: 100vh; // 임시
 `;
 
