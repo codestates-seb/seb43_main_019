@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.10.8",
+    "@emotion/styled": "^11.10.8",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
@@ -21,6 +23,7 @@
     "react-router-dom": "^6.11.0",
     "react-scripts": "5.0.1",
     "redux": "^4.2.1",
+    "redux-persist": "^6.0.0",
     "styled-components": "^5.3.10",
     "web-vitals": "^2.1.4"
   },

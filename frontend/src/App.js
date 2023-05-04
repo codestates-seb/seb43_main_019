@@ -3,7 +3,7 @@ import Header from "./Components/Header";
 import ModeBtn from "./Components/ModeBtn";
 import { Routes, Route, useParams, useLocation } from "react-router-dom";
 import Main from "./Pages/Main";
-import Join from "./Pages/Join";
+import SignUp from "./Pages/SignUp";
 import Login from "./Pages/Login";
 import Mypage from "./Pages/Mypage";
 
@@ -26,10 +26,9 @@ function App() {
       <Header />
       <Container>
         <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/join" element={<Join />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/mypage" element={<Mypage />} />
+          <Route path="/" element={<Main />} />
         </Routes>
       </Container>
       <ModeBtn />
