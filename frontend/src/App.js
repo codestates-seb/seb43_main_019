@@ -5,7 +5,7 @@ import { Routes, Route, useParams, useLocation } from "react-router-dom";
 import Main from "./Pages/Main";
 import SignUp from "./Pages/SignUp";
 import Login from "./Pages/Login";
-import Picker from "./Components/Picker";
+import Mypage from "./Pages/Mypage";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -28,6 +28,7 @@ function App() {
         <Routes>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Main />} />
         </Routes>
       </Container>
       <ModeBtn />
