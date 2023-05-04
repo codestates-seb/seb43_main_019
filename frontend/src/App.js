@@ -29,6 +29,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/mypage" element={<Mypage />} />
+          <Route path="/" element={<Main />} />
         </Routes>
       </Container>
       <ModeBtn />
