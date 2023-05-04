@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { mode } from "../Redux/Store/modeSlice";
+import { handleMode } from "../Redux/Actions";
 
 const Container = styled.div`
   font-size: 35px;
@@ -21,13 +21,11 @@ const Container = styled.div`
 `;
 
 export default function ModeBtn() {
-  const isDark = useSelector((state) => {
-    return state.mode.isDark;
-  });
+  const isDark = useSelector((state) => state.modeReducer);
   const dispatch = useDispatch();
 
   const handleModeChange = () => {
-    dispatch(mode(!isDark));
+    dispatch(handleMode(!isDark));
   };
 
   return (

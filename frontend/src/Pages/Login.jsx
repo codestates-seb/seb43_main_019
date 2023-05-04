@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,8 +9,7 @@ import { faComment } from "@fortawesome/free-solid-svg-icons";
 const Wrapper = styled.div`
   width: 100%;
   padding: 30px 0;
-  background-color: ${(props) =>
-    props.isDark ? props.theme.dark.bgColor : props.theme.light.bgColor};
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,8 +29,6 @@ const Form = styled.form`
 
   padding: 30px 0;
 
-  background-color: ${(props) =>
-    props.isDark ? props.theme.dark.formColor : props.theme.light.formColor};
   border-radius: 20px;
   border: 1px solid black;
 `;
@@ -62,10 +59,6 @@ const Button = styled.button`
   border: none;
   margin: 10px 0;
   border-radius: 20px;
-  background-color: ${(props) =>
-    props.isDark
-      ? (props) => props.theme.dark.btnColor
-      : props.theme.light.btnColor};
 
   &:hover {
     cursor: pointer;
@@ -82,10 +75,7 @@ const AdditionalBtn = styled.div`
   width: 80%;
   height: 50px;
   border-radius: 20px;
-  background-color: ${(props) =>
-    props.isDark
-      ? (props) => props.theme.dark.btnColor
-      : props.theme.light.btnColor};
+
   margin: 10px 0;
   display: flex;
   justify-content: center;
@@ -107,9 +97,7 @@ const AdditionalBtn = styled.div`
 export default function Login() {
   const navigate = useNavigate();
   const { register, handleSubmit, setFocus } = useForm();
-  const isDark = useSelector((state) => {
-    return state.mode.isDark;
-  });
+  const isDark = useSelector((state) => state.modeReducer);
 
   const handleJoin = (data) => {
     const { id, password } = data;

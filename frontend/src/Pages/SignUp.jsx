@@ -1,14 +1,13 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
   width: 100%;
   padding: 30px 0;
-  background-color: ${(props) =>
-    props.isDark ? props.theme.dark.bgColor : props.theme.light.bgColor};
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,8 +26,6 @@ const Form = styled.form`
   align-items: center;
   padding: 30px 0;
 
-  background-color: ${(props) =>
-    props.isDark ? props.theme.dark.formColor : props.theme.light.formColor};
   border-radius: 20px;
   border: 1px solid black;
 `;
@@ -75,18 +72,12 @@ const Button = styled.button`
   height: 50px;
   border: none;
   border-radius: 20px;
-  background-color: ${(props) =>
-    props.isDark
-      ? (props) => props.theme.dark.btnColor
-      : props.theme.light.btnColor};
 `;
 
-export default function Join() {
+export default function SignUp() {
   const navigate = useNavigate();
   const { register, handleSubmit, setFocus } = useForm();
-  const isDark = useSelector((state) => {
-    return state.mode.isDark;
-  });
+  const isDark = useSelector((state) => state.modeReducer);
 
   const handleJoin = (data) => {
     const { id, password, password2, name, callNumber, birthDate, email } =
@@ -111,7 +102,7 @@ export default function Join() {
           <Label htmlFor="id">ID</Label>
           <Input
             id="id"
-            placeholder="ID를 입력하세요/"
+            placeholder="ID를 입력하세요."
             {...register("id", { required: true })}
           />
         </Line>
