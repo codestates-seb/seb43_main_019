@@ -28,7 +28,7 @@ function App() {
         <Routes>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Main />} />
+          <Route path="/mypage" element={<Mypage />} />
         </Routes>
       </Container>
       <ModeBtn />
