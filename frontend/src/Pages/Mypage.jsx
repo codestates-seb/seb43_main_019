@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
-const Container = styled.main`
+const Container = styled.Mypage`
       width: 100%;
     height: auto;
 `;
