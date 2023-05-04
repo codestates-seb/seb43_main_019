@@ -5,6 +5,7 @@ import { Routes, Route, useParams, useLocation } from "react-router-dom";
 import Main from "./Pages/Main";
 import Join from "./Pages/Join";
 import Login from "./Pages/Login";
+import Mypage from "./Pages/Mypage";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -28,6 +29,7 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/join" element={<Join />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/mypage" element={<Mypage />} />
         </Routes>
       </Container>
       <ModeBtn />
