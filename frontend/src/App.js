@@ -3,9 +3,9 @@ import Header from "./Components/Header";
 import ModeBtn from "./Components/ModeBtn";
 import { Routes, Route, useParams, useLocation } from "react-router-dom";
 import Main from "./Pages/Main";
-import Join from "./Pages/Join";
+import Join from "./Pages/SignUp";
 import Login from "./Pages/Login";
-
+import Picker from "./Components/Picker";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -28,8 +28,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/join" element={<Join />} />
-
           <Route path="/login" element={<Login />} />
+          <Route path="/cd" element={<Picker />} />
         </Routes>
       </Container>
       <ModeBtn />
