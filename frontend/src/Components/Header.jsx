@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import LoginStatus from "./LoginStatus";
+import { useDispatch, useSelector } from "react-redux";
 
 const Container = styled.header`
   width: 100%;

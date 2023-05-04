@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { campgrounds } from "../Dummy/DummyDatas";
 import Campground from "../Components/Campground";
 import { useEffect, useRef, useState } from "react";
