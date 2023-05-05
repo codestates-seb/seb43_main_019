@@ -27,7 +27,7 @@ const Top = styled.div`
   width: 100%;
   height: 60px;
   background-color: ${(props) =>
-    props.isDark ? "var(--black-600)" : "var(--white-50)"};
+    props.isDark ? "var(--black-500)" : "var(--white-50)"};
 
   display: flex;
   justify-content: center;
@@ -38,7 +38,7 @@ const Top = styled.div`
 const Bottom = styled.div`
   width: 100%;
   background-color: ${(props) =>
-    props.isDark ? "var(--black-700)" : "var(--white-100)"};
+    props.isDark ? "var(--black-600)" : "var(--white-100)"};
 
   position: relative;
   height: 80px;
@@ -313,11 +313,11 @@ export default function Header() {
               <Link to="/">
                 <Item isDark={isDark}>Home</Item>
               </Link>
-              <Link to="/login">
-                <Item isDark={isDark}>Log In</Item>
-              </Link>
-              <Link to="signup">
-                <Item isDark={isDark}>Sign Up</Item>
+              <Item isDark={isDark} onClick={() => setIsLogin((prev) => false)}>
+                Log Out
+              </Item>
+              <Link to="/mypage">
+                <Item isDark={isDark}>My Page</Item>
               </Link>
             </Menu>
           ) : (
@@ -325,11 +325,11 @@ export default function Header() {
               <Link to="/">
                 <Item isDark={isDark}>Home</Item>
               </Link>
-              <Item isDark={isDark} onClick={() => setIsLogin((prev) => false)}>
-                Log Out
-              </Item>
-              <Link to="/mypage">
-                <Item isDark={isDark}>My Page</Item>
+              <Link to="/login">
+                <Item isDark={isDark}>Log In</Item>
+              </Link>
+              <Link to="signup">
+                <Item isDark={isDark}>Sign Up</Item>
               </Link>
             </Menu>
           )}
@@ -359,11 +359,11 @@ export default function Header() {
             <Link to="/">
               <Item isDark={isDark}>Home</Item>
             </Link>
-            <Link to="/login">
-              <Item isDark={isDark}>Log In</Item>
-            </Link>
-            <Link to="signup">
-              <Item isDark={isDark}>Sign Up</Item>
+            <Item isDark={isDark} onClick={() => setIsLogin((prev) => false)}>
+              Log Out
+            </Item>
+            <Link to="/mypage">
+              <Item isDark={isDark}>My Page</Item>
             </Link>
           </Menu>
         ) : (
@@ -371,11 +371,11 @@ export default function Header() {
             <Link to="/">
               <Item isDark={isDark}>Home</Item>
             </Link>
-            <Item isDark={isDark} onClick={() => setIsLogin((prev) => false)}>
-              Log Out
-            </Item>
-            <Link to="/mypage">
-              <Item isDark={isDark}>My Page</Item>
+            <Link to="/login">
+              <Item isDark={isDark}>Log In</Item>
+            </Link>
+            <Link to="signup">
+              <Item isDark={isDark}>Sign Up</Item>
             </Link>
           </Menu>
         ))}
