@@ -4,6 +4,7 @@ import Campground from "../Components/Campground";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import Card from "../Components/Card";
+import Card2 from "../Components/Card2";
 
 const Loader = styled.h1`
   font-size: 50px;
@@ -55,7 +56,6 @@ const TempWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: green;
 `;
 /*
 공부용
@@ -134,7 +134,7 @@ export default function Main() {
     <>
       <Container>
         {data.map((campground) => (
-          <Card key={campground.id + ""} campground={campground} />
+          <Card2 key={campground.id + ""} campground={campground} />
         ))}
       </Container>
       <ScrollBtn onClick={() => window.scrollTo(0, 0)} ref={containerRef}>
