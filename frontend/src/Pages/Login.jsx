@@ -39,6 +39,9 @@ const Input = styled.input`
   border-radius: 70px;
   margin-bottom: 20px;
   border: 1px solid var(--gray-400);
+  background-color: ${(props) =>
+    props.isDark ? "var(--black)" : "var(--white)"};
+  color: ${(props) => (props.isDark ? "var(--white)" : "var(--black)")};
 
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -66,6 +69,24 @@ const Button = styled.button`
   color: var(--white);
   border: none;
   margin-bottom: 20px;
+  font-size: 15px;
+  font-weight: bold;
+`;
+
+const SocialLogin = styled.div`
+  width: 150px;
+  height: 50px;
+  border-radius: 25px;
+  background-color: var(--emerald-600);
+  color: var(--white);
+  border: none;
+  margin-bottom: 20px;
+  font-size: 15px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 `;
 
 const AccountRelated = styled.span`
@@ -93,11 +114,13 @@ export default function Login() {
       <Form isDark={isDark} onSubmit={handleSubmit(handleJoin)}>
         <Logo src={isDark ? "/img/Logo_Dark.png" : "/img/Logo_Light.png"} />
         <Input
+          isDark={isDark}
           id="id"
           placeholder="ID를 입력하세요."
           {...register("id", { required: true })}
         />
         <Input
+          isDark={isDark}
           type="password"
           placeholder="비밀번호를 입력하세요."
           {...register("password", { required: true })}
@@ -112,7 +135,7 @@ export default function Login() {
           </Space>
           <Space pos={"end"}>
             <Button>Log In</Button>
-            <Button>네이버로 로그인</Button>
+            <SocialLogin>네이버로 로그인</SocialLogin>
           </Space>
         </Others>
       </Form>

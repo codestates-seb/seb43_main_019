@@ -7,47 +7,46 @@ import { useNavigate } from "react-router-dom";
 const Wrapper = styled.div`
   width: 100%;
   padding: 30px 0;
-
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-const Title = styled.h2`
-  font-size: 50px;
-  font-weight: bold;
-  margin: 50px 0;
-`;
-
 const Form = styled.form`
-  width: 60%;
+  max-width: 600px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 30px 0;
-
   border-radius: 20px;
-  border: 1px solid black;
+  background-color: ${(props) =>
+    props.isDark ? "var(--black-600)" : "var(--white-100)"};
+`;
+
+const Logo = styled.img`
+  width: 80%;
+  margin-bottom: 50px;
 `;
 
 const Line = styled.div`
-  width: 60%;
-  margin: 10px 0;
+  width: 80%;
+  margin-bottom: 20px;
   display: flex;
   justify-content: start;
+
   @media screen and (max-width: 900px) {
     justify-content: center;
   }
 `;
 
 const Label = styled.label`
+  width: 100px;
   font-size: 15px;
   font-weight: bold;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  width: 100px;
 
   @media screen and (max-width: 900px) {
     display: none;
@@ -56,11 +55,19 @@ const Label = styled.label`
 
 const Input = styled.input`
   width: 80%;
-  height: 50px;
-  border: none;
-  padding-left: 10px;
+  height: 70px;
+  border: 1px solid var(--gray-400);
+  outline: none;
+  padding-left: 20px;
   font-size: 15px;
-  border-radius: 10px;
+  border-radius: 70px;
+  background-color: ${(props) =>
+    props.isDark ? "var(--black)" : "var(--white)"};
+  color: ${(props) => (props.isDark ? "var(--white)" : "var(--black)")};
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
 
   @media screen and (max-width: 900px) {
     width: 100%;
@@ -72,6 +79,10 @@ const Button = styled.button`
   height: 50px;
   border: none;
   border-radius: 20px;
+  background-color: var(--emerald-600);
+  color: var(--white);
+  font-size: 15px;
+  font-weight: bold;
 `;
 
 export default function SignUp() {
@@ -96,11 +107,12 @@ export default function SignUp() {
 
   return (
     <Wrapper isDark={isDark}>
-      <Title>회원가입</Title>
-      <Form onSubmit={handleSubmit(handleJoin)}>
+      <Form isDark={isDark} onSubmit={handleSubmit(handleJoin)}>
+        <Logo src={isDark ? "/img/Logo_Dark.png" : "/img/Logo_Light.png"} />
         <Line>
           <Label htmlFor="id">ID</Label>
           <Input
+            isDark={isDark}
             id="id"
             placeholder="ID를 입력하세요."
             {...register("id", { required: true })}
@@ -109,6 +121,7 @@ export default function SignUp() {
         <Line>
           <Label>비밀번호</Label>
           <Input
+            isDark={isDark}
             type="password"
             placeholder="비밀번호를 입력하세요."
             {...register("password", { required: true })}
@@ -117,6 +130,7 @@ export default function SignUp() {
         <Line>
           <Label>비밀번호 확인</Label>
           <Input
+            isDark={isDark}
             type="password"
             placeholder="비밀번호 확인을 위해 다시 입력해주세요."
             {...register("password2", { required: true })}
@@ -125,6 +139,7 @@ export default function SignUp() {
         <Line>
           <Label>이름</Label>
           <Input
+            isDark={isDark}
             placeholder="이름을 입력하세요."
             {...register("name", { required: true })}
           />
@@ -132,17 +147,23 @@ export default function SignUp() {
         <Line>
           <Label>전화번호</Label>
           <Input
+            isDark={isDark}
             placeholder="'-'를 제외한 전화번호를 입력하세요."
             {...register("callNumber", { required: true })}
           />
         </Line>
         <Line>
           <Label>생년월일</Label>
-          <Input type="date" {...register("birthDate", { required: true })} />
+          <Input
+            isDark={isDark}
+            type="date"
+            {...register("birthDate", { required: true })}
+          />
         </Line>
         <Line>
           <Label>이메일</Label>
           <Input
+            isDark={isDark}
             type="email"
             placeholder="이메일을 입력하세요."
             {...register("email", { required: true })}

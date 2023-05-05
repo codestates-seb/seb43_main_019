@@ -16,7 +16,8 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 10;
-
+  border: ${(props) =>
+    props.isDark ? "1px solid var(--white)" : "1px solid var(--black)"};
   &:hover {
     cursor: pointer;
   }
