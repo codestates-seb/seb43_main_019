@@ -6,8 +6,6 @@ import {
   faCampground,
   faMagnifyingGlass,
   faXmark,
-  faRightToBracket,
-  faRightFromBracket,
   faUser,
   faPersonRays,
 } from "@fortawesome/free-solid-svg-icons";
