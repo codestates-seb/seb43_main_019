@@ -112,3 +112,14 @@ export const campgrounds = [
     img: "https://yeyak.seoul.go.kr/cmsdata/web_upload/svc/20230329/1680050914280HZAYFX8GLLMTVZI2H6BD0WGPV_IM02.jpg",
   },
 ];
+
+export const users = [
+  {
+    id: "aaa",
+    password: "111",
+    name: "홍길동",
+    callNumber: "010-1234-5678",
+    birthDate: "1234-56-78",
+    email: "aaa@naver.com",
+  },
+];

@@ -1,15 +1,16 @@
 import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCampground,
   faMagnifyingGlass,
   faXmark,
   faUser,
-  faPersonRays,
+  faUserXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
+import { handleLogout } from "../Redux/Actions";
 
 const Container = styled.header`
   width: 100%;
@@ -120,17 +121,18 @@ const Item = styled.li`
 `;
 
 const UserStatus = styled.div`
-  width: 100px;
-  height: 35px;
+  width: 50px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 20px;
+  border-radius: 100%;
   position: absolute;
   right: 100px;
   background-color: ${(props) =>
     props.isDark ? "var(--black-700)" : "var(--white-100)"};
-  border: 0.5px solid black;
+  border: ${(props) =>
+    props.isDark ? "2px solid var(--white)" : "2px solid var(--black)"};
 
   @media screen and (max-width: 900px) {
     display: none;
@@ -143,8 +145,6 @@ const UserStatus = styled.div`
 
 const UserStatusIcon = styled(FontAwesomeIcon)`
   transition: all 0.3s ease-in-out;
-  transform: ${(props) =>
-    props.isLogin ? "translateX(20px)" : "translateX(-20px)"};
 `;
 
 const MenuBtn = styled.div`
@@ -259,30 +259,37 @@ const ShortPageInput = styled.input`
 `;
 
 export default function Header() {
+  const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const [showInput, setShowInput] = useState(false);
   const isDark = useSelector((state) => state.modeReducer);
-
-  // 임시
-  const [isLogin, setIsLogin] = useState(false);
+  const userState = useSelector((state) => state.userReducer);
+  const dispatch = useDispatch();
 
   const handleMenu = () => {
     setShowMenu((prev) => !prev);
   };
 
+  const handleSignOut = async () => {
+    dispatch(handleLogout());
+  };
+
   return (
     <>
-      <Container isLogin={isLogin} isDark={isDark}>
+      <Container isDark={isDark}>
         <Top isDark={isDark}>
-          <Logo src={isDark ? "/img/Logo_Dark.png" : "/img/Logo_Light.png"} />
+          <Link to="/">
+            <Logo src={isDark ? "/img/Logo_Dark.png" : "/img/Logo_Light.png"} />
+          </Link>
           <UserStatus
-            onClick={() => setIsLogin((prev) => !prev)}
+            onClick={() => {
+              if (userState.login) {
+                navigate("/mypage");
+              }
+            }}
             isDark={isDark}
           >
-            <UserStatusIcon
-              icon={isLogin ? faUser : faPersonRays}
-              isLogin={isLogin}
-            />
+            <UserStatusIcon icon={userState.login ? faUser : faUserXmark} />
           </UserStatus>
         </Top>
         <Bottom isDark={isDark}>
@@ -302,12 +309,12 @@ export default function Header() {
               />
             )}
           </InputSpace>
-          {isLogin ? (
+          {userState.login ? (
             <Menu pos={"top"}>
               <Link to="/">
                 <Item isDark={isDark}>Home</Item>
               </Link>
-              <Item isDark={isDark} onClick={() => setIsLogin((prev) => false)}>
+              <Item onClick={() => handleSignOut()} isDark={isDark}>
                 Log Out
               </Item>
               <Link to="/mypage">
@@ -348,14 +355,12 @@ export default function Header() {
       </Container>
       {showInput && <ShortPageInput isDark={isDark} />}
       {showMenu &&
-        (isLogin ? (
+        (userState.login ? (
           <Menu isDark={isDark} pos={"bottom"}>
             <Link to="/">
               <Item isDark={isDark}>Home</Item>
             </Link>
-            <Item isDark={isDark} onClick={() => setIsLogin((prev) => false)}>
-              Log Out
-            </Item>
+            <Item isDark={isDark}>Log Out</Item>
             <Link to="/mypage">
               <Item isDark={isDark}>My Page</Item>
             </Link>
