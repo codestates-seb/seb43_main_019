@@ -1,8 +1,10 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { users } from "../Dummy/DummyDatas";
+import { handleLogin } from "../Redux/Actions";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -101,19 +103,39 @@ const AccountRelated = styled.span`
 export default function Login() {
   const navigate = useNavigate();
   const { register, handleSubmit, setFocus } = useForm();
-  const isDark = useSelector((state) => state.modeReducer);
 
-  const handleJoin = (data) => {
+  const isDark = useSelector((state) => state.modeReducer);
+  const dispatch = useDispatch();
+
+  const handleSignIn = (data) => {
     const { id, password } = data;
 
     // 로그인
+
+    // --- 테스트용 코드 ---
+
+    const dummyUser = users[0];
+
+    if (dummyUser.id !== id) {
+      alert("아이디가 일치하지 않습니다.");
+      return;
+    }
+
+    if (dummyUser.password !== password + "") {
+      alert("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
+    dispatch(handleLogin(dummyUser));
+
+    // -----------
 
     navigate("/");
   };
 
   return (
     <Wrapper>
-      <Form isDark={isDark} onSubmit={handleSubmit(handleJoin)}>
+      <Form isDark={isDark} onSubmit={handleSubmit(handleSignIn)}>
         <Logo src={isDark ? "/img/Logo_Dark.png" : "/img/Logo_Light.png"} />
         <Input
           isDark={isDark}
