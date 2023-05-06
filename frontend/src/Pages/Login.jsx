@@ -23,6 +23,7 @@ const Form = styled.form`
   border-radius: 20px;
   background-color: ${(props) =>
     props.isDark ? "var(--black-600)" : "var(--white-100)"};
+  transition: all 0.5s linear;
 `;
 
 const Logo = styled.img`
@@ -42,6 +43,7 @@ const Input = styled.input`
   background-color: ${(props) =>
     props.isDark ? "var(--black)" : "var(--white)"};
   color: ${(props) => (props.isDark ? "var(--white)" : "var(--black)")};
+  transition: all 0.5s linear;
 
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -127,8 +129,9 @@ export default function Login() {
         />
         <Others>
           <Space pos={"start"}>
-            <AccountRelated>아이디 찾기</AccountRelated>
-            <AccountRelated>비밀번호 찾기</AccountRelated>
+            <Link to="/account-search">
+              <AccountRelated>아이디/비밀번호 찾기</AccountRelated>
+            </Link>
             <Link to="/signup">
               <AccountRelated>회원가입</AccountRelated>
             </Link>
