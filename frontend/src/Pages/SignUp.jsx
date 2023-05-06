@@ -22,6 +22,7 @@ const Form = styled.form`
   border-radius: 20px;
   background-color: ${(props) =>
     props.isDark ? "var(--black-600)" : "var(--white-100)"};
+  transition: all 0.5s linear;
 `;
 
 const Logo = styled.img`
@@ -47,7 +48,7 @@ const Label = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
-
+  color: ${(props) => (props.isDark ? "var(--white)" : "var(--black)")};
   @media screen and (max-width: 900px) {
     display: none;
   }
@@ -64,7 +65,7 @@ const Input = styled.input`
   background-color: ${(props) =>
     props.isDark ? "var(--black)" : "var(--white)"};
   color: ${(props) => (props.isDark ? "var(--white)" : "var(--black)")};
-
+  transition: all 0.5s linear;
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   }
@@ -105,7 +106,8 @@ const AuthCodeInput = styled.input`
   background-color: ${(props) =>
     props.isDark ? "var(--black)" : "var(--white)"};
   color: ${(props) => (props.isDark ? "var(--white)" : "var(--black)")};
-  dis &:hover {
+  transition: all 0.5s linear;
+  &:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   }
 `;
@@ -222,7 +224,9 @@ export default function SignUp() {
       <Form isDark={isDark} onSubmit={handleSubmit(handleJoin)}>
         <Logo src={isDark ? "/img/Logo_Dark.png" : "/img/Logo_Light.png"} />
         <Line>
-          <Label htmlFor="id">ID</Label>
+          <Label isDark={isDark} htmlFor="id">
+            ID
+          </Label>
           <Input
             isDark={isDark}
             id="id"
@@ -231,7 +235,9 @@ export default function SignUp() {
           />
         </Line>
         <Line>
-          <Label htmlFor="password">비밀번호</Label>
+          <Label isDark={isDark} htmlFor="password">
+            비밀번호
+          </Label>
           <Input
             id="password"
             isDark={isDark}
@@ -241,7 +247,9 @@ export default function SignUp() {
           />
         </Line>
         <Line>
-          <Label htmlFor="password2">비밀번호 확인</Label>
+          <Label isDark={isDark} htmlFor="password2">
+            비밀번호 확인
+          </Label>
           <Input
             id="password2"
             isDark={isDark}
@@ -251,7 +259,9 @@ export default function SignUp() {
           />
         </Line>
         <Line>
-          <Label htmlFor="name">이름</Label>
+          <Label isDark={isDark} htmlFor="name">
+            이름
+          </Label>
           <Input
             id="name"
             isDark={isDark}
@@ -260,7 +270,9 @@ export default function SignUp() {
           />
         </Line>
         <Line>
-          <Label htmlFor="callNumber">전화번호</Label>
+          <Label isDark={isDark} htmlFor="callNumber">
+            전화번호
+          </Label>
           <Input
             id="callNumber"
             isDark={isDark}
@@ -269,7 +281,7 @@ export default function SignUp() {
           />
         </Line>
         <Line htmlFor="birthDate">
-          <Label>생년월일</Label>
+          <Label isDark={isDark}>생년월일</Label>
           <Input
             id="birthDate"
             style={{ paddingRight: "100px" }}
@@ -279,7 +291,9 @@ export default function SignUp() {
           />
         </Line>
         <Line>
-          <Label htmlFor="email">이메일</Label>
+          <Label isDark={isDark} htmlFor="email">
+            이메일
+          </Label>
           <Input
             id="email"
             isDark={isDark}
@@ -288,7 +302,7 @@ export default function SignUp() {
             {...register("email", { required: true })}
           />
         </Line>
-        <Button disabled={authRequired} isDark={isDark}>
+        <Button disabled={authRequired}>
           {isEmailVerified ? "회원가입" : "이메일 인증"}
         </Button>
         {authRequired && (

@@ -26,7 +26,7 @@ const Top = styled.div`
   height: 60px;
   background-color: ${(props) =>
     props.isDark ? "var(--black-500)" : "var(--white-50)"};
-
+  transition: all 0.5s linear;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,7 +37,7 @@ const Bottom = styled.div`
   width: 100%;
   background-color: ${(props) =>
     props.isDark ? "var(--black-600)" : "var(--white-100)"};
-
+  transition: all 0.5s linear;
   position: relative;
   height: 80px;
   display: grid;
@@ -269,10 +269,6 @@ export default function Header() {
   const handleMenu = () => {
     setShowMenu((prev) => !prev);
   };
-
-  useEffect(() => {
-    console.log(isDark);
-  }, [isDark]);
 
   return (
     <>
