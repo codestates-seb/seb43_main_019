@@ -1,6 +1,7 @@
 package com.osdoor.aircamp.reservation.entity;
 
 import com.osdoor.aircamp.audit.Auditable;
+import com.osdoor.aircamp.payment.entity.Payment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,22 +19,24 @@ public class Reservation extends Auditable {
     private Long reservationId;
 
     @Column(nullable = false)
-    private LocalDateTime reservationDate;
+    private LocalDateTime reservationDate; // 캠핑장 이용일
 
-    // 예약자명
     @Column(length = 50, nullable = false)
-    private String reservationName;
+    private String reservationName; // 예약자명
 
     @Column(length = 20, nullable = false)
     private String reservationPhone;
 
     @Column(length = 100, nullable = false)
-    private String reservationEmail;
+    private String reservationEmail; // 예약자 이메일
+
+    @Enumerated(EnumType.STRING)
+    private ReservationStatus reservationStatus = ReservationStatus.RESERVATION_REQUEST;
 
     @Column(nullable = false)
     private boolean deleted;
 
-//    @ManyToOne TODO : 각 파트 개발시 주석 해제 하기
+//    @ManyToOne // TODO : 각 파트 개발시 주석 해제 하기
 //    @JoinColumn(name = "MEMBER_ID")
 //    private Member member;
 //
@@ -57,4 +60,22 @@ public class Reservation extends Auditable {
 //        this.payment = payment;
 //        payment.setReservation(this); // reservation <-> payment 간 양방향 연관관계 설정
 //    }
+
+    public enum ReservationStatus {
+        RESERVATION_REQUEST(1, "예약 요청"),
+        RESERVATION_IN_PROGRESS(2, "예약 진행 중"),
+        RESERVATION_COMPLETE(3, "예약 완료"),
+        RESERVATION_CANCEL(4, "예약 취소");
+
+        @Getter
+        private int stepNumber;
+
+        @Getter
+        private String stepDescription;
+
+        ReservationStatus(int stepNumber, String stepDescription) {
+            this.stepNumber = stepNumber;
+            this.stepDescription = stepDescription;
+        }
+    }
 }
