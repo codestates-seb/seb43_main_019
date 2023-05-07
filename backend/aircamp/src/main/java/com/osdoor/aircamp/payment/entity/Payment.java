@@ -19,9 +19,9 @@ public class Payment extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long paymentId;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private PaymentStatus status;
+//    @Enumerated(EnumType.STRING) // TODO : 보류
+//    @Column(nullable = false)
+//    private PaymentStatus status;
 
     // 결제완료한 날짜
     @Column
@@ -40,27 +40,27 @@ public class Payment extends Auditable {
     @OneToOne(mappedBy = "payment")
     private Reservation reservation;
 
-//    public void setReservation(Reservation reservation) { TODO : payment 완성되면 주석 해제
+//    public void setReservation(Reservation reservation) { // TODO : payment 완성되면 주석 해제
 //        this.reservation = reservation;
 //        if (reservation.getPayment() != this) {
 //            reservation.setPayment(this);
 //        }
 //    }
 
-    public enum PaymentStatus {
-        PAYMENT_PENDING(1, "Pending"),
-        PAYMENT_PAID(2, "Paid"),
-        PAYMENT_CANCELLED(3, "Cancelled");
-
-        @Getter
-        private int stepNumber;
-
-        @Getter
-        private String stepDescription;
-
-        PaymentStatus(int stepNumber, String stepDescription) {
-            this.stepNumber = stepNumber;
-            this.stepDescription = stepDescription;
-        }
-    }
+//    public enum PaymentStatus { // TODO : 보류
+//        PAYMENT_PENDING(1, "Pending"),
+//        PAYMENT_PAID(2, "Paid"),
+//        PAYMENT_CANCELLED(3, "Cancelled");
+//
+//        @Getter
+//        private int stepNumber;
+//
+//        @Getter
+//        private String stepDescription;
+//
+//        PaymentStatus(int stepNumber, String stepDescription) {
+//            this.stepNumber = stepNumber;
+//            this.stepDescription = stepDescription;
+//        }
+//    }
 }
