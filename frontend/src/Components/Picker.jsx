@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styled from "@emotion/styled";
+import "../Components/Picker.css";
 
 const Container = styled.div`
   position: relative;
 `;
 
 const Input = styled.input`
+  margin-left: 150px;
+  margin-top: 30px;
   width: 180px;
   height: 48px;
   font-size: 16px;
@@ -29,13 +32,9 @@ const Input = styled.input`
   }
 `;
 
-const CustomDatePicker = styled(DatePicker)`
-  .react-datepicker {
-    background-color: #000 !important;
-  }
-`;
+const CustomDatePicker = styled(DatePicker)``;
 
-function App() {
+function Picker() {
   const [startDate, setStartDate] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
 
@@ -68,4 +67,4 @@ function App() {
     </Container>
   );
 }
-export default App;
+export default Picker;

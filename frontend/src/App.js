@@ -6,7 +6,8 @@ import Main from "./Pages/Main";
 import SignUp from "./Pages/SignUp";
 import Login from "./Pages/Login";
 import Mypage from "./Pages/Mypage";
-import Picker from "./Components/Picker";
+import Detail from "./Pages/Detail";
+// import "./Style/App.css";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -31,7 +32,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/" element={<Main />} />
-          <Route path="/cd" element={<Picker />} />
+          <Route path="/:id" element={<Detail />} />
         </Routes>
       </Container>
       <ModeBtn />
