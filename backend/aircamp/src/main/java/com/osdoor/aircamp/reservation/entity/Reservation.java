@@ -20,13 +20,14 @@ public class Reservation extends Auditable {
     @Column(nullable = false)
     private LocalDateTime reservationDate;
 
-    @Column(nullable = false)
+    // 예약자명
+    @Column(length = 50, nullable = false)
     private String reservationName;
 
-    @Column(nullable = false)
+    @Column(length = 20, nullable = false)
     private String reservationPhone;
 
-    @Column(nullable = false)
+    @Column(length = 100, nullable = false)
     private String reservationEmail;
 
     @Column(nullable = false)
