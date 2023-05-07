@@ -7,6 +7,8 @@ import Main from "./Pages/Main";
 import SignUp from "./Pages/SignUp";
 import Login from "./Pages/Login";
 import Mypage from "./Pages/Mypage";
+import Detail from "./Pages/Detail";
+// import "./Style/App.css";
 import AccountSearch from "./Pages/AccountSearch";
 
 const Wrapper = styled.div`
@@ -39,6 +41,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/" element={<Main />} />
+          <Route path="/:id" element={<Detail />} />
         </Routes>
       </Container>
       <ModeBtn />

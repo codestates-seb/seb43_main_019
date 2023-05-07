@@ -17,7 +17,7 @@ function Map() {
     };
   }, []);
 
-  return <div id="map" style={{ width: "400px", height: "400px" }}></div>;
+  return <div id="map" style={{ width: "1000px", height: "800px" }}></div>;
 }
 
 export default Map;

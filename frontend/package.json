@@ -15,8 +15,13 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "framer-motion": "^10.12.8",
+    "date-fns": "^2.30.0",
+    "jquery": "^3.6.4",
+    "jquery-ui": "^1.13.2",
     "kakao-maps-sdk": "^1.0.1",
     "react": "^18.2.0",
+    "react-calendar": "^4.2.1",
+    "react-datepicker": "^4.11.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
     "react-icons": "^4.8.0",
@@ -57,5 +62,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@emotion/babel-plugin": "^11.10.8"
   }
 }
