@@ -9,14 +9,16 @@ import {
   faUser,
   faUserXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { handleLogout } from "../Redux/Actions";
 
 const Container = styled.header`
   width: 100%;
   height: 140px;
   color: ${(props) => (props.isDark ? "var( --white)" : "var(--black)")};
-
+  position: fixed;
+  top: 0;
+  z-index: 10;
   @media screen and (max-width: 900px) {
     height: 100px;
   }
@@ -314,7 +316,13 @@ export default function Header() {
               <Link to="/">
                 <Item isDark={isDark}>Home</Item>
               </Link>
-              <Item onClick={() => handleSignOut()} isDark={isDark}>
+              <Item
+                onClick={() => {
+                  window.location.reload();
+                  handleSignOut();
+                }}
+                isDark={isDark}
+              >
                 Log Out
               </Item>
               <Link to="/mypage">

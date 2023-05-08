@@ -2,6 +2,8 @@ import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone, faMap, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const Container = styled.div`
   background-color: transparent;
@@ -64,7 +66,7 @@ const Back = styled.div`
   backface-visibility: hidden;
   background-color: ${(props) =>
     props.isDark ? "var(--black)" : "var(--white)"};
-  color: ${(props) => (props.isDark ? "var(--white)" : "var(--emerald-700)")};
+
   border: 4px solid var(--emerald-700);
   transform: rotateY(180deg);
   padding: 11px;
@@ -79,30 +81,63 @@ const Info = styled.div`
 `;
 
 const Descriptions = styled.div`
-  display: flex;
   padding: 0 20px;
-  flex-direction: column;
-  align-items: start;
-  justify-content: center;
+  height: 300px;
+  display: grid;
+  grid-template-rows: 4fr 1fr;
+  color: ${(props) => (props.isDark ? "var(--white)" : "var(--emerald-700)")};
 `;
 
-const Description = styled.span`
+const Description = styled.div`
+  font-size: ${(props) => props.fontSize};
+  display: flex;
+  align-items: center;
+  justify-content: start;
+`;
+
+const PricePeriod = styled.div`
   font-size: 15px;
-  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
 `;
 
 const Icons = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  color: ${(props) => (props.isDark ? "var(--white)" : "var(--emerald-700)")};
 `;
 
 const Icon = styled(FontAwesomeIcon)`
   font-size: 30px;
+  cursor: pointer;
 `;
+
+const loremIpsum =
+  "있으며, 심장의 그들은 얼마나 힘차게 길지 때문이다. 없는 있는 피가 따뜻한 못하다 붙잡아 피고 우리 말이다. 희망의 새 피에 같이 따뜻한 찾아 튼튼하며, 인간은 무한한 운다. 무엇이 웅대한 청춘에서만 갑 위하여, 칼이다. 같은 튼튼하며, 낙원을 이성은 품었기 인생에 몸이";
 
 export default function Card2({ campground }) {
   const isDark = useSelector((state) => state.modeReducer);
+  const [infoType, setInfoType] = useState(null);
+
+  const handleInfoType = (clickedType) => {
+    setInfoType((prev) => clickedType);
+  };
+
+  const getInfo = (type) => {
+    switch (type) {
+      case "seller":
+        return `판매자: ${campground.seller}`;
+      case "call":
+        return `전화번호: ${campground.call}`;
+      case "location":
+        return `위치: ${campground.location}`;
+      default:
+        return loremIpsum;
+    }
+  };
 
   return (
     <Container>
@@ -113,21 +148,21 @@ export default function Card2({ campground }) {
         </Front>
         <Back isDark={isDark}>
           <Info>
-            <Descriptions>
-              <Description>
-                있으며, 심장의 그들은 얼마나 힘차게 길지 때문이다. 없는 있는
-                피가 따뜻한 못하다 붙잡아 피고 우리 말이다. 희망의 새 피에 같이
-                따뜻한 찾아 튼튼하며, 인간은 무한한 운다. 무엇이 웅대한
-                청춘에서만 갑 위하여, 칼이다. 같은 튼튼하며, 낙원을 이성은
-                품었기 인생에 몸이
-              </Description>
-              <Description>{`₩ ${campground.price} / 박`}</Description>
-              <Description>{campground.period}</Description>
-            </Descriptions>
-            <Icons>
-              <Icon icon={faUser} />
-              <Icon icon={faPhone} />
-              <Icon icon={faMap} />
+            <Link to={`/${campground.id}`}>
+              <Descriptions isDark={isDark}>
+                <Description fontSize={infoType ? "20px" : "15px"}>
+                  {getInfo(infoType)}
+                </Description>
+                <PricePeriod>
+                  <span>{`₩ ${campground.price} / 박`}</span>
+                  <span>{campground.period}</span>
+                </PricePeriod>
+              </Descriptions>
+            </Link>
+            <Icons isDark={isDark}>
+              <Icon onClick={() => handleInfoType("seller")} icon={faUser} />
+              <Icon onClick={() => handleInfoType("call")} icon={faPhone} />
+              <Icon onClick={() => handleInfoType("location")} icon={faMap} />
             </Icons>
           </Info>
         </Back>
