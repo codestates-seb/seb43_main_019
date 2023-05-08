@@ -1,9 +1,6 @@
 import styled from "@emotion/styled";
 import { campgrounds } from "../Dummy/DummyDatas";
-import Campground from "../Components/Campground";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import Card from "../Components/Card";
 import Card2 from "../Components/Card2";
 
 const Loader = styled.h1`

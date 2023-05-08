@@ -60,12 +60,6 @@ export default function SellSideMenu({ type, handleType }) {
         상품게시물관리
       </SideItem>
       <SideItem
-        current={type === "exposure"}
-        onClick={() => handleType("exposure")}
-      >
-        상품노출관리
-      </SideItem>
-      <SideItem
         current={type === "inquiry"}
         onClick={() => handleType("inquiry")}
       >

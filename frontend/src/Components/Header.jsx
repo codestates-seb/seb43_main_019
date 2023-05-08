@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -273,7 +274,17 @@ export default function Header() {
   };
 
   const handleSignOut = async () => {
-    dispatch(handleLogout());
+    try {
+      await axios.post("http://localhost:4000/user/logout");
+
+      dispatch(handleLogout());
+    } catch (error) {
+      const { status } = error.response;
+
+      alert(`Error Status: ${status}`);
+
+      return;
+    }
   };
 
   return (
@@ -318,8 +329,8 @@ export default function Header() {
               </Link>
               <Item
                 onClick={() => {
-                  window.location.reload();
                   handleSignOut();
+                  navigate("/");
                 }}
                 isDark={isDark}
               >

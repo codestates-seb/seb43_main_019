@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import styled from "@emotion/styled";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -148,6 +149,7 @@ export default function SignUp() {
   const [authRequired, setAuthRequired] = useState(false);
   const { register, handleSubmit, setFocus } = useForm();
   const isDark = useSelector((state) => state.modeReducer);
+  const userState = useSelector((state) => state.userReducer);
 
   const handleCode = (event) => {
     setCode((prev) => event.target.value);
@@ -174,7 +176,7 @@ export default function SignUp() {
     }
   };
 
-  const handleJoin = (data) => {
+  const handleJoin = async (data) => {
     const { id, password, password2, name, callNumber, birthDate, email } =
       data;
 
@@ -211,12 +213,40 @@ export default function SignUp() {
       return;
     }
 
-    alert("성공!");
-    navigate("/login");
+    const joinInfo = {
+      userId: id,
+      password,
+      name,
+      callNumber,
+      birthDate,
+      email,
+      seller: false,
+    };
+
+    try {
+      await axios.post("http://localhost:4000/user/join", {
+        joinInfo,
+      });
+
+      alert("성공!");
+      navigate("/login");
+
+      return;
+    } catch (error) {
+      const { status } = error.response;
+
+      alert(status);
+
+      return;
+    }
   };
 
-  // 가장 먼저 현재 날짜를 확인한다.
+  // 가장 먼저 로그인한 상태인지, 현재 날짜를 확인한다.
   useEffect(() => {
+    if (userState.login) {
+      navigate("/");
+    }
+
     setToday((prev) => getToday());
   }, []);
 
