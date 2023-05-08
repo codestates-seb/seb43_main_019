@@ -1,4 +1,4 @@
-package com.osdoor.aircamp.member.helper.email;
+package com.osdoor.aircamp.helper.email;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;

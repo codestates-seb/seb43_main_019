@@ -37,13 +37,13 @@ public class ReservationController {
 
     // TODO : memberService, productService 구현되면 주석해제
     // 새로운 예약을 등록
-//    @PostMapping
-//    public ResponseEntity postReservation(@Valid @RequestBody ReservationPostDto reservationPostDto) {
-//        Reservation reservation = reservationService.createReservation(mapper.reservationPostDtoToReservation(reservationPostDto));
-//        URI location = UriCreator.createUri(RESERVATION_DEFAULT_URL, reservation.getReservationId());
-//
-//        return ResponseEntity.created(location).build();
-//    }
+    @PostMapping
+    public ResponseEntity postReservation(@Valid @RequestBody ReservationPostDto reservationPostDto) {
+        Reservation reservation = reservationService.createReservation(mapper.reservationPostDtoToReservation(reservationPostDto));
+        URI location = UriCreator.createUri(RESERVATION_DEFAULT_URL, reservation.getReservationId());
+
+        return ResponseEntity.created(location).build();
+    }
 
     // 예약을 수정
     @PatchMapping("/{reservation-id}")

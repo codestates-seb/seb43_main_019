@@ -29,12 +29,12 @@ public class ReservationService {
     }
 
     // TODO : memberService, productService 구현되면 주석해제
-//    public Reservation createReservation(Reservation reservation) {
-//        verifyReservation(reservation);
-//        Reservation savedReservation = saveReservation(reservation);
-//
-//        return savedReservation;
-//    }
+    public Reservation createReservation(Reservation reservation) {
+        verifyReservation(reservation);
+        Reservation savedReservation = saveReservation(reservation);
+
+        return savedReservation;
+    }
 
     public Reservation updateReservation(Reservation reservation) {
         Reservation findReservation = findVerifiedReservation(reservation.getReservationId());
@@ -75,13 +75,13 @@ public class ReservationService {
 
 // TODO : memberService, productService 구현되면 주석해제
 
-//    private void verifyReservation(Reservation reservation) {
-//        // 회원이 존재하는지 확인
-//        memberService.findVerifiedMember(reservation.getMember().getMemberId());
-//
-//        // 상품이 존재하는지 확인
-//        productService.findVerifiedProduct(reservation.getProduct().getProductId());
-//    }
+    private void verifyReservation(Reservation reservation) {
+        // 회원이 존재하는지 확인
+        memberService.findVerifiedMember(reservation.getMember().getMemberId());
+
+        // 상품이 존재하는지 확인
+        productService.findVerifiedProduct(reservation.getProduct().getProductId());
+    }
 
     private Reservation saveReservation(Reservation reservation) {
         return reservationRepository.save(reservation);
