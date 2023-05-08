@@ -1,6 +1,5 @@
 package com.osdoor.aircamp.exception;
 
-import com.osdoor.aircamp.exception.ExceptionCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -13,11 +12,11 @@ import java.util.stream.Collectors;
 @Getter
 //@AllArgsConstructor  // GlobalExceptionHandler에서 ResponseEntity로 넘겨줄 때, ErrorResponse의 객체에 담은상태로 넘겨줘야함. 그때 필요.
 public class ErrorResponse {
-    List<com.osdoor.aircamp.exception.ErrorResponse.FieldError> fieldErrors;
-    List<com.osdoor.aircamp.exception.ErrorResponse.ConstraintViolationError> violationErrors;
+    List<FieldError> fieldErrors;
+    List<ConstraintViolationError> violationErrors;
     private String reason;
 
-    private ErrorResponse(List<com.osdoor.aircamp.exception.ErrorResponse.FieldError> fieldErrors, List<com.osdoor.aircamp.exception.ErrorResponse.ConstraintViolationError> violationErrors) {
+    private ErrorResponse(List<FieldError> fieldErrors, List<ConstraintViolationError> violationErrors) {
         this.fieldErrors = fieldErrors;
         this.violationErrors = violationErrors;
     }
@@ -25,19 +24,19 @@ public class ErrorResponse {
     private ErrorResponse(String reason) {
         this.reason = reason;
     }
-    public static com.osdoor.aircamp.exception.ErrorResponse of(BindingResult bindingResult) {
-        return new com.osdoor.aircamp.exception.ErrorResponse(com.osdoor.aircamp.exception.ErrorResponse.FieldError.of(bindingResult), null);}
-    public static com.osdoor.aircamp.exception.ErrorResponse of(Set<ConstraintViolation<?>> constraintViolations) {
-        return new com.osdoor.aircamp.exception.ErrorResponse(null, com.osdoor.aircamp.exception.ErrorResponse.ConstraintViolationError.of(constraintViolations));}
+    public static ErrorResponse of(BindingResult bindingResult) {
+        return new ErrorResponse(FieldError.of(bindingResult), null);}
+    public static ErrorResponse of(Set<ConstraintViolation<?>> constraintViolations) {
+        return new ErrorResponse(null, ConstraintViolationError.of(constraintViolations));}
 
-    public static com.osdoor.aircamp.exception.ErrorResponse of(ExceptionCode exceptionCode) {
-        return new com.osdoor.aircamp.exception.ErrorResponse(exceptionCode.getMessage());
+    public static ErrorResponse of(ExceptionCode exceptionCode) {
+        return new ErrorResponse(exceptionCode.getMessage());
     }
-    public static com.osdoor.aircamp.exception.ErrorResponse of(HttpStatus httpStatus) {
-        return new com.osdoor.aircamp.exception.ErrorResponse(httpStatus.getReasonPhrase());
+    public static ErrorResponse of(HttpStatus httpStatus) {
+        return new ErrorResponse(httpStatus.getReasonPhrase());
     }
-    public static com.osdoor.aircamp.exception.ErrorResponse of(String message) {
-        return new com.osdoor.aircamp.exception.ErrorResponse(message);
+    public static ErrorResponse of(String message) {
+        return new ErrorResponse(message);
     }
     @Getter
     public static class FieldError {
@@ -51,10 +50,10 @@ public class ErrorResponse {
             this.reason = reason;
         }
 
-        public static List<com.osdoor.aircamp.exception.ErrorResponse.FieldError> of(BindingResult bindingResult) {
+        public static List<FieldError> of(BindingResult bindingResult) {
             final List<org.springframework.validation.FieldError> fieldErrors = bindingResult.getFieldErrors();
             return fieldErrors.stream()
-                    .map(error -> new com.osdoor.aircamp.exception.ErrorResponse.FieldError(error.getField(),error.getRejectedValue(),error.getDefaultMessage()))
+                    .map(error -> new FieldError(error.getField(),error.getRejectedValue(),error.getDefaultMessage()))
                     .collect(Collectors.toList());
         }
 
@@ -72,9 +71,9 @@ public class ErrorResponse {
             this.reason = reason;
         }
 
-        public static List<com.osdoor.aircamp.exception.ErrorResponse.ConstraintViolationError> of(Set<ConstraintViolation<?>> constraintViolations) {
+        public static List<ConstraintViolationError> of(Set<ConstraintViolation<?>> constraintViolations) {
             return constraintViolations.stream()
-                    .map(constraintViolation -> new com.osdoor.aircamp.exception.ErrorResponse.ConstraintViolationError(
+                    .map(constraintViolation -> new ConstraintViolationError(
                             constraintViolation.getPropertyPath().toString(), constraintViolation.getInvalidValue(),
                             constraintViolation.getMessage()
                     )).collect(Collectors.toList());

@@ -1,5 +1,8 @@
 package com.osdoor.aircamp.product.entity;
 
+import com.osdoor.aircamp.audit.Auditable;
+import com.osdoor.aircamp.member.entity.Favorite;
+import com.osdoor.aircamp.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,11 +16,11 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+public class Product extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long productId;
 
     @Column(nullable = false, unique = true)
     private String productName;
@@ -50,25 +53,13 @@ public class Product {
     @Column(nullable = false)
     private Boolean deleted = false;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column(nullable = false)
-    private String createdBy;
-
-    @Column(nullable = false)
-    private LocalDateTime modifiedAt = LocalDateTime.now();
-
-    @Column(nullable = false)
-    private String modifiedBy;
-
     private String imageUrl;
 
-//    @ManyToOne TODO
-//    @JoinColumn(name = "FAVORITE_ID")
-//    private Favorite favorite;
+    @ManyToOne
+    @JoinColumn(name = "FAVORITE_ID")
+    private Favorite favorite;
 
-//    @ManyToOne TODO
-//    @JoinColumn(name = "MEMBER_ID")
-//    private Member member;
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
 }
