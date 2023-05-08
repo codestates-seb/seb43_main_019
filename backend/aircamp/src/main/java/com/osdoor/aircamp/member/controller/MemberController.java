@@ -3,7 +3,7 @@ package com.osdoor.aircamp.member.controller;
 import com.osdoor.aircamp.member.dto.MemberPatchDto;
 import com.osdoor.aircamp.member.dto.MemberPostDto;
 import com.osdoor.aircamp.member.entity.Member;
-import com.osdoor.aircamp.member.helper.email.RegisterEmail;
+import com.osdoor.aircamp.helper.email.RegisterEmail;
 import com.osdoor.aircamp.member.mapper.MemberMapper;
 import com.osdoor.aircamp.member.service.MemberService;
 import org.springframework.http.HttpStatus;

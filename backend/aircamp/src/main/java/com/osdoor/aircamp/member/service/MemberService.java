@@ -2,9 +2,9 @@ package com.osdoor.aircamp.member.service;
 
 import com.osdoor.aircamp.member.entity.Favorite;
 import com.osdoor.aircamp.member.entity.Member;
-import com.osdoor.aircamp.member.exception.BusinessLogicException;
-import com.osdoor.aircamp.member.exception.ExceptionCode;
-import com.osdoor.aircamp.member.helper.event.MemberRegistrationEvent;
+import com.osdoor.aircamp.exception.BusinessLogicException;
+import com.osdoor.aircamp.exception.ExceptionCode;
+import com.osdoor.aircamp.helper.event.MemberRegistrationEvent;
 import com.osdoor.aircamp.member.repositoy.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

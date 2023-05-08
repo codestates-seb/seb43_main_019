@@ -1,4 +1,4 @@
-package com.osdoor.aircamp.member.helper.event;
+package com.osdoor.aircamp.helper.event;
 
 import com.osdoor.aircamp.member.entity.Member;
 import lombok.Getter;

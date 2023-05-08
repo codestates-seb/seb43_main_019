@@ -21,7 +21,7 @@ public class Reservation extends Auditable {
     private Long reservationId;
 
     @Column(nullable = false)
-    private LocalDateTime reservationDate; // 캠핑장 이용일
+    private LocalDateTime reservationDate; // 캠핑장 이용일자
 
     @Column(length = 50, nullable = false)
     private String reservationName; // 예약자명
@@ -64,7 +64,7 @@ public class Reservation extends Auditable {
     }
 
     public enum ReservationStatus {
-        RESERVATION_REQUEST(1, "예약 요청"),
+        RESERVATION_REQUEST(1, "예약 요청"), // TODO : 삭제해도 괜찮을지 멘토님께 물어보기
         RESERVATION_IN_PROGRESS(2, "예약 진행 중"),
         RESERVATION_COMPLETE(3, "예약 완료"),
         RESERVATION_CANCEL(4, "예약 취소");

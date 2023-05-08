@@ -1,4 +1,4 @@
-package com.osdoor.aircamp.member.helper.event;
+package com.osdoor.aircamp.helper.event;
 
 import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.member.service.MemberService;
@@ -12,9 +12,7 @@ import org.springframework.stereotype.Component;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.time.LocalDateTime;
-import java.time.Year;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 @Slf4j
 @EnableAsync
