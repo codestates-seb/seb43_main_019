@@ -1,5 +1,6 @@
 package com.osdoor.aircamp.member.service;
 
+import com.osdoor.aircamp.member.entity.Favorite;
 import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.member.exception.BusinessLogicException;
 import com.osdoor.aircamp.member.exception.ExceptionCode;
@@ -27,12 +28,23 @@ public class MemberService {
         this.memberRepository = memberRepository;
         this.publisher = publisher;
     }
-
     public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
+        member.setFavorite(new Favorite());
+//        String token = generateVerificationToken();
+//        member.setVerificationToken(token);
+//
+        publisher.publishEvent(new MemberRegistrationEvent(this, member)); // 이벤트 발행
 
         return memberRepository.save(member);
     }
+//    public Member completeRegistration(String email, String token) {
+//        Member member = memberRepository.findByEmail(email).get();
+//        if (member.getVerificationToken().equals(token)) {
+//            member.setEmailVerified(true);
+//        }
+//        return updateMember(member);
+//    }
 
     public Member updateMember(Member member) {
         Member findMember = findVerifiedMember(member.getMemberId());
@@ -49,6 +61,8 @@ public class MemberService {
         Optional.ofNullable(member.getMemberStatus())
                 .ifPresent(findMember::setMemberStatus);
 
+//        Optional.ofNullable(member.getVerificationToken())
+//                .ifPresent(findMember::setVerificationToken);
         findMember.setModifiedAt(LocalDateTime.now());
 
         return memberRepository.save(findMember);
@@ -83,4 +97,16 @@ public class MemberService {
         if (member.isPresent())
             throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
     }
+
+//    private String generateVerificationToken() {
+//        // 랜덤한 문자열 생성
+//        String token = UUID.randomUUID().toString();
+//
+//        // 데이터베이스에 해당 토큰이 이미 존재하는지 확인
+//        while (memberRepository.existsByVerificationToken(token)) {
+//            token = UUID.randomUUID().toString();
+//        }
+//
+//        return token;
+//    }
 }
