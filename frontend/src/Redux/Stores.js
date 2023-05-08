@@ -1,8 +1,6 @@
-import { combineReducers, legacy_createStore as createStore } from "redux";
-import { modeReducer, userReducer } from "./Reducers";
+import { legacy_createStore as createStore } from "redux";
 import { persistStore } from "redux-persist";
-
-export const rootReducer = combineReducers({ modeReducer, userReducer });
+import rootReducer from "./index";
 
 export const store = createStore(rootReducer);
 

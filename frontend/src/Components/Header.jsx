@@ -1,19 +1,21 @@
 import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCampground,
   faMagnifyingGlass,
   faXmark,
+  faUser,
+  faUserXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { handleLogout } from "../Redux/Actions";
 
 const Container = styled.header`
   width: 100%;
-
-  @media screen and (min-width: 900px) {
-    height: 140px;
-  }
+  height: 140px;
+  color: ${(props) => (props.isDark ? "var( --white)" : "var(--black)")};
 
   @media screen and (max-width: 900px) {
     height: 100px;
@@ -23,7 +25,9 @@ const Container = styled.header`
 const Top = styled.div`
   width: 100%;
   height: 60px;
-  background-color: var(--white);
+  background-color: ${(props) =>
+    props.isDark ? "var(--black-500)" : "var(--white-50)"};
+  transition: all 0.5s linear;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,22 +36,19 @@ const Top = styled.div`
 
 const Bottom = styled.div`
   width: 100%;
-  background-color: var(--white-100);
-
+  background-color: ${(props) =>
+    props.isDark ? "var(--black-600)" : "var(--white-100)"};
+  transition: all 0.5s linear;
   position: relative;
-
-  @media screen and (min-width: 900px) {
-    height: 80px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    justify-items: center;
-    align-items: center;
-  }
+  height: 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
+  align-items: center;
 
   @media screen and (max-width: 900px) {
     height: 40px;
     display: flex;
-    align-items: center;
   }
 `;
 
@@ -63,19 +64,12 @@ const Logo = styled.img`
 const Icon = styled(FontAwesomeIcon)`
   font-size: 30px;
 
-  @media screen and (max-width: 900px) {
-    font-size: 20px;
-  }
-
   &:hover {
     cursor: pointer;
   }
 
   @media screen and (max-width: 900px) {
-    display: ${[(props) => props.disappear && "none"]};
-
-    position: absolute;
-    right: 200px;
+    display: none;
   }
 `;
 
@@ -85,7 +79,7 @@ const Menu = styled.ul`
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     justify-items: center;
     align-items: center;
     display: ${(props) => props.pos === "bottom" && "none"};
@@ -93,11 +87,11 @@ const Menu = styled.ul`
 
   @media screen and (max-width: 900px) {
     width: 100%;
-    height: 350px;
+    height: 210px;
     display: grid;
     grid-template-rows: repeat(5, 1fr);
-    background-color: #def7ff;
-
+    background-color: ${(props) =>
+      props.isDark ? "var(--black-600)" : "var(--white-50)"};
     display: ${(props) => props.pos === "top" && "none"};
   }
 `;
@@ -107,33 +101,38 @@ const Item = styled.li`
     cursor: pointer;
   }
 
+  color: ${(props) => (props.isDark ? "var( --white)" : "var(--black)")};
+  width: 100%;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+
   @media screen and (min-width: 900px) {
-    width: 100%;
     height: 100%;
-    display: flex;
     justify-content: center;
-    align-items: center;
   }
 
   @media screen and (max-width: 900px) {
-    display: flex;
-    align-items: center;
+    height: 70px;
     justify-content: start;
     padding-left: 50px;
   }
 `;
 
-const SomeActionBtn = styled.div`
-  width: 120px;
-  height: 35px;
-  background-color: black;
-  color: white;
+const UserStatus = styled.div`
+  width: 50px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 20px;
+  border-radius: 100%;
   position: absolute;
   right: 100px;
+  background-color: ${(props) =>
+    props.isDark ? "var(--black-700)" : "var(--white-100)"};
+  border: ${(props) =>
+    props.isDark ? "2px solid var(--white)" : "2px solid var(--black)"};
 
   @media screen and (max-width: 900px) {
     display: none;
@@ -144,12 +143,21 @@ const SomeActionBtn = styled.div`
   }
 `;
 
+const UserStatusIcon = styled(FontAwesomeIcon)`
+  transition: all 0.3s ease-in-out;
+`;
+
 const MenuBtn = styled.div`
   position: absolute;
   right: 50px;
-  width: 80px;
-  height: 30px;
-  background-color: white;
+  width: 60px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: ${(props) =>
+    props.isDark ? "var(--black-600)" : "var(--white-50)"};
+  box-shadow: ${(props) =>
+      props.isDark ? "var(--black-600)" : "var(--white-50)"}
+    0px 3px 8px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -177,6 +185,21 @@ const Input = styled.input`
   height: 30px;
   margin-right: 10px;
   padding-left: 10px;
+  border-radius: 10px;
+
+  border: none;
+  outline: none;
+  box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.3);
+  transition: 300ms ease-in-out;
+
+  &:focus {
+    transform: scale(1.05);
+    box-shadow: 13px 13px 100px #969696, -13px -13px 100px #ffffff;
+  }
+
+  background-color: ${(props) =>
+    props.isDark ? "var(--black)" : "var(--white"};
+  color: ${(props) => (props.isDark ? "var(--white)" : "var(--black")};
 `;
 
 const CancelIcon = styled(FontAwesomeIcon)`
@@ -195,6 +218,7 @@ const CancelIcon = styled(FontAwesomeIcon)`
 const ShortPage = styled.div`
   display: flex;
   align-items: center;
+
   @media screen and (min-width: 900px) {
     display: none;
   }
@@ -213,32 +237,66 @@ const ShortPageInput = styled.input`
   width: 100%;
   height: 40px;
   padding-left: 20px;
+
+  outline: none;
+  background: #e8e8e8;
+  box-shadow: 5px 5px 17px #c8c8c8, -5px -5px 17px #ffffff;
+  border: none;
+  border-radius: 10px;
+  transition: all 0.5s;
+
+  &:focus {
+    box-shadow: inset 5px 5px 17px #c8c8c8, inset -5px -5px 17px #ffffff;
+  }
+
   @media screen and (min-width: 900px) {
     display: none;
   }
+
+  background-color: ${(props) =>
+    props.isDark ? "var(--black)" : "var(--white"};
+  color: ${(props) => (props.isDark ? "var(--white)" : "var(--black")};
 `;
 
 export default function Header() {
+  const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const [showInput, setShowInput] = useState(false);
   const isDark = useSelector((state) => state.modeReducer);
+  const userState = useSelector((state) => state.userReducer);
+  const dispatch = useDispatch();
 
   const handleMenu = () => {
     setShowMenu((prev) => !prev);
   };
 
+  const handleSignOut = async () => {
+    dispatch(handleLogout());
+  };
+
   return (
     <>
-      <Container>
-        <Top>
-          <Logo src="/img/Logo_Light.png" />
-          <SomeActionBtn>Some Action</SomeActionBtn>
+      <Container isDark={isDark}>
+        <Top isDark={isDark}>
+          <Link to="/">
+            <Logo src={isDark ? "/img/Logo_Dark.png" : "/img/Logo_Light.png"} />
+          </Link>
+          <UserStatus
+            onClick={() => {
+              if (userState.login) {
+                navigate("/mypage");
+              }
+            }}
+            isDark={isDark}
+          >
+            <UserStatusIcon icon={userState.login ? faUser : faUserXmark} />
+          </UserStatus>
         </Top>
-        <Bottom>
+        <Bottom isDark={isDark}>
           <InputSpace>
             {showInput ? (
               <>
-                <Input />
+                <Input isDark={isDark} />
                 <CancelIcon
                   onClick={() => setShowInput((prev) => false)}
                   icon={faXmark}
@@ -247,20 +305,39 @@ export default function Header() {
             ) : (
               <Icon
                 icon={faMagnifyingGlass}
-                disappear={false}
                 onClick={() => setShowInput((prev) => true)}
               />
             )}
           </InputSpace>
-          <Menu pos={"top"}>
-            <Item>Home</Item>
-            <Item>About</Item>
-            <Item>Services</Item>
-            <Item>Login</Item>
-            <Item>Contact</Item>
-          </Menu>
-          <Icon icon={faCampground} disappear={true} />
-          <MenuBtn onClick={() => handleMenu()}>Menu</MenuBtn>
+          {userState.login ? (
+            <Menu pos={"top"}>
+              <Link to="/">
+                <Item isDark={isDark}>Home</Item>
+              </Link>
+              <Item onClick={() => handleSignOut()} isDark={isDark}>
+                Log Out
+              </Item>
+              <Link to="/mypage">
+                <Item isDark={isDark}>My Page</Item>
+              </Link>
+            </Menu>
+          ) : (
+            <Menu pos={"top"}>
+              <Link to="/">
+                <Item isDark={isDark}>Home</Item>
+              </Link>
+              <Link to="/login">
+                <Item isDark={isDark}>Log In</Item>
+              </Link>
+              <Link to="signup">
+                <Item isDark={isDark}>Sign Up</Item>
+              </Link>
+            </Menu>
+          )}
+          <Icon icon={faCampground} />
+          <MenuBtn isDark={isDark} onClick={() => handleMenu()}>
+            Menu
+          </MenuBtn>
           <ShortPage>
             {showInput ? (
               <CancelIcon
@@ -276,16 +353,31 @@ export default function Header() {
           </ShortPage>
         </Bottom>
       </Container>
-      {showInput && <ShortPageInput />}
-      {showMenu && (
-        <Menu pos={"bottom"}>
-          <Item>Home</Item>
-          <Item>About</Item>
-          <Item>Services</Item>
-          <Item>Login</Item>
-          <Item>Contact</Item>
-        </Menu>
-      )}
+      {showInput && <ShortPageInput isDark={isDark} />}
+      {showMenu &&
+        (userState.login ? (
+          <Menu isDark={isDark} pos={"bottom"}>
+            <Link to="/">
+              <Item isDark={isDark}>Home</Item>
+            </Link>
+            <Item isDark={isDark}>Log Out</Item>
+            <Link to="/mypage">
+              <Item isDark={isDark}>My Page</Item>
+            </Link>
+          </Menu>
+        ) : (
+          <Menu isDark={isDark} pos={"bottom"}>
+            <Link to="/">
+              <Item isDark={isDark}>Home</Item>
+            </Link>
+            <Link to="/login">
+              <Item isDark={isDark}>Log In</Item>
+            </Link>
+            <Link to="signup">
+              <Item isDark={isDark}>Sign Up</Item>
+            </Link>
+          </Menu>
+        ))}
     </>
   );
 }
