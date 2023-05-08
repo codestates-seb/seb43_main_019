@@ -3,6 +3,7 @@ package com.osdoor.aircamp.member.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -28,4 +29,6 @@ public class MemberPostDto {
     @Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$",
             message = "가능한 휴대폰 번호 유형은, [ 01? - 3자리 or 4자리 - 4자리 ] 만 가능합니다.") // 가능유형 : 앞자리=010,011,016~019 , 중간자리=3자리숫자or4자리숫자 , 마지막자리=4자리숫자
     private String phone;  //(수정가능)
+    @AssertTrue(message = "본인인증의 결과는 반드시 true 이어야 합니다.")
+    private boolean isEmailVerified;
 }
