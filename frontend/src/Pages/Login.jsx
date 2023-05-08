@@ -26,6 +26,7 @@ const Form = styled.form`
   background-color: ${(props) =>
     props.isDark ? "var(--black-600)" : "var(--white-100)"};
   transition: all 0.5s linear;
+  margin-top: 20px;
 `;
 
 const Logo = styled.img`

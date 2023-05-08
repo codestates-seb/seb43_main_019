@@ -20,13 +20,16 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
-const Container = styled.div`
+const Container = styled.main`
   width: 100%;
   height: auto;
   background-color: ${(props) =>
     props.isDark ? "var(--black-700)" : "var(--white-50)"};
   transition: all 0.5s linear;
-  margin-top: 140px;
+
+  @media screen and (min-width: 900px) {
+    margin-top: 100px;
+  }
 `;
 
 function App() {
@@ -41,7 +44,7 @@ function App() {
           <Route path="/account-search" element={<AccountSearch />} />
           <Route path="/login" element={<Login />} />
           <Route path="/mypage" element={<Mypage />} />
-          <Route path="/sell" element={<Sell />} />
+          <Route path={"/sell/*"} element={<Sell />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/:id" element={<Detail />} />
           <Route path="/" element={<Main />} />
