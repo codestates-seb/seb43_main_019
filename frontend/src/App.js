@@ -10,6 +10,8 @@ import Mypage from "./Pages/Mypage";
 import Detail from "./Pages/Detail";
 // import "./Style/App.css";
 import AccountSearch from "./Pages/AccountSearch";
+import Sell from "./Pages/Sell";
+import Admin from "./Pages/Admin";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -24,8 +26,7 @@ const Container = styled.div`
   background-color: ${(props) =>
     props.isDark ? "var(--black-700)" : "var(--white-50)"};
   transition: all 0.5s linear;
-
-  // height: 100vh; // 임시
+  margin-top: 140px;
 `;
 
 function App() {
@@ -40,8 +41,10 @@ function App() {
           <Route path="/account-search" element={<AccountSearch />} />
           <Route path="/login" element={<Login />} />
           <Route path="/mypage" element={<Mypage />} />
-          <Route path="/" element={<Main />} />
+          <Route path="/sell" element={<Sell />} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="/:id" element={<Detail />} />
+          <Route path="/" element={<Main />} />
         </Routes>
       </Container>
       <ModeBtn />
