@@ -1,5 +1,7 @@
 package com.osdoor.aircamp.product.service;
 
+import com.osdoor.aircamp.member.entity.Member;
+import com.osdoor.aircamp.member.service.MemberService;
 import com.osdoor.aircamp.product.repository.ProductRepository;
 import com.osdoor.aircamp.product.entity.Product;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +11,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -18,18 +19,16 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository repository;
-//    private final MemberService memberService; TODO
+    private final MemberService memberService;
 
     public Product createProduct(Product product) {
-//        Member member = memberService.findMember(product.getMember().getId()); TODO
-//        product.setCreatedBy(member.getMemberName());
-//        product.setModifiedBy(member.getMemberName());
+        Member member = memberService.findMember(product.getMember().getMemberId());
 
         return repository.save(product);
     }
 
     public Product updateProduct(Product product) {
-        Product findProduct = findVerifiedProduct(product.getId());
+        Product findProduct = findVerifiedProduct(product.getProductId());
 
         Optional.ofNullable(product.getProductName()).ifPresent(findProduct::setProductName);
         Optional.ofNullable(product.getAddress()).ifPresent(findProduct::setAddress);
@@ -42,8 +41,6 @@ public class ProductService {
         Optional.ofNullable(product.getLatitude()).ifPresent(findProduct::setLatitude);
         Optional.ofNullable(product.getLongitude()).ifPresent(findProduct::setLongitude);
         Optional.ofNullable(product.getImageUrl()).ifPresent(findProduct::setImageUrl);
-        Optional.ofNullable(product.getModifiedBy()).ifPresent(findProduct::setModifiedBy);
-        findProduct.setModifiedAt(LocalDateTime.now());
 
         return repository.save(findProduct);
     }

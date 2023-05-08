@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Getter
 public class ProductPatchDto {
 
-    private Long id;
+    private Long productId;
     private String productName;
     private String address;
     private String location;
@@ -22,6 +22,6 @@ public class ProductPatchDto {
     private String imageUrl;
 
     public void setProductId(Long productId) {
-        this.id = productId;
+        this.productId = productId;
     }
 }

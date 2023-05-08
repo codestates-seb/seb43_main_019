@@ -1,5 +1,6 @@
 package com.osdoor.aircamp.product.dto;
 
+import com.osdoor.aircamp.member.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 @Setter
 public class ProductResponseDto {
 
-    private Long id;
+    private Long productId;
     private String productName;
     private String address;
     private String location;
@@ -28,7 +29,7 @@ public class ProductResponseDto {
     private String imageUrl;
     private Long memberId;
 
-//    public void setMember(Member member) { TODO
-//        this.memberId = member.getId();
-//    }
+    public void setMember(Member member) {
+        this.memberId = member.getMemberId();
+    }
 }

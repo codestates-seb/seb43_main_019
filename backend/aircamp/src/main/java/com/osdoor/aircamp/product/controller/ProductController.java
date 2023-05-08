@@ -6,11 +6,11 @@ import com.osdoor.aircamp.product.dto.ProductPostDto;
 import com.osdoor.aircamp.product.entity.Product;
 import com.osdoor.aircamp.product.mapper.ProductMapper;
 import com.osdoor.aircamp.product.service.ProductService;
+import com.osdoor.aircamp.utils.UriCreator;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
@@ -31,10 +31,7 @@ public class ProductController {
     public ResponseEntity postProduct(@RequestBody ProductPostDto requestBody) {
         Product product = productService.createProduct(mapper.productPostToProduct(requestBody));
 
-        URI location = UriComponentsBuilder
-                .newInstance().path("/api/products/{productId}")
-                .buildAndExpand(product.getId())
-                .toUri();
+        URI location = UriCreator.createUri("/api/products", product.getProductId());
 
         return ResponseEntity.created(location).build();
     }
