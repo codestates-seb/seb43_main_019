@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import axios from "axios";
 import Header from "./Components/Header";
 import ModeBtn from "./Components/ModeBtn";
 import { Routes, Route, useParams, useLocation } from "react-router-dom";
@@ -12,6 +13,9 @@ import Detail from "./Pages/Detail";
 import AccountSearch from "./Pages/AccountSearch";
 import Sell from "./Pages/Sell";
 import Admin from "./Pages/Admin";
+
+// 모든 요청에 withCredentials가 true로 설정됩니다.
+axios.defaults.withCredentials = true;
 
 const Wrapper = styled.div`
   width: 100vw;

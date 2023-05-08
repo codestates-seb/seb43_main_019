@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import SellSideMenu from "../Components/SellSideMenu";
 import ProductCRUD from "../Components/ProductCRUD";
+import ProductManage from "../Components/ProductManage";
+import Reservation from "../Components/Reservation";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -11,14 +13,7 @@ const Wrapper = styled.div`
   display: flex;
 `;
 
-const types = [
-  "crud",
-  "manage",
-  "exposure",
-  "inquiry",
-  "reservation",
-  "category",
-];
+const types = ["crud", "manage", "inquiry", "reservation", "category"];
 
 export default function Sell() {
   const navigate = useNavigate();
@@ -67,6 +62,8 @@ export default function Sell() {
           setHasUploaded={setHasUploaded}
         />
       )}
+      {type === "manage" && <ProductManage />}
+      {type === "reservation" && <Reservation />}
     </Wrapper>
   );
 }

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { campgrounds } from "../Dummy/DummyDatas";
-import Campground from "./Campground";
 import Card from "./Card";
+import { useState } from "react";
 
 const Container = styled.div`
   width: 100%;
@@ -31,15 +31,17 @@ const Products = styled.div`
   row-gap: 50px;
 `;
 
-export default function ProductManage() {
+export default function Reservation() {
   return (
-    <Container>
-      <Title>상품등록화면 (아래 카드는 대략적인 이미지임!)</Title>
-      <Products>
-        {campgrounds.map((campground) => (
-          <Card campground={campground} />
-        ))}
-      </Products>
-    </Container>
+    <>
+      <Container>
+        <Title>예약상품조회 (아래 카드는 대략적인 이미지임!)</Title>
+        <Products>
+          {campgrounds.map((campground) => (
+            <Card campground={campground} />
+          ))}
+        </Products>
+      </Container>
+    </>
   );
 }
