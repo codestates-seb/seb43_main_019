@@ -3,6 +3,7 @@ package com.osdoor.aircamp.member.controller;
 import com.osdoor.aircamp.member.dto.MemberPatchDto;
 import com.osdoor.aircamp.member.dto.MemberPostDto;
 import com.osdoor.aircamp.member.entity.Member;
+import com.osdoor.aircamp.member.helper.email.RegisterEmail;
 import com.osdoor.aircamp.member.mapper.MemberMapper;
 import com.osdoor.aircamp.member.service.MemberService;
 import org.springframework.http.HttpStatus;
@@ -23,10 +24,12 @@ public class MemberController {
 
     private final MemberService memberService;
     private final MemberMapper mapper;
+    private final RegisterEmail registerEmail;
 
-    public MemberController(MemberService memberService, MemberMapper mapper) {
+    public MemberController(MemberService memberService, MemberMapper mapper, RegisterEmail registerEmail) {
         this.memberService = memberService;
         this.mapper = mapper;
+        this.registerEmail = registerEmail;
     }
 
     @PostMapping
@@ -38,6 +41,14 @@ public class MemberController {
                 .build().toUri();
 
         return ResponseEntity.created(uri).build();
+    }
+
+    @PostMapping("/mail-confirm")
+    @ResponseBody
+    String mailConfirm(@RequestParam("email") String email) throws Exception {
+        String code = registerEmail.sendSimpleMessage(email);
+
+        return code;
     }
 
     @PatchMapping("{memberId}")
