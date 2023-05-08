@@ -62,19 +62,22 @@ public class Member {
     @CollectionTable(joinColumns = @JoinColumn(name = "MEMBER_ID"))
     private List<String> roles = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "Favorite_ID")
     private Favorite favorite;  // 유저의 즐겨찾기
 
-//    @OneToMany(mappedBy = "member") todo
+//    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL) todo
 //    private List<Product> products = new ArrayList<>();  // 판매자가 등록한 캠핑장들.
 
-//    @OneToMany(mappedBy = "member") todo
+//    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL) todo
 //    private List<Reservation> reservations = new ArrayList<>();  // 유져의 예약 리스트.
 
-//    @OneToMany(mappedBy = "member") todo
+//    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL) todo
 //    private List<Review> reviews = new ArrayList<>();  // 유져가 작성한 리뷰들.
 
+//    private String verificationToken;
+    @Column(name = "EMAIL_VERIFIED")
+    private boolean isEmailVerified;
 
     // enum 데이터
     public enum MemberStatus {
