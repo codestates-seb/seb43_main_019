@@ -1,6 +1,6 @@
 import { css } from "styled-components";
 
-// 사용 예시 : background-color: var(--emerald-700);
+// 사용 예시 : background-color: var(--gray-200);
 // 원하는 컬러가 있다면 여기서 추가하시고 사용해주시길 바랍니다(주석처리 필수)
 
 const variables = css`
