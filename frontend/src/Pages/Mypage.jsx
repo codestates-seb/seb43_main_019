@@ -1,8 +1,9 @@
-import styled from "@emotion/styled";
-import { useEffect } from "react";
+import styled from "styled-components";
+import { useEffect, useState } from "react";
 import { FaAddressCard, FaTwitch, FaSellcast } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Modal from "../Components/Modal";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -74,9 +75,12 @@ const SellLink = styled.p`
   margin-left: 360px !important;
   font-family: "Noto Sans KR", sans-serif;
 `;
+
+
 export default function Mypage() {
   const navigate = useNavigate();
   const userState = useSelector((state) => state.userReducer);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     if (userState.login === false) {
@@ -84,15 +88,28 @@ export default function Mypage() {
     }
   }, []);
 
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
   return (
     <Wrapper>
       <UserArea>
         <Title>OO님 안녕하세요☺️</Title>
       </UserArea>
       <ButtonArea>
-        <ProfileCard>
+        <div>
+        <ProfileCard
+        onClick={openModal}
+        >
           <FaAddressCard size={25} /> &nbsp;개인정보관리
         </ProfileCard>
+        <Modal isOpen={isOpen} closeModal={closeModal}/>
+        </div>
         <ProfileCard>
           <FaTwitch size={25} />
           &nbsp;예약관리

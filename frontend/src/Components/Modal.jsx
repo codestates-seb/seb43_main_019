@@ -1,34 +1,86 @@
+import React from 'react';
+import Modal from 'react-modal';
 import styled from "styled-components";
 
-const Overlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 15;
-  width: 100vw;
-  height: 100vh;
-  background-color: black;
+
+Modal.setAppElement('#root');
+
+// modal
+
+export const ModalBackdrop = styled.div`
+  display: flex;
+  justify-content : center;
+  align-items : center;
+  overflow: hidden;
+
 `;
 
-const Container = styled.div`
-  position: fixed;
-  top: 100px;
-  margin: 0 auto;
-  width: ${(props) => props.width};
-  height: ${(props) => props.height};
-  background-color: white;
+export const ModalView = styled.div.attrs(props => ({
+  role: 'dialog'
+}))`
+border-radius: 10px;
+background-color: #ffffff;
+width: 500px;
+height: 200px;
+margin-bottom : 300px;
+display : flex;
+flex-direction: column;
+align-items : center;
+  > div.desc {
+    font-size : 30px;
+    color : #475ed4;
+    margin : 50px;
+  }
 `;
 
-export default function Modal({
-  showModal,
-  setShowModal,
-  width = "500px",
-  height = "500px",
-}) {
-  return showModal ? (
-    <>
-      <Overlay onClick={() => setShowModal(false)} />
-      <Container width={width} height={height}></Container>
-    </>
-  ) : null;
+export const ModalBtn = styled.button`
+  background-color: #4000c7;
+  text-decoration: none;
+  border: none;
+  padding: 20px;
+  color: white;
+  border-radius: 30px;
+  cursor: grab;
+`;
+
+export const Exitbtn = styled(ModalBtn)`
+background-color: gold;
+color: blue;
+margin : 10px;
+padding: 5px 10px;
+
+`;
+
+const ModalStyle = {
+	overlay: {
+		position: "fixed",
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		backgroundColor: "rgba(255, 255, 255, 0.45)",
+		zIndex: 10,
+    width: '50%',
+    height: '50%',
+    margin: 'auto',  
+	},
+};
+
+function MyModal(props) {
+  const { isOpen, closeModal } = props;
+
+
+
+  return (
+    <Modal isOpen={isOpen} onRequestClose={closeModal} style={ModalStyle}>
+    <ModalBackdrop>
+    <ModalView>
+      <Exitbtn onClick={closeModal}>&times;</Exitbtn>
+      <div className='desc'>Congratulation!</div>
+    </ModalView>
+    </ModalBackdrop>
+    </Modal>
+  );
 }
+
+export default MyModal;
