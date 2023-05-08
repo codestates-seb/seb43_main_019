@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import { FaAddressCard, FaTwitch, FaSellcast } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Modal from "../Components/Modal";
+import MyModal from "../Components/Modal/MyModal";
+import RsModal from "../Components/Modal/RsModal";
+import SeModal from "../Components/Modal/SeModal";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -108,16 +110,26 @@ export default function Mypage() {
         >
           <FaAddressCard size={25} /> &nbsp;개인정보관리
         </ProfileCard>
-        <Modal isOpen={isOpen} closeModal={closeModal}/>
+        <MyModal isOpen={isOpen} closeModal={closeModal}/>
         </div>
-        <ProfileCard>
+        <div>
+        <ProfileCard
+        onClick={openModal}
+        >
           <FaTwitch size={25} />
           &nbsp;예약관리
         </ProfileCard>
-        <ProfileCard>
+        <RsModal isOpen={isOpen} closeModal={closeModal}/>
+        </div>
+        <div>
+        <ProfileCard
+        onClick={openModal}
+        >
           <FaSellcast size={25} />
           &nbsp;판매자 등록
         </ProfileCard>
+        <MyModal isOpen={isOpen} closeModal={closeModal}/>
+        </div>
       </ButtonArea>
       <SellArea>
         <SellMent>판매상품을 원하신다면 아래 링크를 눌러주세요👇🏻</SellMent>
