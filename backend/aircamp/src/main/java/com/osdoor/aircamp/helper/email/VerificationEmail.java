@@ -12,7 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
 @Service
-public class RegisterEmail {
+public class VerificationEmail {
     @Autowired
     JavaMailSender emailsender;
 
@@ -77,7 +77,7 @@ public class RegisterEmail {
         return key.toString();
     }
 
-    public String sendSimpleMessage(String to) throws Exception {
+    public String sendMessage(String to) throws Exception {
 
         verificationCode = createKey(); // 랜덤 인증번호 생성
 
