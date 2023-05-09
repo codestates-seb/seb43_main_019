@@ -14,6 +14,8 @@ const Loader = styled.h1`
 `;
 
 const Container = styled.main`
+  max-width: 1200px;
+  margin: 0 auto;
   width: 100%;
   height: auto;
   display: grid;
@@ -31,6 +33,7 @@ const Container = styled.main`
   gap: 20px;
   justify-items: center;
   padding: 50px 0;
+  padding-top: 100px;
 `;
 
 const ScrollBtn = styled.div`
