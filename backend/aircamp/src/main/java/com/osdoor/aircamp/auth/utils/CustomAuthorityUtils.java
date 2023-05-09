@@ -1,4 +1,4 @@
-package com.osdoor.aircamp.auth.util;
+package com.osdoor.aircamp.auth.utils;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,7 +11,9 @@ import java.util.stream.Collectors;
 
 @Component
 public class CustomAuthorityUtils {
-    private String adminMailAddress = "sh@email.com";
+
+    @Value("${jwt.email}")
+    private String adminMailAddress;
 
     private final List<GrantedAuthority> ADMIN_ROLES = AuthorityUtils.createAuthorityList("ROLE_ADMIN", "ROLE_USER");
     private final List<GrantedAuthority> USER_ROLES = AuthorityUtils.createAuthorityList("ROLE_USER");

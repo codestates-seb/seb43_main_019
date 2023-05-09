@@ -1,6 +1,8 @@
 package com.osdoor.aircamp.auth.details;
 
-import com.osdoor.aircamp.auth.util.CustomAuthorityUtils;
+import com.osdoor.aircamp.auth.utils.CustomAuthorityUtils;
+import com.osdoor.aircamp.exception.BusinessLogicException;
+import com.osdoor.aircamp.exception.ExceptionCode;
 import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.member.repositoy.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +22,12 @@ public class MemberDetailsService implements UserDetailsService {
     private final MemberRepository memberRepository;
     private final CustomAuthorityUtils authorityUtils;
 
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Member> optionalMember = memberRepository.findByEmail(username);
-        Member member = optionalMember.orElseThrow();
+        Member member = optionalMember.orElseThrow(() ->
+                new BusinessLogicException(ExceptionCode.MEMBER_NOT_VALID));
 
         return new MemberDetails(member);
     }
