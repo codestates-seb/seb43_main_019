@@ -1,8 +1,11 @@
-import styled from "@emotion/styled";
-import { useEffect } from "react";
+import styled from "styled-components";
+import { useEffect, useState } from "react";
 import { FaAddressCard, FaTwitch, FaSellcast } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import MyModal from "../Components/Modal/MyModal";
+import RsModal from "../Components/Modal/RsModal";
+import SeModal from "../Components/Modal/SeModal";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -74,9 +77,14 @@ const SellLink = styled.p`
   margin-left: 360px !important;
   font-family: "Noto Sans KR", sans-serif;
 `;
+
+
 export default function Mypage() {
   const navigate = useNavigate();
   const userState = useSelector((state) => state.userReducer);
+  const [MyModalOpen, setMyModalOpen] = useState(false);
+  const [RsModalOpen, setRsModalOpen] = useState(false);
+  const [SeModalOpen, setSeModalOpen] = useState(false);
 
   // 만약 현재 로그인한 상태가 아니라면 로그인 페이지로 보냄
   useEffect(() => {
@@ -85,23 +93,46 @@ export default function Mypage() {
     }
   }, []);
 
+  const openMyModal = () => {setMyModalOpen(true);};
+  const openRsModal = () => {setRsModalOpen(true);};
+  const openSeModal = () => {setSeModalOpen(true);};
+
+  const closeMyModal = () => {setMyModalOpen(false);};
+  const closeRsModal = () => {setRsModalOpen(false);};
+  const closeSeModal = () => {setSeModalOpen(false);};
+
   return (
     <Wrapper>
       <UserArea>
         <Title>OO님 안녕하세요☺️</Title>
       </UserArea>
       <ButtonArea>
-        <ProfileCard>
+        <div>
+        <ProfileCard
+        onClick={openMyModal}
+        >
           <FaAddressCard size={25} /> &nbsp;개인정보관리
         </ProfileCard>
-        <ProfileCard>
+        <MyModal isOpen={MyModalOpen} closeModal={closeMyModal}/>
+        </div>
+        <div>
+        <ProfileCard
+        onClick={openRsModal}
+        >
           <FaTwitch size={25} />
           &nbsp;예약관리
         </ProfileCard>
-        <ProfileCard>
+        <RsModal isOpen={RsModalOpen} closeModal={closeRsModal}/>
+        </div>
+        <div>
+        <ProfileCard
+        onClick={openSeModal}
+        >
           <FaSellcast size={25} />
           &nbsp;판매자 등록
         </ProfileCard>
+        <SeModal isOpen={SeModalOpen} closeModal={closeSeModal}/>
+        </div>
       </ButtonArea>
       <SellArea>
         <SellMent>판매상품을 원하신다면 아래 링크를 눌러주세요👇🏻</SellMent>
