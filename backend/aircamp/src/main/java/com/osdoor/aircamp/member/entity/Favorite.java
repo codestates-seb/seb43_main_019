@@ -1,5 +1,6 @@
 package com.osdoor.aircamp.member.entity;
 
+import com.osdoor.aircamp.product.entity.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,6 +18,6 @@ public class Favorite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long favoriteId;
 
-//    @OneToMany(mappedBy = "product")  TODO
-//    private List<Product> products = new ArrayList<>();
+    @OneToMany(mappedBy = "favorite")
+    private List<Product> products = new ArrayList<>();
 }

@@ -1,9 +1,10 @@
 package com.osdoor.aircamp.member.controller;
 
+import com.osdoor.aircamp.dto.SingleResponseDto;
 import com.osdoor.aircamp.member.dto.MemberPatchDto;
 import com.osdoor.aircamp.member.dto.MemberPostDto;
 import com.osdoor.aircamp.member.entity.Member;
-import com.osdoor.aircamp.helper.email.RegisterEmail;
+import com.osdoor.aircamp.helper.email.VerificationEmail;
 import com.osdoor.aircamp.member.mapper.MemberMapper;
 import com.osdoor.aircamp.member.service.MemberService;
 import org.springframework.http.HttpStatus;
@@ -24,12 +25,10 @@ public class MemberController {
 
     private final MemberService memberService;
     private final MemberMapper mapper;
-    private final RegisterEmail registerEmail;
 
-    public MemberController(MemberService memberService, MemberMapper mapper, RegisterEmail registerEmail) {
+    public MemberController(MemberService memberService, MemberMapper mapper) {
         this.memberService = memberService;
         this.mapper = mapper;
-        this.registerEmail = registerEmail;
     }
 
     @PostMapping
@@ -43,15 +42,14 @@ public class MemberController {
         return ResponseEntity.created(uri).build();
     }
 
-    @PostMapping("/mail-confirm")
+    @PostMapping("/email-verify")
     @ResponseBody
-    String mailConfirm(@RequestParam("email") String email) throws Exception {
-        String code = registerEmail.sendSimpleMessage(email);
-
-        return code;
+    public ResponseEntity mailConfirm(@RequestParam("email") String email) throws Exception {
+        return new ResponseEntity(new SingleResponseDto<>(memberService.sendVerificationCode(email))
+                , HttpStatus.OK);
     }
 
-    @PatchMapping("{memberId}")
+    @PatchMapping("/{memberId}")
     public ResponseEntity patchMember(@PathVariable @Positive long memberId,
                                       @Valid @RequestBody MemberPatchDto requestBody) {
         requestBody.setMemberId(memberId);
@@ -61,7 +59,7 @@ public class MemberController {
 
     }
 
-    @GetMapping("{memberId}")
+    @GetMapping("/{memberId}")
     public ResponseEntity getMember(@PathVariable @Positive long memberId) {
         Member member = memberService.findMember(memberId);
 
@@ -75,7 +73,7 @@ public class MemberController {
         return new ResponseEntity(mapper.memberToMemberResponseDtos(members), HttpStatus.OK);
     }
 
-    @DeleteMapping("{memberId}")
+    @DeleteMapping("/{memberId}")
     public ResponseEntity deleteMember(@PathVariable @Positive long memberId) {
         memberService.deleteMember(memberId);
 

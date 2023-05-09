@@ -1,5 +1,6 @@
 package com.osdoor.aircamp.member.service;
 
+import com.osdoor.aircamp.helper.email.VerificationEmail;
 import com.osdoor.aircamp.member.entity.Favorite;
 import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.exception.BusinessLogicException;
@@ -7,7 +8,6 @@ import com.osdoor.aircamp.exception.ExceptionCode;
 import com.osdoor.aircamp.helper.event.MemberRegistrationEvent;
 import com.osdoor.aircamp.member.repositoy.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @Transactional
@@ -23,17 +22,20 @@ import java.util.UUID;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final ApplicationEventPublisher publisher;
+    private final VerificationEmail verificationEmail;
 
-    public MemberService(MemberRepository memberRepository, ApplicationEventPublisher publisher) {
+    public MemberService(MemberRepository memberRepository, ApplicationEventPublisher publisher, VerificationEmail verificationEmail) {
         this.memberRepository = memberRepository;
         this.publisher = publisher;
+        this.verificationEmail = verificationEmail;
     }
     public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
         member.setFavorite(new Favorite());
+        member.setCreatedBy(member.getEmail());
+        member.setModifiedBy(member.getEmail());
 //        String token = generateVerificationToken();
 //        member.setVerificationToken(token);
-//
         publisher.publishEvent(new MemberRegistrationEvent(this, member)); // 이벤트 발행
 
         return memberRepository.save(member);
@@ -83,6 +85,9 @@ public class MemberService {
         Member member = findVerifiedMember(memberId); // 아이디에 맞는 회원객체를 db에서 불러온다
         member.setMemberStatus(Member.MemberStatus.MEMBER_QUIT); // 불러온 회원객체의 상태를 "탈퇴함"으로 수정한다.
         updateMember(member);
+    }
+    public String sendVerificationCode(String email) throws Exception {
+        return verificationEmail.sendMessage(email);
     }
 
     public Member findVerifiedMember(long memberId) {
