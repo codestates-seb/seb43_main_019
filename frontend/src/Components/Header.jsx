@@ -275,9 +275,13 @@ export default function Header() {
 
   const handleSignOut = async () => {
     try {
-      await axios.post("http://localhost:4000/user/logout");
+      const result = await axios.post("http://localhost:4000/user/logout");
 
       dispatch(handleLogout());
+
+      if (Math.floor(result.status / 100) === 2) {
+        alert("로그아웃에 상공했습니다.");
+      }
     } catch (error) {
       const { status } = error.response;
 
