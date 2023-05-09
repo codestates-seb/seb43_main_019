@@ -1,5 +1,6 @@
 package com.osdoor.aircamp.reservation.service;
 
+import com.osdoor.aircamp.auth.utils.AuthorizationUtils;
 import com.osdoor.aircamp.exception.BusinessLogicException;
 import com.osdoor.aircamp.exception.ExceptionCode;
 import com.osdoor.aircamp.member.service.MemberService;
@@ -20,12 +21,15 @@ public class ReservationService {
     private final MemberService memberService;
     private final ReservationRepository reservationRepository;
     private final ProductService productService;
+    private final AuthorizationUtils authorizationUtils;
+
     public ReservationService(MemberService memberService,
                               ReservationRepository reservationRepository,
-                              ProductService productService) {
+                              ProductService productService, AuthorizationUtils authorizationUtils) {
         this.memberService = memberService;
         this.reservationRepository = reservationRepository;
         this.productService = productService;
+        this.authorizationUtils = authorizationUtils;
     }
 
     // TODO : memberService, productService 구현되면 주석해제
@@ -38,6 +42,7 @@ public class ReservationService {
 
     public Reservation updateReservation(Reservation reservation) {
         Reservation findReservation = findVerifiedReservation(reservation.getReservationId());
+        authorizationUtils.verifyAuthorizedMember(findReservation.getMember().getEmail());
 
         Optional.ofNullable(reservation.getReservationStatus())
                 .ifPresent(reservationStatus -> findReservation.setReservationStatus(reservationStatus));
@@ -45,7 +50,10 @@ public class ReservationService {
     }
 
     public Reservation findReservation(long reservationId) {
-        return findVerifiedReservation(reservationId);
+        Reservation findReservation = findVerifiedReservation(reservationId);
+        authorizationUtils.verifyAuthorizedMember(findReservation.getMember().getEmail());
+
+        return findReservation;
     }
 
     public Page<Reservation> findReservations(int page, int size) {
@@ -55,6 +63,8 @@ public class ReservationService {
 
     public void cancelReservation(long reservationId) {
         Reservation findReservation = findVerifiedReservation(reservationId);
+        authorizationUtils.verifyAuthorizedMember(findReservation.getMember().getEmail());
+
         int step = findReservation.getReservationStatus().getStepNumber();
 
         // ReservationStatus의 step이 4인 경우(RESERVATION_CANCEL)에는 예약 취소가 되지 않도록한다.
@@ -86,6 +96,5 @@ public class ReservationService {
     private Reservation saveReservation(Reservation reservation) {
         return reservationRepository.save(reservation);
     }
-
 }
 

@@ -16,7 +16,7 @@ public class MemberPatchDto {
     private String name;
 
     @NotSpace(message = "비밀번호는 공백이 아니어야 합니다.")
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$\n",
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
             message = "비밀번호는 최소 8자 이상의 길이를 가져야 하며, 최소 하나의 대문자, 소문자, 숫자, 특수문자(@ , $ , ! , % , * , ? , &)를 포함")
     private String password;
 

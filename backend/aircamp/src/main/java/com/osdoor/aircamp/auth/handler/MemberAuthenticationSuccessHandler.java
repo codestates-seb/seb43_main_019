@@ -16,6 +16,6 @@ public class MemberAuthenticationSuccessHandler implements AuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
-        log.info("# Successfully");
+        log.info("# Successfully: {}", authentication.getName());
     }
 }

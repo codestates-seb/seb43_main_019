@@ -1,5 +1,7 @@
 package com.osdoor.aircamp.member.service;
 
+import com.osdoor.aircamp.auth.utils.AuthorizationUtils;
+import com.osdoor.aircamp.auth.utils.CustomAuthorityUtils;
 import com.osdoor.aircamp.member.entity.Favorite;
 import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.exception.BusinessLogicException;
@@ -7,15 +9,14 @@ import com.osdoor.aircamp.exception.ExceptionCode;
 import com.osdoor.aircamp.helper.event.MemberRegistrationEvent;
 import com.osdoor.aircamp.member.repositoy.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @Transactional
@@ -23,17 +24,29 @@ import java.util.UUID;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final ApplicationEventPublisher publisher;
+    private final PasswordEncoder passwordEncoder;
+    private final CustomAuthorityUtils authorityUtils;
+    private final AuthorizationUtils authorizationUtils;
 
-    public MemberService(MemberRepository memberRepository, ApplicationEventPublisher publisher) {
+    public MemberService(MemberRepository memberRepository,
+                         ApplicationEventPublisher publisher,
+                         PasswordEncoder passwordEncoder,
+                         CustomAuthorityUtils authorityUtils, AuthorizationUtils authorizationUtils) {
         this.memberRepository = memberRepository;
         this.publisher = publisher;
+        this.passwordEncoder = passwordEncoder;
+        this.authorityUtils = authorityUtils;
+        this.authorizationUtils = authorizationUtils;
     }
     public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
         member.setFavorite(new Favorite());
 //        String token = generateVerificationToken();
 //        member.setVerificationToken(token);
-//
+
+        member.setPassword(passwordEncoder.encode(member.getPassword()));
+        member.setRoles(authorityUtils.createRoles(member.getEmail()));
+
         publisher.publishEvent(new MemberRegistrationEvent(this, member)); // 이벤트 발행
 
         return memberRepository.save(member);
@@ -48,6 +61,7 @@ public class MemberService {
 
     public Member updateMember(Member member) {
         Member findMember = findVerifiedMember(member.getMemberId());
+        authorizationUtils.verifyAuthorizedMember(findMember.getEmail());
 
         Optional.ofNullable(member.getName())
                 .ifPresent(findMember::setName);
@@ -71,7 +85,7 @@ public class MemberService {
     @Transactional(readOnly = true)
     public Member findMember(long memberId) {
         Member findMember = findVerifiedMember(memberId);
-
+        authorizationUtils.verifyAuthorizedMember(findMember.getEmail());
         return findMember;
     }
 
@@ -81,6 +95,7 @@ public class MemberService {
 
     public void deleteMember(long memberId) {
         Member member = findVerifiedMember(memberId); // 아이디에 맞는 회원객체를 db에서 불러온다
+        authorizationUtils.verifyAuthorizedMember(member.getEmail());
         member.setMemberStatus(Member.MemberStatus.MEMBER_QUIT); // 불러온 회원객체의 상태를 "탈퇴함"으로 수정한다.
         updateMember(member);
     }
