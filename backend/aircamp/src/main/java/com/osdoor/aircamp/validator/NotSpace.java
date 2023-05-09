@@ -1,4 +1,4 @@
-package com.osdoor.aircamp.member.dto.validator;
+package com.osdoor.aircamp.validator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
