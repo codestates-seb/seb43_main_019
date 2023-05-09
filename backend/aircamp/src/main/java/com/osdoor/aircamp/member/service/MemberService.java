@@ -32,9 +32,10 @@ public class MemberService {
     public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
         member.setFavorite(new Favorite());
+        member.setCreatedBy(member.getEmail());
+        member.setModifiedBy(member.getEmail());
 //        String token = generateVerificationToken();
 //        member.setVerificationToken(token);
-//
         publisher.publishEvent(new MemberRegistrationEvent(this, member)); // 이벤트 발행
 
         return memberRepository.save(member);
