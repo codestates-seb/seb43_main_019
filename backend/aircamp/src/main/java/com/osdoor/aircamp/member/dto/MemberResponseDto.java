@@ -14,6 +14,8 @@ public class MemberResponseDto {
     private String email;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+    private String createdBy;
+    private String modifiedBy;
     private String phone;
     private int reward_points;
     private Member.MemberStatus memberStatus;
