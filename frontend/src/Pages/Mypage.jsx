@@ -82,7 +82,9 @@ const SellLink = styled.p`
 export default function Mypage() {
   const navigate = useNavigate();
   const userState = useSelector((state) => state.userReducer);
-  const [isOpen, setIsOpen] = useState(false);
+  const [MyModalOpen, setMyModalOpen] = useState(false);
+  const [RsModalOpen, setRsModalOpen] = useState(false);
+  const [SeModalOpen, setSeModalOpen] = useState(false);
 
   useEffect(() => {
     if (userState.login === false) {
@@ -90,13 +92,13 @@ export default function Mypage() {
     }
   }, []);
 
-  const openModal = () => {
-    setIsOpen(true);
-  };
+  const openMyModal = () => {setMyModalOpen(true);};
+  const openRsModal = () => {setRsModalOpen(true);};
+  const openSeModal = () => {setSeModalOpen(true);};
 
-  const closeModal = () => {
-    setIsOpen(false);
-  };
+  const closeMyModal = () => {setMyModalOpen(false);};
+  const closeRsModal = () => {setRsModalOpen(false);};
+  const closeSeModal = () => {setSeModalOpen(false);};
 
   return (
     <Wrapper>
@@ -106,29 +108,29 @@ export default function Mypage() {
       <ButtonArea>
         <div>
         <ProfileCard
-        onClick={openModal}
+        onClick={openMyModal}
         >
           <FaAddressCard size={25} /> &nbsp;개인정보관리
         </ProfileCard>
-        <MyModal isOpen={isOpen} closeModal={closeModal}/>
+        <MyModal isOpen={MyModalOpen} closeModal={closeMyModal}/>
         </div>
         <div>
         <ProfileCard
-        onClick={openModal}
+        onClick={openRsModal}
         >
           <FaTwitch size={25} />
           &nbsp;예약관리
         </ProfileCard>
-        <RsModal isOpen={isOpen} closeModal={closeModal}/>
+        <RsModal isOpen={RsModalOpen} closeModal={closeRsModal}/>
         </div>
         <div>
         <ProfileCard
-        onClick={openModal}
+        onClick={openSeModal}
         >
           <FaSellcast size={25} />
           &nbsp;판매자 등록
         </ProfileCard>
-        <MyModal isOpen={isOpen} closeModal={closeModal}/>
+        <SeModal isOpen={SeModalOpen} closeModal={closeSeModal}/>
         </div>
       </ButtonArea>
       <SellArea>

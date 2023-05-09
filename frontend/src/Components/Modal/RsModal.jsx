@@ -22,14 +22,55 @@ border-radius: 10px;
 background-color: #ffffff;
 width: 500px;
 height: 200px;
-margin-bottom : 300px;
+margin-bottom : 400px;
 display : flex;
 flex-direction: column;
 align-items : center;
-  > div.desc {
-    font-size : 30px;
-    color : #475ed4;
+  > div.desc  {
+    font-size : 16px;
+    color : var(--black);
     margin : 50px;
+    padding: 10px 0;
+    pointer-events: none;
+    transition: .5s;
+    margin-bottom: 10px;
+  }
+  label {
+    font-size: 16px;
+      color: var(--black);
+      padding: 10px;
+      pointer-events: none;
+      transition: .5s;
+      margin-right: 20px;
+      align-items: center;
+  }
+
+  > div.input-container {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    input[type="text"] {
+      font-size: 16px;
+      padding: 10px 10px 10px 5px;
+      display: block;
+      width: 185px;
+      border: none;
+      border-bottom: 1px solid #6c6c6c;
+      background: transparent;
+      color: var(--black);
+
+      &:focus {
+        outline: none;
+        border-color: var(--black);
+      }
+    }
+    button {
+      margin-top: 1.2rem;
+      padding: 10px 20px;
+     border-radius: 10px;
+    }
   }
 `;
 
@@ -43,9 +84,20 @@ export const ModalBtn = styled.button`
   cursor: grab;
 `;
 
+export const input = styled.input`
+    font-size: 16px;
+  padding: 10px 10px 10px 5px;
+  display: block;
+  width: 185px;
+  border: none;
+  border-bottom: 1px solid #6c6c6c;
+  background: transparent;
+  color: #475ed4;
+`;
+
 export const Exitbtn = styled(ModalBtn)`
-background-color: gold;
-color: blue;
+background-color: var(--black);
+color: var(--white);
 margin : 10px;
 padding: 5px 10px;
 
@@ -66,7 +118,7 @@ const ModalStyle = {
 	},
 };
 
-function RsModal(props) {
+function MyModal(props) {
   const { isOpen, closeModal } = props;
 
 
@@ -76,11 +128,17 @@ function RsModal(props) {
     <ModalBackdrop>
     <ModalView>
       <Exitbtn onClick={closeModal}>&times;</Exitbtn>
-      <div className='desc'>Congratulation!</div>
+      <div className='desc'>
+      <label>예약현황</label>
+      </div>
+      <div className='input-container'>
+      <label>예약날짜</label>
+      <input type="text" name="" required="date"></input>
+      </div>
     </ModalView>
     </ModalBackdrop>
     </Modal>
   );
 }
 
-export default RsModal;
+export default MyModal;
