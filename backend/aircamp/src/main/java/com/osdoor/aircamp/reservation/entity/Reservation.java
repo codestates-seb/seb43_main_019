@@ -38,7 +38,7 @@ public class Reservation extends Auditable {
     @Column(nullable = false)
     private boolean deleted;
 
-    @ManyToOne // TODO : 각 파트 개발시 주석 해제 하기
+    @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
