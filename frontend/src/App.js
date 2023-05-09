@@ -2,8 +2,8 @@ import styled from "styled-components";
 import axios from "axios";
 import Header from "./Components/Header";
 import ModeBtn from "./Components/ModeBtn";
-import { Routes, Route, useParams, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Routes, Route } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import Main from "./Pages/Main";
 import SignUp from "./Pages/SignUp";
 import Login from "./Pages/Login";
@@ -13,6 +13,8 @@ import Detail from "./Pages/Detail";
 import AccountSearch from "./Pages/AccountSearch";
 import Sell from "./Pages/Sell";
 import Admin from "./Pages/Admin";
+import { useEffect } from "react";
+import { handleLogin } from "./Redux/Actions";
 
 // 모든 요청에 withCredentials가 true로 설정됩니다.
 axios.defaults.withCredentials = true;
@@ -38,6 +40,26 @@ const Container = styled.main`
 
 function App() {
   const isDark = useSelector((state) => state.modeReducer);
+  const userState = useSelector((state) => state.userReducer);
+  const dispatch = useDispatch();
+
+  const authHandler = async () => {
+    try {
+      const result = await axios.get("http://localhost:4000/user/userInfo");
+
+      const userInfo = result.data;
+
+      dispatch(handleLogin(userInfo));
+    } catch (error) {
+      return;
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      authHandler();
+    })();
+  }, []);
 
   return (
     <Wrapper>
