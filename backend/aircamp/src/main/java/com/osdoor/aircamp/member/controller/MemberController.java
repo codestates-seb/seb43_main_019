@@ -1,5 +1,6 @@
 package com.osdoor.aircamp.member.controller;
 
+import com.osdoor.aircamp.dto.SingleResponseDto;
 import com.osdoor.aircamp.member.dto.MemberPatchDto;
 import com.osdoor.aircamp.member.dto.MemberPostDto;
 import com.osdoor.aircamp.member.entity.Member;
@@ -43,11 +44,12 @@ public class MemberController {
 
     @PostMapping("/email-verify")
     @ResponseBody
-    String mailConfirm(@RequestParam("email") String email) throws Exception {
-        return memberService.sendVerificationCode(email);
+    public ResponseEntity mailConfirm(@RequestParam("email") String email) throws Exception {
+        return new ResponseEntity(new SingleResponseDto<>(memberService.sendVerificationCode(email))
+                , HttpStatus.OK);
     }
 
-    @PatchMapping("/{member-Id}")
+    @PatchMapping("/{memberId}")
     public ResponseEntity patchMember(@PathVariable @Positive long memberId,
                                       @Valid @RequestBody MemberPatchDto requestBody) {
         requestBody.setMemberId(memberId);
@@ -57,7 +59,7 @@ public class MemberController {
 
     }
 
-    @GetMapping("/{member-Id}")
+    @GetMapping("/{memberId}")
     public ResponseEntity getMember(@PathVariable @Positive long memberId) {
         Member member = memberService.findMember(memberId);
 
@@ -71,7 +73,7 @@ public class MemberController {
         return new ResponseEntity(mapper.memberToMemberResponseDtos(members), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{member-Id}")
+    @DeleteMapping("/{memberId}")
     public ResponseEntity deleteMember(@PathVariable @Positive long memberId) {
         memberService.deleteMember(memberId);
 
