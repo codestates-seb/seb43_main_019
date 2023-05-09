@@ -11,6 +11,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -65,5 +66,5 @@ public class Product extends Auditable {
     private Member member;
 
     @OneToMany(mappedBy = "product")
-    private Review review;
+    private List<Review> reviews;
 }
