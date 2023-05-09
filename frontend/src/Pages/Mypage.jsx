@@ -86,9 +86,10 @@ export default function Mypage() {
   const [RsModalOpen, setRsModalOpen] = useState(false);
   const [SeModalOpen, setSeModalOpen] = useState(false);
 
+  // 만약 현재 로그인한 상태가 아니라면 로그인 페이지로 보냄
   useEffect(() => {
     if (userState.login === false) {
-      navigate("/");
+      navigate("/login");
     }
   }, []);
 

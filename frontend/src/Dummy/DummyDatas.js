@@ -1,6 +1,7 @@
 export const campgrounds = [
   {
     id: 1,
+    seller: "홍길동",
     name: "서천 서울 캠핑장 (2023년 5월)",
     location: "충남 서천 금빛노을 서울캠핑장 (면적 : 3477)",
     period: "2023.05.04 ~ 2023.05.29",
@@ -15,6 +16,7 @@ export const campgrounds = [
   },
   {
     id: 2,
+    seller: "홍길동",
     name: "서천 서울 캠핑장 (2023년 5월)",
     location: "충남 서천 금빛노을 서울캠핑장 (면적 : 3477)",
     period: "2023.05.04 ~ 2023.05.29",
@@ -29,6 +31,7 @@ export const campgrounds = [
   },
   {
     id: 3,
+    seller: "홍길동",
     name: "서천 서울 캠핑장 (2023년 5월)",
     location: "충남 서천 금빛노을 서울캠핑장 (면적 : 3477)",
     period: "2023.05.04 ~ 2023.05.29",
@@ -43,6 +46,7 @@ export const campgrounds = [
   },
   {
     id: 4,
+    seller: "홍길동",
     name: "서천 서울 캠핑장 (2023년 5월)",
     location: "충남 서천 금빛노을 서울캠핑장 (면적 : 3477)",
     period: "2023.05.04 ~ 2023.05.29",
@@ -57,6 +61,7 @@ export const campgrounds = [
   },
   {
     id: 5,
+    seller: "홍길동",
     name: "서천 서울 캠핑장 (2023년 5월)",
     location: "충남 서천 금빛노을 서울캠핑장 (면적 : 3477)",
     period: "2023.05.04 ~ 2023.05.29",
@@ -71,6 +76,7 @@ export const campgrounds = [
   },
   {
     id: 6,
+    seller: "홍길동",
     name: "서천 서울 캠핑장 (2023년 5월)",
     location: "충남 서천 금빛노을 서울캠핑장 (면적 : 3477)",
     period: "2023.05.04 ~ 2023.05.29",
@@ -85,6 +91,7 @@ export const campgrounds = [
   },
   {
     id: 7,
+    seller: "홍길동",
     name: "서천 서울 캠핑장 (2023년 5월)",
     location: "충남 서천 금빛노을 서울캠핑장 (면적 : 3477)",
     period: "2023.05.04 ~ 2023.05.29",
@@ -99,6 +106,7 @@ export const campgrounds = [
   },
   {
     id: 8,
+    seller: "홍길동",
     name: "서천 서울 캠핑장 (2023년 5월)",
     location: "충남 서천 금빛노을 서울캠핑장 (면적 : 3477)",
     period: "2023.05.04 ~ 2023.05.29",
@@ -121,5 +129,6 @@ export const users = [
     callNumber: "010-1234-5678",
     birthDate: "1234-56-78",
     email: "aaa@naver.com",
+    seller: true,
   },
 ];

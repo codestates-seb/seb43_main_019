@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,14 +10,16 @@ import {
   faUser,
   faUserXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { handleLogout } from "../Redux/Actions";
 
 const Container = styled.header`
   width: 100%;
   height: 140px;
   color: ${(props) => (props.isDark ? "var( --white)" : "var(--black)")};
-
+  position: fixed;
+  top: 0;
+  z-index: 10;
   @media screen and (max-width: 900px) {
     height: 100px;
   }
@@ -271,7 +274,21 @@ export default function Header() {
   };
 
   const handleSignOut = async () => {
-    dispatch(handleLogout());
+    try {
+      const result = await axios.post("http://localhost:4000/user/logout");
+
+      dispatch(handleLogout());
+
+      if (Math.floor(result.status / 100) === 2) {
+        alert("로그아웃에 상공했습니다.");
+      }
+    } catch (error) {
+      const { status } = error.response;
+
+      alert(`Error Status: ${status}`);
+
+      return;
+    }
   };
 
   return (
@@ -314,7 +331,13 @@ export default function Header() {
               <Link to="/">
                 <Item isDark={isDark}>Home</Item>
               </Link>
-              <Item onClick={() => handleSignOut()} isDark={isDark}>
+              <Item
+                onClick={() => {
+                  handleSignOut();
+                  navigate("/");
+                }}
+                isDark={isDark}
+              >
                 Log Out
               </Item>
               <Link to="/mypage">
