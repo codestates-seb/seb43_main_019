@@ -15,6 +15,9 @@ import Sell from "./Pages/Sell";
 import Admin from "./Pages/Admin";
 import { useEffect } from "react";
 import { handleLogin } from "./Redux/Actions";
+import KakaoLogin from "./Pages/KakaoLogin";
+import { JS_KEY } from "./secret";
+import Profile from "./Pages/Profile";
 
 // 모든 요청에 withCredentials가 true로 설정됩니다.
 axios.defaults.withCredentials = true;
@@ -55,6 +58,21 @@ function App() {
     }
   };
 
+  /*
+  const initKakao = () => {
+    const Kakao = window.Kakao;
+
+    if (Kakao && !Kakao.isInitialized()) {
+      Kakao.init(JS_KEY);
+      console.log(Kakao.isInitialized());
+    }
+  };
+
+  useEffect(() => {
+    initKakao();
+  }, []);
+  */
+
   useEffect(() => {
     (async () => {
       authHandler();
@@ -72,6 +90,8 @@ function App() {
           <Route path="/mypage" element={<Mypage />} />
           <Route path={"/sell/*"} element={<Sell />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/kakaologin" element={<KakaoLogin />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/:id" element={<Detail />} />
           <Route path="/" element={<Main />} />
         </Routes>
