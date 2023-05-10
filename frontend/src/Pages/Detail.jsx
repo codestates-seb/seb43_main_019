@@ -6,6 +6,7 @@ import CampgroundInfo from "../Components/DetailInfo";
 import Map from "../Components/Map";
 import { campgrounds } from "../Dummy/DummyDatas";
 import { useParams } from "react-router-dom";
+import { CommonButton } from "../Components/Button";
 
 const Container = styled.div`
   display: flex;
@@ -85,7 +86,9 @@ function Detail() {
               cancel={cancel}
               price={price}
               call={call}
-            ></CampgroundInfo>
+            >
+              <CommonButton>예약 하기</CommonButton>
+            </CampgroundInfo>
           </InfoContainer>
         </CampgroundContainer>
       </ContainerBox>
