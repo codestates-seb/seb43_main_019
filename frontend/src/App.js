@@ -14,7 +14,7 @@ import AccountSearch from "./Pages/AccountSearch";
 import Sell from "./Pages/Sell";
 import Admin from "./Pages/Admin";
 import { useEffect } from "react";
-import { handleLogin } from "./Redux/Actions";
+import { handleLogin, handleLogout } from "./Redux/Actions";
 import KakaoLogin from "./Pages/KakaoLogin";
 import { JS_KEY } from "./secret";
 import Profile from "./Pages/Profile";
@@ -43,7 +43,6 @@ const Container = styled.main`
 
 function App() {
   const isDark = useSelector((state) => state.modeReducer);
-  const userState = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
 
   const authHandler = async () => {
@@ -52,26 +51,18 @@ function App() {
 
       const userInfo = result.data;
 
+      if (userInfo.id) {
+        dispatch(handleLogin(userInfo));
+      } else {
+        // 혹시 모를 이유로 제대로 로그인이 되어 있지 않은 상황일 경우
+        dispatch(handleLogout());
+      }
+
       dispatch(handleLogin(userInfo));
     } catch (error) {
       return;
     }
   };
-
-  /*
-  const initKakao = () => {
-    const Kakao = window.Kakao;
-
-    if (Kakao && !Kakao.isInitialized()) {
-      Kakao.init(JS_KEY);
-      console.log(Kakao.isInitialized());
-    }
-  };
-
-  useEffect(() => {
-    initKakao();
-  }, []);
-  */
 
   useEffect(() => {
     (async () => {
