@@ -32,7 +32,6 @@ public class ReservationService {
         this.authorizationUtils = authorizationUtils;
     }
 
-    // TODO : memberService, productService 구현되면 주석해제
     public Reservation createReservation(Reservation reservation) {
         verifyReservation(reservation);
         Reservation savedReservation = saveReservation(reservation);
@@ -82,8 +81,6 @@ public class ReservationService {
                         new BusinessLogicException(ExceptionCode.RESERVATION_NOT_FOUND));
         return findReservation;
     }
-
-// TODO : memberService, productService 구현되면 주석해제
 
     private void verifyReservation(Reservation reservation) {
         // 회원이 존재하는지 확인

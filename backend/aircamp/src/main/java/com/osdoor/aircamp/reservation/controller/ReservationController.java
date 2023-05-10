@@ -35,7 +35,6 @@ public class ReservationController {
         this.memberService = memberService;
     }
 
-    // TODO : memberService, productService 구현되면 주석해제
     // 새로운 예약을 등록
     @PostMapping
     public ResponseEntity postReservation(@Valid @RequestBody ReservationPostDto reservationPostDto) {

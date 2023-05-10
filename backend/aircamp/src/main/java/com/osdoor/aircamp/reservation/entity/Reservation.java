@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @Getter
@@ -21,7 +21,7 @@ public class Reservation extends Auditable {
     private Long reservationId;
 
     @Column(nullable = false)
-    private LocalDateTime reservationDate; // 캠핑장 이용일자
+    private LocalDate reservationDate; // 캠핑장 이용일자
 
     @Column(length = 50, nullable = false)
     private String reservationName; // 예약자명
@@ -36,9 +36,9 @@ public class Reservation extends Auditable {
     private ReservationStatus reservationStatus = ReservationStatus.RESERVATION_REQUEST;
 
     @Column(nullable = false)
-    private boolean deleted;
+    private boolean deleted = false;
 
-    @ManyToOne // TODO : 각 파트 개발시 주석 해제 하기
+    @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
