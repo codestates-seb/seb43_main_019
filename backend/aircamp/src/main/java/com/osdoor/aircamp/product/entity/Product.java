@@ -65,16 +65,6 @@ public class Product extends Auditable {
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
-
-    @PrePersist
-    private void onCreate() {
-        this.createdBy = SecurityContextHolder.getContext().getAuthentication().getName();
-    }
-
-    @PreUpdate
-    private void onUpdate() {
-        this.modifiedBy = SecurityContextHolder.getContext().getAuthentication().getName();
-    }
   
     @OneToMany(mappedBy = "product")
     private List<Review> reviews;
