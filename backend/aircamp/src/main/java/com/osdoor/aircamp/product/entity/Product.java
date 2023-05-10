@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -62,4 +63,14 @@ public class Product extends Auditable {
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
+    @PrePersist
+    private void onCreate() {
+        this.createdBy = SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
+    @PreUpdate
+    private void onUpdate() {
+        this.modifiedBy = SecurityContextHolder.getContext().getAuthentication().getName();
+    }
 }
