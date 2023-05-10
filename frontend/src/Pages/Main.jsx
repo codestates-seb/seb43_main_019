@@ -33,7 +33,22 @@ const Container = styled.main`
   gap: 20px;
   justify-items: center;
   padding: 50px 0;
-  padding-top: 100px;
+  padding-top: 200px;
+`;
+
+const ContextArea = styled.div`
+  width: 100%;
+  margin-top: 50px;
+  position: absolute;
+  padding: 35px 0;
+  top: 0;
+  left: 0;
+`;
+
+const Title = styled.h2`
+  margin-left: 150px !important;
+  font-family: "Noto Sans KR", sans-serif;
+  color : var(--black-700);
 `;
 
 const ScrollBtn = styled.div`
@@ -130,6 +145,9 @@ export default function Main() {
     <Loader>isLoading...</Loader>
   ) : (
     <>
+      <ContextArea>
+        <Title>지금 당장 캠핑을 떠나보세요!</Title>
+      </ContextArea>
       <Container>
         {data.map((campground) => (
           <Card2 key={campground.id + ""} campground={campground} />
