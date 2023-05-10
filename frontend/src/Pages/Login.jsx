@@ -3,11 +3,10 @@ import styled from "@emotion/styled";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { users } from "../Dummy/DummyDatas";
 import { handleLogin } from "../Redux/Actions";
 import axios from "axios";
 import { useEffect } from "react";
-import { REST_API_KEY, REDIRECT_URI, JS_KEY } from "../secret";
+import { REST_API_KEY, REDIRECT_URI } from "../secret";
 
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
@@ -108,7 +107,7 @@ const AccountRelated = styled.span`
 
 export default function Login() {
   const navigate = useNavigate();
-  const { register, handleSubmit, setFocus } = useForm();
+  const { register, handleSubmit } = useForm();
 
   const userState = useSelector((state) => state.userReducer);
   const isDark = useSelector((state) => state.modeReducer);
