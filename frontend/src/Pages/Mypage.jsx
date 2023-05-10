@@ -136,7 +136,9 @@ export default function Mypage() {
       </ButtonArea>
       <SellArea>
         <SellMent>판매상품을 원하신다면 아래 링크를 눌러주세요👇🏻</SellMent>
-        <SellLink>판매하러 가기↪️</SellLink>
+        <SellLink>
+          <a href="/sell">판매하러 가기↪️</a>
+          </SellLink>
       </SellArea>
     </Wrapper>
   );

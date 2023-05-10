@@ -133,11 +133,11 @@ function MyModal(props) {
       </div>
       <div className='input-container'>
       <label>사업자 번호</label>
-      <input type="text" name="" required="number"></input>
+      <input type="text" name="" required="number" placeholder='000-000-000'></input>
       </div>
       <div className='input-container'>
       <label>등록날짜</label>
-      <input type="text" name="" required="date"></input>
+      <input type="text" name="" required="date" placeholder='00-00-00'></input>
       </div>
 
       <div className='input-container'>
