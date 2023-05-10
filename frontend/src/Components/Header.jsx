@@ -3,19 +3,14 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCampground,
-  faMagnifyingGlass,
-  faXmark,
-  faUser,
-  faUserXmark,
-} from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { handleLogout } from "../Redux/Actions";
+import { CommonButton } from "../Components/Button";
+import { FaChevronDown } from 'react-icons/fa';
 
 const Container = styled.header`
   width: 100%;
-  height: 140px;
+  height: 160px;
   color: ${(props) => (props.isDark ? "var( --white)" : "var(--black)")};
   position: fixed;
   top: 0;
@@ -27,9 +22,9 @@ const Container = styled.header`
 
 const Top = styled.div`
   width: 100%;
-  height: 60px;
+  height: 70px;
   background-color: ${(props) =>
-    props.isDark ? "var(--black-500)" : "var(--white-50)"};
+    props.isDark ? "var(--black-700)" : "var(--white-50)"};
   transition: all 0.5s linear;
   display: flex;
   justify-content: center;
@@ -40,12 +35,12 @@ const Top = styled.div`
 const Bottom = styled.div`
   width: 100%;
   background-color: ${(props) =>
-    props.isDark ? "var(--black-600)" : "var(--white-100)"};
+    props.isDark ? "var(--black-700)" : "var(--white-50)"};
   transition: all 0.5s linear;
   position: relative;
   height: 80px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  /* grid-template-columns: 1fr 1fr 1fr; */
   justify-items: center;
   align-items: center;
 
@@ -55,8 +50,18 @@ const Bottom = styled.div`
   }
 `;
 
+const Line = styled.hr`
+  width: 90%;
+  margin: 0 auto;
+  border: none;
+  border-top: 1px solid ${(props) => (props.isDark ? "var(--white)" : "var(--black-500)")};
+  margin-bottom: 10px;
+  margin-top: 10px;
+`;
+
+
 const Logo = styled.img`
-  height: 50px;
+  height: 35px;
   width: auto;
 
   &:hover {
@@ -64,17 +69,17 @@ const Logo = styled.img`
   }
 `;
 
-const Icon = styled(FontAwesomeIcon)`
-  font-size: 30px;
+// const Icon = styled(FontAwesomeIcon)`
+//   font-size: 30px;
 
-  &:hover {
-    cursor: pointer;
-  }
+//   &:hover {
+//     cursor: pointer;
+//   }
 
-  @media screen and (max-width: 900px) {
-    display: none;
-  }
-`;
+//   @media screen and (max-width: 900px) {
+//     display: none;
+//   }
+// `;
 
 const Menu = styled.ul`
   @media screen and (min-width: 900px) {
@@ -124,18 +129,16 @@ const Item = styled.li`
 `;
 
 const UserStatus = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 200px;
+  height: 40px;
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  border-radius: 100%;
   position: absolute;
   right: 100px;
-  background-color: ${(props) =>
-    props.isDark ? "var(--black-700)" : "var(--white-100)"};
-  border: ${(props) =>
-    props.isDark ? "2px solid var(--white)" : "2px solid var(--black)"};
+  /* background-color: ${(props) =>
+    props.isDark ? "var(--black-700)" : "var(--white-50)"}; */
 
   @media screen and (max-width: 900px) {
     display: none;
@@ -144,10 +147,6 @@ const UserStatus = styled.div`
   &:hover {
     cursor: pointer;
   }
-`;
-
-const UserStatusIcon = styled(FontAwesomeIcon)`
-  transition: all 0.3s ease-in-out;
 `;
 
 const MenuBtn = styled.div`
@@ -177,6 +176,7 @@ const MenuBtn = styled.div`
 const InputSpace = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center; /* 중앙 정렬을 위한 코드 */
 
   @media screen and (max-width: 900px) {
     display: none;
@@ -184,20 +184,32 @@ const InputSpace = styled.div`
 `;
 
 const Input = styled.input`
-  width: 200px;
-  height: 30px;
-  margin-right: 10px;
-  padding-left: 10px;
-  border-radius: 10px;
-
-  border: none;
+  max-width: 600px;
+  width: 500px;
+  background-color: var(--white-100);
+  color: var(--black);
+  padding: .15rem .5rem;
+  min-height: 40px;
+  border-radius: 4px;
   outline: none;
-  box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.3);
-  transition: 300ms ease-in-out;
+  border: none;
+  line-height: 1.15;
+  box-shadow: 0px 10px 20px -18px;
+  margin: 0 auto;
+  // 드롭다운 화살표를 추가
+  /* background-image: url('https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-arrow-down-512.png');
+  background-repeat: no-repeat;
+  background-position: right 10px center; */
+
 
   &:focus {
-    transform: scale(1.05);
-    box-shadow: 13px 13px 100px #969696, -13px -13px 100px #ffffff;
+    border-bottom: 2px solid var(--black);
+    border-radius: 4px 4px 2px 2px;
+    border-color : var(--black-700);
+  }
+  &:hover {
+    outline: 1px solid lightgrey;
+    border: 1px solid var(--black-700);
   }
 
   background-color: ${(props) =>
@@ -205,36 +217,60 @@ const Input = styled.input`
   color: ${(props) => (props.isDark ? "var(--white)" : "var(--black")};
 `;
 
-const CancelIcon = styled(FontAwesomeIcon)`
-  font-size: 30px;
+// const Dropdown = styled.select`
+//   max-width: 600px;
+//   width: 500px;
+//   background-color: var(--white-100);
+//   color: var(--black);
+//   padding: .15rem .5rem;
+//   min-height: 40px;
+//   border-radius: 4px;
+//   outline: none;
+//   border: none;
+//   line-height: 1.15;
+//   box-shadow: 0px 10px 20px -18px;
+//   margin: 0 auto; // 가운데 정렬
 
-  @media screen and (max-width: 900px) {
-    position: absolute;
-    right: 180px;
-  }
+//   // select 요소에서는 focus와 hover 스타일을 다음과 같이 정의합니다.
+//   &:focus,
+//   &:hover {
+//     border-bottom: 2px solid var(--black);
+//     border-radius: 4px 4px 2px 2px;
+//     border-color : var(--black-700);
+//     outline: none;
+//   }
+// `;
 
-  &:hover {
-    cursor: pointer;
-  }
-`;
+// const CancelIcon = styled(FontAwesomeIcon)`
+//   font-size: 30px;
 
-const ShortPage = styled.div`
-  display: flex;
-  align-items: center;
+//   @media screen and (max-width: 900px) {
+//     position: absolute;
+//     right: 180px;
+//   }
 
-  @media screen and (min-width: 900px) {
-    display: none;
-  }
-`;
+//   &:hover {
+//     cursor: pointer;
+//   }
+// `;
 
-const ShortPageIcon = styled(FontAwesomeIcon)`
-  position: absolute;
-  right: 180px;
+// const ShortPage = styled.div`
+//   display: flex;
+//   align-items: center;
 
-  &:hover {
-    cursor: pointer;
-  }
-`;
+//   @media screen and (min-width: 900px) {
+//     display: none;
+//   }
+// `;
+
+// const ShortPageIcon = styled(FontAwesomeIcon)`
+//   position: absolute;
+//   right: 180px;
+
+//   &:hover {
+//     cursor: pointer;
+//   }
+// `;
 
 const ShortPageInput = styled.input`
   width: 100%;
@@ -297,36 +333,39 @@ export default function Header() {
         <Top isDark={isDark}>
           <Link to="/">
             <Logo src={isDark ? "/img/Logo_Dark.png" : "/img/Logo_Light.png"} />
+            <Logo src="/img/Camp.png" />
           </Link>
-          <UserStatus
-            onClick={() => {
-              if (userState.login) {
-                navigate("/mypage");
-              }
-            }}
-            isDark={isDark}
-          >
-            <UserStatusIcon icon={userState.login ? faUser : faUserXmark} />
-          </UserStatus>
+          {userState.login ? (
+          <UserStatus  >
+            <Link to="/login">
+            <CommonButton> Login </CommonButton>
+            </Link>
+            <Link to="/SignUp">
+            <CommonButton> SignUp </CommonButton>
+            </Link>
+            </UserStatus>
+            ) : (        
+              <UserStatus  >
+              <CommonButton
+                onClick={() => {
+                handleSignOut();
+                navigate("/");
+                }}>
+                   Logout
+              </CommonButton>
+              <Link to="/Mypage">
+              <CommonButton> Mypage </CommonButton>
+              </Link>
+              </UserStatus>        
+            )}
         </Top>
         <Bottom isDark={isDark}>
+
           <InputSpace>
-            {showInput ? (
-              <>
-                <Input isDark={isDark} />
-                <CancelIcon
-                  onClick={() => setShowInput((prev) => false)}
-                  icon={faXmark}
-                />
-              </>
-            ) : (
-              <Icon
-                icon={faMagnifyingGlass}
-                onClick={() => setShowInput((prev) => true)}
-              />
-            )}
-          </InputSpace>
-          {userState.login ? (
+              <Input placeholder="Search..." />
+              </InputSpace>
+
+          {/* {userState.login ? (
             <Menu pos={"top"}>
               <Link to="/">
                 <Item isDark={isDark}>Home</Item>
@@ -360,8 +399,8 @@ export default function Header() {
           <Icon icon={faCampground} />
           <MenuBtn isDark={isDark} onClick={() => handleMenu()}>
             Menu
-          </MenuBtn>
-          <ShortPage>
+          </MenuBtn> */}
+          {/* <ShortPage>
             {showInput ? (
               <CancelIcon
                 icon={faXmark}
@@ -373,10 +412,11 @@ export default function Header() {
                 onClick={() => setShowInput((prev) => true)}
               />
             )}
-          </ShortPage>
+          </ShortPage> */}
         </Bottom>
+        <Line isDark={isDark} />
       </Container>
-      {showInput && <ShortPageInput isDark={isDark} />}
+      {/* {showInput && <ShortPageInput isDark={isDark} />}
       {showMenu &&
         (userState.login ? (
           <Menu isDark={isDark} pos={"bottom"}>
@@ -400,7 +440,7 @@ export default function Header() {
               <Item isDark={isDark}>Sign Up</Item>
             </Link>
           </Menu>
-        ))}
+        ))} */}
     </>
   );
 }
