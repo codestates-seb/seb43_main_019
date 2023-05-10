@@ -10,6 +10,7 @@ import Mypage from "./Pages/Mypage";
 import Detail from "./Pages/Detail";
 // import "./Style/App.css";
 import AccountSearch from "./Pages/AccountSearch";
+import PaymentForm from "./Components/PaymentForm";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -42,6 +43,7 @@ function App() {
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/" element={<Main />} />
           <Route path="/:id" element={<Detail />} />
+          <Route path="/pay" element={<PaymentForm />} />
         </Routes>
       </Container>
       <ModeBtn />
