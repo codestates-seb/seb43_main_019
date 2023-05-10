@@ -26,10 +26,10 @@ public class Auditable {
 
     @CreatedBy
     @Column(name = "created_by", updatable = false)
-    private String createdBy; // 항목을 생성한 사용자나 시스템
+    protected String createdBy; // 항목을 생성한 사용자나 시스템
 
     @LastModifiedBy
     @Column(name = "modified_by")
-    private String modifiedBy; // 항목을 마지막으로 수정한 사용자나 시스템
+    protected String modifiedBy; // 항목을 마지막으로 수정한 사용자나 시스템
 }
 
