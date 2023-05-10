@@ -3,10 +3,7 @@ package com.osdoor.aircamp.member.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
 @Getter
@@ -31,4 +28,9 @@ public class MemberPostDto {
     private String phone;  //(수정가능)
     @AssertTrue(message = "본인인증의 결과는 반드시 true 이어야 합니다.")
     private boolean isEmailVerified;
+
+    private boolean isSellerVerified;
+    @Pattern(regexp = "^\\d{3}-\\d{2}-\\d{5}$",
+    message = "올바른 형식의 사업자등록번호를 입력해주세요. 333-22-55555 형식만 가능합니다.")
+    private String businessRegistrationNumber;
 }

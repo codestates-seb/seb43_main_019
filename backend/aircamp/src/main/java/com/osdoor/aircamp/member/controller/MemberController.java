@@ -65,7 +65,13 @@ public class MemberController {
 
         return new ResponseEntity(mapper.memberToMemberResponseDto(member), HttpStatus.OK);
     }
+    @GetMapping("/seller/{memberId}")
+    public ResponseEntity getBusinessNumber(@PathVariable @Positive long memberId) {
+        Member member = memberService.findMember(memberId);
+        String businessRegistrationNumber = member.getBusinessRegistrationNumber();
 
+        return new ResponseEntity(new SingleResponseDto<>(businessRegistrationNumber), HttpStatus.OK);
+    }
     @GetMapping
     public ResponseEntity getMembers() {
         List<Member> members = memberService.findMembers();
