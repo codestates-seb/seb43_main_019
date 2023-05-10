@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { useSelector } from "react-redux";
 import { campgrounds } from "../Dummy/DummyDatas";
 import { useEffect, useRef, useState } from "react";
 import Card2 from "../Components/Card2";
@@ -49,7 +50,7 @@ const ContextArea = styled.div`
 const Title = styled.h2`
   margin-left: 150px !important;
   font-family: "Noto Sans KR", sans-serif;
-  color : var(--black);
+  color: ${(props) => (props.isDark ? "var(--white)" : "var(--black-700)")};
 `;
 
 const ScrollBtn = styled.div`
@@ -102,6 +103,7 @@ const options = {
 };
 
 export default function Main() {
+  const isDark = useSelector((state) => state.modeReducer);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -142,8 +144,8 @@ export default function Main() {
     <Loader>isLoading...</Loader>
   ) : (
     <>
-      <ContextArea>
-        <Title>지금 당장 캠핑을 떠나보세요.⛺</Title>
+      <ContextArea isDark={isDark}>
+        <Title isDark={isDark}>지금 당장 캠핑을 떠나보세요.⛺</Title>
       </ContextArea>
       <Container>
         {data.map((campground) => (

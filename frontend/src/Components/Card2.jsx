@@ -40,9 +40,8 @@ const Front = styled.div`
   height: 100%;
   border-radius: 2em;
   backface-visibility: hidden;
-  background-color: ${(props) =>
-    props.isDark ? "var(--black)" : "var(--white)"};
-  color: ${(props) => (props.isDark ? "var(--white)" : "var(--black-700)")};
+  background-color: var(--white);
+  color: ${(props) => (props.isDark ? "var(--black)" : "var(--black-700)")};
   border: none;
   display: flex;
   flex-direction: column;
@@ -88,9 +87,7 @@ const Back = styled.div`
   height: 100%;
   border-radius: 2em;
   backface-visibility: hidden;
-  background-color: ${(props) =>
-    props.isDark ? "var(--black)" : "var(--white)"};
-
+  background-color: var(--white);
   border: none;
   transform: rotateY(180deg);
   padding: 11px;
@@ -115,7 +112,7 @@ const Descriptions = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center; // 추가
-  color: ${(props) => (props.isDark ? "var(--white)" : "var(--black-700)")};
+  color: var(--black-700);
   
 `;
 
@@ -133,7 +130,7 @@ const Icons = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  color: ${(props) => (props.isDark ? "var(--white)" : "var(--black-700)")};
+  color: var(--black-700);
   margin-bottom: 100px;
 
 `;
