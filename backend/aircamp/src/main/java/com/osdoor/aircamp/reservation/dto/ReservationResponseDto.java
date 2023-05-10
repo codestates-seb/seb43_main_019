@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 public class ReservationResponseDto {
     private long reservationId;
 
-    private LocalDateTime reservationDate;
+    private LocalDate reservationDate;
     private String reservationName;
     private String reservationPhone;
     private String reservationEmail;
