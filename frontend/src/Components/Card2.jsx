@@ -102,16 +102,21 @@ const Info = styled.div`
   letter-spacing: 1px;
   display: grid;
   grid-template-rows: 3fr 1fr;
+  align-items: center;
+  justify-content: center;
+  text-align: center; // 추가
 `;
 
 const Descriptions = styled.div`
   padding: 0 10px;
-  height: 300px;
+  /* height: 300px; */
   display: grid;
   grid-template-rows: 4fr 1fr;
   align-items: center;
   justify-content: center;
+  text-align: center; // 추가
   color: ${(props) => (props.isDark ? "var(--white)" : "var(--black-700)")};
+  
 `;
 
 const Description = styled.div`
@@ -119,26 +124,24 @@ const Description = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center; // 추가
+  
 `;
 
-const PricePeriod = styled.div`
-  font-size: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: start;
-`;
 
 const Icons = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
   color: ${(props) => (props.isDark ? "var(--white)" : "var(--black-700)")};
+  margin-bottom: 100px;
+
 `;
 
 const Icon = styled(FontAwesomeIcon)`
-  font-size: 30px;
+  font-size: 25px;
   cursor: pointer;
+  
 `;
 
 const loremIpsum =
@@ -157,7 +160,7 @@ export default function Card2({ campground }) {
       case "seller":
         return `판매자: ${campground.seller}`;
       case "call":
-        return `전화번호: ${campground.call}`;
+        return `안심번호: ${campground.call}`;
       case "location":
         return `위치: ${campground.location}`;
       default:

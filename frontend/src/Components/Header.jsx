@@ -54,8 +54,8 @@ const Line = styled.hr`
   margin: 0 auto;
   border: none;
   border-top: 1px solid ${(props) => (props.isDark ? "var(--white)" : "var(--black-500)")};
-  margin-bottom: 10px;
-  margin-top: 10px;
+  margin-bottom: 0px;
+  margin-top: 0px;
 `;
 
 

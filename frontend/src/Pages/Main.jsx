@@ -1,9 +1,8 @@
 import styled from "@emotion/styled";
 import { campgrounds } from "../Dummy/DummyDatas";
 import { useEffect, useRef, useState } from "react";
-// import Card2 from "../Components/Card2";
 import Card2 from "../Components/Card2";
-import Card from "../Components/Card";
+import { FaChevronUp } from "react-icons/fa";
 
 const Loader = styled.h1`
   font-size: 50px;
@@ -56,13 +55,9 @@ const Title = styled.h2`
 const ScrollBtn = styled.div`
   width: 120px;
   height: 70px;
-  border-radius: 10px;
-  background-color: green;
-  color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 30px;
   margin: 0 auto;
 `;
 
@@ -156,7 +151,7 @@ export default function Main() {
         ))}
       </Container>
       <ScrollBtn onClick={() => window.scrollTo(0, 0)} ref={containerRef}>
-        가장 위로
+      <FaChevronUp size={40} />
       </ScrollBtn>
     </>
   );
