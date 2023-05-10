@@ -25,7 +25,7 @@ ext {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
@@ -40,6 +40,11 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'  // 매퍼 에너테이션 사용을 위해서 필요
 
     implementation 'org.springframework.boot:spring-boot-starter-mail' // 메일발송기능을 위해서 필요
+
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly	'io.jsonwebtoken:jjwt-jackson:0.11.5' // Jwt 적용을 위한 추가
 }
 
 tasks.named('test') {
