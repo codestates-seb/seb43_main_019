@@ -7,6 +7,9 @@ import { users } from "../Dummy/DummyDatas";
 import { handleLogin } from "../Redux/Actions";
 import axios from "axios";
 import { useEffect } from "react";
+import { REST_API_KEY, REDIRECT_URI, JS_KEY } from "../secret";
+
+const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
 const Wrapper = styled.div`
   width: 100%;
@@ -84,8 +87,8 @@ const SocialLogin = styled.div`
   width: 150px;
   height: 50px;
   border-radius: 25px;
-  background-color: var(--emerald-600);
-  color: var(--white);
+  background-color: #f7e600;
+  color: #3a1d1d;
   border: none;
   margin-bottom: 20px;
   font-size: 15px;
@@ -139,6 +142,10 @@ export default function Login() {
     navigate("/");
   };
 
+  const handleSocialLogin = () => {
+    window.location.href = KAKAO_AUTH_URL;
+  };
+
   useEffect(() => {
     if (userState.login) {
       navigate("/");
@@ -172,7 +179,9 @@ export default function Login() {
           </Space>
           <Space pos={"end"}>
             <Button>Log In</Button>
-            <SocialLogin>네이버로 로그인</SocialLogin>
+            <SocialLogin onClick={() => handleSocialLogin()}>
+              카카오로 로그인
+            </SocialLogin>
           </Space>
         </Others>
       </Form>
