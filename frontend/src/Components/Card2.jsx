@@ -7,13 +7,21 @@ import { useState } from "react";
 
 const Container = styled.div`
   background-color: transparent;
-  width: 300px;
-  height: 400px;
+  width: 250px;
+  height: 350px;
   perspective: 1000px;
+  border-radius: 10px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  transition: border-radius 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   &:hover .inner {
     transform: rotateY(180deg);
+
+  &:shadow{
+    box-shadow: inset 0 -3em 3em rgba(0,0,0,0.1),
+             0 0  0 2px rgb(190, 190, 190),
+             0.3em 0.3em 1em rgba(0,0,0,0.3);
+  }
   }
 `;
 
@@ -30,32 +38,48 @@ const Front = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  padding: 5px;
   border-radius: 2em;
   backface-visibility: hidden;
   background-color: ${(props) =>
     props.isDark ? "var(--black)" : "var(--white)"};
-  color: ${(props) => (props.isDark ? "var(--white)" : "var(--emerald-700)")};
-  border: 4px solid var(--emerald-700);
+  color: ${(props) => (props.isDark ? "var(--white)" : "var(--black-700)")};
+  border: none;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const Img = styled.div`
+  display: flex;
+  align-items: center;
   border: none;
   border-radius: 30px;
-  width: 270px;
-  height: 270px;
+  width: 100%;
+  height: 200px;
   background-image: url(${(props) => props.bgphoto});
   background-size: cover;
   background-position: center;
+  border-bottom: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+
+  
 `;
 
 const Name = styled.div`
-  margin-top: 50px;
-  font-size: 20px;
-  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 18px
+`;
+
+const Selection = styled.div`
+  margin: 30px 0 10px 0;
+  font-size: 13px;
+  /* color : #DF2E38; */
+`;
+
+const Price = styled.div`
+  /* margin: 30px 0 10px 0; */
+  font-size: 25px;
 `;
 
 const Back = styled.div`
@@ -67,7 +91,7 @@ const Back = styled.div`
   background-color: ${(props) =>
     props.isDark ? "var(--black)" : "var(--white)"};
 
-  border: 4px solid var(--emerald-700);
+  border: none;
   transform: rotateY(180deg);
   padding: 11px;
 `;
@@ -81,18 +105,20 @@ const Info = styled.div`
 `;
 
 const Descriptions = styled.div`
-  padding: 0 20px;
+  padding: 0 10px;
   height: 300px;
   display: grid;
   grid-template-rows: 4fr 1fr;
-  color: ${(props) => (props.isDark ? "var(--white)" : "var(--emerald-700)")};
+  align-items: center;
+  justify-content: center;
+  color: ${(props) => (props.isDark ? "var(--white)" : "var(--black-700)")};
 `;
 
 const Description = styled.div`
   font-size: ${(props) => props.fontSize};
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: center;
 `;
 
 const PricePeriod = styled.div`
@@ -107,7 +133,7 @@ const Icons = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  color: ${(props) => (props.isDark ? "var(--white)" : "var(--emerald-700)")};
+  color: ${(props) => (props.isDark ? "var(--white)" : "var(--black-700)")};
 `;
 
 const Icon = styled(FontAwesomeIcon)`
@@ -116,7 +142,7 @@ const Icon = styled(FontAwesomeIcon)`
 `;
 
 const loremIpsum =
-  "있으며, 심장의 그들은 얼마나 힘차게 길지 때문이다. 없는 있는 피가 따뜻한 못하다 붙잡아 피고 우리 말이다. 희망의 새 피에 같이 따뜻한 찾아 튼튼하며, 인간은 무한한 운다. 무엇이 웅대한 청춘에서만 갑 위하여, 칼이다. 같은 튼튼하며, 낙원을 이성은 품었기 인생에 몸이";
+  "지금 바로 예약하세요!"
 
 export default function Card2({ campground }) {
   const isDark = useSelector((state) => state.modeReducer);
@@ -144,7 +170,9 @@ export default function Card2({ campground }) {
       <Inner className="inner">
         <Front isDark={isDark}>
           <Img bgphoto={campground.img} />
+          <Selection>{campground.selection},{campground.restriction}</Selection>
           <Name>{campground.name}</Name>
+          <Price>{campground.price}</Price>
         </Front>
         <Back isDark={isDark}>
           <Info>
@@ -153,10 +181,6 @@ export default function Card2({ campground }) {
                 <Description fontSize={infoType ? "20px" : "15px"}>
                   {getInfo(infoType)}
                 </Description>
-                <PricePeriod>
-                  <span>{`₩ ${campground.price} / 박`}</span>
-                  <span>{campground.period}</span>
-                </PricePeriod>
               </Descriptions>
             </Link>
             <Icons isDark={isDark}>

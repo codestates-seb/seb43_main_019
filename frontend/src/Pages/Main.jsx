@@ -1,7 +1,9 @@
 import styled from "@emotion/styled";
 import { campgrounds } from "../Dummy/DummyDatas";
 import { useEffect, useRef, useState } from "react";
+// import Card2 from "../Components/Card2";
 import Card2 from "../Components/Card2";
+import Card from "../Components/Card";
 
 const Loader = styled.h1`
   font-size: 50px;
@@ -48,7 +50,7 @@ const ContextArea = styled.div`
 const Title = styled.h2`
   margin-left: 150px !important;
   font-family: "Noto Sans KR", sans-serif;
-  color : var(--black-700);
+  color : var(--black);
 `;
 
 const ScrollBtn = styled.div`
@@ -146,7 +148,7 @@ export default function Main() {
   ) : (
     <>
       <ContextArea>
-        <Title>지금 당장 캠핑을 떠나보세요!</Title>
+        <Title>지금 당장 캠핑을 떠나보세요.⛺</Title>
       </ContextArea>
       <Container>
         {data.map((campground) => (

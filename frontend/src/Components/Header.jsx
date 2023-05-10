@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { handleLogout } from "../Redux/Actions";
 import { CommonButton } from "../Components/Button";
-import { FaChevronDown } from 'react-icons/fa';
 
 const Container = styled.header`
   width: 100%;
@@ -336,7 +335,7 @@ export default function Header() {
             <Logo src="/img/Camp.png" />
           </Link>
           {userState.login ? (
-          <UserStatus  >
+          <UserStatus>
             <Link to="/login">
             <CommonButton> Login </CommonButton>
             </Link>
