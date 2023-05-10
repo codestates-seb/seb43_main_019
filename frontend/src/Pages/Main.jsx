@@ -1,9 +1,6 @@
 import styled from "@emotion/styled";
 import { campgrounds } from "../Dummy/DummyDatas";
-import Campground from "../Components/Campground";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import Card from "../Components/Card";
 import Card2 from "../Components/Card2";
 
 const Loader = styled.h1`
@@ -17,9 +14,10 @@ const Loader = styled.h1`
 `;
 
 const Container = styled.main`
+  max-width: 1200px;
+  margin: 0 auto;
   width: 100%;
   height: auto;
-  padding-top: 100px;
   display: grid;
   grid-template-columns: 1fr;
   @media screen and (min-width: 900px) {
@@ -34,7 +32,8 @@ const Container = styled.main`
 
   gap: 20px;
   justify-items: center;
-  margin-bottom: 50px;
+  padding: 50px 0;
+  padding-top: 100px;
 `;
 
 const ScrollBtn = styled.div`
@@ -93,7 +92,6 @@ const options = {
 export default function Main() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const isDark = useSelector((state) => state.modeReducer);
 
   // 타겟 요소 지정
   let containerRef = useRef(null);

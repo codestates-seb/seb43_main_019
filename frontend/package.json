@@ -14,8 +14,9 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "framer-motion": "^10.12.8",
+    "axios": "^1.4.0",
     "date-fns": "^2.30.0",
+    "framer-motion": "^10.12.8",
     "jquery": "^3.6.4",
     "jquery-ui": "^1.13.2",
     "kakao-maps-sdk": "^1.0.1",
@@ -26,18 +27,19 @@
     "react-hook-form": "^7.43.9",
     "react-icons": "^4.8.0",
     "react-kakao-maps": "^0.0.13",
+    "react-modal": "^3.16.1",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.11.0",
     "react-scripts": "5.0.1",
     "redux": "^4.2.1",
-    "redux-persist": "^6.0.0",
-    "styled-components": "^5.3.10",
-    "web-vitals": "^2.1.4",
     "redux-devtools-extension": "^2.13.9",
-    "redux-thunk": "^2.3.0"
+    "redux-persist": "^6.0.0",
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^5.3.10",
+    "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "redux-mock-store": "^1.5.4"
+    "@emotion/babel-plugin": "^11.10.8"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -62,8 +64,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@emotion/babel-plugin": "^11.10.8"
   }
 }

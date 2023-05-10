@@ -5,6 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { users } from "../Dummy/DummyDatas";
 import { handleLogin } from "../Redux/Actions";
+import axios from "axios";
+import { useEffect } from "react";
+import { REST_API_KEY, REDIRECT_URI, JS_KEY } from "../secret";
+
+const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
 const Wrapper = styled.div`
   width: 100%;
@@ -26,6 +31,7 @@ const Form = styled.form`
   background-color: ${(props) =>
     props.isDark ? "var(--black-600)" : "var(--white-100)"};
   transition: all 0.5s linear;
+  margin-top: 20px;
 `;
 
 const Logo = styled.img`
@@ -81,8 +87,8 @@ const SocialLogin = styled.div`
   width: 150px;
   height: 50px;
   border-radius: 25px;
-  background-color: var(--emerald-600);
-  color: var(--white);
+  background-color: #f7e600;
+  color: #3a1d1d;
   border: none;
   margin-bottom: 20px;
   font-size: 15px;
@@ -104,34 +110,47 @@ export default function Login() {
   const navigate = useNavigate();
   const { register, handleSubmit, setFocus } = useForm();
 
+  const userState = useSelector((state) => state.userReducer);
   const isDark = useSelector((state) => state.modeReducer);
   const dispatch = useDispatch();
 
-  const handleSignIn = (data) => {
+  const handleSignIn = async (data) => {
     const { id, password } = data;
+    const loginInfo = { userId: id, password };
 
     // 로그인
+    try {
+      const result = await axios.post("http://localhost:4000/user/login", {
+        loginInfo,
+      });
 
-    // --- 테스트용 코드 ---
+      const userInfo = result.data;
 
-    const dummyUser = users[0];
+      dispatch(handleLogin(userInfo));
+    } catch (error) {
+      const { status } = error.response;
 
-    if (dummyUser.id !== id) {
-      alert("아이디가 일치하지 않습니다.");
+      if (status === 401) {
+        alert("Id 혹은 비밀번호를 잘못 입력하셨습니다.");
+      } else {
+        alert("잘못된 정보입니다.");
+      }
+
       return;
     }
-
-    if (dummyUser.password !== password + "") {
-      alert("비밀번호가 일치하지 않습니다.");
-      return;
-    }
-
-    dispatch(handleLogin(dummyUser));
-
-    // -----------
 
     navigate("/");
   };
+
+  const handleSocialLogin = () => {
+    window.location.href = KAKAO_AUTH_URL;
+  };
+
+  useEffect(() => {
+    if (userState.login) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <Wrapper>
@@ -160,7 +179,9 @@ export default function Login() {
           </Space>
           <Space pos={"end"}>
             <Button>Log In</Button>
-            <SocialLogin>네이버로 로그인</SocialLogin>
+            <SocialLogin onClick={() => handleSocialLogin()}>
+              카카오로 로그인
+            </SocialLogin>
           </Space>
         </Others>
       </Form>
