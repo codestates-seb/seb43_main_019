@@ -1,5 +1,6 @@
 package com.osdoor.aircamp.member.dto;
 
+import com.osdoor.aircamp.member.entity.Favorite;
 import com.osdoor.aircamp.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,4 +23,12 @@ public class MemberResponseDto {
     private Member.MemberShip memberShip;
     private String birthDate;
     private int usageCount;
+    private long favoriteId;
+    private boolean isEmailVerified;
+    private boolean isSellerVerified;
+    private String businessRegistrationNumber;
+    public void setFavorite(Favorite favorite) {
+        this.favoriteId = favorite.getFavoriteId();
+    }
+
 }

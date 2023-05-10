@@ -81,6 +81,11 @@ public class Member {
     @Column(name = "EMAIL_VERIFIED")
     private boolean isEmailVerified;
 
+    @Column
+    private boolean isSellerVerified;
+    @Column
+    private String businessRegistrationNumber;
+
     // enum 데이터
     public enum MemberStatus {
         MEMBER_ACTIVE("활동중"),

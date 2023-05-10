@@ -24,6 +24,11 @@ public class MemberPatchDto {
             message = "가능한 휴대폰 번호 유형은, [ 01? - 3자리 or 4자리 - 4자리 ] 만 가능합니다.") // 가능유형 : 앞자리=010,011,016~019 , 중간자리=3자리숫자or4자리숫자 , 마지막자리=4자리숫자
     private String phone;
 
+    private boolean isSellerVerified;
+    @Pattern(regexp = "^\\d{3}-\\d{2}-\\d{5}$",
+            message = "올바른 형식의 사업자등록번호를 입력해주세요. 333-22-55555 형식만 가능합니다.")
+    private String businessRegistrationNumber;
+
     public void setMemberId(long memberId) {
         this.memberId = memberId;
     }
