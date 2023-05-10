@@ -2,6 +2,7 @@ package com.osdoor.aircamp.member.service;
 
 import com.osdoor.aircamp.auth.utils.AuthorizationUtils;
 import com.osdoor.aircamp.auth.utils.CustomAuthorityUtils;
+import com.osdoor.aircamp.helper.email.VerificationEmail;
 import com.osdoor.aircamp.member.entity.Favorite;
 import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.exception.BusinessLogicException;
@@ -27,20 +28,27 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
     private final AuthorizationUtils authorizationUtils;
-
+    private final VerificationEmail verificationEmail;
+  
     public MemberService(MemberRepository memberRepository,
                          ApplicationEventPublisher publisher,
                          PasswordEncoder passwordEncoder,
-                         CustomAuthorityUtils authorityUtils, AuthorizationUtils authorizationUtils) {
+                         CustomAuthorityUtils authorityUtils, 
+                         AuthorizationUtils authorizationUtils,
+                         VerificationEmail verificationEmail) {
         this.memberRepository = memberRepository;
         this.publisher = publisher;
         this.passwordEncoder = passwordEncoder;
         this.authorityUtils = authorityUtils;
         this.authorizationUtils = authorizationUtils;
+        this.verificationEmail = verificationEmail;
     }
+  
     public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
         member.setFavorite(new Favorite());
+        member.setCreatedBy(member.getEmail());
+        member.setModifiedBy(member.getEmail());
 //        String token = generateVerificationToken();
 //        member.setVerificationToken(token);
 
@@ -98,6 +106,9 @@ public class MemberService {
         authorizationUtils.verifyAuthorizedMember(member.getEmail());
         member.setMemberStatus(Member.MemberStatus.MEMBER_QUIT); // 불러온 회원객체의 상태를 "탈퇴함"으로 수정한다.
         updateMember(member);
+    }
+    public String sendVerificationCode(String email) throws Exception {
+        return verificationEmail.sendMessage(email);
     }
 
     public Member findVerifiedMember(long memberId) {

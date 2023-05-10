@@ -2,6 +2,8 @@ package com.osdoor.aircamp.member.entity;
 
 import com.osdoor.aircamp.product.entity.Product;
 import com.osdoor.aircamp.reservation.entity.Reservation;
+
+import com.osdoor.aircamp.review.entity.Review;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -74,10 +76,9 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Reservation> reservations = new ArrayList<>();  // 유져의 예약 리스트.
 
-//    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-//    private List<Review> reviews = new ArrayList<>();  // 유져가 작성한 리뷰들.
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Review> reviews = new ArrayList<>();  // 유져가 작성한 리뷰들.
 
-//    private String verificationToken;
     @Column(name = "EMAIL_VERIFIED")
     private boolean isEmailVerified;
 

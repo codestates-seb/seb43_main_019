@@ -3,6 +3,7 @@ package com.osdoor.aircamp.product.entity;
 import com.osdoor.aircamp.audit.Auditable;
 import com.osdoor.aircamp.member.entity.Favorite;
 import com.osdoor.aircamp.member.entity.Member;
+import com.osdoor.aircamp.review.entity.Review;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -73,4 +75,7 @@ public class Product extends Auditable {
     private void onUpdate() {
         this.modifiedBy = SecurityContextHolder.getContext().getAuthentication().getName();
     }
+  
+    @OneToMany(mappedBy = "product")
+    private List<Review> reviews;
 }
