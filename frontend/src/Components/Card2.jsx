@@ -7,13 +7,15 @@ import { useState } from "react";
 
 const Container = styled.div`
   background-color: transparent;
-  width: 300px;
-  height: 400px;
+  width: 250px;
+  height: 350px;
   perspective: 1000px;
+  border-radius: 10px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  transition: border-radius 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   &:hover .inner {
-    transform: rotateY(180deg);
+    // transform: rotateY(180deg);
   }
 `;
 
@@ -30,32 +32,46 @@ const Front = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  padding: 5px;
   border-radius: 2em;
   backface-visibility: hidden;
   background-color: ${(props) =>
-    props.isDark ? "var(--black)" : "var(--white)"};
-  color: ${(props) => (props.isDark ? "var(--white)" : "var(--emerald-700)")};
-  border: 4px solid var(--emerald-700);
+    props.isDark ? "var(--white-50)" : "var(--white)"};
+  color: var(--black-700);
+  border: none;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const Img = styled.div`
+  display: flex;
+  align-items: center;
   border: none;
   border-radius: 30px;
-  width: 270px;
-  height: 270px;
+  width: 100%;
+  height: 200px;
   background-image: url(${(props) => props.bgphoto});
   background-size: cover;
   background-position: center;
+  border-bottom: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 `;
 
 const Name = styled.div`
-  margin-top: 50px;
-  font-size: 20px;
-  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 18px;
+`;
+
+const Selection = styled.div`
+  margin: 30px 0 10px 0;
+  font-size: 13px;
+  /* color : #DF2E38; */
+`;
+
+const Price = styled.div`
+  /* margin: 30px 0 10px 0; */
+  font-size: 25px;
 `;
 
 const Back = styled.div`
@@ -65,10 +81,9 @@ const Back = styled.div`
   border-radius: 2em;
   backface-visibility: hidden;
   background-color: ${(props) =>
-    props.isDark ? "var(--black)" : "var(--white)"};
-
-  border: 4px solid var(--emerald-700);
-  transform: rotateY(180deg);
+    props.isDark ? "var(--white-50)" : "var(--white)"};
+  border: none;
+  // transform: rotateY(180deg);
   padding: 11px;
 `;
 
@@ -78,45 +93,44 @@ const Info = styled.div`
   letter-spacing: 1px;
   display: grid;
   grid-template-rows: 3fr 1fr;
+  align-items: center;
+  justify-content: center;
+  text-align: center; // 추가
 `;
 
 const Descriptions = styled.div`
-  padding: 0 20px;
-  height: 300px;
-  display: grid;
-  grid-template-rows: 4fr 1fr;
-  color: ${(props) => (props.isDark ? "var(--white)" : "var(--emerald-700)")};
+  width: 250px;
+  padding: 0 10px;
+  /* height: 300px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center; // 추가
+  color: var(--black-700);
 `;
 
 const Description = styled.div`
-  font-size: ${(props) => props.fontSize};
+  font-size: 20px;
   display: flex;
   align-items: center;
-  justify-content: start;
-`;
-
-const PricePeriod = styled.div`
-  font-size: 15px;
-  display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: start;
+  text-align: center; // 추가
 `;
 
 const Icons = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  color: ${(props) => (props.isDark ? "var(--white)" : "var(--emerald-700)")};
+  color: var(--black-700);
+  margin-bottom: 100px;
 `;
 
 const Icon = styled(FontAwesomeIcon)`
-  font-size: 30px;
+  font-size: 25px;
   cursor: pointer;
 `;
 
-const loremIpsum =
-  "있으며, 심장의 그들은 얼마나 힘차게 길지 때문이다. 없는 있는 피가 따뜻한 못하다 붙잡아 피고 우리 말이다. 희망의 새 피에 같이 따뜻한 찾아 튼튼하며, 인간은 무한한 운다. 무엇이 웅대한 청춘에서만 갑 위하여, 칼이다. 같은 튼튼하며, 낙원을 이성은 품었기 인생에 몸이";
+const loremIpsum = "지금 바로 예약하세요!";
 
 export default function Card2({ campground }) {
   const isDark = useSelector((state) => state.modeReducer);
@@ -131,7 +145,7 @@ export default function Card2({ campground }) {
       case "seller":
         return `판매자: ${campground.seller}`;
       case "call":
-        return `전화번호: ${campground.call}`;
+        return `안심번호: ${campground.call}`;
       case "location":
         return `위치: ${campground.location}`;
       default:
@@ -144,19 +158,17 @@ export default function Card2({ campground }) {
       <Inner className="inner">
         <Front isDark={isDark}>
           <Img bgphoto={campground.img} />
+          <Selection>
+            {campground.selection},{campground.restriction}
+          </Selection>
           <Name>{campground.name}</Name>
+          <Price>{campground.price}</Price>
         </Front>
         <Back isDark={isDark}>
           <Info>
             <Link to={`/${campground.id}`}>
               <Descriptions isDark={isDark}>
-                <Description fontSize={infoType ? "20px" : "15px"}>
-                  {getInfo(infoType)}
-                </Description>
-                <PricePeriod>
-                  <span>{`₩ ${campground.price} / 박`}</span>
-                  <span>{campground.period}</span>
-                </PricePeriod>
+                <Description>{getInfo(infoType)}</Description>
               </Descriptions>
             </Link>
             <Icons isDark={isDark}>

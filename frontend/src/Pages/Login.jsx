@@ -146,6 +146,7 @@ export default function Login() {
   };
 
   useEffect(() => {
+    console.log(userState.login);
     if (userState.login) {
       navigate("/");
     }

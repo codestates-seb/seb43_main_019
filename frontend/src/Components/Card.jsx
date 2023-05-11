@@ -2,17 +2,17 @@ import styled from "@emotion/styled";
 import { useSelector } from "react-redux";
 
 const Container = styled.div`
-  position: relative;
-  background-color: ${(props) =>
-    props.isDark ? "var(--black)" : "var(--white)"};
-  width: 300px;
-  height: 400px;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 120ms;
-  overflow: hidden;
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
-    rgba(0, 0, 0, 0.22) 0px 15px 12px;
+ width: 250px;
+ height: 350px;
+ background: white;
+ border-radius: 10px;
+ transition: border-radius 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+ /* &:shadow {
+  box-shadow: inset 0 -3em 3em rgba(0,0,0,0.1),
+             0 0  0 2px rgb(190, 190, 190),
+             0.3em 0.3em 1em rgba(0,0,0,0.3);
+ } */
 
   &:active {
     transform: scale(0.95);
