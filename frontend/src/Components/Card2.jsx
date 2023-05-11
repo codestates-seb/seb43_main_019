@@ -15,9 +15,7 @@ const Container = styled.div`
   transition: border-radius 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   &:hover .inner {
-    transform: rotateY(180deg);
-
-
+    // transform: rotateY(180deg);
   }
 `;
 
@@ -36,7 +34,8 @@ const Front = styled.div`
   height: 100%;
   border-radius: 2em;
   backface-visibility: hidden;
-  background-color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--white)")};
+  background-color: ${(props) =>
+    props.isDark ? "var(--white-50)" : "var(--white)"};
   color: var(--black-700);
   border: none;
   display: flex;
@@ -57,13 +56,11 @@ const Img = styled.div`
   border-bottom: none;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-
-  
 `;
 
 const Name = styled.div`
   margin-bottom: 10px;
-  font-size: 18px
+  font-size: 18px;
 `;
 
 const Selection = styled.div`
@@ -83,9 +80,10 @@ const Back = styled.div`
   height: 100%;
   border-radius: 2em;
   backface-visibility: hidden;
-  background-color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--white)")};
+  background-color: ${(props) =>
+    props.isDark ? "var(--white-50)" : "var(--white)"};
   border: none;
-  transform: rotateY(180deg);
+  // transform: rotateY(180deg);
   padding: 11px;
 `;
 
@@ -104,24 +102,20 @@ const Descriptions = styled.div`
   width: 250px;
   padding: 0 10px;
   /* height: 300px; */
-  display: grid;
-  grid-template-rows: 4fr 1fr;
-  align-items: center;
+  display: flex;
   justify-content: center;
+  align-items: center;
   text-align: center; // 추가
   color: var(--black-700);
-  
 `;
 
 const Description = styled.div`
-  font-size: ${(props) => props.fontSize};
+  font-size: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center; // 추가
-  
 `;
-
 
 const Icons = styled.div`
   display: flex;
@@ -129,17 +123,14 @@ const Icons = styled.div`
   align-items: center;
   color: var(--black-700);
   margin-bottom: 100px;
-
 `;
 
 const Icon = styled(FontAwesomeIcon)`
   font-size: 25px;
   cursor: pointer;
-  
 `;
 
-const loremIpsum =
-  "지금 바로 예약하세요!"
+const loremIpsum = "지금 바로 예약하세요!";
 
 export default function Card2({ campground }) {
   const isDark = useSelector((state) => state.modeReducer);
@@ -167,7 +158,9 @@ export default function Card2({ campground }) {
       <Inner className="inner">
         <Front isDark={isDark}>
           <Img bgphoto={campground.img} />
-          <Selection>{campground.selection},{campground.restriction}</Selection>
+          <Selection>
+            {campground.selection},{campground.restriction}
+          </Selection>
           <Name>{campground.name}</Name>
           <Price>{campground.price}</Price>
         </Front>
@@ -175,9 +168,7 @@ export default function Card2({ campground }) {
           <Info>
             <Link to={`/${campground.id}`}>
               <Descriptions isDark={isDark}>
-                <Description fontSize={infoType ? "20px" : "15px"}>
-                  {getInfo(infoType)}
-                </Description>
+                <Description>{getInfo(infoType)}</Description>
               </Descriptions>
             </Link>
             <Icons isDark={isDark}>

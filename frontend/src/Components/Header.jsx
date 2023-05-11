@@ -53,11 +53,11 @@ const Line = styled.hr`
   width: 90%;
   margin: 0 auto;
   border: none;
-  border-top: 1px solid ${(props) => (props.isDark ? "var(--white)" : "var(--black-500)")};
+  border-top: 1px solid
+    ${(props) => (props.isDark ? "var(--white)" : "var(--black-500)")};
   margin-bottom: 0px;
   margin-top: 0px;
 `;
-
 
 const Logo = styled.img`
   height: 35px;
@@ -187,7 +187,7 @@ const Input = styled.input`
   width: 500px;
   background-color: var(--white-100);
   color: var(--black);
-  padding: .15rem .5rem;
+  padding: 0.15rem 0.5rem;
   min-height: 40px;
   border-radius: 4px;
   outline: none;
@@ -200,11 +200,10 @@ const Input = styled.input`
   background-repeat: no-repeat;
   background-position: right 10px center; */
 
-
   &:focus {
     border-bottom: 2px solid var(--black);
     border-radius: 4px 4px 2px 2px;
-    border-color : var(--black-700);
+    border-color: var(--black-700);
   }
   &:hover {
     outline: 1px solid lightgrey;
@@ -334,35 +333,35 @@ export default function Header() {
             <Logo src={isDark ? "/img/Logo_Dark.png" : "/img/Logo_Light.png"} />
             <Logo src="/img/Camp.png" />
           </Link>
-          {userState.login === false? (
-          <UserStatus>
-            <Link to="/login">
-            <CommonButton> Login </CommonButton>
-            </Link>
-            <Link to="/SignUp">
-            <CommonButton> SignUp </CommonButton>
-            </Link>
+          {userState.login === false ? (
+            <UserStatus>
+              <Link to="/login">
+                <CommonButton> Login</CommonButton>
+              </Link>
+              <Link to="/SignUp">
+                <CommonButton> SignUp </CommonButton>
+              </Link>
             </UserStatus>
-            ) : (        
-              <UserStatus  >
+          ) : (
+            <UserStatus>
               <CommonButton
                 onClick={() => {
-                handleSignOut();
-                navigate("/");
-                }}>
-                   Logout
+                  handleSignOut();
+                  navigate("/");
+                }}
+              >
+                Logout
               </CommonButton>
               <Link to="/Mypage">
-              <CommonButton> Mypage </CommonButton>
+                <CommonButton> Mypage </CommonButton>
               </Link>
-              </UserStatus>        
-            )}
+            </UserStatus>
+          )}
         </Top>
         <Bottom isDark={isDark}>
-
           <InputSpace>
-              <Input placeholder="Search..." />
-              </InputSpace>
+            <Input placeholder="Search..." />
+          </InputSpace>
 
           {/* {userState.login ? (
             <Menu pos={"top"}>
