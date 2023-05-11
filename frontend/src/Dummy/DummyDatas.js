@@ -132,3 +132,26 @@ export const users = [
     seller: true,
   },
 ];
+
+export const dummyChats = [
+  {
+    id: 1,
+    customer: false,
+    content: "크크크크킄크크크크크크크",
+  },
+  {
+    id: 2,
+    customer: true,
+    content: "크크크크킄크크크크크크크",
+  },
+  {
+    id: 3,
+    customer: true,
+    content: "크크크크킄크크크크크크크",
+  },
+  {
+    id: 4,
+    customer: true,
+    content: "크크크크킄크크크크크크크",
+  },
+];
