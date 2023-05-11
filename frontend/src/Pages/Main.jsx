@@ -1,7 +1,9 @@
 import styled from "@emotion/styled";
+import { useSelector } from "react-redux";
 import { campgrounds } from "../Dummy/DummyDatas";
 import { useEffect, useRef, useState } from "react";
 import Card2 from "../Components/Card2";
+import { FaChevronUp } from "react-icons/fa";
 
 const Loader = styled.h1`
   font-size: 50px;
@@ -33,19 +35,30 @@ const Container = styled.main`
   gap: 20px;
   justify-items: center;
   padding: 50px 0;
-  padding-top: 100px;
+  padding-top: 200px;
+`;
+
+const ContextArea = styled.div`
+  width: 100%;
+  margin-top: 50px;
+  position: absolute;
+  padding: 35px 0;
+  top: 0;
+  left: 0;
+`;
+
+const Title = styled.h2`
+  margin-left: 150px !important;
+  font-family: "Noto Sans KR", sans-serif;
+  color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--black-700)")};
 `;
 
 const ScrollBtn = styled.div`
   width: 120px;
   height: 70px;
-  border-radius: 10px;
-  background-color: green;
-  color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 30px;
   margin: 0 auto;
 `;
 
@@ -90,6 +103,7 @@ const options = {
 };
 
 export default function Main() {
+  const isDark = useSelector((state) => state.modeReducer);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -130,13 +144,16 @@ export default function Main() {
     <Loader>isLoading...</Loader>
   ) : (
     <>
+      <ContextArea isDark={isDark}>
+        <Title isDark={isDark}>지금 당장 캠핑을 떠나보세요.⛺</Title>
+      </ContextArea>
       <Container>
         {data.map((campground) => (
           <Card2 key={campground.id + ""} campground={campground} />
         ))}
       </Container>
       <ScrollBtn onClick={() => window.scrollTo(0, 0)} ref={containerRef}>
-        가장 위로
+      <FaChevronUp size={40} />
       </ScrollBtn>
     </>
   );
