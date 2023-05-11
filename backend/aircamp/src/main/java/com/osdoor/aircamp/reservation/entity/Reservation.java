@@ -2,18 +2,15 @@ package com.osdoor.aircamp.reservation.entity;
 
 import com.osdoor.aircamp.audit.Auditable;
 import com.osdoor.aircamp.member.entity.Member;
-import com.osdoor.aircamp.payment.entity.Payment;
 import com.osdoor.aircamp.product.entity.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @NoArgsConstructor
 @Getter
-@Setter
 @Entity(name = "RESERVATIONS")
 public class Reservation extends Auditable {
     @Id
@@ -32,23 +29,28 @@ public class Reservation extends Auditable {
     @Column(length = 100, nullable = false)
     private String reservationEmail; // 예약자 이메일
 
+    @Column(nullable = false)
+    private Integer usedRewardPoints; // 사용한 적립금
+
+    @Column(nullable = false)
+    private Integer actualPaymentAmount; // 실 결제 금액
+
+    @Column
+    private LocalDate paymentDate; // 결제일
+
     @Enumerated(EnumType.STRING)
     private ReservationStatus reservationStatus = ReservationStatus.RESERVATION_REQUEST;
 
     @Column(nullable = false)
     private boolean deleted = false;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRODUCT_ID")
     private Product product;
-
-    @OneToOne
-    @JoinColumn(name = "PAYMENT_ID")
-    private Payment payment;
 
     public void setMember(Member member) {
         this.member = member;
@@ -58,27 +60,8 @@ public class Reservation extends Auditable {
         this.product = product;
     }
 
-    public void setPayment(Payment payment) {
-        this.payment = payment;
-        payment.setReservation(this); // reservation <-> payment 간 양방향 연관관계 설정
-    }
-
-    public enum ReservationStatus {
-        RESERVATION_REQUEST(1, "예약 요청"), // TODO : 삭제해도 괜찮을지 멘토님께 물어보기
-        RESERVATION_IN_PROGRESS(2, "예약 진행 중"),
-        RESERVATION_COMPLETE(3, "예약 완료"),
-        RESERVATION_CANCEL(4, "예약 취소");
-
-        @Getter
-        private int stepNumber;
-
-        @Getter
-        private String stepDescription;
-
-        ReservationStatus(int stepNumber, String stepDescription) {
-            this.stepNumber = stepNumber;
-            this.stepDescription = stepDescription;
-        }
+    public void setReservationStatus(ReservationStatus reservationStatus) {
+        this.reservationStatus = reservationStatus;
     }
 }
 
