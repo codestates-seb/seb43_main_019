@@ -123,6 +123,16 @@ public class MemberService {
         if (member.isPresent())
             throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
     }
+    public Member reSignupMember(Member member) {
+        Member findMember = findVerifiedMember(member.getMemberId());
+
+        Optional.ofNullable(member.getMemberStatus())
+                .ifPresent(findMember::setMemberStatus);
+
+        findMember.setModifiedAt(LocalDateTime.now());
+
+        return memberRepository.save(findMember);
+    }
 
 //    private String generateVerificationToken() {
 //        // 랜덤한 문자열 생성

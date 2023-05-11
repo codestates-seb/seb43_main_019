@@ -66,12 +66,12 @@ public class Product extends Auditable {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @PrePersist
+    @PrePersist //앤티티가 생성되기전에 onCreate가 호출(초기화)를 해준다.
     private void onCreate() {
         this.createdBy = SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
-    @PreUpdate
+    @PreUpdate  //앤티티가 수정되기전에 onUpdate가 호출(초기화)된다.
     private void onUpdate() {
         this.modifiedBy = SecurityContextHolder.getContext().getAuthentication().getName();
     }
