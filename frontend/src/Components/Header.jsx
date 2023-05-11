@@ -334,7 +334,7 @@ export default function Header() {
             <Logo src={isDark ? "/img/Logo_Dark.png" : "/img/Logo_Light.png"} />
             <Logo src="/img/Camp.png" />
           </Link>
-          {userState.login ? (
+          {userState.login === false? (
           <UserStatus>
             <Link to="/login">
             <CommonButton> Login </CommonButton>

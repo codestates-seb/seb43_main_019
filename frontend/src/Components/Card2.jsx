@@ -101,6 +101,7 @@ const Info = styled.div`
 `;
 
 const Descriptions = styled.div`
+  width: 250px;
   padding: 0 10px;
   /* height: 300px; */
   display: grid;
