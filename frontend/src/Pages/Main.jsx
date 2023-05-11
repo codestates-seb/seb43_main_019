@@ -50,7 +50,7 @@ const ContextArea = styled.div`
 const Title = styled.h2`
   margin-left: 150px !important;
   font-family: "Noto Sans KR", sans-serif;
-  color: ${(props) => (props.isDark ? "var(--white)" : "var(--black-700)")};
+  color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--black-700)")};
 `;
 
 const ScrollBtn = styled.div`

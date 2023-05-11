@@ -17,11 +17,7 @@ const Container = styled.div`
   &:hover .inner {
     transform: rotateY(180deg);
 
-  &:shadow{
-    box-shadow: inset 0 -3em 3em rgba(0,0,0,0.1),
-             0 0  0 2px rgb(190, 190, 190),
-             0.3em 0.3em 1em rgba(0,0,0,0.3);
-  }
+
   }
 `;
 
@@ -40,8 +36,8 @@ const Front = styled.div`
   height: 100%;
   border-radius: 2em;
   backface-visibility: hidden;
-  background-color: var(--white);
-  color: ${(props) => (props.isDark ? "var(--black)" : "var(--black-700)")};
+  background-color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--white)")};
+  color: var(--black-700);
   border: none;
   display: flex;
   flex-direction: column;
@@ -87,7 +83,7 @@ const Back = styled.div`
   height: 100%;
   border-radius: 2em;
   backface-visibility: hidden;
-  background-color: var(--white);
+  background-color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--white)")};
   border: none;
   transform: rotateY(180deg);
   padding: 11px;
