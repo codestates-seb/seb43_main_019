@@ -3,6 +3,7 @@ package com.osdoor.aircamp.member.controller;
 import com.osdoor.aircamp.dto.SingleResponseDto;
 import com.osdoor.aircamp.member.dto.MemberPatchDto;
 import com.osdoor.aircamp.member.dto.MemberPostDto;
+import com.osdoor.aircamp.member.dto.ReSignUpDto;
 import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.helper.email.VerificationEmail;
 import com.osdoor.aircamp.member.mapper.MemberMapper;
@@ -49,6 +50,13 @@ public class MemberController {
                 , HttpStatus.OK);
     }
 
+    @PostMapping("/{memberId}") // 탈퇴회원의 재가입을 위한 api
+    public ResponseEntity reSignupMember(@PathVariable @Positive long memberId,
+                                   @Valid @RequestBody ReSignUpDto reSignUpDto) {
+        Member member = memberService.reSignupMember(mapper.reSighupDtoToMember(reSignUpDto));
+        return new ResponseEntity(mapper.memberToMemberResponseDto(member),HttpStatus.OK);
+    }
+
     @PatchMapping("/{memberId}")
     public ResponseEntity patchMember(@PathVariable @Positive long memberId,
                                       @Valid @RequestBody MemberPatchDto requestBody) {
@@ -65,7 +73,13 @@ public class MemberController {
 
         return new ResponseEntity(mapper.memberToMemberResponseDto(member), HttpStatus.OK);
     }
+    @GetMapping("/seller/{memberId}")
+    public ResponseEntity getBusinessNumber(@PathVariable @Positive long memberId) {
+        Member member = memberService.findMember(memberId);
+        String businessRegistrationNumber = member.getBusinessRegistrationNumber();
 
+        return new ResponseEntity(new SingleResponseDto<>(businessRegistrationNumber), HttpStatus.OK);
+    }
     @GetMapping
     public ResponseEntity getMembers() {
         List<Member> members = memberService.findMembers();
