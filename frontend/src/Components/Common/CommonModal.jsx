@@ -84,3 +84,8 @@ function CommonModal(props) {
 }
 
 export default CommonModal;
+
+
+// 사용예시
+// import { CommonModal } from "../Components/CommonModal";
+//  <CommonModal />

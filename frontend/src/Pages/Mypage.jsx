@@ -65,22 +65,26 @@ const Title = styled.h2`
   margin-bottom: 80px !important;
   margin-left: 360px !important;
   font-family: "Noto Sans KR", sans-serif;
+  color : ${(props) => (props.isDark ? "var( --white)" : "var(--black)")};
 `;
 
 const SellMent = styled.p`
   margin-top: 100px !important;
   margin-left: 360px !important;
   font-family: "Noto Sans KR", sans-serif;
+  color : ${(props) => (props.isDark ? "var( --white)" : "var(--black)")};
 `;
 
 const SellLink = styled.p`
   margin-left: 360px !important;
   font-family: "Noto Sans KR", sans-serif;
+  color : ${(props) => (props.isDark ? "var( --white)" : "var(--black)")};
 `;
 
 
 export default function Mypage() {
   const navigate = useNavigate();
+  const isDark = useSelector((state) => state.modeReducer);
   const userState = useSelector((state) => state.userReducer);
   const [MyModalOpen, setMyModalOpen] = useState(false);
   const [RsModalOpen, setRsModalOpen] = useState(false);
@@ -104,7 +108,7 @@ export default function Mypage() {
   return (
     <Wrapper>
       <UserArea>
-        <Title>OO님 안녕하세요☺️</Title>
+        <Title isDark={isDark}>OO님 안녕하세요☺️</Title>
       </UserArea>
       <ButtonArea>
         <div>
@@ -135,8 +139,8 @@ export default function Mypage() {
         </div>
       </ButtonArea>
       <SellArea>
-        <SellMent>판매상품을 원하신다면 아래 링크를 눌러주세요👇🏻</SellMent>
-        <SellLink>
+        <SellMent isDark={isDark}>판매상품을 원하신다면 아래 링크를 눌러주세요👇🏻</SellMent>
+        <SellLink isDark={isDark}>
           <a href="/sell">판매하러 가기↪️</a>
           </SellLink>
       </SellArea>

@@ -18,6 +18,7 @@ const variables = css`
   --black-500: rgb(203 213 225); // black light
   --black-600: rgb(71 85 105); // black primary
   --black-700: rgb(51 65 85); // black dark
+  --yellow: #f7e600;
 `;
 
 export default variables;

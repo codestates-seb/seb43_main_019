@@ -2,10 +2,10 @@ import styled from "@emotion/styled";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { useState } from "react";
 import { handleLogout } from "../Redux/Actions";
-import { CommonButton } from "../Components/Button";
+import { CommonButton } from "./Common/Button";
 
 const Container = styled.header`
   width: 100%;
@@ -50,7 +50,7 @@ const Bottom = styled.div`
 `;
 
 const Line = styled.hr`
-  width: 90%;
+  width: 100%;
   margin: 0 auto;
   border: none;
   border-top: 1px solid
@@ -80,52 +80,52 @@ const Logo = styled.img`
 //   }
 // `;
 
-const Menu = styled.ul`
-  @media screen and (min-width: 900px) {
-    max-width: 500px;
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    justify-items: center;
-    align-items: center;
-    display: ${(props) => props.pos === "bottom" && "none"};
-  }
+// const Menu = styled.ul`
+//   @media screen and (min-width: 900px) {
+//     max-width: 500px;
+//     width: 100%;
+//     height: 100%;
+//     display: grid;
+//     grid-template-columns: repeat(3, 1fr);
+//     justify-items: center;
+//     align-items: center;
+//     display: ${(props) => props.pos === "bottom" && "none"};
+//   }
 
-  @media screen and (max-width: 900px) {
-    width: 100%;
-    height: 210px;
-    display: grid;
-    grid-template-rows: repeat(5, 1fr);
-    background-color: ${(props) =>
-      props.isDark ? "var(--black-600)" : "var(--white-50)"};
-    display: ${(props) => props.pos === "top" && "none"};
-  }
-`;
+//   @media screen and (max-width: 900px) {
+//     width: 100%;
+//     height: 210px;
+//     display: grid;
+//     grid-template-rows: repeat(5, 1fr);
+//     background-color: ${(props) =>
+//       props.isDark ? "var(--black-600)" : "var(--white-50)"};
+//     display: ${(props) => props.pos === "top" && "none"};
+//   }
+// `;
 
-const Item = styled.li`
-  &:hover {
-    cursor: pointer;
-  }
+// const Item = styled.li`
+//   &:hover {
+//     cursor: pointer;
+//   }
 
-  color: ${(props) => (props.isDark ? "var( --white)" : "var(--black)")};
-  width: 100%;
-  font-size: 18px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
+//   color: ${(props) => (props.isDark ? "var( --white)" : "var(--black)")};
+//   width: 100%;
+//   font-size: 18px;
+//   font-weight: bold;
+//   display: flex;
+//   align-items: center;
 
-  @media screen and (min-width: 900px) {
-    height: 100%;
-    justify-content: center;
-  }
+//   @media screen and (min-width: 900px) {
+//     height: 100%;
+//     justify-content: center;
+//   }
 
-  @media screen and (max-width: 900px) {
-    height: 70px;
-    justify-content: start;
-    padding-left: 50px;
-  }
-`;
+//   @media screen and (max-width: 900px) {
+//     height: 70px;
+//     justify-content: start;
+//     padding-left: 50px;
+//   }
+// `;
 
 const UserStatus = styled.div`
   width: 200px;
@@ -136,8 +136,6 @@ const UserStatus = styled.div`
   align-items: center;
   position: absolute;
   right: 100px;
-  /* background-color: ${(props) =>
-    props.isDark ? "var(--black-700)" : "var(--white-50)"}; */
 
   @media screen and (max-width: 900px) {
     display: none;
@@ -148,29 +146,6 @@ const UserStatus = styled.div`
   }
 `;
 
-const MenuBtn = styled.div`
-  position: absolute;
-  right: 50px;
-  width: 60px;
-  height: 20px;
-  border-radius: 10px;
-  background-color: ${(props) =>
-    props.isDark ? "var(--black-600)" : "var(--white-50)"};
-  box-shadow: ${(props) =>
-      props.isDark ? "var(--black-600)" : "var(--white-50)"}
-    0px 3px 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  @media screen and (min-width: 900px) {
-    display: none;
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
-`;
 
 const InputSpace = styled.div`
   display: flex;
@@ -185,7 +160,7 @@ const InputSpace = styled.div`
 const Input = styled.input`
   max-width: 600px;
   width: 500px;
-  background-color: var(--white-100);
+  background-color: var(--white);
   color: var(--black);
   padding: 0.15rem 0.5rem;
   min-height: 40px;
@@ -239,73 +214,18 @@ const Input = styled.input`
 //   }
 // `;
 
-// const CancelIcon = styled(FontAwesomeIcon)`
-//   font-size: 30px;
-
-//   @media screen and (max-width: 900px) {
-//     position: absolute;
-//     right: 180px;
-//   }
-
-//   &:hover {
-//     cursor: pointer;
-//   }
-// `;
-
-// const ShortPage = styled.div`
-//   display: flex;
-//   align-items: center;
-
-//   @media screen and (min-width: 900px) {
-//     display: none;
-//   }
-// `;
-
-// const ShortPageIcon = styled(FontAwesomeIcon)`
-//   position: absolute;
-//   right: 180px;
-
-//   &:hover {
-//     cursor: pointer;
-//   }
-// `;
-
-const ShortPageInput = styled.input`
-  width: 100%;
-  height: 40px;
-  padding-left: 20px;
-
-  outline: none;
-  background: #e8e8e8;
-  box-shadow: 5px 5px 17px #c8c8c8, -5px -5px 17px #ffffff;
-  border: none;
-  border-radius: 10px;
-  transition: all 0.5s;
-
-  &:focus {
-    box-shadow: inset 5px 5px 17px #c8c8c8, inset -5px -5px 17px #ffffff;
-  }
-
-  @media screen and (min-width: 900px) {
-    display: none;
-  }
-
-  background-color: ${(props) =>
-    props.isDark ? "var(--black)" : "var(--white"};
-  color: ${(props) => (props.isDark ? "var(--white)" : "var(--black")};
-`;
 
 export default function Header() {
   const navigate = useNavigate();
-  const [showMenu, setShowMenu] = useState(false);
-  const [showInput, setShowInput] = useState(false);
+  // const [showMenu, setShowMenu] = useState(false);
+  // const [showInput, setShowInput] = useState(false);
   const isDark = useSelector((state) => state.modeReducer);
   const userState = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
 
-  const handleMenu = () => {
-    setShowMenu((prev) => !prev);
-  };
+  // const handleMenu = () => {
+  //   setShowMenu((prev) => !prev);
+  // };
 
   const handleSignOut = async () => {
     try {

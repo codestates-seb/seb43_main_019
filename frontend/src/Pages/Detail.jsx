@@ -6,7 +6,7 @@ import CampgroundInfo from "../Components/DetailInfo";
 import Map from "../Components/Map";
 import { campgrounds } from "../Dummy/DummyDatas";
 import { useParams } from "react-router-dom";
-import { CommonButton } from "../Components/Button";
+import { CommonButton } from "../Components/Common/Button";
 
 const Container = styled.div`
   display: flex;
