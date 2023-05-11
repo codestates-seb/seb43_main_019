@@ -40,6 +40,8 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'  // 매퍼 에너테이션 사용을 위해서 필요
 
     implementation 'org.springframework.boot:spring-boot-starter-mail' // 메일발송기능을 위해서 필요
+
+    implementation 'net.jodah:expiringmap:0.5.9' // 카카오페이 서비스에서 사용
 }
 
 tasks.named('test') {
