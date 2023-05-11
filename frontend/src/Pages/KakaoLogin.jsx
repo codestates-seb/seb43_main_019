@@ -29,6 +29,8 @@ export default function KakaoLogin() {
     });
     const userInfo = result.data;
 
+    console.log(userInfo);
+
     dispatch(handleLogin(userInfo));
 
     navigate("/");
