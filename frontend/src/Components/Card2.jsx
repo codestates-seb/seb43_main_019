@@ -15,7 +15,7 @@ const Container = styled.div`
   transition: border-radius 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   &:hover .inner {
-    // transform: rotateY(180deg);
+    transform: rotateY(180deg);
   }
 `;
 
@@ -83,7 +83,7 @@ const Back = styled.div`
   background-color: ${(props) =>
     props.isDark ? "var(--white-50)" : "var(--white)"};
   border: none;
-  // transform: rotateY(180deg);
+  transform: rotateY(180deg);
   padding: 11px;
 `;
 
