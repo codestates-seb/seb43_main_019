@@ -6,6 +6,7 @@ import com.osdoor.aircamp.exception.ExceptionCode;
 import com.osdoor.aircamp.member.service.MemberService;
 import com.osdoor.aircamp.product.service.ProductService;
 import com.osdoor.aircamp.reservation.entity.Reservation;
+import com.osdoor.aircamp.reservation.entity.ReservationStatus;
 import com.osdoor.aircamp.reservation.repository.ReservationRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -70,7 +71,7 @@ public class ReservationService {
         if (step == 4) {
             throw new BusinessLogicException(ExceptionCode.CANNOT_CANCEL_RESERVATION);
         }
-        findReservation.setReservationStatus(Reservation.ReservationStatus.RESERVATION_CANCEL);
+        findReservation.setReservationStatus(ReservationStatus.RESERVATION_CANCEL);
         reservationRepository.save(findReservation);
     }
 
@@ -92,6 +93,11 @@ public class ReservationService {
 
     private Reservation saveReservation(Reservation reservation) {
         return reservationRepository.save(reservation);
+    }
+
+    public void completeReservation(Long reservationId) {
+        Reservation reservation = findReservation(reservationId);
+        reservation.setReservationStatus(ReservationStatus.RESERVATION_COMPLETE);
     }
 }
 

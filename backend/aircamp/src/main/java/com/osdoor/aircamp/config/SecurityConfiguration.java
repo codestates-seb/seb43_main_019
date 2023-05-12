@@ -1,5 +1,6 @@
 package com.osdoor.aircamp.config;
 
+import com.osdoor.aircamp.auth.oauth2.CustomOAuth2UserService;
 import com.osdoor.aircamp.auth.filter.JwtAuthenticationFilter;
 import com.osdoor.aircamp.auth.filter.JwtVerificationFilter;
 import com.osdoor.aircamp.auth.handler.MemberAccessDeniedHandler;
@@ -33,6 +34,7 @@ public class SecurityConfiguration {
 
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -66,8 +68,10 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.PATCH, "/api/reservations/**").hasRole("USER")
                         .antMatchers(HttpMethod.GET, "/api/reservations/**").hasAnyRole("USER", "ADMIN")
                         .antMatchers(HttpMethod.DELETE, "/api/reservations/**").hasRole("USER")
-                        .anyRequest().permitAll()
-                );
+                        .anyRequest().permitAll())
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService);
 
         return http.build();
     }

@@ -3,6 +3,7 @@ package com.osdoor.aircamp.member.controller;
 import com.osdoor.aircamp.dto.SingleResponseDto;
 import com.osdoor.aircamp.member.dto.MemberPatchDto;
 import com.osdoor.aircamp.member.dto.MemberPostDto;
+import com.osdoor.aircamp.member.dto.ReSignUpDto;
 import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.helper.email.VerificationEmail;
 import com.osdoor.aircamp.member.mapper.MemberMapper;
@@ -47,6 +48,13 @@ public class MemberController {
     public ResponseEntity mailConfirm(@RequestParam("email") String email) throws Exception {
         return new ResponseEntity(new SingleResponseDto<>(memberService.sendVerificationCode(email))
                 , HttpStatus.OK);
+    }
+
+    @PostMapping("/{memberId}") // 탈퇴회원의 재가입을 위한 api
+    public ResponseEntity reSignupMember(@PathVariable @Positive long memberId,
+                                   @Valid @RequestBody ReSignUpDto reSignUpDto) {
+        Member member = memberService.reSignupMember(mapper.reSighupDtoToMember(reSignUpDto));
+        return new ResponseEntity(mapper.memberToMemberResponseDto(member),HttpStatus.OK);
     }
 
     @PatchMapping("/{memberId}")
