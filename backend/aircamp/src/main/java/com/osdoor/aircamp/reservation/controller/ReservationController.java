@@ -45,17 +45,17 @@ public class ReservationController {
     }
 
     // 예약을 수정
-    @PatchMapping("/{reservation-id}")
-    public ResponseEntity patchReservation(@PathVariable("reservation-id") @Positive long reservationId,
-                                           @Valid @RequestBody ReservationPatchDto reservationPatchDto) {
-        reservationPatchDto.setReservationId(reservationId);
-        Reservation reservation =
-                reservationService.updateReservation(mapper.reservationPatchDtoToReservation(reservationPatchDto));
-
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.reservationToReservationResponseDto(reservation))
-                , HttpStatus.OK);
-    }
+//    @PatchMapping("/{reservation-id}")
+//    public ResponseEntity patchReservation(@PathVariable("reservation-id") @Positive long reservationId,
+//                                           @Valid @RequestBody ReservationPatchDto reservationPatchDto) {
+//        reservationPatchDto.setReservationId(reservationId);
+//        Reservation reservation =
+//                reservationService.updateReservation(mapper.reservationPatchDtoToReservation(reservationPatchDto));
+//
+//        return new ResponseEntity<>(
+//                new SingleResponseDto<>(mapper.reservationToReservationResponseDto(reservation))
+//                , HttpStatus.OK);
+//    }
 
     // 예약을 조회
     @GetMapping("/{reservation-id}")
