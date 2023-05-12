@@ -8,6 +8,7 @@ import RsModal from "../Components/Modal/RsModal";
 import SeModal from "../Components/Modal/SeModal";
 
 const Wrapper = styled.div`
+  max-width: 1200px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -23,6 +24,8 @@ const ButtonArea = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  margin-left: 250px;
+  align-items: center;
   flex-direction: row;
 `;
 
