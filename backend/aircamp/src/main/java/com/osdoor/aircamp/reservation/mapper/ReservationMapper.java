@@ -11,7 +11,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ReservationMapper {
-    Reservation reservationPatchDtoToReservation(ReservationPatchDto reservationPatchDto);
+//    Reservation reservationPatchDtoToReservation(ReservationPatchDto reservationPatchDto);
     List<ReservationResponseDto> reservationsToReservationResponseDtos(List<Reservation> reservations);
     
     default Reservation reservationPostDtoToReservation(ReservationPostDto reservationPostDto) {
