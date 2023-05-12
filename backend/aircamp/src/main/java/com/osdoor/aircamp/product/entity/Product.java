@@ -8,10 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -41,7 +40,7 @@ public class Product extends Auditable {
     private Integer capacity;
 
     @Column(nullable = false)
-    private LocalDateTime cancellationDeadline;
+    private LocalDate cancellationDeadline;
 
     @Column(nullable = false)
     private Integer productPrice;
