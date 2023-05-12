@@ -2,7 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.11'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-	id 'org.asciidoctor.convert' version '2.2.1'
+	id "org.asciidoctor.jvm.convert" version "3.3.2"    // (1)
 }
 
 group = 'com.osdoor'
@@ -24,16 +24,30 @@ ext {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'com.mysql:mysql-connector-j'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-	testImplementation 'org.springframework.security:spring-security-test'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    implementation 'org.springframework.boot:spring-boot-starter-validation' // 유효성 검증을 위해서 필요
+    implementation 'org.mapstruct:mapstruct:1.4.2.Final'   // 매퍼 에너테이션 사용을 위해서 필요
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'  // 매퍼 에너테이션 사용을 위해서 필요
+
+    implementation 'org.springframework.boot:spring-boot-starter-mail' // 메일발송기능을 위해서 필요
+
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly	'io.jsonwebtoken:jjwt-jackson:0.11.5' // Jwt 적용을 위한 추가
+    
+    implementation 'net.jodah:expiringmap:0.5.9' // 카카오페이 서비스에서 사용
+
 }
 
 tasks.named('test') {
