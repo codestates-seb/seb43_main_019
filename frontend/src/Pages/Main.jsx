@@ -69,32 +69,7 @@ const TempWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
-/*
-공부용
-const TempCard = styled.div`
-  width: 200px;
-  height: 300px;
-  background-color: white;
-  position: relative;
-  overflow: hidden;
 
-  &::after {
-    content: "Add to Cart";
-    position: absolute;
-    bottom: -50%;
-    left: 0;
-    padding-left: 15px;
-    background: #181818;
-    width: 100%;
-    height: 60px;
-    color: #fff;
-    line-height: 50px;
-    text-transform: uppercase;
-    z-index: 2;
-    transition: all 0.2s ease-in;
-  }
-`;
-*/
 // 관측에 적용할 수 있는 옵션
 const options = {
   root: null,

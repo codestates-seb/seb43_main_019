@@ -2,6 +2,8 @@ import { useSelector } from "react-redux";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
+import { CommonButton } from "../Components/Common/Button";
+import { Input, AuthCodeInput } from "../Components/Common/Input";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -12,79 +14,56 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const Logo = styled.img`
+const Form = styled.div`
+  max-width: 450px;
   width: 80%;
-  margin-bottom: 50px;
+  padding: 0 15px;
+  text-align: center;
+  background-color: ${(props) =>
+    props.isDark ? "var(--white-50)" : "var(--white)"};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  border-radius: 20px;
+  border: 1px solid var(--black-500);
+  margin-top: 80px;
+  padding-bottom: 30px;
 `;
 
-const Form = styled.div`
-  max-width: 600px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30px 0;
-  border-radius: 20px;
-  background-color: ${(props) =>
-    props.isDark ? "var(--black-600)" : "var(--white-100)"};
-  transition: all 0.5s linear;
+const Logo = styled.img`
+  width: auto;
+  height: 90px;
+  padding-top: 50px;
+  margin-bottom: 20px;
 `;
 
 const TypeBtns = styled.div`
   width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: space-around;
+  align-items: start;
+  flex-direction: column;
+  margin-left: 120px;
+  /* justify-content: space-around; */
 `;
 
-const TypeBtn = styled.div`
-  cursor: pointer;
-  width: 150px;
-  height: 50px;
-  background-color: var(--emerald-600);
-  color: var(--white);
-  border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
-  border: ${(props) => props.current && "5px solid purple"};
-`;
-
-const Input = styled.input`
-  width: 80%;
-  height: 70px;
+const TypeBtn = styled.button`
+  position: relative;
+  overflow: hidden;
   border: none;
-  padding-left: 20px;
-  font-size: 20px;
-  border-radius: 70px;
-  margin-bottom: 20px;
-  border: 1px solid var(--gray-400);
-  background-color: ${(props) =>
-    props.isDark ? "var(--black)" : "var(--white)"};
-  color: ${(props) => (props.isDark ? "var(--white)" : "var(--black)")};
-  transition: all 0.5s linear;
-
-  &:hover {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  }
-`;
-
-const SubmitBtn = styled.div`
+  color: var(--black-700);
+  display: inline-block;
+  font-size: 13px;
+  line-height: 13px;
+  /* padding: 16px 16px 15px; */
+  text-decoration: none;
   cursor: pointer;
-  width: 150px;
-  height: 50px;
-  border-radius: 25px;
-  background-color: ${(props) =>
-    props.disabled ? "gray" : "var(--emerald-600)"};
-  color: var(--white);
-  border: none;
-  margin-bottom: 20px;
-  font-size: 15px;
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background: var(--white);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin-right: 10px;
 `;
 
 const AuthCodeLine = styled.div`
@@ -93,37 +72,6 @@ const AuthCodeLine = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
-
-const AuthCodeInput = styled.input`
-  width: 70%;
-  height: 70px;
-  border: 1px solid var(--gray-400);
-  outline: none;
-  padding-left: 20px;
-  font-size: 15px;
-  border-radius: 70px;
-  background-color: ${(props) =>
-    props.isDark ? "var(--black)" : "var(--white)"};
-  color: ${(props) => (props.isDark ? "var(--white)" : "var(--black)")};
-  transition: all 0.5s linear;
-  &:hover {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  }
-`;
-
-const AuthCodeBtn = styled.div`
-  width: 100px;
-  height: 50px;
-  border-radius: 20px;
-  background-color: var(--emerald-600);
-  color: var(--white);
-  font-size: 15px;
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
 `;
 
 const tempCode = "12345";
@@ -201,20 +149,27 @@ export default function AccountSearch() {
   return (
     <Wrapper>
       <Form isDark={isDark}>
-        <Logo src={isDark ? "/img/Logo_Dark.png" : "/img/Logo_Light.png"} />
+      <div>
+        <Logo src={"/img/Logo_Light.png"} />
+        <Logo src="/img/Camp.png"/>
+        </div>
         <TypeBtns>
+          <div>
           <TypeBtn
             onClick={() => handleType(findType, "id")}
             current={findType === "id"}
           >
             아이디 찾기
           </TypeBtn>
+          </div>
+          <div>
           <TypeBtn
             onClick={() => handleType(findType, "password")}
             current={findType === "password"}
           >
             비밀번호 찾기
           </TypeBtn>
+          </div>
         </TypeBtns>
         {findType === "id" ? (
           <Input
@@ -238,9 +193,9 @@ export default function AccountSearch() {
           type="email"
           placeholder="이메일을 입력하세요."
         />
-        <SubmitBtn onClick={handleSubmit} disabled={authRequired}>{`${
+        <CommonButton onClick={handleSubmit} disabled={authRequired}>{`${
           findType === "id" ? "아이디" : "비밀번호"
-        } 찾기`}</SubmitBtn>
+        } 찾기`}</CommonButton>
         {authRequired && (
           <AuthCodeLine>
             <AuthCodeInput
@@ -248,7 +203,7 @@ export default function AccountSearch() {
               onChange={(event) => setCode((prev) => event.target.value)}
               placeholder="인증번호를 입력하세요."
             />
-            <AuthCodeBtn onClick={handleAuth}>확인</AuthCodeBtn>
+            <CommonButton onClick={handleAuth}>확인</CommonButton>
           </AuthCodeLine>
         )}
       </Form>

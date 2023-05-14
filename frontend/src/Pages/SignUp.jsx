@@ -4,6 +4,9 @@ import styled from "@emotion/styled";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { CommonButton } from "../Components/Common/Button";
+import { Input, AuthCodeInput } from "../Components/Common/Input";
+import { Label } from "../Components/Common/Label";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -14,22 +17,28 @@ const Wrapper = styled.div`
 `;
 
 const Form = styled.form`
-  max-width: 600px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30px 0;
-  border-radius: 20px;
+  max-width: 450px;
+  width: 80%;
+  padding: 0 15px;
+  text-align: center;
   background-color: ${(props) =>
-    props.isDark ? "var(--black-600)" : "var(--white-100)"};
-  transition: all 0.5s linear;
-  margin-top: 20px;
+    props.isDark ? "var(--white-50)" : "var(--white)"};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  border-radius: 20px;
+  border: 1px solid var(--black-500);
+  margin-top: 80px;
+  padding-bottom: 30px;
 `;
 
 const Logo = styled.img`
-  width: 80%;
-  margin-bottom: 50px;
+  width: auto;
+  height: 90px;
+  padding-top: 50px;
+  margin-bottom: 20px;
 `;
 
 const Line = styled.div`
@@ -43,52 +52,6 @@ const Line = styled.div`
   }
 `;
 
-const Label = styled.label`
-  width: 100px;
-  font-size: 15px;
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: ${(props) => (props.isDark ? "var(--white)" : "var(--black)")};
-  @media screen and (max-width: 900px) {
-    display: none;
-  }
-`;
-
-const Input = styled.input`
-  width: 80%;
-  height: 70px;
-  border: 1px solid var(--gray-400);
-  outline: none;
-  padding-left: 20px;
-  font-size: 15px;
-  border-radius: 70px;
-  background-color: ${(props) =>
-    props.isDark ? "var(--black)" : "var(--white)"};
-  color: ${(props) => (props.isDark ? "var(--white)" : "var(--black)")};
-  transition: all 0.5s linear;
-  &:hover {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  }
-
-  @media screen and (max-width: 900px) {
-    width: 100%;
-  }
-`;
-
-const Button = styled.button`
-  width: 100px;
-  height: 50px;
-  border: none;
-  border-radius: 20px;
-  background-color: ${(props) =>
-    props.disabled ? "gray" : "var(--emerald-600)"};
-  color: var(--white);
-  font-size: 15px;
-  font-weight: bold;
-`;
-
 const AuthCodeLine = styled.div`
   width: 80%;
   margin-top: 20px;
@@ -97,35 +60,6 @@ const AuthCodeLine = styled.div`
   align-items: center;
 `;
 
-const AuthCodeInput = styled.input`
-  width: 70%;
-  height: 70px;
-  border: 1px solid var(--gray-400);
-  outline: none;
-  padding-left: 20px;
-  font-size: 15px;
-  border-radius: 70px;
-  background-color: ${(props) =>
-    props.isDark ? "var(--black)" : "var(--white)"};
-  color: ${(props) => (props.isDark ? "var(--white)" : "var(--black)")};
-  transition: all 0.5s linear;
-  &:hover {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  }
-`;
-
-const AuthCodeBtn = styled.div`
-  width: 100px;
-  height: 50px;
-  border-radius: 20px;
-  background-color: var(--emerald-600);
-  color: var(--white);
-  font-size: 15px;
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
 const tempCode = "12345";
 
@@ -253,7 +187,10 @@ export default function SignUp() {
   return (
     <Wrapper isDark={isDark}>
       <Form isDark={isDark} onSubmit={handleSubmit(handleJoin)}>
-        <Logo src={isDark ? "/img/Logo_Dark.png" : "/img/Logo_Light.png"} />
+      <div>
+        <Logo src={"/img/Logo_Light.png"} />
+        <Logo src="/img/Camp.png"/>
+        </div>
         <Line>
           <Label isDark={isDark} htmlFor="id">
             ID
@@ -333,9 +270,9 @@ export default function SignUp() {
             {...register("email", { required: true })}
           />
         </Line>
-        <Button disabled={authRequired}>
+        <CommonButton disabled={authRequired}>
           {isEmailVerified ? "회원가입" : "이메일 인증"}
-        </Button>
+        </CommonButton>
         {authRequired && (
           <AuthCodeLine>
             <AuthCodeInput
@@ -343,9 +280,9 @@ export default function SignUp() {
               onChange={handleCode}
               placeholder="인증번호를 입력하세요."
             />
-            <AuthCodeBtn onClick={() => handleVerificationSubmit()}>
+            <CommonButton onClick={() => handleVerificationSubmit()}>
               확인
-            </AuthCodeBtn>
+            </CommonButton>
           </AuthCodeLine>
         )}
       </Form>

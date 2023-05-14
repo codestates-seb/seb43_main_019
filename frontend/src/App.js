@@ -19,6 +19,7 @@ import { handleLogin, handleLogout } from "./Redux/Actions";
 import KakaoLogin from "./Pages/KakaoLogin";
 import { JS_KEY } from "./secret";
 import Profile from "./Pages/Profile";
+import Chat from "./Components/Chat";
 
 // 모든 요청에 withCredentials가 true로 설정됩니다.
 axios.defaults.withCredentials = true;
@@ -46,30 +47,30 @@ function App() {
   const isDark = useSelector((state) => state.modeReducer);
   const dispatch = useDispatch();
 
-  // const authHandler = async () => {
-  //   try {
-  //     const result = await axios.get("http://localhost:4000/user/userInfo");
+  const authHandler = async () => {
+    try {
+      const result = await axios.get("http://localhost:4000/user/userInfo");
 
-  //     const userInfo = result.data;
+      const userInfo = result.data;
 
-  //     if (userInfo.id) {
-  //       dispatch(handleLogin(userInfo));
-  //     } else {
-  //       // 혹시 모를 이유로 제대로 로그인이 되어 있지 않은 상황일 경우
-  //       dispatch(handleLogout());
-  //     }
+      if (userInfo.id) {
+        dispatch(handleLogin(userInfo));
+      } else {
+        // 혹시 모를 이유로 제대로 로그인이 되어 있지 않은 상황일 경우
+        dispatch(handleLogout());
+      }
 
-  //     dispatch(handleLogin(userInfo));
-  //   } catch (error) {
-  //     return;
-  //   }
-  // };
+      dispatch(handleLogin(userInfo));
+    } catch (error) {
+      return;
+    }
+  };
 
-  // useEffect(() => {
-  //   (async () => {
-  //     authHandler();
-  //   })();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      authHandler();
+    })();
+  }, []);
 
   return (
     <Wrapper>
@@ -90,6 +91,7 @@ function App() {
         </Routes>
       </Container>
       <ModeBtn />
+      <Chat />
     </Wrapper>
   );
 }
