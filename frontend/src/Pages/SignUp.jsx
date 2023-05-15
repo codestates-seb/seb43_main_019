@@ -3,10 +3,16 @@ import { useSelector } from "react-redux";
 import styled from "@emotion/styled";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { CommonButton } from "../Components/Common/Button";
 import { Input, AuthCodeInput } from "../Components/Common/Input";
 import { Label } from "../Components/Common/Label";
+import { getToday } from "../utils/functions";
+import {
+  checkValidPassword,
+  checkValidPhone,
+  getEmailCode,
+  handleJoin,
+} from "../utils/MemberFunctions";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -60,28 +66,13 @@ const AuthCodeLine = styled.div`
   align-items: center;
 `;
 
-
-const tempCode = "12345";
-
-// 현재 날짜를 문자열로 반환하는 함수
-// 예) "2023-05-06"
-const getToday = () => {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = ("0" + (date.getMonth() + 1)).slice(-2);
-  const day = ("0" + date.getDate()).slice(-2);
-  const dateString = year + "-" + month + "-" + day;
-
-  return dateString;
-};
-
 export default function SignUp() {
   const navigate = useNavigate();
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [code, setCode] = useState("");
   const [today, setToday] = useState("");
   const [authRequired, setAuthRequired] = useState(false);
-  const { register, handleSubmit, setFocus } = useForm();
+  const { register, handleSubmit, setFocus, watch } = useForm();
   const isDark = useSelector((state) => state.modeReducer);
   const userState = useSelector((state) => state.userReducer);
 
@@ -95,12 +86,21 @@ export default function SignUp() {
   };
 
   // 이미 존재하는 회원인 경우. true: 중복 / false: 중복 아님
-  const checkDuplicateUser = (name, callNumber, birthDate, email) => {
+  const checkDuplicateUser = (name, phone, birthDate, email) => {
     return false;
   };
 
-  const handleVerificationSubmit = () => {
-    if (code === tempCode) {
+  const handleVerificationSubmit = async () => {
+    const email = watch("email");
+
+    const authCode = await getEmailCode(email);
+
+    if (authCode === null) {
+      alert("인증코드 발송에 실패했습니다.");
+      return;
+    }
+
+    if (code === authCode) {
       alert("인증 성공!");
       setIsEmailVerified((prev) => true);
       setAuthRequired((prev) => false);
@@ -110,9 +110,8 @@ export default function SignUp() {
     }
   };
 
-  const handleJoin = async (data) => {
-    const { id, password, password2, name, callNumber, birthDate, email } =
-      data;
+  const handleStartJoin = async (data) => {
+    const { id, password, password2, name, phone, birthDate, email } = data;
 
     // 이미 존재하는 아이디인 경우
     if (checkDuplicateId(id)) {
@@ -122,7 +121,7 @@ export default function SignUp() {
     }
 
     // 이미 회원가입한 경우
-    if (checkDuplicateUser(name, callNumber, birthDate, email)) {
+    if (checkDuplicateUser(name, phone, birthDate, email)) {
       alert("이미 회원 등록이 되어있습니다.");
       navigate("/login");
       return;
@@ -147,31 +146,34 @@ export default function SignUp() {
       return;
     }
 
+    if (checkValidPassword(password) === false) {
+      alert("비밀번호 양식이 맞지 않습니다.");
+      return;
+    }
+
+    if (checkValidPhone(phone) === false) {
+      alert("전화번호 양식이 맞지 않습니다.");
+      return;
+    }
+
     const joinInfo = {
-      userId: id,
-      password,
       name,
-      callNumber,
-      birthDate,
       email,
-      seller: false,
+      birthDate,
+      password,
+      phone,
+      isEmailVerified: true,
+      isSellerVerified: false,
+      businessRegistrationNumber: false,
     };
 
-    try {
-      await axios.post("http://localhost:4000/user/join", {
-        joinInfo,
-      });
+    const success = await handleJoin(joinInfo);
 
+    if (success === true) {
       alert("성공!");
       navigate("/login");
-
-      return;
-    } catch (error) {
-      const { status } = error.response;
-
-      alert(status);
-
-      return;
+    } else {
+      alert("회원가입에 실패했습니다.");
     }
   };
 
@@ -186,10 +188,10 @@ export default function SignUp() {
 
   return (
     <Wrapper isDark={isDark}>
-      <Form isDark={isDark} onSubmit={handleSubmit(handleJoin)}>
-      <div>
-        <Logo src={"/img/Logo_Light.png"} />
-        <Logo src="/img/Camp.png"/>
+      <Form isDark={isDark} onSubmit={handleSubmit(handleStartJoin)}>
+        <div>
+          <Logo src={"/img/Logo_Light.png"} />
+          <Logo src="/img/Camp.png" />
         </div>
         <Line>
           <Label isDark={isDark} htmlFor="id">
@@ -242,10 +244,10 @@ export default function SignUp() {
             전화번호
           </Label>
           <Input
-            id="callNumber"
+            id="phone"
             isDark={isDark}
-            placeholder="'-'를 제외한 전화번호를 입력하세요."
-            {...register("callNumber", { required: true })}
+            placeholder="'-'를 포함한 전화번호를 입력하세요."
+            {...register("phone", { required: true })}
           />
         </Line>
         <Line htmlFor="birthDate">

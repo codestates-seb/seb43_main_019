@@ -8,7 +8,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { REST_API_KEY, REDIRECT_URI } from "../secret";
 import { LoginButton, SocialLogin } from "../Components/Common/Button";
-import { handleStartLogin } from "../utils/functions";
+import { handleStartLogin } from "../utils/MemberFunctions";
 
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
@@ -100,7 +100,7 @@ const KakaoImg = styled.img`
 
 export default function Login() {
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, watch } = useForm();
 
   const userState = useSelector((state) => state.userReducer);
   const isDark = useSelector((state) => state.modeReducer);
@@ -146,8 +146,9 @@ export default function Login() {
         <Input
           isDark={isDark}
           id="id"
-          placeholder="아이디를 입력해주세요."
-          {...register("id", { required: true })}
+          type="email"
+          placeholder="이메일을 입력해주세요."
+          {...register("email", { required: true })}
         />
         <Input
           isDark={isDark}

@@ -143,13 +143,13 @@ export default function Card2({ campground }) {
   const getInfo = (type) => {
     switch (type) {
       case "seller":
-        return `판매자: ${campground.seller}`;
+        return `판매자: 수정필요!`;
       case "call":
-        return `안심번호: ${campground.call}`;
+        return `안심번호: ${campground.productPhone}`;
       case "location":
         return `위치: ${campground.location}`;
       default:
-        return loremIpsum;
+        return campground.content;
     }
   };
 
@@ -157,12 +157,18 @@ export default function Card2({ campground }) {
     <Container>
       <Inner className="inner">
         <Front isDark={isDark}>
-          <Img bgphoto={campground.img} />
+          <Img
+            bgphoto={
+              campground.imageUrl === "http://~"
+                ? "https://yeyak.seoul.go.kr/cmsdata/web_upload/svc/20230329/1680050914280HZAYFX8GLLMTVZI2H6BD0WGPV_IM02.jpg"
+                : campground.imageUrl
+            }
+          />
           <Selection>
-            {campground.selection},{campground.restriction}
+            {campground.capacity},{campground.productPrice}
           </Selection>
-          <Name>{campground.name}</Name>
-          <Price>{campground.price}</Price>
+          <Name>{campground.productName}</Name>
+          <Price>{campground.productPrice}</Price>
         </Front>
         <Back isDark={isDark}>
           <Info>
