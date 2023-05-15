@@ -10,6 +10,7 @@ import { REST_API_KEY, REDIRECT_URI } from "../secret";
 import { LoginButton, SocialLogin } from "../Components/Common/Button";
 import { handleStartLogin } from "../utils/MemberFunctions";
 
+
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
 const Wrapper = styled.div`

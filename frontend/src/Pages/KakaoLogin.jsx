@@ -28,8 +28,7 @@ export default function KakaoLogin() {
     const userInfo = await handleKakaoLogin(KAKAO_CODE);
 
     // dispatch(handleLogin(userInfo));
-
-    // navigate("/");
+    navigate("/");
   };
 
   useEffect(() => {
