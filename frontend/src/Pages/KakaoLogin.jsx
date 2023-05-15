@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { handleLogin } from "../Redux/Actions";
-import { handleKakaoLogin } from "../utils/functions";
+import { handleKakaoLogin } from "../utils/MemberFunctions";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -27,11 +27,8 @@ export default function KakaoLogin() {
   const getKakaoToken = async () => {
     const userInfo = await handleKakaoLogin(KAKAO_CODE);
 
-    console.log(userInfo);
-
     // dispatch(handleLogin(userInfo));
-
-    // navigate("/");
+    navigate("/");
   };
 
   useEffect(() => {
