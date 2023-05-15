@@ -10,6 +10,7 @@ import SeModal from "../Components/Modal/SeModal";
 const Wrapper = styled.div`
   max-width: 1200px;
   width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -148,10 +149,10 @@ export default function Mypage() {
       </ButtonArea>
       <SellArea>
         <SellMent isDark={isDark}>
-          판매상품을 원하신다면 아래 링크를 눌러주세요👇🏻
+          판매등록을 원하신다면 아래 링크를 눌러주세요👇🏻
         </SellMent>
         <SellLink isDark={isDark}>
-          <a href="/sell">판매하러 가기↪️</a>
+          <a href="/sell">판매 등록하러 가기↪️</a>
         </SellLink>
       </SellArea>
     </Wrapper>

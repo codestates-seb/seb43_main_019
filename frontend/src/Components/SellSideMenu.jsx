@@ -9,8 +9,8 @@ const SideMenu = styled.ul`
    padding:10px 0px 20px 0px;
    border:1px solid var(--black-500);
    border-radius:4px;
-   box-shadow:0px 4px 5px var(--gray-200);
-   position: fixed;
+   /* box-shadow:0px 4px 5px var(--gray-200); */
+   /* position: fixed; */
     top: 100px;
 
   @media screen and (max-width: 900px) {
@@ -59,26 +59,26 @@ export default function SellSideMenu({ type, handleType }) {
         current={type === "crud"}
         onClick={() => handleType("crud")}
       >
-        예약 상품 등록
+        예약 상품 등록 🏕️
       </SideItem>
 
       <SideItem
         current={type === "reservation"}
         onClick={() => handleType("reservation")}
       >
-        예약 상품 조회
+        예약 상품 조회 🥾
       </SideItem>
       <SideItem
         current={type === "reservation"}
         onClick={() => handleType("reservation")}
       >
-        예약 상품 수정
+        상품 수정/삭제 🌳
       </SideItem>
       <SideItem
-        current={type === "category"}
-        onClick={() => handleType("category")}
+        current={type === "statics"}
+        onClick={() => handleType("statics")}
       >
-        상품 카테고리 등록/관리
+        예약 통계 🔦
       </SideItem>
     </SideMenu>
   );

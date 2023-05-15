@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 export const Label = styled.label`
   width: 100px;
@@ -13,5 +13,5 @@ export const Label = styled.label`
 `;
 
 // 사용예시
-// import { Label } from "../Components/Label";
+// import { Label } from "../Components/Common/Label";
 //  <Label> 원하는 단어 <Label/>
