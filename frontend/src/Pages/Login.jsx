@@ -8,6 +8,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { REST_API_KEY, REDIRECT_URI } from "../secret";
 import { LoginButton, SocialLogin } from "../Components/Common/Button";
+import { handleStartLogin } from "../utils/functions";
 
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
@@ -51,7 +52,6 @@ const Logo = styled.img`
   padding-top: 50px;
   margin-bottom: 20px;
 `;
-
 
 const AccountRelated = styled.span`
   color: var(--black-700);
@@ -107,31 +107,14 @@ export default function Login() {
   const dispatch = useDispatch();
 
   const handleSignIn = async (data) => {
-    const { id, password } = data;
-    const loginInfo = { userId: id, password };
+    const result = await handleStartLogin(data);
 
-    // 로그인
-    try {
-      const result = await axios.post("http://localhost:4000/user/login", {
-        loginInfo,
-      });
-
-      const userInfo = result.data;
-
-      dispatch(handleLogin(userInfo));
-    } catch (error) {
-      const { status } = error.response;
-
-      if (status === 401) {
-        alert("Id 혹은 비밀번호를 잘못 입력하셨습니다.");
-      } else {
-        alert("잘못된 정보입니다.");
-      }
-
-      return;
+    if (result) {
+      dispatch(handleLogin(result));
+      navigate("/");
+    } else {
+      alert("로그인에 실패했습니다.");
     }
-
-    navigate("/");
   };
 
   const handleSocialLogin = () => {
@@ -149,16 +132,16 @@ export default function Login() {
     <Wrapper>
       <Form isDark={isDark} onSubmit={handleSubmit(handleSignIn)}>
         <div>
-        <Logo src={"/img/Logo_Light.png"} />
-        <Logo src="/img/Camp.png"/>
+          <Logo src={"/img/Logo_Light.png"} />
+          <Logo src="/img/Camp.png" />
         </div>
         <Space pos={"start"}>
-        <Link to="/account-search">
-          <AccountRelated>아이디/비밀번호 찾기</AccountRelated>
-        </Link>
-        <Link to="/signup">
-          <AccountRelated>회원가입</AccountRelated>
-        </Link>
+          <Link to="/account-search">
+            <AccountRelated>아이디/비밀번호 찾기</AccountRelated>
+          </Link>
+          <Link to="/signup">
+            <AccountRelated>회원가입</AccountRelated>
+          </Link>
         </Space>
         <Input
           isDark={isDark}
@@ -175,13 +158,13 @@ export default function Login() {
         <Others>
           <div>
             <LoginButton>Log In</LoginButton>
-            </div>
-            <SocialLoginWrapper>
+          </div>
+          <SocialLoginWrapper>
             <SocialLogin onClick={() => handleSocialLogin()}>
-              <KakaoImg src={"/img/kakao.png"}/>
+              <KakaoImg src={"/img/kakao.png"} />
               카카오 로그인
             </SocialLogin>
-            </SocialLoginWrapper>
+          </SocialLoginWrapper>
         </Others>
       </Form>
     </Wrapper>

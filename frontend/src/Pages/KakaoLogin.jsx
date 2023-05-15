@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { handleLogin } from "../Redux/Actions";
+import { handleKakaoLogin } from "../utils/functions";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -24,16 +25,13 @@ export default function KakaoLogin() {
   const KAKAO_CODE = location.search.split("=")[1];
 
   const getKakaoToken = async () => {
-    const result = await axios.post("http://localhost:4000/user/kakaologin", {
-      KAKAO_CODE,
-    });
-    const userInfo = result.data;
+    const userInfo = await handleKakaoLogin(KAKAO_CODE);
 
     console.log(userInfo);
 
-    dispatch(handleLogin(userInfo));
+    // dispatch(handleLogin(userInfo));
 
-    navigate("/");
+    // navigate("/");
   };
 
   useEffect(() => {
