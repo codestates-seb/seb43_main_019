@@ -81,7 +81,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path={"/sell/*"} element={<Sell />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path={"/admin/*"} element={<Admin />} />
           <Route path="/kakaologin" element={<KakaoLogin />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/:id" element={<Detail />} />

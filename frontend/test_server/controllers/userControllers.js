@@ -41,6 +41,7 @@ export const login = async (req, res) => {
 
   if (userInfo === undefined) {
     res.status(codes.unauthorized).send("Not Authorized");
+    return;
   }
 
   const { accessToken, refreshToken } = generateToken(userInfo, true);
@@ -113,6 +114,17 @@ export const kakaoLogin = async (req, res) => {
   console.log("=== Data!!! ===");
   console.log(data);
   console.log("===================");
+  /*
+  // data
+  {
+    access_token: 'MsCZFYTlQzjhvqSvJQ0wFXpYb5LG7QKnj8W54PTRCiolUgAAAYgdvrIC',
+    token_type: 'bearer',
+    refresh_token: '3YPY1eslY5ZEUOLzdJaOgE2a2qNUmGHir9NExQk-CiolUgAAAYgdvrIA',
+    expires_in: 21599,
+    scope: 'age_range birthday account_email profile_image profile_nickname',
+    refresh_token_expires_in: 5183999
+  }
+  */
 
   const { access_token } = data;
   const headers = {
@@ -128,6 +140,40 @@ export const kakaoLogin = async (req, res) => {
     console.log("=== kakaoUserData!!! ===");
     console.log(kakaoUserData);
     console.log("===================");
+    /*
+    // kakao usre data
+    {
+      id: 2782028774,
+      connected_at: '2023-05-09T06:34:49Z',
+      properties: {
+        nickname: '사람이름',
+        profile_image: 'http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg',
+        thumbnail_image: 'http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_110x110.jpg'
+      },
+      kakao_account: {
+        profile_nickname_needs_agreement: false,
+        profile_image_needs_agreement: false,
+        profile: {
+          nickname: '사람이름',
+          thumbnail_image_url: 'http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_110x110.jpg',
+          profile_image_url: 'http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg',
+          is_default_image: true
+        },
+        has_email: true,
+        email_needs_agreement: false,
+        is_email_valid: true,
+        is_email_verified: true,
+        email: 'testmail@naver.com',
+        has_age_range: true,
+        age_range_needs_agreement: false,
+        age_range: '20~29',
+        has_birthday: true,
+        birthday_needs_agreement: false,
+        birthday: '0101',
+        birthday_type: 'SOLAR'
+      }
+    }
+    */
 
     let userInfo = dummyAccounts.find(
       (account) =>

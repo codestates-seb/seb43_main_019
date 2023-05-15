@@ -90,7 +90,7 @@ export default function Main() {
       setIsLoading((prev) => true);
 
       // 나중에 실제 데이터를 받아와야 함
-      setData((prev) => [...campgrounds]);
+      setData((prev) => [...campgrounds.data]);
 
       setIsLoading((prev) => false);
     })();
@@ -128,7 +128,7 @@ export default function Main() {
         ))}
       </Container>
       <ScrollBtn onClick={() => window.scrollTo(0, 0)} ref={containerRef}>
-      <FaChevronUp size={40} />
+        <FaChevronUp size={40} />
       </ScrollBtn>
     </>
   );
