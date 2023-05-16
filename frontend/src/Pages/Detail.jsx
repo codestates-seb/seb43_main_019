@@ -6,7 +6,8 @@ import CampgroundInfo from "../Components/DetailInfo";
 import Map from "../Components/Map";
 import { campgrounds } from "../Dummy/DummyDatas";
 import { useParams, useNavigate } from "react-router-dom";
-import { CommonButton } from "../Components/Button";
+import { CommonButton } from "../Components/Common/Button";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   display: flex;
@@ -47,6 +48,8 @@ function Detail() {
   const [selectedDate, setSelectedDate] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();
+  const isDark = useSelector((state) => state.modeReducer);
+  const userState = useSelector((state) => state.userReducer);
 
   const selectedCampground = campgrounds.find(
     (campground) => campground.id === parseInt(id)
@@ -66,9 +69,7 @@ function Detail() {
   } = selectedCampground;
 
   const handleReservation = () => {
-    const isLoggedIn = true; // 로그인 상태 확인. 실제로는 Redux 상태나 로그인 여부를 저장하는 변수 등을 사용합니다.
-
-    if (isLoggedIn) {
+    if (userState.login) {
       navigate("/Payment"); // 로그인 상태라면 다른 페이지로 이동(페이먼트 폼 구현 후 수정)
     } else {
       alert("로그인이 필요한 서비스입니다."); // 로그인이 필요한 경우 경고창 표시
@@ -99,6 +100,7 @@ function Detail() {
               cancel={cancel}
               price={price}
               call={call}
+              isDark={isDark}
             >
               <CommonButton onClick={handleReservation}>예약 하기</CommonButton>
             </CampgroundInfo>

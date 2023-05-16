@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { BiDollar } from "react-icons/bi";
 import { RiArrowDownSLine } from "react-icons/ri";
 import KakaoPayButton from "../Components/Payment/KakaoPayBtn";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -124,9 +126,18 @@ const PaymentButtonContainer = styled.div`
 
 const PaymentPage = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const userState = useSelector((state) => state.userReducer);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsVisible(true);
+  }, []);
+
+  useEffect(() => {
+    if (!userState.login) {
+      alert("로그인이 필요한 서비스입니다.");
+      navigate("/login");
+    }
   }, []);
 
   return (

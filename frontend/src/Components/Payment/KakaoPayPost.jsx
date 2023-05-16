@@ -17,7 +17,7 @@ const App = () => {
     const paymentData = {};
 
     axios
-      .post("/api/payment", paymentData)
+      .post("/api/payments", paymentData)
       .then((response) => {
         alert("결제를 성공하였습니다.");
       })
