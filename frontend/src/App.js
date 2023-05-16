@@ -16,7 +16,7 @@ import Admin from "./Pages/Admin";
 import { useEffect } from "react";
 import { handleLogin, handleLogout } from "./Redux/Actions";
 import KakaoLogin from "./Pages/KakaoLogin";
-import { JS_KEY } from "./secret";
+import { JS_KEY } from "./config";
 import Profile from "./Pages/Profile";
 import Chat from "./Components/Chat";
 

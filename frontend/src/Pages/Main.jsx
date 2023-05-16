@@ -4,6 +4,7 @@ import { campgrounds } from "../Dummy/DummyDatas";
 import { useEffect, useRef, useState } from "react";
 import Card2 from "../Components/Card2";
 import { FaChevronUp } from "react-icons/fa";
+import { getCampgroundInfo } from "../utils/ProductFunctions";
 
 const Loader = styled.h1`
   font-size: 50px;
@@ -115,6 +116,12 @@ export default function Main() {
     })();
   }, [containerRef]);
 
+  useEffect(() => {
+    (async () => {
+      await getCampgroundInfo(1);
+    })();
+  }, []);
+
   return isLoading ? (
     <Loader>isLoading...</Loader>
   ) : (
@@ -124,7 +131,7 @@ export default function Main() {
       </ContextArea>
       <Container>
         {data.map((campground) => (
-          <Card2 key={campground.id + ""} campground={campground} />
+          <Card2 key={campground.productId + ""} campground={campground} />
         ))}
       </Container>
       <ScrollBtn onClick={() => window.scrollTo(0, 0)} ref={containerRef}>

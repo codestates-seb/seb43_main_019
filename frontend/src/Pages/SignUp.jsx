@@ -7,12 +7,8 @@ import { CommonButton } from "../Components/Common/Button";
 import { Input, AuthCodeInput } from "../Components/Common/Input";
 import { Label } from "../Components/Common/Label";
 import { getToday } from "../utils/functions";
-import {
-  checkValidPassword,
-  checkValidPhone,
-  getEmailCode,
-  handleJoin,
-} from "../utils/MemberFunctions";
+import { getEmailCode, handleJoin } from "../utils/MemberFunctions";
+import { checkValidPassword, checkValidPhone } from "../utils/functions";
 
 const Wrapper = styled.div`
   width: 100%;

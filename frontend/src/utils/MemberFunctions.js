@@ -1,30 +1,5 @@
 import axios from "axios";
-import { REST_API_KEY, REDIRECT_URI } from "../secret";
-
-const BACK = "ec2-3-34-91-147.ap-northeast-2.compute.amazonaws.com";
-const LOCAL = "http://localhost:4000";
-
-let isLocal = true;
-
-// 비밀번호가 유효한지 판별하는 함수입니다.
-// 비밀번호를 인자로 받습니다.
-// 유효하다면 true를 반환합니다.
-// 유효하지 않다면 false를 반환합니다.
-export const checkValidPassword = (password) => {
-  const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-  return regex.test(password);
-};
-
-// 전화번호가 유효한지 판별하는 함수입니다.
-// 전화번호를 인자로 받습니다.
-// 유효하다면 true를 반환합니다.
-// 유효하지 않다면 false를 반환합니다.
-export const checkValidPhone = (phone) => {
-  const phonePattern = /^(010|011|016|017|018|019)-\d{3,4}-\d{4}$/;
-
-  return phonePattern.test(phone);
-};
+import { REST_API_KEY, REDIRECT_URI, BACK } from "../config";
 
 // 로그인을 위한 함수입니다.
 // 이메일, 비밀번호로 구성된 객체를 인자로 받습니다.
@@ -35,25 +10,18 @@ export const handleStartLogin = async (data) => {
   const loginInfo = { email, password };
 
   try {
-    if (isLocal) {
-      const result = await axios.post(`${LOCAL}/user/login`, loginInfo);
+    // 백엔드에게서 result를 받아온다.
+    const result = await axios.post(`${BACK}/api/login`, loginInfo);
+    const { data } = result;
 
-      const userInfo = result.data;
+    const authToken = data.Authorization;
+    const refreshToken = data.Refresh;
 
-      return userInfo;
-    } else {
-      // 백엔드에게서 result를 받아온다.
-      const result = await axios.post(`${BACK}/api/login`, loginInfo);
+    const validToken = authToken.slice(7);
 
-      const authToken = result.Authorization;
-      const refreshToken = result.Refresh;
+    const decoded = JSON.parse(atob(validToken.split(".")[1]));
 
-      const validToken = authToken.slice(7);
-
-      const decoded = JSON.parse(atob(validToken.split(".")[1]));
-
-      return decoded;
-    }
+    return decoded;
   } catch (error) {
     return null;
   }
@@ -69,7 +37,7 @@ export const getEmailCode = async (email) => {
       `${BACK}/api/members/email-verify?email=${email}`
     );
 
-    const code = result.data;
+    const code = result.data.data;
     return code;
   } catch (error) {
     return null;
@@ -82,12 +50,9 @@ export const getEmailCode = async (email) => {
 // 실패 시 false를 반환합니다.
 export const handleJoin = async (joinInfo) => {
   try {
-    if (isLocal) {
-      await axios.post(`${LOCAL}/user/join`, { joinInfo });
-      return true;
-    } else {
-      await axios.post(`${BACK}/api/members`, joinInfo);
-    }
+    await axios.post(`${BACK}/api/members`, joinInfo);
+
+    return true;
   } catch (error) {
     return false;
   }
@@ -95,12 +60,12 @@ export const handleJoin = async (joinInfo) => {
 
 // 특정 멤버 정보를 업데이트 하는 함수입니다.
 // 업데이트된 정보를 인자로 받습니다.
-// 성공 시 true를 반환합니다.
+// 성공 시 업데이트된 회원의 정보를 반환합니다.
 // 실패 시 false를 반환합니다.
 export const handleUpdateMemberInfo = async (updatedInfo) => {
   try {
-    await axios.patch(`${BACK}/api/members/1`, updatedInfo);
-    return true;
+    const response = await axios.patch(`${BACK}/api/members/1`, updatedInfo);
+    return response.data;
   } catch (error) {
     return false;
   }
@@ -112,8 +77,8 @@ export const handleUpdateMemberInfo = async (updatedInfo) => {
 // 실패 시 null을 반환합니다.
 export const getMemberInfo = async (memberId) => {
   try {
-    const userInfo = await axios.get(`${BACK}/api/members/${memberId}`);
-
+    const response = await axios.get(`${BACK}/api/members/${memberId}`);
+    const userInfo = response.data;
     return userInfo;
   } catch (error) {
     return null;
@@ -125,7 +90,8 @@ export const getMemberInfo = async (memberId) => {
 // 실패 시 null을 반환합니다.
 export const getAllMemberInfo = async () => {
   try {
-    const userInfos = await axios.get(`${BACK}/api/members`);
+    const response = await axios.get(`${BACK}/api/members`);
+    const userInfos = response.data;
 
     return userInfos;
   } catch (error) {
@@ -151,7 +117,7 @@ export const handleUserWithdrawal = async (memberId) => {
 // 카카오 인게 코드를 인자로 받습니다.
 export const handleKakaoLogin = async (KAKAO_CODE) => {
   try {
-    if (isLocal) {
+    if (true) {
       /*
       // 1. 백엔드에서 다 해주는 경우
       const result = await axios.post("http://localhost:4000/user/kakaologin", {
