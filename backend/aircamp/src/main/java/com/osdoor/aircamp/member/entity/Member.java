@@ -86,6 +86,8 @@ public class Member {
     private boolean isSellerVerified;
     @Column
     private String businessRegistrationNumber;
+    @Column
+    private String businessRegistrationDate;
 
     // enum 데이터
     public enum MemberStatus {
