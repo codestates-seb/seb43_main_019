@@ -85,7 +85,7 @@ export default function User({ user }) {
         </Infos>
         <BsInfoCircleFill onClick={handleOpenModal} size={"50px"} />
       </Container>
-      <UserModal isOpen={openModal} closeModal={handleCloseModal} />
+      <UserModal isOpen={openModal} closeModal={handleCloseModal} user={user} />
     </>
   );
 }

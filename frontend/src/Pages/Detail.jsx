@@ -4,7 +4,7 @@ import CampgroundImage from "../Components/DeatilImage";
 import Picker from "../Components/Picker";
 import CampgroundInfo from "../Components/DetailInfo";
 import Map from "../Components/Map";
-import { campgrounds } from "../Dummy/DummyDatas";
+import { dummyCampgrounds } from "../Dummy/DummyDatas";
 import { useParams } from "react-router-dom";
 import { CommonButton } from "../Components/Common/Button";
 
@@ -46,7 +46,7 @@ const InfoContainer = styled.div`
 function Detail() {
   const [selectedDate, setSelectedDate] = useState(null);
   const { id } = useParams();
-  const selectedCampground = campgrounds.find(
+  const selectedCampground = dummyCampgrounds.find(
     (campground) => campground.id === parseInt(id)
   );
   const {
