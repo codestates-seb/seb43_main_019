@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 export const CommonButton = styled.button`
  position: relative;
@@ -52,5 +52,5 @@ cursor: pointer;
 `;
 
 // 사용예시
-// import { CommonButton } from "../Components/Button";
+// import { CommonButton } from "../Components/Common/Button";
 //  <CommonButton> 원하는 단어 </CommonButton>

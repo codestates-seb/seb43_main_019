@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 export const Input = styled.input`
 width: 70%;
@@ -44,6 +44,22 @@ color: black;
 }
 `;
 
+export const SellInput = styled.input`
+  font-size: 16px;
+  padding: 10px 10px 10px 5px;
+  display: block;
+  width: 150px;
+  border: none;
+  border-bottom: 1px solid #6c6c6c;
+  background: transparent;
+  color: var(--black);
+
+  &:focus {
+    outline: none;
+    border-color: var(--black);
+    }
+`;
+
 // 사용예시
-// import { Input } from "../Components/Input";
+// import { Input } from "../Components/Common/Input";
 //  <Input />

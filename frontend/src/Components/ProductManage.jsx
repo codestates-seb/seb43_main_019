@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
-import { campgrounds } from "../Dummy/DummyDatas";
+import { dummyCampgrounds } from "../Dummy/DummyDatas";
 import Campground from "./Campground";
-import Card from "./Card";
+import Card2 from "./Card2";
 
 const Container = styled.div`
   width: 100%;
@@ -37,7 +37,7 @@ export default function ProductManage() {
       <Title>상품등록화면 (아래 카드는 대략적인 이미지임!)</Title>
       <Products>
         {campgrounds.map((campground) => (
-          <Card campground={campground} />
+          <Card2 campground={campground} />
         ))}
       </Products>
     </Container>

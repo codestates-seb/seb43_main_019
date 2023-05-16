@@ -1,9 +1,11 @@
 import styled from "@emotion/styled";
 import { useSelector } from "react-redux";
-import { campgrounds } from "../Dummy/DummyDatas";
+import { dummyCampgrounds } from "../Dummy/DummyDatas";
 import { useEffect, useRef, useState } from "react";
 import Card2 from "../Components/Card2";
 import { FaChevronUp } from "react-icons/fa";
+import { getCampgroundInfo } from "../utils/ProductFunctions";
+import { getAllCampgroundsInfo } from "../utils/ProductFunctions";
 
 const Loader = styled.h1`
   font-size: 50px;
@@ -81,6 +83,8 @@ export default function Main() {
   const isDark = useSelector((state) => state.modeReducer);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [size, setSize] = useState(10);
+  const [page, setPage] = useState(1);
 
   // 타겟 요소 지정
   let containerRef = useRef(null);
@@ -89,8 +93,11 @@ export default function Main() {
     (async () => {
       setIsLoading((prev) => true);
 
-      // 나중에 실제 데이터를 받아와야 함
-      setData((prev) => [...campgrounds]);
+      setData((prev) => [...dummyCampgrounds.data]);
+
+      // 실제 데이터 받아오는 과정
+      // const initData = getAllCampgroundsInfo(page, size);
+      // setData((prev) => [...initData]);
 
       setIsLoading((prev) => false);
     })();
@@ -115,6 +122,12 @@ export default function Main() {
     })();
   }, [containerRef]);
 
+  useEffect(() => {
+    (async () => {
+      await getCampgroundInfo(1);
+    })();
+  }, []);
+
   return isLoading ? (
     <Loader>isLoading...</Loader>
   ) : (
@@ -124,11 +137,11 @@ export default function Main() {
       </ContextArea>
       <Container>
         {data.map((campground) => (
-          <Card2 key={campground.id + ""} campground={campground} />
+          <Card2 key={campground.productId + ""} campground={campground} />
         ))}
       </Container>
       <ScrollBtn onClick={() => window.scrollTo(0, 0)} ref={containerRef}>
-      <FaChevronUp size={40} />
+        <FaChevronUp size={40} />
       </ScrollBtn>
     </>
   );

@@ -1,11 +1,13 @@
 import styled from "@emotion/styled";
-import { campgrounds } from "../Dummy/DummyDatas";
-import Card from "./Card";
+import { dummyCampgrounds } from "../Dummy/DummyDatas";
+import Card2 from "./Card2";
+
 import { useState } from "react";
 
 const Container = styled.div`
   width: 100%;
-  margin-left: 300px;
+  margin-left: 100px;
+  margin-top: 80px;
   padding: 50px;
 
   @media screen and (max-width: 900px) {
@@ -19,9 +21,10 @@ const Container = styled.div`
   justify-content: start;
 `;
 
-const Title = styled.h1`
+const Title = styled.p`
   width: 100%;
-  font-size: 40px;
+  font-size: 20px;
+  padding-bottom: 50px;
 `;
 
 const Products = styled.div`
@@ -35,11 +38,12 @@ export default function Reservation() {
   return (
     <>
       <Container>
-        <Title>예약상품조회 (아래 카드는 대략적인 이미지임!)</Title>
+        <Title>고객님께서 등록하신 캠핑장입니다.</Title>
         <Products>
-          {campgrounds.map((campground) => (
-            <Card campground={campground} />
-          ))}
+        {campgrounds.filter(campground => campground.productId === 1).map(campground => (
+    <Card2 key={campground.productId} campground={campground} />
+  ))}
+
         </Products>
       </Container>
     </>
