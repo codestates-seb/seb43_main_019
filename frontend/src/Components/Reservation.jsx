@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { campgrounds } from "../Dummy/DummyDatas";
+import { dummyCampgrounds } from "../Dummy/DummyDatas";
 import Card from "./Card";
 import { useState } from "react";
 
@@ -37,7 +37,7 @@ export default function Reservation() {
       <Container>
         <Title>예약상품조회 (아래 카드는 대략적인 이미지임!)</Title>
         <Products>
-          {campgrounds.map((campground) => (
+          {dummyCampgrounds.map((campground) => (
             <Card campground={campground} />
           ))}
         </Products>
