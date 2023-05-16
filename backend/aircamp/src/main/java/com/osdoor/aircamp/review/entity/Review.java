@@ -6,6 +6,7 @@ import com.osdoor.aircamp.product.entity.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.*;
 
@@ -32,4 +33,13 @@ public class Review extends Auditable {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
+    @PrePersist //앤티티가 생성되기전에 onCreate가 호출(초기화)를 해준다.
+    private void onCreate() {
+        this.createdBy = SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
+    @PreUpdate  //앤티티가 수정되기전에 onUpdate가 호출(초기화)된다.
+    private void onUpdate() {
+        this.modifiedBy = SecurityContextHolder.getContext().getAuthentication().getName();
+    }
 }
