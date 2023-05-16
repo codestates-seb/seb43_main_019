@@ -87,6 +87,8 @@ public class Member {
     private boolean isSellerVerified;
     @Column
     private String businessRegistrationNumber;
+    @Column
+    private String businessRegistrationDate;
 
     private String provider;
 
