@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import CampgroundImage from "../Components/DeatilImage";
 import Picker from "../Components/Picker";
@@ -47,26 +47,6 @@ const InfoContainer = styled.div`
 function Detail() {
   const [selectedDate, setSelectedDate] = useState(null);
   const { id } = useParams();
-  const navigate = useNavigate();
-  const isDark = useSelector((state) => state.modeReducer);
-  const userState = useSelector((state) => state.userReducer);
-
-  const selectedCampground = campgrounds.find(
-    (campground) => campground.id === parseInt(id)
-  );
-  const {
-    name,
-    selection,
-    location,
-    period,
-    description,
-    img,
-    capacity,
-    restriction,
-    cancel,
-    price,
-    call,
-  } = selectedCampground;
 
   const handleReservation = () => {
     if (userState.login) {
@@ -81,7 +61,11 @@ function Detail() {
     <Container>
       <ContainerBox>
         <ImgContainer>
-          <CampgroundImage src={img} />
+          <CampgroundImage
+            src={
+              "https://yeyak.seoul.go.kr/cmsdata/web_upload/svc/20230329/1680050914280HZAYFX8GLLMTVZI2H6BD0WGPV_IM02.jpg"
+            }
+          />
           <Picker
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
