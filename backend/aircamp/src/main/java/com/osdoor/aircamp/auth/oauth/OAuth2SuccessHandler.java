@@ -28,7 +28,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler  {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
         Map<String, Object> kakao_account = (Map<String, Object>) oAuth2User.getAttributes().get("kakao_account");
         Map<String, Object> profile = (Map<String, Object>) kakao_account.get("profile");
         String email = (String) kakao_account.get("email");
@@ -39,6 +39,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler  {
         claims.put("roles", oAuth2User.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList()));
+        claims.put("memberId", oAuth2User.getMemberId());
 
         log.info("# JWT 토큰 생성");
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
@@ -48,6 +49,6 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler  {
 
         response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("Refresh", refreshToken);
-        response.sendRedirect("/");
+//        response.sendRedirect("/");
     }
 }

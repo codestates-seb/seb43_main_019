@@ -8,22 +8,14 @@ import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.member.repositoy.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.Optional;
 
 @Slf4j
@@ -34,7 +26,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     private final MemberRepository memberRepository;
     private final CustomAuthorityUtils authorityUtils;
-    private final OAuth2AuthorizedClientService authorizedClientService;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -43,19 +34,17 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         OAuth2Attribute attributes = OAuth2Attribute.of(userRequest, oAuth2User);
 
-        saveOAuthUser(attributes);
+        Member member = saveOAuthUser(attributes);
 
         log.info("# OAuth User email={}, nickname={}", attributes.getEmail(), attributes.getNickname());
 
-        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("USER")),
-                attributes.getAttributes(),
-                attributes.getAttributeKey());
+        return CustomOAuth2User.of(member.getMemberId(), attributes);
     }
 
-    private void saveOAuthUser(OAuth2Attribute auth2Attribute) {
+    private Member saveOAuthUser(OAuth2Attribute auth2Attribute) {
         Optional<Member> optionalMember = memberRepository.findByEmailAndProvider(auth2Attribute.getEmail(), auth2Attribute.getProvider());
 
-        if(optionalMember.isPresent()) return;
+        if(optionalMember.isPresent()) return optionalMember.orElseThrow();
         if(memberRepository.existsByEmail(auth2Attribute.getEmail())) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
         }
@@ -68,6 +57,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         member.setRoles(authorityUtils.createRoles(auth2Attribute.getEmail()));
         member.setFavorite(new Favorite());
 
-        memberRepository.save(member);
+        return memberRepository.save(member);
     }
 }
