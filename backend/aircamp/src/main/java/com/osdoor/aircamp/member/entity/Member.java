@@ -25,13 +25,11 @@ public class Member {
     @Column(length = 100, nullable = false)
     private String name;
 
-    @Column(nullable = false, updatable = false, unique = true)
+    @Column(updatable = false, unique = true)
     private String email;
 
-//    @Column(nullable = false)
     private String birthDate;
 
-//    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
