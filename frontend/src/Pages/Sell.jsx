@@ -9,8 +9,9 @@ import Reservation from "../Components/Reservation";
 
 const Wrapper = styled.div`
   width: 100%;
-
+  height: 100vh;
   display: flex;
+  overflow-y: auto; /* 스크롤이 가능한 요소로 설정 */
 `;
 
 const types = ["crud", "manage", "inquiry", "reservation", "category"];

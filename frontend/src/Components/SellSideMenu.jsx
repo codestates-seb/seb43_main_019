@@ -1,13 +1,18 @@
 import styled from "@emotion/styled";
 
 const SideMenu = styled.ul`
-  max-width: 300px;
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 140px;
-  left: 0;
-  border-right: 1px solid var(--gray-400);
+   max-width:220px;
+   width: 100%;
+   height: 35%;
+   background:var(--white);;
+   margin: 110px 0 0 40px; // 왼쪽 40px, 위쪽 110px
+   padding:10px 0px 20px 0px;
+   border:1px solid var(--black-500);
+   border-radius:4px;
+   /* box-shadow:0px 4px 5px var(--gray-200); */
+   /* position: fixed; */
+    top: 100px;
+
   @media screen and (max-width: 900px) {
     top: 100px;
     display: none;
@@ -15,17 +20,21 @@ const SideMenu = styled.ul`
 `;
 
 const SideItem = styled.li`
-  width: 100%;
-  height: 70px;
-  background-color: ${(props) =>
-    props.current ? "var(--gray-200)" : "var(--white)"};
-  display: flex;
-  align-items: center;
-  justify-items: start;
-  padding-left: 20px;
-  border-bottom: 1px solid var(--gray-400);
-
-  cursor: pointer;
+  font-size:16px;
+  font-weight: bold;
+  color:var(--black);
+  font-weight:300;
+  text-align:center;
+  position:relative;
+  height:40px;
+  border:none;
+  line-height:40px;
+  margin-top:10px;
+  overflow:hidden;
+  width:90%;
+  margin-left:5%;
+  
+  cursor:pointer;
 
   @media screen and (max-width: 900px) {
     width: 100vw;
@@ -49,33 +58,27 @@ export default function SellSideMenu({ type, handleType }) {
       <SideItem
         current={type === "crud"}
         onClick={() => handleType("crud")}
-        style={{ borderTop: " 1px solid var(--gray-400)" }}
       >
-        상품등록수정
+        예약 상품 등록 🏕️
       </SideItem>
+
       <SideItem
-        current={type === "manage"}
-        onClick={() => handleType("manage")}
+        current={type === "reservation"}
+        onClick={() => handleType("reservation")}
       >
-        상품게시물관리
-      </SideItem>
-      <SideItem
-        current={type === "inquiry"}
-        onClick={() => handleType("inquiry")}
-      >
-        상품조회
+        예약 상품 조회 🥾
       </SideItem>
       <SideItem
         current={type === "reservation"}
         onClick={() => handleType("reservation")}
       >
-        예약상품조회
+        상품 수정/삭제 🌳
       </SideItem>
       <SideItem
-        current={type === "category"}
-        onClick={() => handleType("category")}
+        current={type === "statics"}
+        onClick={() => handleType("statics")}
       >
-        상품카테고리등록관리
+        예약 통계 🔦
       </SideItem>
     </SideMenu>
   );
