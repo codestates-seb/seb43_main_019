@@ -17,7 +17,7 @@ import Admin from "./Pages/Admin";
 import { useEffect } from "react";
 import { handleLogin, handleLogout } from "./Redux/Actions";
 import KakaoLogin from "./Pages/KakaoLogin";
-import { JS_KEY } from "./secret";
+import { JS_KEY } from "./config";
 import Profile from "./Pages/Profile";
 import Chat from "./Components/Chat";
 
@@ -82,7 +82,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path={"/sell/*"} element={<Sell />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path={"/admin/*"} element={<Admin />} />
           <Route path="/kakaologin" element={<KakaoLogin />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/:id" element={<Detail />} />

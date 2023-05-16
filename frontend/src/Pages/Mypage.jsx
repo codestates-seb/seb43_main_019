@@ -8,7 +8,9 @@ import RsModal from "../Components/Modal/RsModal";
 import SeModal from "../Components/Modal/SeModal";
 
 const Wrapper = styled.div`
+  max-width: 1200px;
   width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,6 +25,8 @@ const ButtonArea = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  margin-left: 250px;
+  align-items: center;
   flex-direction: row;
 `;
 
@@ -65,22 +69,21 @@ const Title = styled.h2`
   margin-bottom: 80px !important;
   margin-left: 360px !important;
   font-family: "Noto Sans KR", sans-serif;
-  color : ${(props) => (props.isDark ? "var( --white)" : "var(--black)")};
+  color: ${(props) => (props.isDark ? "var( --white)" : "var(--black)")};
 `;
 
 const SellMent = styled.p`
   margin-top: 100px !important;
   margin-left: 360px !important;
   font-family: "Noto Sans KR", sans-serif;
-  color : ${(props) => (props.isDark ? "var( --white)" : "var(--black)")};
+  color: ${(props) => (props.isDark ? "var( --white)" : "var(--black)")};
 `;
 
 const SellLink = styled.p`
   margin-left: 360px !important;
   font-family: "Noto Sans KR", sans-serif;
-  color : ${(props) => (props.isDark ? "var( --white)" : "var(--black)")};
+  color: ${(props) => (props.isDark ? "var( --white)" : "var(--black)")};
 `;
-
 
 export default function Mypage() {
   const navigate = useNavigate();
@@ -97,13 +100,25 @@ export default function Mypage() {
     }
   }, []);
 
-  const openMyModal = () => {setMyModalOpen(true);};
-  const openRsModal = () => {setRsModalOpen(true);};
-  const openSeModal = () => {setSeModalOpen(true);};
+  const openMyModal = () => {
+    setMyModalOpen(true);
+  };
+  const openRsModal = () => {
+    setRsModalOpen(true);
+  };
+  const openSeModal = () => {
+    setSeModalOpen(true);
+  };
 
-  const closeMyModal = () => {setMyModalOpen(false);};
-  const closeRsModal = () => {setRsModalOpen(false);};
-  const closeSeModal = () => {setSeModalOpen(false);};
+  const closeMyModal = () => {
+    setMyModalOpen(false);
+  };
+  const closeRsModal = () => {
+    setRsModalOpen(false);
+  };
+  const closeSeModal = () => {
+    setSeModalOpen(false);
+  };
 
   return (
     <Wrapper>
@@ -112,37 +127,33 @@ export default function Mypage() {
       </UserArea>
       <ButtonArea>
         <div>
-        <ProfileCard
-        onClick={openMyModal}
-        >
-          <FaAddressCard size={25} /> &nbsp;개인정보관리
-        </ProfileCard>
-        <MyModal isOpen={MyModalOpen} closeModal={closeMyModal}/>
+          <ProfileCard onClick={openMyModal}>
+            <FaAddressCard size={25} /> &nbsp;개인정보관리
+          </ProfileCard>
+          <MyModal isOpen={MyModalOpen} closeModal={closeMyModal} />
         </div>
         <div>
-        <ProfileCard
-        onClick={openRsModal}
-        >
-          <FaTwitch size={25} />
-          &nbsp;예약관리
-        </ProfileCard>
-        <RsModal isOpen={RsModalOpen} closeModal={closeRsModal}/>
+          <ProfileCard onClick={openRsModal}>
+            <FaTwitch size={25} />
+            &nbsp;예약관리
+          </ProfileCard>
+          <RsModal isOpen={RsModalOpen} closeModal={closeRsModal} />
         </div>
         <div>
-        <ProfileCard
-        onClick={openSeModal}
-        >
-          <FaSellcast size={25} />
-          &nbsp;판매자 등록
-        </ProfileCard>
-        <SeModal isOpen={SeModalOpen} closeModal={closeSeModal}/>
+          <ProfileCard onClick={openSeModal}>
+            <FaSellcast size={25} />
+            &nbsp;판매자 등록
+          </ProfileCard>
+          <SeModal isOpen={SeModalOpen} closeModal={closeSeModal} />
         </div>
       </ButtonArea>
       <SellArea>
-        <SellMent isDark={isDark}>판매상품을 원하신다면 아래 링크를 눌러주세요👇🏻</SellMent>
+        <SellMent isDark={isDark}>
+          판매등록을 원하신다면 아래 링크를 눌러주세요👇🏻
+        </SellMent>
         <SellLink isDark={isDark}>
-          <a href="/sell">판매하러 가기↪️</a>
-          </SellLink>
+          <a href="/sell">판매 등록하러 가기↪️</a>
+        </SellLink>
       </SellArea>
     </Wrapper>
   );
