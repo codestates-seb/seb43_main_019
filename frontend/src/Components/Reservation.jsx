@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
-import { campgrounds } from "../Dummy/DummyDatas";
+import { dummyCampgrounds } from "../Dummy/DummyDatas";
 import Card2 from "./Card2";
+
 import { useState } from "react";
 
 const Container = styled.div`

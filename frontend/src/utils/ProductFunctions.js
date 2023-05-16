@@ -1,5 +1,5 @@
 import axios from "axios";
-import { REST_API_KEY, REDIRECT_URI, BACK } from "../config";
+import { BACK } from "../config";
 
 // 캠핑장 정보를 등록하는 함수입니다.
 // 캠프장 정보를 인자로 받습니다.

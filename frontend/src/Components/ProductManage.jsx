@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { campgrounds } from "../Dummy/DummyDatas";
+import { dummyCampgrounds } from "../Dummy/DummyDatas";
 import Campground from "./Campground";
 import Card2 from "./Card2";
 

@@ -1,4 +1,4 @@
-export const campgrounds = {
+export const dummyCampgrounds = {
   data: [
     {
       productId: 2,

@@ -11,8 +11,8 @@ export const handleStartLogin = async (data) => {
 
   try {
     // 백엔드에게서 result를 받아온다.
-    const result = await axios.post(`${BACK}/api/login`, loginInfo);
-    const { data } = result;
+    const response = await axios.post(`${BACK}/api/login`, loginInfo);
+    const { data } = response;
 
     const authToken = data.Authorization;
     const refreshToken = data.Refresh;
@@ -33,11 +33,11 @@ export const handleStartLogin = async (data) => {
 // 실패 시 null을 반환합니다.
 export const getEmailCode = async (email) => {
   try {
-    const result = await axios.get(
+    const response = await axios.get(
       `${BACK}/api/members/email-verify?email=${email}`
     );
 
-    const code = result.data.data;
+    const code = response.data.data;
     return code;
   } catch (error) {
     return null;
@@ -115,120 +115,25 @@ export const handleUserWithdrawal = async (memberId) => {
 
 // 카카오 로그인을 진행하는 함수입니다.
 // 카카오 인게 코드를 인자로 받습니다.
+// 성공 시 유저 정보를 반환합니다.
+// 실패 시 null을 반환합니다.
 export const handleKakaoLogin = async (KAKAO_CODE) => {
+  const state = "state";
   try {
-    if (true) {
-      /*
-      // 1. 백엔드에서 다 해주는 경우
-      const result = await axios.post("http://localhost:4000/user/kakaologin", {
-        KAKAO_CODE,
-      });
-      const userInfo = result.data;
-      return userInfo;
-      // =====
-      */
+    const response = await axios.get(
+      `${BACK}/login/oauth2/code/kakao?code=${KAKAO_CODE}&state=${state}`
+    );
+    const { data } = response;
 
-      // 2. 여기서 카카오 유저 정보 받아오는 거까지 하는 경우
-      const result = await fetch("https://kauth.kakao.com/oauth/token", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `grant_type=authorization_code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&code=${KAKAO_CODE}`,
-      });
+    const authToken = data.Authorization;
+    const refreshToken = data.Refresh;
 
-      const data = await result.json();
+    const validToken = authToken.slice(7);
 
-      console.log("=== Data!!! ===");
-      console.log(data);
-      console.log("===============");
+    const decoded = JSON.parse(atob(validToken.split(".")[1]));
 
-      const { access_token } = data;
-
-      const headers = {
-        Authorization: `Bearer ${access_token}`,
-      };
-
-      console.log("=== headers!!! ===");
-      console.log(headers);
-      console.log("===============");
-
-      // 여기서 CORS 에러 => 백엔드에서
-
-      const userResponse = await axios.get(
-        "https://kapi.kakao.com/v2/user/me",
-        {
-          headers,
-        }
-      );
-
-      console.log("=== userResponse!!! ===");
-      console.log(userResponse);
-      console.log("===============");
-
-      const kakaoUserData = userResponse.data;
-
-      /*
-      // kakao usre data
-      {
-        id: 2782028774,
-        connected_at: '2023-05-09T06:34:49Z',
-        properties: {
-          nickname: '사람이름',
-          profile_image: 'http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg',
-          thumbnail_image: 'http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_110x110.jpg'
-        },
-        kakao_account: {
-          profile_nickname_needs_agreement: false,
-          profile_image_needs_agreement: false,
-          profile: {
-            nickname: '사람이름',
-            thumbnail_image_url: 'http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_110x110.jpg',
-            profile_image_url: 'http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg',
-            is_default_image: true
-          },
-          has_email: true,
-          email_needs_agreement: false,
-          is_email_valid: true,
-          is_email_verified: true,
-          email: 'testmail@naver.com',
-          has_age_range: true,
-          age_range_needs_agreement: false,
-          age_range: '20~29',
-          has_birthday: true,
-          birthday_needs_agreement: false,
-          birthday: '0101',
-          birthday_type: 'SOLAR'
-        }
-      }
-      */
-
-      // 이제 이 데이터를 보내기만 하면 된다.
-
-      return kakaoUserData;
-
-      // =====
-    } else {
-      return null;
-    }
+    return decoded;
   } catch (error) {
     return null;
   }
 };
-
-// 이하 메모들
-/*
-token: response.headers.authorization,
-refresh: response.headers.refresh,
-
-export const getMemberId = () => {
-  const authorization = getCookie("token").slice(7);
-
-  const decoded = buffer.from(authorization, "base64").toString("utf-8");
-
-  const memberId = Number(
-    decoded.slice(decoded.indexOf("memberId") + 10, decoded.indexOf("sub") - 2)
-  );
-
-  return memberId;
-};
-
-*/

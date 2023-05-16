@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ProductModal from "../Modal/ProductModal";
+import { getMemberInfo } from "../../utils/MemberFunctions";
 
 const Container = styled.div`
   background-color: transparent;
@@ -69,6 +70,8 @@ const Info = styled.h5`
 export default function Card({ campground }) {
   const isDark = useSelector((state) => state.modeReducer);
   const [openModal, setOpenModal] = useState(false);
+  const [seller, setSeller] = useState("");
+  const [isSellerLoading, setIsSellerLoading] = useState(false);
 
   const handleOpenModal = () => {
     setOpenModal((prev) => true);
@@ -78,22 +81,44 @@ export default function Card({ campground }) {
     setOpenModal((prev) => false);
   };
 
+  useEffect(() => {
+    (async () => {
+      setIsSellerLoading((prev) => true);
+
+      setSeller((prev) => "나중에");
+      // const sellerInfo = await getMemberInfo(campground.memberId);
+      // setSeller((perv) => sellerInfo.name);
+
+      setIsSellerLoading((prev) => false);
+    })();
+  }, []);
+
   return (
     <>
       <Container onClick={handleOpenModal}>
         <Inner className="inner">
           <Front isDark={isDark}>
-            <Img bgphoto={campground.img} />
+            <Img
+              bgphoto={
+                campground.imageUrl === "http://~"
+                  ? "https://yeyak.seoul.go.kr/cmsdata/web_upload/svc/20230329/1680050914280HZAYFX8GLLMTVZI2H6BD0WGPV_IM02.jpg"
+                  : campground.imageUrl
+              }
+            />
             <Infos>
-              <Info>{`이름: ${campground.name}`}</Info>
+              <Info>{`이름: ${campground.productName}`}</Info>
               <Info>{`위치: ${campground.location}`}</Info>
-              <Info>{`판매자: ${campground.seller}`}</Info>
-              <Info>{`가격: ${campground.price}`}</Info>
+              <Info>{`판매자: ${isSellerLoading ? "로딩중" : seller}`}</Info>
+              <Info>{`가격: ${campground.productPrice}`}</Info>
             </Infos>
           </Front>
         </Inner>
       </Container>
-      <ProductModal isOpen={openModal} closeModal={handleCloseModal} />
+      <ProductModal
+        isOpen={openModal}
+        closeModal={handleCloseModal}
+        campground={campground}
+      />
     </>
   );
 }
