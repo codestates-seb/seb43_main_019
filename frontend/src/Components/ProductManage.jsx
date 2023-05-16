@@ -36,7 +36,7 @@ export default function ProductManage() {
     <Container>
       <Title>상품등록화면 (아래 카드는 대략적인 이미지임!)</Title>
       <Products>
-        {campgrounds.map((campground) => (
+        {dummyCampgrounds.map((campground) => (
           <Card2 campground={campground} />
         ))}
       </Products>
