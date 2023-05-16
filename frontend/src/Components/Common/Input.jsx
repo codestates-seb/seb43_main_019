@@ -60,6 +60,17 @@ export const SellInput = styled.input`
     }
 `;
 
+export const UnderInput = styled.input`
+  font-size: 16px;
+  padding: 10px 10px 10px 5px;
+  display: block;
+  width: 185px;
+  border: none;
+  border-bottom: 1px solid #6c6c6c;
+  background: transparent;
+  color: #475ed4;
+`;
+
 // 사용예시
 // import { Input } from "../Components/Common/Input";
 //  <Input />

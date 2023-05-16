@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Main from "./Pages/Main";
 import SignUp from "./Pages/SignUp";
 import Login from "./Pages/Login";
+import Payment from "./Pages/Payment";
 import Mypage from "./Pages/Mypage";
 import Detail from "./Pages/Detail";
 // import "./Style/App.css";
@@ -85,6 +86,7 @@ function App() {
           <Route path="/kakaologin" element={<KakaoLogin />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/:id" element={<Detail />} />
+          <Route path="/payment" element={<Payment />} />
           <Route path="/" element={<Main />} />
         </Routes>
       </Container>

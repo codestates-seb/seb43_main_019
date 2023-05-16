@@ -68,64 +68,6 @@ const Logo = styled.img`
   }
 `;
 
-// const Icon = styled(FontAwesomeIcon)`
-//   font-size: 30px;
-
-//   &:hover {
-//     cursor: pointer;
-//   }
-
-//   @media screen and (max-width: 900px) {
-//     display: none;
-//   }
-// `;
-
-// const Menu = styled.ul`
-//   @media screen and (min-width: 900px) {
-//     max-width: 500px;
-//     width: 100%;
-//     height: 100%;
-//     display: grid;
-//     grid-template-columns: repeat(3, 1fr);
-//     justify-items: center;
-//     align-items: center;
-//     display: ${(props) => props.pos === "bottom" && "none"};
-//   }
-
-//   @media screen and (max-width: 900px) {
-//     width: 100%;
-//     height: 210px;
-//     display: grid;
-//     grid-template-rows: repeat(5, 1fr);
-//     background-color: ${(props) =>
-//       props.isDark ? "var(--black-600)" : "var(--white-50)"};
-//     display: ${(props) => props.pos === "top" && "none"};
-//   }
-// `;
-
-// const Item = styled.li`
-//   &:hover {
-//     cursor: pointer;
-//   }
-
-//   color: ${(props) => (props.isDark ? "var( --white)" : "var(--black)")};
-//   width: 100%;
-//   font-size: 18px;
-//   font-weight: bold;
-//   display: flex;
-//   align-items: center;
-
-//   @media screen and (min-width: 900px) {
-//     height: 100%;
-//     justify-content: center;
-//   }
-
-//   @media screen and (max-width: 900px) {
-//     height: 70px;
-//     justify-content: start;
-//     padding-left: 50px;
-//   }
-// `;
 
 const UserStatus = styled.div`
   width: 200px;
