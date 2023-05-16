@@ -1,19 +1,16 @@
 package com.osdoor.aircamp.auth.oauth;
 
 import lombok.AllArgsConstructor;
-import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
 @AllArgsConstructor
-@ToString
 public class CustomOAuth2User implements OAuth2User, Serializable {
 
     private Long memberId;

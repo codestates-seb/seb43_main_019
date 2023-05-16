@@ -49,6 +49,6 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler  {
 
         response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("Refresh", refreshToken);
-//        response.sendRedirect("/");
+        response.sendRedirect("/");
     }
 }
