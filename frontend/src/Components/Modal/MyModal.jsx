@@ -26,11 +26,12 @@ export const ModalView = styled.div.attrs((props) => ({
   border-radius: 10px;
   background-color: #ffffff;
   width: 500px;
-  height: 200px;
+  height: 100%;
   margin-bottom: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   > div.desc {
     font-size: 16px;
     color: var(--black);
@@ -39,6 +40,7 @@ export const ModalView = styled.div.attrs((props) => ({
     pointer-events: none;
     transition: 0.5s;
     margin-bottom: 10px;
+    align-items: flex-start;
   }
   label {
     font-size: 16px;
@@ -48,13 +50,21 @@ export const ModalView = styled.div.attrs((props) => ({
     transition: 0.5s;
     margin-right: 20px;
     align-items: center;
+    justify-content: start;
+    display: inline-block;
   }
 
   > div.input-container {
     margin: 10px 0;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+    label {
+      display: inline-block;
+      margin-right: 20px;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
 
     input[type="text"] {
       font-size: 16px;
@@ -145,6 +155,8 @@ function MyModal(props) {
   const { name, setName } = useState("");
   const { password, setPassword } = useState("");
   const { phone, setPhone } = useState("");
+  const { businessRegistrationNumber, setBusinessRegistrationNumber } = useState("");
+  const { sellDate, setSellDate } = useState("");
   const userState = useSelector((state) => state.userReducer);
   const navigate = useNavigate();
 
@@ -159,6 +171,15 @@ function MyModal(props) {
   const handlePhone = (event) => {
     setName((prev) => event.target.value);
   };
+
+  const handleBusinessRegistrationNumber = (event) => {
+    setName((prev) => event.target.value);
+  };
+
+  const handleSellDate = (event) => {
+    setName((prev) => event.target.value);
+  };
+  
 
   const handleUpdate = async () => {
     if (checkValidPassword(password) === false) {
@@ -207,6 +228,8 @@ function MyModal(props) {
           <Exitbtn onClick={closeModal}>&times;</Exitbtn>
           <div className="desc">
             <label>이름,비밀번호,전화번호만 수정 가능합니다.</label>
+            <label>사업자 번호를 수정하고 싶으시다면 채팅을 통해</label>
+            <label>관리자에게 문의해주세요 :)</label>
           </div>
           <div className="input-container">
             <label>name</label>
@@ -239,10 +262,30 @@ function MyModal(props) {
             ></input>
           </div>
           <div className="input-container">
-            <Btn>수정하기</Btn>
+          <label>사업자 번호</label>
+          <input
+            type="text"
+            name=""
+            required="businessRegistrationNumber"
+            value={businessRegistrationNumber}
+            onChange={handleBusinessRegistrationNumber}
+          ></input>
+        </div>
+        <div className="input-container">
+        <label>등록일자</label>
+        <input
+          type="text"
+          name=""
+          required="sellDate"
+          value={sellDate}
+          onChange={handleSellDate}
+        ></input>
+      </div>
+          <div className="input-container">
+            <Btn onChange={handleUpdate}>수정하기</Btn>
           </div>
           <div className="input-container">
-            <Btn>회원탈퇴</Btn>
+            <Btn onChange={handleDelete}>회원탈퇴</Btn>
           </div>
         </ModalView>
       </ModalBackdrop>
