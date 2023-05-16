@@ -58,7 +58,7 @@ const SideInfos = styled.div`
   }
 `;
 
-export default function User() {
+export default function User({ user }) {
   const [openModal, setOpenModal] = useState(false);
 
   const handleOpenModal = () => {
@@ -75,12 +75,12 @@ export default function User() {
         <FcBusinessman size={"50px"} />
         <Infos>
           <MainInfos>
-            <Info>사람 이름</Info>
-            <Info>사람 ID</Info>
+            <Info>{user.name}</Info>
+            <Info>{user.email}</Info>
           </MainInfos>
           <SideInfos>
-            <Info>사람 Email</Info>
-            <Info>판매자인지?</Info>
+            <Info>{user.phone}</Info>
+            <Info>{user.isSellerVerifed ? "판매자" : ""}</Info>
           </SideInfos>
         </Infos>
         <BsInfoCircleFill onClick={handleOpenModal} size={"50px"} />

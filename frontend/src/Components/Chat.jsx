@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import CustomerChat from "./Chatting/CustomerChat";
 import AgentChat from "./Chatting/AgentChat";
-import { OPENAI_API_KEY } from "../secret";
+import { OPENAI_API_KEY } from "../config";
 
 const Btn = styled(motion.div)`
   width: 70px;
