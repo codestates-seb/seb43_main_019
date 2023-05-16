@@ -47,7 +47,7 @@ dependencies {
     runtimeOnly	'io.jsonwebtoken:jjwt-jackson:0.11.5' // Jwt 적용을 위한 추가
 
     implementation 'net.jodah:expiringmap:0.5.9' // 카카오페이 서비스에서 사용
-
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client' // oauth2 적용
 }
 
 tasks.named('test') {
