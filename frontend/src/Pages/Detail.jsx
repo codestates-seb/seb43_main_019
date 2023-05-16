@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import CampgroundImage from "../Components/DeatilImage";
 import Picker from "../Components/Picker";
@@ -46,11 +46,13 @@ const InfoContainer = styled.div`
 function Detail() {
   const [selectedDate, setSelectedDate] = useState(null);
   const { id } = useParams();
-  const selectedCampground = dummyCampgrounds.find(
-    (campground) => campground.id === parseInt(id)
+  /*
+  const selectedCampground = dummyCampgrounds.data.find(
+    (campground) => campground.productId === parseInt(id)
   );
+
   const {
-    name,
+    productName,
     selection,
     location,
     period,
@@ -62,12 +64,16 @@ function Detail() {
     price,
     call,
   } = selectedCampground;
-
+*/
   return (
     <Container>
       <ContainerBox>
         <ImgContainer>
-          <CampgroundImage src={img} />
+          <CampgroundImage
+            src={
+              "https://yeyak.seoul.go.kr/cmsdata/web_upload/svc/20230329/1680050914280HZAYFX8GLLMTVZI2H6BD0WGPV_IM02.jpg"
+            }
+          />
           <Picker
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
@@ -76,16 +82,16 @@ function Detail() {
         <CampgroundContainer>
           <InfoContainer>
             <CampgroundInfo
-              name={name}
-              location={location}
-              period={period}
-              selection={selection}
-              description={description}
-              capacity={capacity}
-              restriction={restriction}
-              cancel={cancel}
-              price={price}
-              call={call}
+              name={"name"}
+              location={"location"}
+              period={"period"}
+              selection={"selection"}
+              description={"description"}
+              capacity={"capacity"}
+              restriction={"restriction"}
+              cancel={"cancel"}
+              price={"price"}
+              call={"call"}
             >
               <CommonButton>예약 하기</CommonButton>
             </CampgroundInfo>
