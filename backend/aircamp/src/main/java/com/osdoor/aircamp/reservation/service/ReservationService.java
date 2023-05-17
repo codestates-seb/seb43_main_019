@@ -3,6 +3,7 @@ package com.osdoor.aircamp.reservation.service;
 import com.osdoor.aircamp.auth.utils.AuthorizationUtils;
 import com.osdoor.aircamp.exception.BusinessLogicException;
 import com.osdoor.aircamp.exception.ExceptionCode;
+import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.member.service.MemberService;
 import com.osdoor.aircamp.product.service.ProductService;
 import com.osdoor.aircamp.reservation.entity.Reservation;
@@ -98,6 +99,15 @@ public class ReservationService {
     public void completeReservation(Long reservationId) {
         Reservation reservation = findReservation(reservationId);
         reservation.setReservationStatus(ReservationStatus.RESERVATION_COMPLETE);
+    }
+
+    private void updateUsageCount(Reservation reservation) {
+        Member member = memberService.findMember(reservation.getMember().getMemberId());
+        int usageCount = member.getUsageCount() + 1;
+
+        member.setUsageCount(usageCount);
+
+        memberService.updateMember(member);
     }
 }
 
