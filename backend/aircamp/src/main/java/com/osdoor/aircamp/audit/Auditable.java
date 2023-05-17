@@ -6,10 +6,9 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
@@ -31,5 +30,15 @@ public class Auditable {
     @LastModifiedBy
     @Column(name = "modified_by")
     protected String modifiedBy; // 항목을 마지막으로 수정한 사용자나 시스템
+
+    @PrePersist
+    private void onCreate() {
+        this.createdBy = SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
+    @PreUpdate
+    private void onUpdate() {
+        this.modifiedBy = SecurityContextHolder.getContext().getAuthentication().getName();
+    }
 }
 
