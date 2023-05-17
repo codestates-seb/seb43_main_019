@@ -35,7 +35,7 @@ export default function Input02({
   maxWidth = "600px",
   minHeight = "40px",
   height = "40px",
-  placeholder = "Placeholder",
+  placeholder = "Input02",
 }) {
   return (
     <Input

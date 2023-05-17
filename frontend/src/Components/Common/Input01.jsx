@@ -13,7 +13,7 @@ const Input = styled.input`
 export default function Input01({
   width = "200px",
   height = "50px",
-  placeholder = "Placeholder",
+  placeholder = "Input01",
 }) {
   return <Input width={width} height={height} placeholder={placeholder} />;
 }

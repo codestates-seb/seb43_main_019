@@ -4,7 +4,7 @@ import CampgroundImage from "../Components/DeatilImage";
 import Picker from "../Components/Picker";
 import CampgroundInfo from "../Components/DetailInfo";
 import Map from "../Components/Map";
-import { campgrounds } from "../Dummy/DummyDatas";
+import { dummyCampgrounds } from "../Dummy/DummyDatas";
 import { useParams, useNavigate } from "react-router-dom";
 import { CommonButton } from "../Components/Common/Button";
 import { useSelector } from "react-redux";
@@ -47,6 +47,16 @@ const InfoContainer = styled.div`
 function Detail() {
   const [selectedDate, setSelectedDate] = useState(null);
   const { id } = useParams();
+  const navigate = useNavigate();
+  const isDark = useSelector((state) => state.modeReducer);
+  const userState = useSelector((state) => state.userReducer);
+
+  const selectedCampground = dummyCampgrounds.data.find(
+    (campground) => campground.productId === parseInt(id)
+  );
+
+  const { productId, productName, address, location, imageUrl, memberId } =
+    selectedCampground;
 
   const handleReservation = () => {
     if (userState.login) {
@@ -61,11 +71,7 @@ function Detail() {
     <Container>
       <ContainerBox>
         <ImgContainer>
-          <CampgroundImage
-            src={
-              "https://yeyak.seoul.go.kr/cmsdata/web_upload/svc/20230329/1680050914280HZAYFX8GLLMTVZI2H6BD0WGPV_IM02.jpg"
-            }
-          />
+          <CampgroundImage src={imageUrl} />
           <Picker
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
@@ -74,16 +80,11 @@ function Detail() {
         <CampgroundContainer>
           <InfoContainer>
             <CampgroundInfo
-              name={name}
+              productName={productName}
               location={location}
-              period={period}
-              selection={selection}
-              description={description}
-              capacity={capacity}
-              restriction={restriction}
-              cancel={cancel}
-              price={price}
-              call={call}
+              productId={productId}
+              address={address}
+              memberId={memberId}
               isDark={isDark}
             >
               <CommonButton onClick={handleReservation}>예약 하기</CommonButton>
@@ -91,7 +92,7 @@ function Detail() {
           </InfoContainer>
         </CampgroundContainer>
       </ContainerBox>
-      <Map />
+      {/* <Map /> */}
     </Container>
   );
 }

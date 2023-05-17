@@ -172,7 +172,7 @@ export default function Card2({ campground }) {
         </Front>
         <Back isDark={isDark}>
           <Info>
-            <Link to={`/${campground.id}`}>
+            <Link to={`/${campground.productId}`}>
               <Descriptions isDark={isDark}>
                 <Description>{getInfo(infoType)}</Description>
               </Descriptions>

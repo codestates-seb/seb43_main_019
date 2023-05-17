@@ -20,7 +20,8 @@ import KakaoLogin from "./Pages/KakaoLogin";
 import { JS_KEY } from "./config";
 import Profile from "./Pages/Profile";
 import Chat from "./Components/Chat";
-import Test from "./Pages/Test";
+import ComponentExamples from "./Pages/ComponentExamples";
+import NotFound from "./Pages/NotFound";
 
 // 모든 요청에 withCredentials가 true로 설정됩니다.
 axios.defaults.withCredentials = true;
@@ -87,7 +88,7 @@ function App() {
           <Route path="/kakaologin" element={<KakaoLogin />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/payment" element={<Payment />} />
-          <Route path="/test" element={<Test />} />
+          <Route path="/samples" element={<ComponentExamples />} />
           <Route path="/:id" element={<Detail />} />
           <Route path="/" element={<Main />} />
         </Routes>
