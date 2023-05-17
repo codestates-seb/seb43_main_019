@@ -85,6 +85,9 @@ public class MemberService {
         Optional.ofNullable(member.getMemberStatus())
                 .ifPresent(findMember::setMemberStatus);
 
+        Optional.ofNullable(member.getUsageCount())
+                .ifPresent(findMember::setUsageCount);  // 예약 시 이용횟수 + 1 추가
+
         findMember.setModifiedBy(setByField(member));
 
 //        Optional.ofNullable(member.getVerificationToken())
