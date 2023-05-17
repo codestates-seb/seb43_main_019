@@ -67,6 +67,7 @@ export default function SignUp() {
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [code, setCode] = useState("");
   const [today, setToday] = useState("");
+  const [authCode, setAuthCode] = useState("");
   const [authRequired, setAuthRequired] = useState(false);
   const { register, handleSubmit, setFocus, watch } = useForm();
   const isDark = useSelector((state) => state.modeReducer);
@@ -87,9 +88,7 @@ export default function SignUp() {
   };
 
   const handleVerificationSubmit = async () => {
-    const email = watch("email");
-
-    const authCode = await getEmailCode(email);
+    // const email = watch("email");
 
     if (authCode === null) {
       alert("인증코드 발송에 실패했습니다.");
@@ -138,6 +137,11 @@ export default function SignUp() {
     }
 
     if (authRequired === false && isEmailVerified === false) {
+      const result = await getEmailCode(email);
+      setAuthCode((prev) => result);
+
+      console.log(`Code = ${result}`);
+
       setAuthRequired((prev) => true);
       return;
     }
@@ -160,7 +164,7 @@ export default function SignUp() {
       phone,
       isEmailVerified: true,
       isSellerVerified: false,
-      businessRegistrationNumber: false,
+      businessRegistrationNumber: "000-00-00000",
     };
 
     const success = await handleJoin(joinInfo);

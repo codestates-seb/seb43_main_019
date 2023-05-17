@@ -56,6 +56,7 @@ export const getAllCampgroundsInfo = async (page, size) => {
     const response = await axios.get(
       `${BACK}/api/products?page=${page}&size=${size}`
     );
+
     const infos = response.data.data;
 
     return infos;

@@ -12,9 +12,10 @@ export const handleStartLogin = async (data) => {
   try {
     // 백엔드에게서 result를 받아온다.
     const response = await axios.post(`${BACK}/api/login`, loginInfo);
-    const { data } = response;
 
-    const authToken = data.Authorization;
+    const data = response.headers;
+
+    const authToken = data.authorization;
     const refreshToken = data.Refresh;
 
     const validToken = authToken.slice(7);
@@ -23,6 +24,7 @@ export const handleStartLogin = async (data) => {
 
     return decoded;
   } catch (error) {
+    console.log(error);
     return null;
   }
 };
@@ -33,11 +35,12 @@ export const handleStartLogin = async (data) => {
 // 실패 시 null을 반환합니다.
 export const getEmailCode = async (email) => {
   try {
-    const response = await axios.get(
+    const response = await axios.post(
       `${BACK}/api/members/email-verify?email=${email}`
     );
 
     const code = response.data.data;
+
     return code;
   } catch (error) {
     return null;
@@ -50,6 +53,7 @@ export const getEmailCode = async (email) => {
 // 실패 시 false를 반환합니다.
 export const handleJoin = async (joinInfo) => {
   try {
+    console.log(joinInfo);
     await axios.post(`${BACK}/api/members`, joinInfo);
 
     return true;
