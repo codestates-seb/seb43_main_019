@@ -20,13 +20,13 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/reservations") // 클래스에 대한 HTTP 요청 매핑을 정의하기 위한 애너테이션
-@Validated // 입력값 검증 위한 애너테이션
+@RequestMapping("/api/reservations")
+@Validated
 public class ReservationController {
     private final static String RESERVATION_DEFAULT_URL = "/api/reservations";
     private final ReservationService reservationService;
     private final ReservationMapper mapper;
-    private final MemberService memberService; // MemberService 구현되면 주석 해제
+    private final MemberService memberService;
 
     public ReservationController(ReservationService reservationService,
                                  ReservationMapper mapper, MemberService memberService) {
@@ -45,20 +45,20 @@ public class ReservationController {
     }
 
     // 예약을 수정
-//    @PatchMapping("/{reservation-id}")
-//    public ResponseEntity patchReservation(@PathVariable("reservation-id") @Positive long reservationId,
-//                                           @Valid @RequestBody ReservationPatchDto reservationPatchDto) {
-//        reservationPatchDto.setReservationId(reservationId);
-//        Reservation reservation =
-//                reservationService.updateReservation(mapper.reservationPatchDtoToReservation(reservationPatchDto));
-//
-//        return new ResponseEntity<>(
-//                new SingleResponseDto<>(mapper.reservationToReservationResponseDto(reservation))
-//                , HttpStatus.OK);
-//    }
+    @PatchMapping("/api/reservations/{reservation-id}")
+    public ResponseEntity patchReservation(@PathVariable("reservation-id") @Positive long reservationId,
+                                           @Valid @RequestBody ReservationPatchDto reservationPatchDto) {
+        reservationPatchDto.setReservationId(reservationId);
+        Reservation reservation =
+                reservationService.updateReservation(mapper.reservationPatchDtoToReservation(reservationPatchDto));
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(mapper.reservationToReservationResponseDto(reservation))
+                , HttpStatus.OK);
+    }
 
     // 예약을 조회
-    @GetMapping("/{reservation-id}")
+    @GetMapping("/api/reservations/{reservation-id}")
     public ResponseEntity getReservation(@PathVariable("reservation-id") @Positive long reservationId) {
         Reservation reservation = reservationService.findReservation(reservationId);
 
@@ -68,7 +68,7 @@ public class ReservationController {
     }
 
     // 예약 취소 요청
-    @DeleteMapping("/{reservation-id}")
+    @DeleteMapping("/api/reservations/{reservation-id}")
     public ResponseEntity cancelReservation(@PathVariable("reservation-id") @Positive long reservationId) {
         reservationService.cancelReservation(reservationId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

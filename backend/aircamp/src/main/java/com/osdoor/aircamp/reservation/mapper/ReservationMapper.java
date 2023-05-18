@@ -11,14 +11,14 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ReservationMapper {
-//    Reservation reservationPatchDtoToReservation(ReservationPatchDto reservationPatchDto);
+    Reservation reservationPatchDtoToReservation(ReservationPatchDto reservationPatchDto);
     List<ReservationResponseDto> reservationsToReservationResponseDtos(List<Reservation> reservations);
     
     default Reservation reservationPostDtoToReservation(ReservationPostDto reservationPostDto) {
         Reservation reservation = new Reservation();
         Member member = new Member();
-        
         member.setMemberId(reservationPostDto.getMemberId()); // member 객체에 memberId 주입
+
         reservation.setMember(member); // reservation 객체에 member 객체 주입
         
         return reservation;
