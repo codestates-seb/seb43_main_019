@@ -1,14 +1,16 @@
 import styled from "@emotion/styled";
-import { FcStatistics, FcBusinessman, FcAcceptDatabase } from "react-icons/fc";
+import { FcBusinessman, FcAcceptDatabase } from "react-icons/fc";
 
 const Container = styled.ul`
   max-width: 1200px;
   width: 100%;
+  height: 100vh;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   justify-items: center;
-  align-items: center;
-  padding: 50px 200px 300px 200px;
+  align-items: start;
+  padding: 0 200px;
+  padding-top: 50px;
 `;
 
 const Menu = styled.li`
@@ -46,10 +48,6 @@ const Menu = styled.li`
 export default function Menus({ handleMenuClick }) {
   return (
     <Container>
-      <Menu onClick={() => handleMenuClick("total-statistics")}>
-        <FcStatistics size={25} />
-        &nbsp;전체통계
-      </Menu>
       <Menu onClick={() => handleMenuClick("user-management")}>
         <FcBusinessman size={25} />
         &nbsp;유저관리

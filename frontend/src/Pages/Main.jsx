@@ -22,6 +22,8 @@ const Container = styled.main`
   margin: 0 auto;
   width: 100%;
   height: auto;
+  min-height: 100vh;
+
   display: grid;
   grid-template-columns: 1fr;
   @media screen and (min-width: 900px) {
@@ -93,11 +95,11 @@ export default function Main() {
     (async () => {
       setIsLoading((prev) => true);
 
-      setData((prev) => [...dummyCampgrounds.data]);
+      // setData((prev) => [...dummyCampgrounds.data]);
 
       // 실제 데이터 받아오는 과정
-      // const initData = getAllCampgroundsInfo(page, size);
-      // setData((prev) => [...initData]);
+      const initData = await getAllCampgroundsInfo(page, size);
+      setData((prev) => [...initData]);
 
       setIsLoading((prev) => false);
     })();

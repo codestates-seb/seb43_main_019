@@ -53,6 +53,7 @@ function Detail() {
   const navigate = useNavigate();
   const isDark = useSelector((state) => state.modeReducer);
   const userState = useSelector((state) => state.userReducer);
+
   // const [campgroundData, setCampgroundData] = useState(null);
 
   // useEffect(() => {
@@ -118,7 +119,7 @@ function Detail() {
           </InfoContainer>
         </CampgroundContainer>
       </ContainerBox>
-      <Map />
+      {/* <Map /> */}
     </Container>
   );
 }

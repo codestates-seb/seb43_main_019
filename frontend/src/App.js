@@ -20,6 +20,8 @@ import KakaoLogin from "./Pages/KakaoLogin";
 import { JS_KEY } from "./config";
 import Profile from "./Pages/Profile";
 import Chat from "./Components/Chat";
+import ComponentExamples from "./Pages/ComponentExamples";
+import NotFound from "./Pages/NotFound";
 
 // 모든 요청에 withCredentials가 true로 설정됩니다.
 axios.defaults.withCredentials = true;
@@ -68,7 +70,7 @@ function App() {
 
   useEffect(() => {
     (async () => {
-      authHandler();
+      // authHandler();
     })();
   }, []);
 
@@ -85,6 +87,8 @@ function App() {
           <Route path={"/admin/*"} element={<Admin />} />
           <Route path="/kakaologin" element={<KakaoLogin />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/samples" element={<ComponentExamples />} />
           <Route path="/:id" element={<Detail />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/" element={<Main />} />
