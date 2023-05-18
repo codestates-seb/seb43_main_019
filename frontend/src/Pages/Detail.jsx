@@ -4,7 +4,6 @@ import CampgroundImage from "../Components/DeatilImage";
 import Picker from "../Components/Picker";
 import CampgroundInfo from "../Components/DetailInfo";
 import Map from "../Components/Map";
-import { dummyCampgrounds } from "../Dummy/DummyDatas";
 import { useParams, useNavigate } from "react-router-dom";
 import { CommonButton } from "../Components/Common/Button";
 import { useSelector } from "react-redux";
@@ -53,20 +52,16 @@ function Detail() {
   const navigate = useNavigate();
   const isDark = useSelector((state) => state.modeReducer);
   const userState = useSelector((state) => state.userReducer);
+  const [data, setData] = useState(null);
 
-  // const [campgroundData, setCampgroundData] = useState(null);
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getCampgroundInfo(id);
+      setData(data);
+    }
+    fetchData();
+  }, [id]);
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const data = await getCampgroundInfo(id);
-  //     setCampgroundData(data);
-  //   }
-  //   fetchData();
-  // }, [id]);
-
-  const selectedCampground = dummyCampgrounds.data.find(
-    (campground) => campground.productId === parseInt(id)
-  );
   const {
     content,
     productPrice,
@@ -76,8 +71,7 @@ function Detail() {
     imageUrl,
     productPhone,
     capacity,
-  } = selectedCampground;
-  // } = campgroundData;
+  } = data || {};
 
   const handleReservation = () => {
     if (userState.login) {
@@ -88,9 +82,9 @@ function Detail() {
     }
   };
 
-  // if (!campgroundData) {
-  //   return <div>Loading...</div>;
-  // }
+  if (!data) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Container>
