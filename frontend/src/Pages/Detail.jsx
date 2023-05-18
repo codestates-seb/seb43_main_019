@@ -8,6 +8,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { CommonButton } from "../Components/Common/Button";
 import { useSelector } from "react-redux";
 import { getCampgroundInfo } from "../utils/ProductFunctions";
+import ReviewForm from "../Components/ReviewForm";
 
 const Container = styled.div`
   display: flex;
@@ -114,6 +115,7 @@ function Detail() {
         </CampgroundContainer>
       </ContainerBox>
       {/* <Map /> */}
+      <ReviewForm />
     </Container>
   );
 }

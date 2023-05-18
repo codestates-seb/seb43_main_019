@@ -137,14 +137,8 @@ export default function Main({ searchResults }) {
     })();
   }, [containerRef]);
 
-  useEffect(() => {
-    (async () => {
-      await getCampgroundInfo(1);
-    })();
-  }, []);
-
   return isLoading ? (
-    <Loader>isLoading...</Loader>
+    <Loader>Loading...</Loader>
   ) : (
     <>
       <ContextArea isDark={isDark}>

@@ -152,12 +152,13 @@ const Btn = styled.div`
 
 function MyModal(props) {
   const { isOpen, closeModal } = props;
-  const { name, setName } = useState("");
-  const { password, setPassword } = useState("");
-  const { phone, setPhone } = useState("");
-  const { businessRegistrationNumber, setBusinessRegistrationNumber } = useState("");
-  const { sellDate, setSellDate } = useState("");
-  const userState = useSelector((state) => state.userReducer);
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [businessRegistrationNumber, setBusinessRegistrationNumber] =
+    useState("");
+  const { userInfo } = props;
+
   const navigate = useNavigate();
 
   const handleName = (event) => {
@@ -165,38 +166,33 @@ function MyModal(props) {
   };
 
   const handlePassword = (event) => {
-    setName((prev) => event.target.value);
+    setPassword((prev) => event.target.value);
   };
 
   const handlePhone = (event) => {
-    setName((prev) => event.target.value);
+    setPhone((prev) => event.target.value);
   };
 
   const handleBusinessRegistrationNumber = (event) => {
-    setName((prev) => event.target.value);
+    setBusinessRegistrationNumber((prev) => event.target.value);
   };
-
-  const handleSellDate = (event) => {
-    setName((prev) => event.target.value);
-  };
-  
 
   const handleUpdate = async () => {
     if (checkValidPassword(password) === false) {
-      alert("비밀번호가 양식과 맞지 않습니다.");
-      return;
+      //alert("비밀번호가 양식과 맞지 않습니다.");
+      //return;
     }
 
     if (checkValidPhone(phone)) {
-      alert("전화번호가 양식과 맞지 않습니다.");
-      return;
+      //alert("전화번호가 양식과 맞지 않습니다.");
+      //return;
     }
 
     const updatedInfo = {
       name,
       password,
       phone,
-      isSellerVerified: true,
+      isSellerVerified: userInfo.isSellerVerified,
       businessRegistrationNumber: "000-00-00000",
     };
 
@@ -220,6 +216,14 @@ function MyModal(props) {
       alert("탈퇴가 완료되지 않았습니다.");
     }
   };
+
+  useEffect(() => {
+    setName((prev) => (userInfo ? userInfo.name : "이름"));
+    setPhone((prev) => (userInfo ? userInfo.phone : "010-"));
+    setBusinessRegistrationNumber((prev) =>
+      userInfo ? userInfo.businessRegistrationNumber : "0"
+    );
+  }, []);
 
   return (
     <Modal isOpen={isOpen} onRequestClose={closeModal} style={ModalStyle}>
@@ -262,30 +266,20 @@ function MyModal(props) {
             ></input>
           </div>
           <div className="input-container">
-          <label>사업자 번호</label>
-          <input
-            type="text"
-            name=""
-            required="businessRegistrationNumber"
-            value={businessRegistrationNumber}
-            onChange={handleBusinessRegistrationNumber}
-          ></input>
-        </div>
-        <div className="input-container">
-        <label>등록일자</label>
-        <input
-          type="text"
-          name=""
-          required="sellDate"
-          value={sellDate}
-          onChange={handleSellDate}
-        ></input>
-      </div>
-          <div className="input-container">
-            <Btn onChange={handleUpdate}>수정하기</Btn>
+            <label>사업자 번호</label>
+            <input
+              type="text"
+              name=""
+              required="businessRegistrationNumber"
+              value={businessRegistrationNumber}
+              onChange={handleBusinessRegistrationNumber}
+            ></input>
           </div>
           <div className="input-container">
-            <Btn onChange={handleDelete}>회원탈퇴</Btn>
+            <Btn onClick={handleUpdate}>수정하기</Btn>
+          </div>
+          <div className="input-container">
+            <Btn onClick={handleDelete}>회원탈퇴</Btn>
           </div>
         </ModalView>
       </ModalBackdrop>

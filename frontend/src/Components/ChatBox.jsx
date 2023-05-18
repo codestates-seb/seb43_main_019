@@ -1,11 +1,12 @@
 import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComments } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion } from "framer-motion";
 import CustomerChat from "./Chatting/CustomerChat";
-import AgentChat from "./Chatting/AgentChat";
-import { OPENAI_API_KEY } from "../config";
+import AIChat from "./Chatting/AIChat";
+import { AiFillCloseCircle } from "react-icons/ai";
+import { BiReset } from "react-icons/bi";
 
 const Btn = styled(motion.div)`
   width: 70px;
@@ -53,25 +54,39 @@ const Container = styled(motion.form)`
   width: 360px;
   height: 500px;
   background-color: var(--gray-300);
+  border-radius: 20px;
   position: fixed;
   bottom: 15px;
   right: 15px;
-  border-radius: 20px;
   display: grid;
-  grid-template-rows: 5fr 1fr;
+  grid-template-rows: 1fr 6fr 1fr;
   justify-items: center;
   align-items: center;
-  padding: 20px;
-  padding-top: 40px;
   z-index: 1;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
     rgba(0, 0, 0, 0.22) 0px 15px 12px;
 `;
 
-const ChattingBox = styled.div`
+const Header = styled.div`
   width: 100%;
   height: 100%;
   border-radius: 20px 20px 0 0;
+  background-color: var(--gray-300);
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  padding-right: 30px;
+`;
+
+const Icons = styled.div`
+  width: 90px;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const ChattingBox = styled.div`
+  width: 100%;
+  height: 100%;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -163,7 +178,7 @@ const ChatInputBtn = styled.button`
   }
 `;
 
-export default function Chat() {
+export default function ChatBox() {
   const [isChatting, setIsChatting] = useState(false);
   const [chat, setChat] = useState("");
   const [allChats, setAllChats] = useState([]);
@@ -190,7 +205,6 @@ export default function Chat() {
 
     scrollToBottom();
 
-    /*
     // 진짜 대화
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -222,8 +236,8 @@ export default function Chat() {
       scrollToBottom();
     }, 2000);
     // =============
-    */
 
+    /*
     // 테스트 답변
     setTimeout(() => {
       scrollToBottom();
@@ -242,6 +256,7 @@ export default function Chat() {
       scrollToBottom();
     }, 2000);
     // =============
+    */
   };
 
   const handleInputChat = (event) => {
@@ -250,13 +265,21 @@ export default function Chat() {
 
   return isChatting ? (
     <Container layoutId={"chat"} onSubmit={handlePostChat}>
-      <CloseBtn onClick={() => setIsChatting(false)}>X</CloseBtn>
+      <Header>
+        <Icons>
+          <BiReset size={"35px"} />
+          <AiFillCloseCircle
+            onClick={() => setIsChatting((prev) => false)}
+            size={"35px"}
+          />
+        </Icons>
+      </Header>
       <ChattingBox ref={chatRef}>
         {allChats.map((chat) =>
           chat.customer ? (
             <CustomerChat key={chat.id + ""} chatContent={chat.content} />
           ) : (
-            <AgentChat key={chat.id + ""} chatContent={chat.content} />
+            <AIChat key={chat.id + ""} chatContent={chat.content} />
           )
         )}
       </ChattingBox>

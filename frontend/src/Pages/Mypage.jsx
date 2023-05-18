@@ -130,7 +130,11 @@ export default function Mypage() {
           <ProfileCard onClick={openMyModal}>
             <FaAddressCard size={25} /> &nbsp;개인정보관리
           </ProfileCard>
-          <MyModal isOpen={MyModalOpen} closeModal={closeMyModal} />
+          <MyModal
+            isOpen={MyModalOpen}
+            closeModal={closeMyModal}
+            userInfo={userState.userInfo}
+          />
         </div>
         <div>
           <ProfileCard onClick={openRsModal}>
