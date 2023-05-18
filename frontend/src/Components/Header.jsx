@@ -68,7 +68,6 @@ const Logo = styled.img`
   }
 `;
 
-
 const UserStatus = styled.div`
   width: 200px;
   height: 40px;
@@ -87,7 +86,6 @@ const UserStatus = styled.div`
     cursor: pointer;
   }
 `;
-
 
 const InputSpace = styled.div`
   display: flex;
@@ -156,7 +154,6 @@ const Input = styled.input`
 //   }
 // `;
 
-
 export default function Header() {
   const navigate = useNavigate();
   // const [showMenu, setShowMenu] = useState(false);
@@ -171,18 +168,9 @@ export default function Header() {
 
   const handleSignOut = async () => {
     try {
-      const result = await axios.post("http://localhost:4000/user/logout");
-
       dispatch(handleLogout());
-
-      if (Math.floor(result.status / 100) === 2) {
-        alert("로그아웃에 상공했습니다.");
-      }
     } catch (error) {
-      const { status } = error.response;
-
-      alert(`Error Status: ${status}`);
-
+      alert("로그아웃에 실패했습니다.");
       return;
     }
   };
