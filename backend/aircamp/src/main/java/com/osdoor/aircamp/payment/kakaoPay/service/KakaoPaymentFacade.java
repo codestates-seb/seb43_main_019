@@ -45,7 +45,6 @@ public class KakaoPaymentFacade implements PaymentTypeFacade {
     }
 
     private void doKakaoScheduling(Long reservationId) {
-
         MultiValueMap<String, String> queryParam = new LinkedMultiValueMap<>();
 
         queryParam.add("reservationId", String.valueOf(reservationId));
