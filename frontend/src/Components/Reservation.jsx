@@ -40,10 +40,11 @@ export default function Reservation() {
       <Container>
         <Title>고객님께서 등록하신 캠핑장입니다.</Title>
         <Products>
-        {dummyCampgrounds.filter(campground => campground.productId === 1).map(campground => (
-    <Card2 key={campground.productId} campground={campground} />
-  ))}
-
+          {dummyCampgrounds
+            .filter((campground) => campground.productId === 1)
+            .map((campground) => (
+              <Card2 key={campground.productId} campground={campground} />
+            ))}
         </Products>
       </Container>
     </>

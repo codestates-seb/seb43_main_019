@@ -5,6 +5,7 @@ import { RiArrowDownSLine } from "react-icons/ri";
 import KakaoPayButton from "../Components/Payment/KakaoPayBtn";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 const Container = styled.div`
   width: 100%;
@@ -17,8 +18,25 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
+const Form = styled.form`
+  max-width: 800px;
+  width: 100%;
+  padding: 0 15px;
+  text-align: center;
+  background-color: ${(props) =>
+    props.isDark ? "var(--white-50)" : "var(--white)"};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  border-radius: 20px;
+  border: 1px solid var(--black-500);
+  margin-top: 80px;
+`;
+
 const Heading = styled.h1`
-  margin-top: 100px;
+  margin-top: 50px;
   font-size: 2rem;
   margin-bottom: 2rem;
 `;
@@ -35,7 +53,8 @@ const PaymentContainer = styled.div`
   border: 1px solid gray;
   border-radius: 10px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-  margin-top: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
 `;
 
 const ProductInfoContainer = styled.div`
@@ -91,20 +110,31 @@ const InputContainer = styled.div`
 
 const InputLabel = styled.label`
   font-size: 1.2rem;
+  margin-bottom: 15px;
 `;
 
-const InputField = styled.input`
+const Input = styled.input`
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid gray;
-  border-radius: 5px;
-  margin-top: 0.5rem;
-  font-size: 1.2rem;
+  height: 40px;
+  border: none;
+  font-size: 13px;
+  outline: 0;
+  background: rgb(255, 255, 255);
+  box-shadow: transparent 0px 0px 0px 1px inset;
+  padding: 0.6em;
+  border-radius: 14px;
+  border: 1px solid #333;
+  color: black;
+  margin: 0 auto;
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
 `;
 
 const AgreementContainer = styled.div`
   display: flex;
-  width: 60%;
+  width: 100%;
   margin-top: 1rem;
   margin-bottom: 2rem;
 `;
@@ -121,75 +151,89 @@ const PaymentButtonContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
+  margin-top: 0.7rem;
 `;
 
 const PaymentPage = () => {
   const [isVisible, setIsVisible] = useState(false);
   const userState = useSelector((state) => state.userReducer);
   const navigate = useNavigate();
+  const { register, handleSubmit, watch } = useForm();
+  // useEffect(() => {
+  //   setIsVisible(true);
+  // }, []);
 
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
-
-  useEffect(() => {
-    if (!userState.login) {
-      alert("로그인이 필요한 서비스입니다.");
-      navigate("/login");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!userState.login) {
+  //     alert("로그인이 필요한 서비스입니다.");
+  //     navigate("/login");
+  //   }
+  // }, []);
 
   return (
-    <Container style={{ display: isVisible ? "flex" : "none" }}>
-      <Heading>결제하기</Heading>
-      <PaymentContainer>
-        <ProductInfoContainer>
-          <ProductInfoHeading>
-            <div>상품정보</div>
-            <div>
-              <BiDollar style={{ marginRight: "0.3rem" }} />
-              결제금액
-              <RiArrowDownSLine style={{ marginLeft: "0.3rem" }} />
-            </div>
-          </ProductInfoHeading>
-          <ProductInfoList>
-            <ProductInfoItem>
-              <div>제품명</div>
-              <div>가격</div>
-            </ProductInfoItem>
-            <ProductInfoItem>
-              <div>제품명</div>
-              <div>가격</div>
-            </ProductInfoItem>
-          </ProductInfoList>
-        </ProductInfoContainer>
-        <Divider />
-        <OrderInfoContainer>
-          <OrderInfoHeading>주문자 정보</OrderInfoHeading>
-          <InputContainer>
-            <InputLabel>이름</InputLabel>
-            <InputField type="text" placeholder="이름을 입력해주세요" />
-          </InputContainer>
-          <InputContainer>
-            <InputLabel>이메일</InputLabel>
-            <InputField type="email" placeholder="이메일을 입력해주세요" />
-          </InputContainer>
-          <InputContainer>
-            <InputLabel>연락처</InputLabel>
-            <InputField type="tel" placeholder="연락처를 입력해주세요" />
-          </InputContainer>
-          <AgreementContainer>
-            <AgreementCheckbox type="checkbox" />
-            <AgreementLabel>
-              개인정보 수집 및 이용약관에 동의합니다.
-            </AgreementLabel>
-          </AgreementContainer>
-        </OrderInfoContainer>
-        <PaymentButtonContainer>
-          <KakaoPayButton />
-        </PaymentButtonContainer>
-      </PaymentContainer>
+    <Container>
+      <Form onSubmit={handleSubmit()}>
+        <Heading>결제하기</Heading>
+        <PaymentContainer>
+          <ProductInfoContainer>
+            <ProductInfoHeading>
+              <div>상품정보</div>
+              <div>
+                <BiDollar style={{ marginRight: "0.3rem" }} />
+                결제금액
+                <RiArrowDownSLine style={{ marginLeft: "0.3rem" }} />
+              </div>
+            </ProductInfoHeading>
+            <ProductInfoList>
+              <ProductInfoItem>
+                <div>제품명</div>
+                <div>가격</div>
+              </ProductInfoItem>
+              <ProductInfoItem>
+                <div>제품명</div>
+                <div>가격</div>
+              </ProductInfoItem>
+            </ProductInfoList>
+          </ProductInfoContainer>
+          <Divider />
+          <OrderInfoContainer>
+            <OrderInfoHeading>주문자 정보</OrderInfoHeading>
+            <InputContainer>
+              <InputLabel>예약자명</InputLabel>
+              <Input
+                type="text"
+                placeholder="이름을 입력해주세요"
+                {...register("text", { required: true })}
+              />
+            </InputContainer>
+            <InputContainer>
+              <InputLabel>이메일</InputLabel>
+              <Input
+                type="email"
+                placeholder="이메일을 입력해주세요"
+                {...register("email", { required: true })}
+              />
+            </InputContainer>
+            <InputContainer>
+              <InputLabel>연락처</InputLabel>
+              <Input
+                type="tel"
+                placeholder="연락처를 입력해주세요"
+                {...register("tel", { required: true })}
+              />
+            </InputContainer>
+            <AgreementContainer>
+              <AgreementCheckbox type="checkbox" />
+              <AgreementLabel>
+                개인정보 수집 및 이용약관에 동의합니다.
+              </AgreementLabel>
+            </AgreementContainer>
+          </OrderInfoContainer>
+          <PaymentButtonContainer>
+            <KakaoPayButton />
+          </PaymentButtonContainer>
+        </PaymentContainer>
+      </Form>
     </Container>
   );
 };

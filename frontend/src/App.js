@@ -90,6 +90,7 @@ function App() {
           <Route path="/payment" element={<Payment />} />
           <Route path="/samples" element={<ComponentExamples />} />
           <Route path="/:id" element={<Detail />} />
+          <Route path="/payment" element={<Payment />} />
           <Route path="/" element={<Main />} />
         </Routes>
       </Container>
