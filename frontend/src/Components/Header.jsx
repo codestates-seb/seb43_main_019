@@ -7,6 +7,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { handleLogout } from "../Redux/Actions";
 import { CommonButton } from "./Common/Button";
 import Searchbar from "./Searchbar";
+import { useEffect, useState } from "react";
+import { getAllCampgroundsInfo } from "../utils/ProductFunctions";
 
 const Container = styled.header`
   width: 100%;
@@ -69,7 +71,6 @@ const Logo = styled.img`
   }
 `;
 
-
 const UserStatus = styled.div`
   width: 200px;
   height: 40px;
@@ -88,7 +89,6 @@ const UserStatus = styled.div`
     cursor: pointer;
   }
 `;
-
 
 const InputSpace = styled.div`
   display: flex;
@@ -157,14 +157,16 @@ const Input = styled.input`
 //   }
 // `;
 
-
-export default function Header({ handleSearch, data }) {
+export default function Header({ setSearchResults }) {
   const navigate = useNavigate();
   // const [showMenu, setShowMenu] = useState(false);
   // const [showInput, setShowInput] = useState(false);
   const isDark = useSelector((state) => state.modeReducer);
   const userState = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
+
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   // const handleMenu = () => {
   //   setShowMenu((prev) => !prev);
@@ -187,6 +189,20 @@ export default function Header({ handleSearch, data }) {
       return;
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      setIsLoading((prev) => true);
+
+      // setData((prev) => [...dummyCampgrounds.data]);
+
+      // 실제 데이터 받아오는 과정
+      const initData = await getAllCampgroundsInfo(1, 10);
+      setData((prev) => [...initData]);
+
+      setIsLoading((prev) => false);
+    })();
+  }, []);
 
   return (
     <>
@@ -222,7 +238,11 @@ export default function Header({ handleSearch, data }) {
           )}
         </Top>
         <Bottom isDark={isDark}>
-          <Searchbar onSearch={handleSearch} data={data} />
+          {isLoading ? (
+            <h1>Loading...</h1>
+          ) : (
+            <Searchbar setSearchResults={setSearchResults} data={data} />
+          )}
         </Bottom>
         <Line isDark={isDark} />
       </Container>

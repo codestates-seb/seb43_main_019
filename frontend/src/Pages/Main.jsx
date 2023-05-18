@@ -81,7 +81,7 @@ const options = {
   threshold: 1.0,
 };
 
-export default function Main() {
+export default function Main({ searchResults }) {
   const isDark = useSelector((state) => state.modeReducer);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -92,9 +92,10 @@ export default function Main() {
   let containerRef = useRef(null);
 
   // 검색 결과 상태 관리
-  const [searchResults, setSearchResults] = useState([]);
+  // const [searchResults, setSearchResults] = useState([]);
 
   // 검색 함수
+  /*
   const handleSearch = (searchText) => {
     const filteredData = data.filter((campground) => {
       return campground.productName.toLowerCase().includes(searchText.toLowerCase());
@@ -102,7 +103,7 @@ export default function Main() {
 
     setSearchResults(filteredData);
   };
-
+  */
   useEffect(() => {
     (async () => {
       setIsLoading((prev) => true);
@@ -150,15 +151,13 @@ export default function Main() {
         <Title isDark={isDark}>지금 당장 캠핑을 떠나보세요.⛺</Title>
       </ContextArea>
       <Container>
-      {searchResults.length > 0 && data ? (
-          searchResults.map((campground) => (
-            <Card2 key={campground.productId + ''} campground={campground} />
-          ))
-        ) : (
-        data.map((campground) => (
-          <Card2 key={campground.productId + ""} campground={campground} />
-        ))
-      )}
+        {searchResults.length > 0
+          ? searchResults.map((campground) => (
+              <Card2 key={campground.productId + ""} campground={campground} />
+            ))
+          : data.map((campground) => (
+              <Card2 key={campground.productId + ""} campground={campground} />
+            ))}
       </Container>
       <ScrollBtn onClick={() => window.scrollTo(0, 0)} ref={containerRef}>
         <FaChevronUp size={40} />

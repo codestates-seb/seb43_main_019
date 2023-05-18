@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const InputSpace = styled.div`
   display: flex;
@@ -45,11 +45,15 @@ const Input = styled.input`
 `;
 
 export default function Searchbar({ setSearchResults, data }) {
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
+
+  console.log(data);
 
   const handleSearch = () => {
     const filteredData = data.filter((campground) => {
-      return campground.productName.toLowerCase().includes(searchText.toLowerCase());
+      return campground.productName
+        .toLowerCase()
+        .includes(searchText.toLowerCase());
     });
 
     setSearchResults(filteredData);
@@ -60,7 +64,7 @@ export default function Searchbar({ setSearchResults, data }) {
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSearch();
     }
   };
@@ -73,6 +77,7 @@ export default function Searchbar({ setSearchResults, data }) {
         onChange={handleInputChange}
         onKeyPress={handleKeyPress}
         placeholder="Search..."
+        onSearch={handleSearch}
       />
     </InputSpace>
   );

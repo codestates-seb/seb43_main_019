@@ -14,7 +14,7 @@ import Detail from "./Pages/Detail";
 import AccountSearch from "./Pages/AccountSearch";
 import Sell from "./Pages/Sell";
 import Admin from "./Pages/Admin";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { handleLogin, handleLogout } from "./Redux/Actions";
 import KakaoLogin from "./Pages/KakaoLogin";
 import { JS_KEY } from "./config";
@@ -48,6 +48,7 @@ const Container = styled.main`
 function App() {
   const isDark = useSelector((state) => state.modeReducer);
   const dispatch = useDispatch();
+  const [searchResults, setSearchResults] = useState([]);
 
   const authHandler = async () => {
     try {
@@ -76,7 +77,7 @@ function App() {
 
   return (
     <Wrapper>
-      <Header />
+      <Header setSearchResults={setSearchResults} />
       <Container isDark={isDark}>
         <Routes>
           <Route path="/signup" element={<SignUp />} />
@@ -91,7 +92,7 @@ function App() {
           <Route path="/samples" element={<ComponentExamples />} />
           <Route path="/:id" element={<Detail />} />
           <Route path="/payment" element={<Payment />} />
-          <Route path="/" element={<Main />} />
+          <Route path="/" element={<Main searchResults={searchResults} />} />
         </Routes>
       </Container>
       <ModeBtn />
