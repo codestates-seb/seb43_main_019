@@ -6,16 +6,6 @@ import { useRef } from "react";
 import Review from "../Components/Review";
 import { useSelector } from "react-redux";
 
-const Wrapper = styled.div`
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 200px;
-`;
-
 const Container = styled.div`
   max-width: 700px;
   width: 100%;
@@ -128,7 +118,7 @@ const getProductId = () => {
   return new Date().getTime();
 };
 
-export default function Test() {
+export default function ReviewForm() {
   const [reviews, setReviews] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [content, setContent] = useState("");
@@ -199,47 +189,43 @@ export default function Test() {
     setReviews((prev) => [...myReviews]);
   };
 
-  return (
-    <Wrapper>
-      {isLoading ? (
-        <h1>Loading...</h1>
-      ) : (
-        <Container>
-          <Form>
-            <Infos>
-              <Info>현재 리뷰 21</Info>
-              <MyReviewBtn onClick={getMyReviews}>My 리뷰</MyReviewBtn>
-            </Infos>
-            <Inputs onSubmit={postReview}>
-              <TextInput
-                value={content}
-                onChange={handleWriteReview}
-                placeholder="리뷰를 작성해 주세요."
-              />
-              <ScoreInput ref={selectRef}>
-                <option value="-">별점</option>
-                <option value="0.0">0.0</option>
-                <option value="0.5">0.5</option>
-                <option value="1.0">1.0</option>
-                <option value="1.5">1.5</option>
-                <option value="2.0">2.0</option>
-                <option value="2.5">2.5</option>
-                <option value="3.0">3.0</option>
-                <option value="3.5">3.5</option>
-                <option value="4.0">4.0</option>
-                <option value="4.5">4.5</option>
-                <option value="5.0">5.0</option>
-              </ScoreInput>
-              <PostBtn>리뷰 작성</PostBtn>
-            </Inputs>
-          </Form>
-          <Reviews>
-            {reviews.map((review) => (
-              <Review key={review.reviewId + ""} review={review} />
-            ))}
-          </Reviews>
-        </Container>
-      )}
-    </Wrapper>
+  return isLoading ? (
+    <h1>Loading...</h1>
+  ) : (
+    <Container>
+      <Form>
+        <Infos>
+          <Info>현재 리뷰 21</Info>
+          <MyReviewBtn onClick={getMyReviews}>My 리뷰</MyReviewBtn>
+        </Infos>
+        <Inputs onSubmit={postReview}>
+          <TextInput
+            value={content}
+            onChange={handleWriteReview}
+            placeholder="리뷰를 작성해 주세요."
+          />
+          <ScoreInput ref={selectRef}>
+            <option value="-">별점</option>
+            <option value="0.0">0.0</option>
+            <option value="0.5">0.5</option>
+            <option value="1.0">1.0</option>
+            <option value="1.5">1.5</option>
+            <option value="2.0">2.0</option>
+            <option value="2.5">2.5</option>
+            <option value="3.0">3.0</option>
+            <option value="3.5">3.5</option>
+            <option value="4.0">4.0</option>
+            <option value="4.5">4.5</option>
+            <option value="5.0">5.0</option>
+          </ScoreInput>
+          <PostBtn>리뷰 작성</PostBtn>
+        </Inputs>
+      </Form>
+      <Reviews>
+        {reviews.map((review) => (
+          <Review key={review.reviewId + ""} review={review} />
+        ))}
+      </Reviews>
+    </Container>
   );
 }
