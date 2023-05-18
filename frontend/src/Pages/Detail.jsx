@@ -1,20 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import CampgroundImage from "../Components/DeatilImage";
 import Picker from "../Components/Picker";
 import CampgroundInfo from "../Components/DetailInfo";
 import Map from "../Components/Map";
-import { campgrounds } from "../Dummy/DummyDatas";
+import { dummyCampgrounds } from "../Dummy/DummyDatas";
 import { useParams, useNavigate } from "react-router-dom";
 import { CommonButton } from "../Components/Common/Button";
 import { useSelector } from "react-redux";
+import { getCampgroundInfo } from "../utils/ProductFunctions";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
-  max-width: 1200px;
+  max-width: 1800px;
   padding-bottom: 200px;
 `;
 
@@ -23,7 +24,7 @@ const ContainerBox = styled.div`
   flex-direction: row;
   align-items: center;
   margin: 100px;
-  max-width: 1200px;
+  max-width: 1800px;
 `;
 
 const CampgroundContainer = styled.div`
@@ -31,6 +32,7 @@ const CampgroundContainer = styled.div`
   flex-direction: row;
   align-items: flex-start;
   width: 50%;
+  margin-right: 50px;
 `;
 
 const ImgContainer = styled.div`
@@ -42,6 +44,7 @@ const ImgContainer = styled.div`
 const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
+  margin-left: 100px;
 `;
 
 function Detail() {
@@ -50,23 +53,30 @@ function Detail() {
   const navigate = useNavigate();
   const isDark = useSelector((state) => state.modeReducer);
   const userState = useSelector((state) => state.userReducer);
+  // const [campgroundData, setCampgroundData] = useState(null);
 
-  const selectedCampground = campgrounds.find(
-    (campground) => campground.id === parseInt(id)
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const data = await getCampgroundInfo(id);
+  //     setCampgroundData(data);
+  //   }
+  //   fetchData();
+  // }, [id]);
+
+  const selectedCampground = dummyCampgrounds.data.find(
+    (campground) => campground.productId === parseInt(id)
   );
   const {
-    name,
-    selection,
+    content,
+    productPrice,
+    productName,
+    address,
     location,
-    period,
-    description,
-    img,
+    imageUrl,
+    productPhone,
     capacity,
-    restriction,
-    cancel,
-    price,
-    call,
   } = selectedCampground;
+  // } = campgroundData;
 
   const handleReservation = () => {
     if (userState.login) {
@@ -77,11 +87,15 @@ function Detail() {
     }
   };
 
+  // if (!campgroundData) {
+  //   return <div>Loading...</div>;
+  // }
+
   return (
     <Container>
       <ContainerBox>
         <ImgContainer>
-          <CampgroundImage src={img} />
+          <CampgroundImage src={imageUrl} />
           <Picker
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
@@ -90,16 +104,13 @@ function Detail() {
         <CampgroundContainer>
           <InfoContainer>
             <CampgroundInfo
-              name={name}
+              productName={productName}
               location={location}
-              period={period}
-              selection={selection}
-              description={description}
+              content={content}
+              productPrice={productPrice}
+              address={address}
+              productPhone={productPhone}
               capacity={capacity}
-              restriction={restriction}
-              cancel={cancel}
-              price={price}
-              call={call}
               isDark={isDark}
             >
               <CommonButton onClick={handleReservation}>예약 하기</CommonButton>
