@@ -52,7 +52,7 @@ const Chat = styled.div`
   }
 `;
 
-export default function AgentChat({ chatContent }) {
+export default function AIChat({ chatContent }) {
   return (
     <Container>
       <PersonIcon>

@@ -38,7 +38,7 @@ export const handleUpdateCampground = async (productId, updatedInfo) => {
 // 실패 시 null을 반환합니다.
 export const getCampgroundInfo = async (productId) => {
   try {
-    const response = await axios.get(`/api/products/${productId}`);
+    const response = await axios.get(`${BACK}/api/products/${productId}`);
     const { data } = response;
 
     return data;
