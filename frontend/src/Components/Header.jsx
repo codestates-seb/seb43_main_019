@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 // import { useState } from "react";
 import { handleLogout } from "../Redux/Actions";
 import { CommonButton } from "./Common/Button";
+import Searchbar from "./Searchbar";
 
 const Container = styled.header`
   width: 100%;
@@ -157,7 +158,7 @@ const Input = styled.input`
 // `;
 
 
-export default function Header() {
+export default function Header({ handleSearch, data }) {
   const navigate = useNavigate();
   // const [showMenu, setShowMenu] = useState(false);
   // const [showInput, setShowInput] = useState(false);
@@ -221,86 +222,10 @@ export default function Header() {
           )}
         </Top>
         <Bottom isDark={isDark}>
-          <InputSpace>
-            <Input placeholder="Search..." />
-          </InputSpace>
-
-          {/* {userState.login ? (
-            <Menu pos={"top"}>
-              <Link to="/">
-                <Item isDark={isDark}>Home</Item>
-              </Link>
-              <Item
-                onClick={() => {
-                  handleSignOut();
-                  navigate("/");
-                }}
-                isDark={isDark}
-              >
-                Log Out
-              </Item>
-              <Link to="/mypage">
-                <Item isDark={isDark}>My Page</Item>
-              </Link>
-            </Menu>
-          ) : (
-            <Menu pos={"top"}>
-              <Link to="/">
-                <Item isDark={isDark}>Home</Item>
-              </Link>
-              <Link to="/login">
-                <Item isDark={isDark}>Log In</Item>
-              </Link>
-              <Link to="signup">
-                <Item isDark={isDark}>Sign Up</Item>
-              </Link>
-            </Menu>
-          )}
-          <Icon icon={faCampground} />
-          <MenuBtn isDark={isDark} onClick={() => handleMenu()}>
-            Menu
-          </MenuBtn> */}
-          {/* <ShortPage>
-            {showInput ? (
-              <CancelIcon
-                icon={faXmark}
-                onClick={() => setShowInput((prev) => false)}
-              />
-            ) : (
-              <ShortPageIcon
-                icon={faMagnifyingGlass}
-                onClick={() => setShowInput((prev) => true)}
-              />
-            )}
-          </ShortPage> */}
+          <Searchbar onSearch={handleSearch} data={data} />
         </Bottom>
         <Line isDark={isDark} />
       </Container>
-      {/* {showInput && <ShortPageInput isDark={isDark} />}
-      {showMenu &&
-        (userState.login ? (
-          <Menu isDark={isDark} pos={"bottom"}>
-            <Link to="/">
-              <Item isDark={isDark}>Home</Item>
-            </Link>
-            <Item isDark={isDark}>Log Out</Item>
-            <Link to="/mypage">
-              <Item isDark={isDark}>My Page</Item>
-            </Link>
-          </Menu>
-        ) : (
-          <Menu isDark={isDark} pos={"bottom"}>
-            <Link to="/">
-              <Item isDark={isDark}>Home</Item>
-            </Link>
-            <Link to="/login">
-              <Item isDark={isDark}>Log In</Item>
-            </Link>
-            <Link to="signup">
-              <Item isDark={isDark}>Sign Up</Item>
-            </Link>
-          </Menu>
-        ))} */}
     </>
   );
 }
