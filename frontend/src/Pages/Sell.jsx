@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import SellSideMenu from "../Components/SellSideMenu";
-import ProductCRUD from "../Components/ProductCRUD";
-import ProductManage from "../Components/ProductManage";
-import Reservation from "../Components/Reservation";
+import Registration from "../Components/Sell/Registration";
+import ProductList from "../Components/Sell/ProductList";
+import Reservation from "../Components/Sell/Reservation";
+import Statistic from "../Components/Statistic";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -14,20 +15,16 @@ const Wrapper = styled.div`
   overflow-y: auto; /* 스크롤이 가능한 요소로 설정 */
 `;
 
-const types = ["crud", "manage", "inquiry", "reservation", "category"];
+const sellMenu = ["registration", "list", "statistic"];
 
 export default function Sell() {
   const navigate = useNavigate();
-  const userState = useSelector((state) => state.userReducer);
-  const [type, setType] = useState("");
-  const [hasUploaded, setHasUploaded] = useState(false);
-
-  // const location = useLocation();
   const params = useParams();
+  const [selected, setSelected] = useState("");
+  const userState = useSelector((state) => state.userReducer);
 
-  const handleType = (clickedType) => {
-    setType((prev) => clickedType);
-    navigate(`/sell/${clickedType}`);
+  const handleMenuClick = (clicked) => {
+    navigate(`/sell/${clicked}`);
   };
 
   useEffect(() => {
@@ -44,27 +41,23 @@ export default function Sell() {
   }, []);
 
   useEffect(() => {
-    let param = params["*"];
+    let menu = params["*"];
 
-    if (param === "" || types.indexOf(param) === -1) {
-      navigate("/sell/crud");
-      setType((prev) => "crud");
-    } else {
-      setType((prev) => param);
+    if (sellMenu.indexOf(menu) === -1) {
+      navigate("/sell/registration");
     }
-  }, []);
+
+    setSelected((prev) => menu);
+  }, [params]);
 
   return (
     <Wrapper>
-      <SellSideMenu type={type} handleType={handleType} />
-      {type === "crud" && (
-        <ProductCRUD
-          hasUploaded={hasUploaded}
-          setHasUploaded={setHasUploaded}
-        />
+      <SellSideMenu current={selected} handleMenuClick={handleMenuClick} />
+      {selected === "registration" && (
+        <Registration seller={userState.userInfo} />
       )}
-      {type === "manage" && <ProductManage />}
-      {type === "reservation" && <Reservation />}
+      {selected === "list" && <ProductList seller={userState.userInfo} />}
+      {selected === "statistic" && <Statistic />}
     </Wrapper>
   );
 }
