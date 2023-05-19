@@ -26,7 +26,6 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository repository;
-    private final MemberService memberService;
     private final AuthorizationUtils authorizationUtils;
 
     public Product createProduct(Product product) {
@@ -52,10 +51,12 @@ public class ProductService {
         return repository.save(findProduct);
     }
 
+    @Transactional(readOnly = true)
     public Product findProduct(long productId) {
         return findVerifiedProduct(productId);
     }
 
+    @Transactional(readOnly = true)
     public Page<Product> findAll(int page, int size) {
         return repository.findAll(PageRequest.of(page - 1, size, Sort.by("productId").descending()));
     }
