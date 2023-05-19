@@ -28,7 +28,7 @@ public class MemberResponseDto {
     private boolean isSellerVerified;
     private String businessRegistrationNumber;
     private String businessRegistrationDate;
-
+  
     public void setFavorite(Favorite favorite) {
         this.favoriteId = favorite.getFavoriteId();
     }

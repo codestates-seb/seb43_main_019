@@ -89,7 +89,6 @@ public class MemberService {
                 .ifPresent(findMember::setUsageCount);  // 예약 시 이용횟수 + 1 추가
 
         findMember.setModifiedBy(setByField(member));
-
 //        Optional.ofNullable(member.getVerificationToken())
 //                .ifPresent(findMember::setVerificationToken);
         findMember.setModifiedAt(LocalDateTime.now());
