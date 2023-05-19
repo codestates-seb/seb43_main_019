@@ -1,14 +1,13 @@
 package com.osdoor.aircamp.auth.oauth;
 
 import com.osdoor.aircamp.auth.jwt.JwtTokenizer;
-import com.osdoor.aircamp.member.repositoy.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +21,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class OAuth2SuccessHandler implements AuthenticationSuccessHandler  {
+public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtTokenizer jwtTokenizer;
 
@@ -47,8 +46,15 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler  {
         String accessToken = jwtTokenizer.generateAccessToken(claims, email, expiration, base64EncodedSecretKey);
         String refreshToken = jwtTokenizer.generateRefreshToken(email, expiration, base64EncodedSecretKey);
 
-        response.setHeader("Authorization", "Bearer " + accessToken);
-        response.setHeader("Refresh", refreshToken);
-        response.sendRedirect("/");
+        String referer = request.getHeader("Referer");
+        String url = makeRedirectUrl(referer, accessToken, refreshToken);
+        getRedirectStrategy().sendRedirect(request, response, url);
+    }
+
+    private String makeRedirectUrl(String url, String accessToken, String refreshToken) {
+        return UriComponentsBuilder
+                .fromUriString(url + "/oauth2/redirect?accessToken=" + accessToken + "&refreshToken=" + refreshToken)
+                .build()
+                .toUriString();
     }
 }

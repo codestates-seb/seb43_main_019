@@ -72,10 +72,9 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.DELETE, "/api/reservations/**").hasRole("USER")
                         .anyRequest().permitAll())
                 .oauth2Login()
+                .successHandler(oAuth2SuccessHandler)
                 .userInfoEndpoint()
-                .userService(customOAuth2UserService)
-                .and()
-                .successHandler(oAuth2SuccessHandler);
+                .userService(customOAuth2UserService);
 
         return http.build();
     }
