@@ -67,9 +67,11 @@ function App() {
           <Route path="/payment" element={<Payment />} />
           <Route path="/samples" element={<ComponentExamples />} />
           <Route path="/test" element={<Test />} />
-          <Route path="/:id" element={<Detail />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/" element={<Main searchResults={searchResults} />} />
+          <Route path={"/oauth2/*"} element={<KakaoLogin />} />
+          <Route path="/:id" element={<Detail />} />
+          <Route path="/" element={<Main />} />
         </Routes>
       </Container>
       <ModeBtn />
