@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 
 const ImageWrapper = styled.div`
-  background-image: url(https://yeyak.seoul.go.kr/cmsdata/web_upload/svc/20230329/1680050914280HZAYFX8GLLMTVZI2H6BD0WGPV_IM02.jpg);
+  background-image: url(${(props) => props.src});
   background-size: cover;
   background-position: center center;
   width: 500px;

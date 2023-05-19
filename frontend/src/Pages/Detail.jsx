@@ -113,7 +113,7 @@ function Detail() {
           </InfoContainer>
         </CampgroundContainer>
       </ContainerBox>
-      {/* <Map /> */}
+      <Map productId={id} />
     </Container>
   );
 }
