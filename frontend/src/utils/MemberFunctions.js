@@ -1,5 +1,5 @@
 import axios from "axios";
-import { REST_API_KEY, REDIRECT_URI, BACK } from "../config";
+import { BACK } from "../config";
 
 // 로그인을 위한 함수입니다.
 // 이메일, 비밀번호로 구성된 객체를 인자로 받습니다.
@@ -53,7 +53,6 @@ export const getEmailCode = async (email) => {
 // 실패 시 false를 반환합니다.
 export const handleJoin = async (joinInfo) => {
   try {
-    console.log(joinInfo);
     await axios.post(`${BACK}/api/members`, joinInfo);
 
     return true;
@@ -127,7 +126,7 @@ export const handleKakaoLogin = async (KAKAO_CODE) => {
     const response = await axios.get(
       `${BACK}/login/oauth2/code/kakao?code=${KAKAO_CODE}&state=${state}`
     );
-    const { data } = response;
+    const data = response.headers;
 
     const authToken = data.Authorization;
     const refreshToken = data.Refresh;

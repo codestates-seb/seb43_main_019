@@ -4,13 +4,12 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { handleLogin } from "../Redux/Actions";
-import axios from "axios";
 import { useEffect } from "react";
-import { REST_API_KEY, REDIRECT_URI } from "../config";
 import { LoginButton, SocialLogin } from "../Components/Common/Button";
 import { handleStartLogin } from "../utils/MemberFunctions";
 
-const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+const KAKAO_AUTH_URL =
+  "http://ec2-3-34-91-147.ap-northeast-2.compute.amazonaws.com/oauth2/authorization/kakao";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -117,12 +116,11 @@ export default function Login() {
     }
   };
 
-  const handleSocialLogin = () => {
+  const handleSocialLogin = async () => {
     window.location.href = KAKAO_AUTH_URL;
   };
 
   useEffect(() => {
-    console.log(userState.login);
     if (userState.login) {
       navigate("/");
     }

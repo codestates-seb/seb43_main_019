@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import CampgroundImage from "../Components/DeatilImage";
 import Picker from "../Components/Picker";
@@ -8,6 +8,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { CommonButton } from "../Components/Common/Button";
 import { useSelector } from "react-redux";
 import { getCampgroundInfo } from "../utils/ProductFunctions";
+import ReviewForm from "../Components/ReviewForm";
 
 const Container = styled.div`
   display: flex;
@@ -114,6 +115,7 @@ function Detail() {
         </CampgroundContainer>
       </ContainerBox>
       <Map productId={id} />
+      <ReviewForm />
     </Container>
   );
 }
