@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 export const CommonButton = styled.button`
  position: relative;
   overflow: hidden;
+  border-radius: 3px;
   border: 1px solid var(--black);
   color: var(--black-700);
   display: inline-block;
