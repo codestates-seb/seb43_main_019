@@ -11,6 +11,8 @@ import com.osdoor.aircamp.helper.event.MemberRegistrationEvent;
 import com.osdoor.aircamp.member.repositoy.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,8 +49,8 @@ public class MemberService {
     public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
         member.setFavorite(new Favorite());
-        member.setCreatedBy(member.getEmail());
-        member.setModifiedBy(member.getEmail());
+        member.setCreatedBy(setByField(member));
+        member.setModifiedBy(setByField(member));
 //        String token = generateVerificationToken();
 //        member.setVerificationToken(token);
 
@@ -75,7 +77,7 @@ public class MemberService {
                 .ifPresent(findMember::setName);
 
         Optional.ofNullable(member.getPassword())
-                .ifPresent(findMember::setPassword);
+                .ifPresent(password -> findMember.setPassword(passwordEncoder.encode(password)));  // 비밀번호 수정시에도 수정되는 비밀번호에 암호화가 적용된다.
 
         Optional.ofNullable(member.getPhone())
                 .ifPresent(findMember::setPhone);
@@ -83,6 +85,10 @@ public class MemberService {
         Optional.ofNullable(member.getMemberStatus())
                 .ifPresent(findMember::setMemberStatus);
 
+        Optional.ofNullable(member.getUsageCount())
+                .ifPresent(findMember::setUsageCount);  // 예약 시 이용횟수 + 1 추가
+
+        findMember.setModifiedBy(setByField(member));
 //        Optional.ofNullable(member.getVerificationToken())
 //                .ifPresent(findMember::setVerificationToken);
         findMember.setModifiedAt(LocalDateTime.now());
@@ -145,4 +151,11 @@ public class MemberService {
 //
 //        return token;
 //    }
+    // 비로그인 상태라면 회원가입하는 회원의 이메일을 by필드에 넣고, 로그인 상태라면 로그인한 사용자의 이메일을 by필드에 넣는다. 분기가 될 수 있도록 조건문사용.
+    // 관리자가 로그인해서 임시계정을 만든다면 해당 계정의 by필드에는 관리자의 이메일이 들어간다.
+    private String setByField(Member member) {
+        String loginPrincipal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(loginPrincipal.equals("anonymousUser")) return member.getEmail(); // 비로그인상태일때는 spring이 자체적으로 principal에 anonymousUser 라는 String값을 넣는다.
+        else return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
 }

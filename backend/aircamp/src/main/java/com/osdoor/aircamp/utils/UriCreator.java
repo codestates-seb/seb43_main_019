@@ -4,17 +4,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 
-/**
- *
- *
- * 주어진 기본 URL과 리소스 ID를 사용하여 URI를 생성하는 유틸리티 클래스
- *
- *
- * */
+// 주어진 기본 URL과 리소스 ID를 사용하여 URI를 생성하는 유틸리티 클래스
 public class UriCreator {
-    // String defaultUrl: 기본 URL 로, 생성할 URI 의 기본 경로.
-    // long resourceId: 리소스 ID로, 생성할 URI 에 추가될 식별자.
-    public static URI createUri(String defaultUrl, long resourceId) {
+    public static URI createUri(String defaultUrl, long resourceId) { // String defaultUrl: 기본 URL 로, 생성할 URI 의 기본 경로, long resourceId: 리소스 ID로, 생성할 URI 에 추가될 식별자.
         return UriComponentsBuilder
                 .newInstance()  // 새로운 UriComponentsBuilder 인스턴스를 생성
                 .path(defaultUrl + "/{resource-id}") // 기본 URL에 리소스 ID 경로를 추가. 여기서 {resource-id}는 템플릿 변수로, 실제 리소스 ID 값으로 대체됨.

@@ -25,27 +25,26 @@ public class Member {
     @Column(length = 100, nullable = false)
     private String name;
 
-    @Column(nullable = false, updatable = false, unique = true)
+    @Column(updatable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
     private String birthDate;
-    @Column(nullable = false)
+  
     private String password;
 
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column
-    private String createdBy = email;
+    private String createdBy;
 
     @Column(nullable = false, name = "LAST_MODIFIED_AT")
     private LocalDateTime modifiedAt = LocalDateTime.now();
 
     @Column
-    private String modifiedBy = email;
+    private String modifiedBy;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String phone;
 
     @Column(nullable = false)
@@ -86,6 +85,11 @@ public class Member {
     private boolean isSellerVerified;
     @Column
     private String businessRegistrationNumber;
+
+    @Column
+    private String businessRegistrationDate;
+
+    private String provider;
 
     // enum 데이터
     public enum MemberStatus {
