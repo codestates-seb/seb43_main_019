@@ -8,10 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 import java.util.List;
 
 @Entity
@@ -41,7 +41,7 @@ public class Product extends Auditable {
     private Integer capacity;
 
     @Column(nullable = false)
-    private LocalDateTime cancellationDeadline;
+    private LocalDate cancellationDeadline;
 
     @Column(nullable = false)
     private Integer productPrice;
@@ -65,16 +65,6 @@ public class Product extends Auditable {
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
-
-    @PrePersist //앤티티가 생성되기전에 onCreate가 호출(초기화)를 해준다.
-    private void onCreate() {
-        this.createdBy = SecurityContextHolder.getContext().getAuthentication().getName();
-    }
-
-    @PreUpdate  //앤티티가 수정되기전에 onUpdate가 호출(초기화)된다.
-    private void onUpdate() {
-        this.modifiedBy = SecurityContextHolder.getContext().getAuthentication().getName();
-    }
   
     @OneToMany(mappedBy = "product")
     private List<Review> reviews;

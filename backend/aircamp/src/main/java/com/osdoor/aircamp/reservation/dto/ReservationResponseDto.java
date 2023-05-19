@@ -3,6 +3,8 @@ package com.osdoor.aircamp.reservation.dto;
 import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.product.entity.Product;
 import com.osdoor.aircamp.reservation.entity.Reservation;
+import com.osdoor.aircamp.reservation.entity.ReservationStatus;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +21,7 @@ public class ReservationResponseDto {
     private String reservationName;
     private String reservationPhone;
     private String reservationEmail;
-    private Reservation.ReservationStatus reservationStatus;
+    private ReservationStatus reservationStatus;
     private LocalDateTime createdAt;
     private String createdBy;
 
