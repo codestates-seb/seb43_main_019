@@ -13,7 +13,7 @@ public class ReservationPostDto {
     private long memberId;
 
     private long productId;
-
+  
     private LocalDate reservationDate;
 
     private String reservationName;
