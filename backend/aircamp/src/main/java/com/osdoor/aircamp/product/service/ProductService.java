@@ -1,5 +1,7 @@
 package com.osdoor.aircamp.product.service;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.osdoor.aircamp.auth.utils.AuthorizationUtils;
 import com.osdoor.aircamp.exception.BusinessLogicException;
 import com.osdoor.aircamp.exception.ExceptionCode;
@@ -8,6 +10,8 @@ import com.osdoor.aircamp.member.service.MemberService;
 import com.osdoor.aircamp.product.repository.ProductRepository;
 import com.osdoor.aircamp.product.entity.Product;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -17,18 +21,35 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Optional;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class ProductService {
 
     private final ProductRepository repository;
     private final AuthorizationUtils authorizationUtils;
 
+    @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
+    private String apiKey;
+
     public Product createProduct(Product product) {
+        String address = product.getAddress();
+
+        String[] coordinateFromAddress = getCoordinateFromAddress(address);
+
+        product.setLongitude(Double.valueOf(coordinateFromAddress[0]));
+        product.setLatitude(Double.valueOf(coordinateFromAddress[1]));
+
         return repository.save(product);
     }
 
@@ -73,5 +94,33 @@ public class ProductService {
 
         return findProduct.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.PRODUCT_NOT_FOUND));
+    }
+
+    public String[] getCoordinateFromAddress(String address) {
+        String apiUrl = "https://dapi.kakao.com/v2/local/search/address.json";
+
+        try {
+            URL url = new URL(apiUrl + "?query=" + URLEncoder.encode(address, StandardCharsets.UTF_8));
+            URLConnection conn = url.openConnection();
+
+            conn.setRequestProperty("Authorization", "KakaoAK " + apiKey);
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
+
+            Gson gson = new Gson();
+            JsonObject jsonObject = gson.fromJson(br.readLine(), JsonObject.class);
+            br.close();
+
+            JsonObject document = jsonObject.getAsJsonArray("documents").get(0).getAsJsonObject();
+
+            String x = document.getAsJsonPrimitive("x").getAsString();
+            String y = document.getAsJsonPrimitive("y").getAsString();
+
+            return new String[]{x, y};
+        } catch (Exception e) {
+            log.info("getCoordinateFromAddress Exception={}", e.getMessage());
+        }
+
+        return new String[]{"0", "0"};
     }
 }
