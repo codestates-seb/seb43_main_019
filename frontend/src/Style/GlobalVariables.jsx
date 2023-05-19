@@ -19,6 +19,9 @@ const variables = css`
   --black-600: rgb(71 85 105); // black primary
   --black-700: rgb(51 65 85); // black dark
   --yellow: #f7e600;
+  --color-text: #FFF;
+  --color-front: hsl(250deg, 100%, 40%);
+  --color-back: hsl(252deg, 100%, 60%);
 `;
 
 export default variables;
