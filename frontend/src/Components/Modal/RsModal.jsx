@@ -132,8 +132,7 @@ function MyModal(props) {
       <label>예약현황</label>
       </div>
       <div className='input-container'>
-      <label>예약날짜</label>
-      <input type="text" name="" required="date"></input>
+      
       </div>
     </ModalView>
     </ModalBackdrop>
