@@ -220,25 +220,25 @@ export default function Searchbar({ setSearchResults, data }) {
                     className={isTagSelected("Tag 1") ? "selected" : ""}
                     onClick={() => handleTagClick("Tag 1")}
                   >
-                    <TagText>서울시</TagText>
+                    <TagText># 서울시</TagText>
                   </Tag>
                   <Tag
                     className={isTagSelected("Tag 2") ? "selected" : ""}
                     onClick={() => handleTagClick("Tag 2")}
                   >
-                    <TagText>1~2인</TagText>
+                    <TagText># 1~2인</TagText>
                   </Tag>
                   <Tag
                     className={isTagSelected("Tag 3") ? "selected" : ""}
                     onClick={() => handleTagClick("Tag 3")}
                   >
-                    <TagText>캠핑장 14</TagText>
+                    <TagText># 캠핑장 14</TagText>
                   </Tag>
                   <Tag
                     className={isTagSelected("Tag 4") ? "selected" : ""}
                     onClick={() => handleTagClick("Tag 4")}
                   >
-                    <TagText>강원도</TagText>
+                    <TagText># 강원도</TagText>
                   </Tag>
                 </TagsContainer>
               </div>
