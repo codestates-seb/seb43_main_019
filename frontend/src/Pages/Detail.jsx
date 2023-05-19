@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import CampgroundImage from "../Components/DeatilImage";
 import Picker from "../Components/Picker";
@@ -114,7 +114,7 @@ function Detail() {
           </InfoContainer>
         </CampgroundContainer>
       </ContainerBox>
-      {/* <Map /> */}
+      <Map productId={id} />
       <ReviewForm />
     </Container>
   );

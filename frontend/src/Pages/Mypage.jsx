@@ -6,12 +6,13 @@ import { useNavigate } from "react-router-dom";
 import MyModal from "../Components/Modal/MyModal";
 import RsModal from "../Components/Modal/RsModal";
 import SeModal from "../Components/Modal/SeModal";
+import { getMemberInfo } from "../utils/MemberFunctions";
 
 const Wrapper = styled.div`
   max-width: 1200px;
   width: 100%;
   height: 100vh;
-  display: flex;
+  display: flex; 
   flex-direction: column;
   align-items: center;
   margin-top: 3.02vw;
@@ -87,6 +88,7 @@ const SellLink = styled.p`
 
 export default function Mypage() {
   const navigate = useNavigate();
+  const [name, setName] = useState("");
   const isDark = useSelector((state) => state.modeReducer);
   const userState = useSelector((state) => state.userReducer);
   const [MyModalOpen, setMyModalOpen] = useState(false);
@@ -120,10 +122,18 @@ export default function Mypage() {
     setSeModalOpen(false);
   };
 
+  // 서버에서 회원 정보를 가져온 후 이름을 설정
+  useEffect(() => {
+    getMemberInfo().then((response) => {
+      setName(response.name);
+    });
+  }, []);
+
+
   return (
     <Wrapper>
       <UserArea>
-        <Title isDark={isDark}>OO님 안녕하세요☺️</Title>
+        <Title isDark={isDark}>{name}님 안녕하세요☺️</Title>
       </UserArea>
       <ButtonArea>
         <div>
@@ -156,7 +166,7 @@ export default function Mypage() {
           판매등록을 원하신다면 아래 링크를 눌러주세요👇🏻
         </SellMent>
         <SellLink isDark={isDark}>
-          <a href="/sell">판매 등록하러 가기↪️</a>
+          <a onClick={() => navigate("/sell")}>판매 등록하러 가기↪️</a>
         </SellLink>
       </SellArea>
     </Wrapper>
