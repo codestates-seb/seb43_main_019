@@ -46,14 +46,13 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String accessToken = jwtTokenizer.generateAccessToken(claims, email, expiration, base64EncodedSecretKey);
         String refreshToken = jwtTokenizer.generateRefreshToken(email, expiration, base64EncodedSecretKey);
 
-        String referer = request.getHeader("Referer");
-        String url = makeRedirectUrl(referer, accessToken, refreshToken);
+        String url = makeRedirectUrl(accessToken, refreshToken);
         getRedirectStrategy().sendRedirect(request, response, url);
     }
 
-    private String makeRedirectUrl(String url, String accessToken, String refreshToken) {
+    private String makeRedirectUrl(String accessToken, String refreshToken) {
         return UriComponentsBuilder
-                .fromUriString(url + "/oauth2/redirect?accessToken=" + accessToken + "&refreshToken=" + refreshToken)
+                .fromUriString("http://localhost:3000/oauth2/redirect?accessToken=" + accessToken + "&refreshToken=" + refreshToken)
                 .build()
                 .toUriString();
     }
