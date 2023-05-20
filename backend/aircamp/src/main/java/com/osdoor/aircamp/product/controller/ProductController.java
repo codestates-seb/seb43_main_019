@@ -7,6 +7,7 @@ import com.osdoor.aircamp.product.entity.Product;
 import com.osdoor.aircamp.product.mapper.ProductMapper;
 import com.osdoor.aircamp.product.service.ProductService;
 import com.osdoor.aircamp.utils.UriCreator;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +21,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/products")
 @Validated
+@RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
     private final ProductMapper mapper;
-
-    public ProductController(ProductService productService, ProductMapper mapper) {
-        this.productService = productService;
-        this.mapper = mapper;
-    }
 
     @PostMapping
     public ResponseEntity postProduct(@RequestBody ProductPostDto requestBody) {
