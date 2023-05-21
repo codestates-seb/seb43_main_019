@@ -31,7 +31,7 @@ export const ModalView = styled.div.attrs((props) => ({
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   > div.desc {
     font-size: 16px;
     color: var(--black);
@@ -40,7 +40,7 @@ export const ModalView = styled.div.attrs((props) => ({
     pointer-events: none;
     transition: 0.5s;
     margin-bottom: 10px;
-    align-items: flex-start;
+    align-items: center;
   }
   label {
     font-size: 16px;
@@ -48,10 +48,11 @@ export const ModalView = styled.div.attrs((props) => ({
     padding: 10px;
     pointer-events: none;
     transition: 0.5s;
-    margin-right: 20px;
+    margin-right: 10px;
     align-items: center;
-    justify-content: start;
+    justify-content: center;
     display: inline-block;
+    text-align: center; /* 가운데 정렬을 위해 추가 */
   }
 
   > div.input-container {

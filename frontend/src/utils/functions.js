@@ -29,3 +29,9 @@ export const checkValidPhone = (phone) => {
 
   return phonePattern.test(phone);
 };
+
+// 돈에 쉼표를 찍어서 반환하는 함수입니다.
+// 쉼표가 찍힌 문자열을 반환합니다. (예를 들어 30000 => 30,000)
+export const formatPrice = (price) => {
+  return price.toLocaleString();
+};

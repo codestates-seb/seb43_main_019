@@ -20,6 +20,7 @@ function Map({ productId }) {
         setCenter(new kakao.maps.LatLng(latitude, longitude));
       }
     };
+
     fetchCampgroundInfo();
   }, [productId]);
 
