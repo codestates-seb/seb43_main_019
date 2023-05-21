@@ -89,7 +89,6 @@ const UserStatus = styled.div`
   }
 `;
 
-
 export default function Header({ setSearchResults }) {
   const navigate = useNavigate();
   const isDark = useSelector((state) => state.modeReducer);
@@ -98,7 +97,6 @@ export default function Header({ setSearchResults }) {
 
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
 
   const handleSignOut = async () => {
     try {
@@ -116,7 +114,7 @@ export default function Header({ setSearchResults }) {
       // setData((prev) => [...dummyCampgrounds.data]);
 
       // 실제 데이터 받아오는 과정
-      const initData = await getAllCampgroundsInfo(1, 10);
+      const initData = await getAllCampgroundsInfo(1, 1000);
       setData((prev) => [...initData]);
 
       setIsLoading((prev) => false);

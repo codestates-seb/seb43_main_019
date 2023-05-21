@@ -25,38 +25,44 @@ export default function KakaoLogin() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
+    (async () => {
+      const searchParams = new URLSearchParams(location.search);
 
-    const accessToken = searchParams.get("accessToken");
-    const refreshToken = searchParams.get("refreshToken");
-    console.log(accessToken);
+      const accessToken = searchParams.get("accessToken");
+      const refreshToken = searchParams.get("refreshToken");
 
-    const validTokens = accessToken.split(".");
+      const validTokens = accessToken.split(".");
 
-    const encodedUserInfo = validTokens[1];
+      const encoded = validTokens[1];
 
-    const sanitizedString = encodedUserInfo
-      .replace(/-/g, "+")
-      .replace(/_/g, "/");
+      const sanitizedString = encoded.replace(/-/g, "+").replace(/_/g, "/");
 
-    const decodedUserInfo = decodeURIComponent(
-      Array.prototype.map
-        .call(atob(sanitizedString), function (c) {
-          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-        })
-        .join("")
-    );
+      const decoded = decodeURIComponent(
+        Array.prototype.map
+          .call(atob(sanitizedString), function (c) {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join("")
+      );
 
-    const decodedObject = JSON.parse(decodedUserInfo);
+      const decodedObject = JSON.parse(decoded);
 
-    const user = {
-      memberId: decodedObject.memberId,
-      nickname: decodedObject.nickname,
-      email: decodedObject.nickname,
-    };
+      const kakaoUser = {
+        memberId: decodedObject.memberId,
+        nickname: decodedObject.nickname,
+        email: decodedObject.nickname,
+      };
 
-    dispatch(handleLogin(user));
-    navigate("/");
+      const userInfo = await getMemberInfo(kakaoUser.memberId);
+
+      if (userInfo) {
+        dispatch(handleLogin(userInfo));
+      } else {
+        dispatch(handleLogin(kakaoUser));
+      }
+
+      navigate("/");
+    })();
   }, []);
 
   return (

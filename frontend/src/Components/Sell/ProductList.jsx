@@ -39,7 +39,7 @@ export default function ProductList({ seller }) {
         (product) => product.memberId === seller.memberId
       );
       setMyProducts((prev) => mine);
-      */
+    */
       setMyProducts((prev) => [...dummyCampgrounds.data]);
 
       setIsLoading((prev) => false);
@@ -53,9 +53,13 @@ export default function ProductList({ seller }) {
         <h1>Loading...</h1>
       ) : (
         <Products>
-          {myProducts.map((campground) => (
-            <Card campground={campground} />
-          ))}
+          {myProducts.length === 0 ? (
+            <h1>등록된 상품이 없습니다.</h1>
+          ) : (
+            myProducts.map((campground) => (
+              <Card key={campground.productId} campground={campground} />
+            ))
+          )}
         </Products>
       )}
     </Container>
