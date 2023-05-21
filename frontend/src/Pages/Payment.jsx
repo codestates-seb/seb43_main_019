@@ -6,6 +6,11 @@ import KakaoPayButton from "../Components/Payment/KakaoPayBtn";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useLocation } from "react-router-dom";
+import {
+  postPaymentData,
+  postReservationsData,
+} from "../utils/ProductFunctions";
 
 const Container = styled.div`
   width: 100%;
@@ -60,7 +65,7 @@ const PaymentContainer = styled.div`
 const ProductInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 60%;
+  width: 80%;
   margin-bottom: 2rem;
 `;
 
@@ -90,7 +95,7 @@ const Divider = styled.hr`
   width: 100%;
 `;
 
-const OrderInfoContainer = styled.form`
+const OrderInfoContainer = styled.div`
   display: flex;
   width: 60%;
   flex-direction: column;
@@ -155,10 +160,15 @@ const PaymentButtonContainer = styled.div`
 `;
 
 const PaymentPage = () => {
+  const location = useLocation();
+  const { data, startDate } = location.state || {};
   const [isVisible, setIsVisible] = useState(false);
   const userState = useSelector((state) => state.userReducer);
   const navigate = useNavigate();
   const { register, handleSubmit, watch } = useForm();
+  const [isAgreed, setIsAgreed] = useState(false);
+  console.log(data);
+  console.log(startDate);
   // useEffect(() => {
   //   setIsVisible(true);
   // }, []);
@@ -170,9 +180,52 @@ const PaymentPage = () => {
   //   }
   // }, []);
 
+  const handleAgreementChange = (e) => {
+    setIsAgreed(e.target.checked);
+  };
+
+  const handlePaymentSubmit = async (formData) => {
+    // 예약 정보 등록
+    const reservationData = {
+      memberId: data.memberId,
+      productId: data.productId,
+      reservationDate: startDate,
+      reservationName: watch("text"),
+      reservationPhone: watch("tel"),
+      reservationEmail: watch("email"),
+    };
+
+    try {
+      await postReservationsData(reservationData);
+      setIsAgreed(true);
+      console.log("예약 정보 등록 완료");
+    } catch (error) {
+      setIsAgreed(false);
+      console.error("예약 정보 등록 실패:", error);
+      return;
+    }
+
+    // 결제 정보 전송
+    // const paymentData = {
+    //   reservation_id: "{reservation_id}",
+    //   used_reward_points: "3023",
+    //   actual_payment_amount: data.productPrice,
+    // };
+
+    // try {
+    //   await postPaymentData(paymentData);
+    //   console.log("결제 정보 전송 완료");
+    // } catch (error) {
+    //   console.error("결제 정보 전송 실패:", error);
+    //   return;
+    // }
+
+    // 예약 및 결제 완료 후 다음 작업 수행
+    // ...
+  };
   return (
     <Container>
-      <Form onSubmit={handleSubmit()}>
+      <Form onSubmit={handleSubmit(handlePaymentSubmit)}>
         <Heading>결제하기</Heading>
         <PaymentContainer>
           <ProductInfoContainer>
@@ -183,15 +236,13 @@ const PaymentPage = () => {
                 결제금액
                 <RiArrowDownSLine style={{ marginLeft: "0.3rem" }} />
               </div>
+              <div>예약날짜</div>
             </ProductInfoHeading>
             <ProductInfoList>
               <ProductInfoItem>
-                <div>제품명</div>
-                <div>가격</div>
-              </ProductInfoItem>
-              <ProductInfoItem>
-                <div>제품명</div>
-                <div>가격</div>
+                <div>{data.content}</div>
+                <div>{data.productPrice}</div>
+                <div>{startDate}</div>
               </ProductInfoItem>
             </ProductInfoList>
           </ProductInfoContainer>
@@ -223,14 +274,21 @@ const PaymentPage = () => {
               />
             </InputContainer>
             <AgreementContainer>
-              <AgreementCheckbox type="checkbox" />
+              <AgreementCheckbox
+                type="checkbox"
+                onChange={handleAgreementChange}
+              />
               <AgreementLabel>
                 개인정보 수집 및 이용약관에 동의합니다.
               </AgreementLabel>
             </AgreementContainer>
           </OrderInfoContainer>
           <PaymentButtonContainer>
-            <KakaoPayButton />
+            <KakaoPayButton
+              type="submit"
+              onClick={handlePaymentSubmit}
+              isAgreed={isAgreed}
+            />
           </PaymentButtonContainer>
         </PaymentContainer>
       </Form>

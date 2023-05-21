@@ -3,16 +3,27 @@ import styled from "@emotion/styled";
 
 const StyledButton = styled.button`
   padding: 10px 20px;
-  background-color: #ffeb00;
-  color: #000000;
+  background-color: ${(props) => (props.disabled ? "#ccc" : "#ffeb00")};
+  color: ${(props) => (props.disabled ? "#999" : "#000000")};
   font-size: 16px;
   border: none;
   border-radius: 4px;
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+  opacity: ${(props) => (props.disabled ? 0.6 : 1)};
 `;
 
-const KakaoPayButton = ({ onClick }) => (
-  <StyledButton onClick={onClick}>카카오페이 결제</StyledButton>
-);
+const KakaoPayButton = ({ onClick, isAgreed }) => {
+  const handleClick = () => {
+    if (isAgreed) {
+      onClick();
+    }
+  };
+
+  return (
+    <StyledButton onClick={handleClick} disabled={!isAgreed}>
+      카카오페이 결제
+    </StyledButton>
+  );
+};
 
 export default KakaoPayButton;

@@ -9,6 +9,7 @@ import { CommonButton } from "../Components/Common/Button";
 import { useSelector } from "react-redux";
 import { getCampgroundInfo } from "../utils/ProductFunctions";
 import ReviewForm from "../Components/ReviewForm";
+import { format } from "date-fns";
 
 const Container = styled.div`
   display: flex;
@@ -48,12 +49,14 @@ const InfoContainer = styled.div`
 `;
 
 function Detail() {
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [startDate, setStartDate] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();
   const isDark = useSelector((state) => state.modeReducer);
   const userState = useSelector((state) => state.userReducer);
   const [data, setData] = useState(null);
+  console.log(data);
+  console.log(startDate);
 
   useEffect(() => {
     async function fetchData() {
@@ -75,8 +78,14 @@ function Detail() {
   } = data || {};
 
   const handleReservation = () => {
+    if (!startDate) {
+      alert("날짜를 선택해주세요."); // 날짜 선택하지 않은 경우 경고창 표시
+      return;
+    }
+
     if (userState.login) {
-      navigate("/Payment"); // 로그인 상태라면 다른 페이지로 이동(페이먼트 폼 구현 후 수정)
+      const formattedDate = format(startDate, "yyyy-MM-dd");
+      navigate("/Payment", { state: { data, startDate: formattedDate } });
     } else {
       alert("로그인이 필요한 서비스입니다."); // 로그인이 필요한 경우 경고창 표시
       navigate("/login"); // 로그인 페이지로 이동
@@ -92,10 +101,7 @@ function Detail() {
       <ContainerBox>
         <ImgContainer>
           <CampgroundImage src={imageUrl} />
-          <Picker
-            selectedDate={selectedDate}
-            setSelectedDate={setSelectedDate}
-          />
+          <Picker startDate={startDate} setStartDate={setStartDate} />
         </ImgContainer>
         <CampgroundContainer>
           <InfoContainer>
