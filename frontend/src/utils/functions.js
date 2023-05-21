@@ -35,3 +35,9 @@ export const checkValidPhone = (phone) => {
 export const formatPrice = (price) => {
   return price.toLocaleString();
 };
+
+// 랜덤(사실 랜덤 아님)한 id를 반환하는 함수입니다.
+// 숫자형의 값을 반환합니다.
+export const getRandomId = () => {
+  return new Date().getTime();
+};

@@ -7,6 +7,7 @@ import CustomerChat from "./Chatting/CustomerChat";
 import AIChat from "./Chatting/AIChat";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { BiReset } from "react-icons/bi";
+import axios from "axios";
 
 const Btn = styled(motion.div)`
   width: 70px;
@@ -178,6 +179,9 @@ const ChatInputBtn = styled.button`
   }
 `;
 
+const tempAnswer =
+  "롯데리아는 대한민국의 대표적인 패스트푸드 체인점 중 하나로, 다양한 햄버거와 감자튀김, 음료 등을 판매하고 있습니다. 롯데그룹의 일원으로 1979년 창립되어 현재 국내뿐 아니라 해외에도 많은 매장을 운영하고 있습니다. 로고 색상은 빨강과 노랑색으로, 맛있는 햄버거와 빠르고 편리한 서비스로 인해 국민적인 인기를 얻고 있습니다. 또한, 최근에는 신메뉴 개발과 함께 건강한 식단을 제공하는 메뉴도 출시하고 있습니다";
+
 export default function ChatBox() {
   const [isChatting, setIsChatting] = useState(false);
   const [chat, setChat] = useState("");
@@ -206,6 +210,7 @@ export default function ChatBox() {
     scrollToBottom();
 
     // 진짜 대화
+    /*
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -215,8 +220,24 @@ export default function ChatBox() {
       body: JSON.stringify({
         model: "gpt-3.5-turbo",
         messages: [{ role: "user", content: `${chat}` }],
+        temperature: 1,
       }),
     });
+    */
+    const response = await axios.post(
+      "https://api.openai.com/v1/chat/completions",
+      {
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: `${chat}` }],
+        temperature: 1,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const json = await response.json();
     const answer = json.choices[0].message.content;
 
@@ -236,27 +257,6 @@ export default function ChatBox() {
       scrollToBottom();
     }, 2000);
     // =============
-
-    /*
-    // 테스트 답변
-    setTimeout(() => {
-      scrollToBottom();
-      const answer = "이것은 테스트용 답변입니다.";
-
-      const newAnswerChat = {
-        id: answer + allChats.length + 1,
-        content: answer,
-        customer: false,
-      };
-
-      setAllChats((prev) => [...prev, newAnswerChat]);
-    }, 1000);
-
-    setTimeout(() => {
-      scrollToBottom();
-    }, 2000);
-    // =============
-    */
   };
 
   const handleInputChat = (event) => {

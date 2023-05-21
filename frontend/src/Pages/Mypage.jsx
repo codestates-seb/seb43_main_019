@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   max-width: 1200px;
   width: 100%;
   height: 100vh;
-  display: flex; 
+  display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 3.02vw;
@@ -129,7 +129,6 @@ export default function Mypage() {
     });
   }, []);
 
-
   return (
     <Wrapper>
       <UserArea>
@@ -151,7 +150,11 @@ export default function Mypage() {
             <FaTwitch size={25} />
             &nbsp;예약관리
           </ProfileCard>
-          <RsModal isOpen={RsModalOpen} closeModal={closeRsModal} />
+          <RsModal
+            isOpen={RsModalOpen}
+            closeModal={closeRsModal}
+            userInfo={userState.userInfo}
+          />
         </div>
         <div>
           <ProfileCard onClick={openSeModal}>
@@ -166,7 +169,7 @@ export default function Mypage() {
           판매등록을 원하신다면 아래 링크를 눌러주세요👇🏻
         </SellMent>
         <SellLink isDark={isDark}>
-          <a onClick={() => navigate("/sell")}>판매 등록하러 가기↪️</a>
+          <span onClick={() => navigate("/sell")}>판매 등록하러 가기↪️</span>
         </SellLink>
       </SellArea>
     </Wrapper>

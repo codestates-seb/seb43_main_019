@@ -1,34 +1,6 @@
 import axios from "axios";
 import { BACK } from "../config";
 
-// 로그인을 위한 함수입니다.
-// 이메일, 비밀번호로 구성된 객체를 인자로 받습니다.
-// 로그인 성공 시 유저 정보를 반환합니다.
-// 로그인 실패 시 null을 반환합니다.
-export const handleStartLogin = async (data) => {
-  const { email, password } = data;
-  const loginInfo = { email, password };
-
-  try {
-    // 백엔드에게서 result를 받아온다.
-    const response = await axios.post(`${BACK}/api/login`, loginInfo);
-
-    const data = response.headers;
-
-    const authToken = data.authorization;
-    const refreshToken = data.Refresh;
-
-    const validToken = authToken.slice(7);
-
-    const decoded = JSON.parse(atob(validToken.split(".")[1]));
-
-    return decoded;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-};
-
 // 이메일 인증 코드를 받아오는 함수입니다.
 // 이메일을 인자로 받습니다.
 // 성공 시 인증 코드를 반환합니다.
@@ -116,6 +88,36 @@ export const handleUserWithdrawal = async (memberId) => {
   }
 };
 
+// 로그인을 위한 함수입니다.
+// 이메일, 비밀번호로 구성된 객체를 인자로 받습니다.
+// 로그인 성공 시 유저 정보를 반환합니다.
+// 로그인 실패 시 null을 반환합니다.
+export const handleStartLogin = async (data) => {
+  const { email, password } = data;
+  const loginInfo = { email, password };
+
+  try {
+    // 백엔드에게서 result를 받아온다.
+    const response = await axios.post(`${BACK}/api/login`, loginInfo);
+
+    const data = response.headers;
+
+    const authToken = data.authorization;
+    const refreshToken = data.Refresh;
+    const validToken = authToken.slice(7);
+
+    const decoded = JSON.parse(atob(validToken.split(".")[1]));
+
+    const { memberId } = decoded;
+
+    const userInfo = await getMemberInfo(memberId);
+
+    return userInfo;
+  } catch (error) {
+    return null;
+  }
+};
+
 // 카카오 로그인을 진행하는 함수입니다.
 // 카카오 인게 코드를 인자로 받습니다.
 // 성공 시 유저 정보를 반환합니다.
@@ -130,12 +132,15 @@ export const handleKakaoLogin = async (KAKAO_CODE) => {
 
     const authToken = data.Authorization;
     const refreshToken = data.Refresh;
-
     const validToken = authToken.slice(7);
 
     const decoded = JSON.parse(atob(validToken.split(".")[1]));
 
-    return decoded;
+    const { memberId } = decoded;
+
+    const userInfo = await getMemberInfo(memberId);
+
+    return userInfo;
   } catch (error) {
     return null;
   }
