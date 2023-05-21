@@ -1,10 +1,11 @@
 import styled from "@emotion/styled";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLogin } from "../Redux/Actions";
 import { handleKakaoLogin } from "../utils/MemberFunctions";
+import Spinner from "../Components/Common/Spinner";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -21,6 +22,7 @@ export default function KakaoLogin() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -59,7 +61,7 @@ export default function KakaoLogin() {
 
   return (
     <Wrapper>
-      <Loader>잠시만 기다려주세요...</Loader>
+      <Spinner />
     </Wrapper>
   );
 }

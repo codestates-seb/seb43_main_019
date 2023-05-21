@@ -209,7 +209,7 @@ export default function Registration({ seller }) {
                 type="number"
                 min="0"
                 id="productPrice"
-                placeholder="가격을 입력해주세요."
+                placeholder="가격"
                 {...register("productPrice", { required: true })}
               />
             </SmallInput>
@@ -228,7 +228,7 @@ export default function Registration({ seller }) {
                 type="number"
                 min="0"
                 id="capacity"
-                placeholder="수용인원을 입력해주세요."
+                placeholder="수용인원"
                 {...register("capacity", { required: true })}
               />
             </SmallInput>

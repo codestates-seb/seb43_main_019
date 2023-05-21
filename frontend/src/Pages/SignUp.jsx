@@ -9,6 +9,7 @@ import { Label, Label02, Label03 } from "../Components/Common/Label";
 import { getToday } from "../utils/functions";
 import { getEmailCode, handleJoin } from "../utils/MemberFunctions";
 import { checkValidPassword, checkValidPhone } from "../utils/functions";
+import { Line, Line2, Line3, Line4 } from "../Components/Common/Line";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -41,47 +42,6 @@ const Logo = styled.img`
   height: 130px;
   padding-top: 50px;
   margin-bottom: 20px;
-`;
-
-const Line = styled.div`
-  width: 80%;
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: start;
-  @media screen and (max-width: 900px) {
-    justify-content: center;
-  }
-`;
-
-const Line2 = styled.div`
-  width: 80%;
-  margin-bottom: 15px;
-  /* display: flex; */
-  /* justify-content: space-between; */
-  align-items: flex-start;
-  /* flex: unset;  */
-  @media screen and (max-width: 900px) {
-    justify-content: flex-start;
-    flex-wrap: wrap;
-  }
-`;
-
-const Line3 = styled.div`
-  width: 80%;
-  /* margin-bottom: 20px; */
-  display: flex;
-  justify-content: start;
-  @media screen and (max-width: 900px) {
-    justify-content: center;
-  }
-`;
-
-const Line4 = styled.div`
-  width: 80%;
-  @media screen and (max-width: 900px) {
-    justify-content: flex-start;
-    flex-wrap: wrap;
-  }
 `;
 
 const AuthCodeLine = styled.div`

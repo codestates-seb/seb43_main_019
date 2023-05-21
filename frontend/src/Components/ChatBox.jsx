@@ -12,8 +12,8 @@ const Btn = styled(motion.div)`
   width: 70px;
   height: 70px;
   border-radius: 100%;
-  background-color: var(--gray-200);
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+  /* background-color: var(--gray-200); */
+  /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -82,6 +82,13 @@ const Icons = styled.div`
   width: 90px;
   display: flex;
   justify-content: space-between;
+`;
+
+const Img = styled.img`
+  height: 80px;
+  width: auto;
+  margin-right: 20px;
+  margin-bottom: 20px;
 `;
 
 const ChattingBox = styled.div`
@@ -290,7 +297,7 @@ export default function ChatBox() {
     </Container>
   ) : (
     <Btn layoutId={"chat"} onClick={() => setIsChatting(true)}>
-      <FontAwesomeIcon icon={faComments} />
+      <Img src="/img/operator.png" />
     </Btn>
   );
 }

@@ -75,7 +75,6 @@ function App() {
           <Route path="/" element={<Main />} />
         </Routes>
       </Container>
-      <ModeBtn />
       <ChatBox />
     </Wrapper>
   );

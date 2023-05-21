@@ -1,12 +1,21 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { FaAddressCard, FaTwitch, FaSellcast } from "react-icons/fa";
+import Spinner from "../Components/Common/Spinner";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import MyModal from "../Components/Modal/MyModal";
 import RsModal from "../Components/Modal/RsModal";
 import SeModal from "../Components/Modal/SeModal";
 import { getMemberInfo } from "../utils/MemberFunctions";
+
+const Loader = styled.h1`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Wrapper = styled.div`
   max-width: 1200px;
@@ -90,6 +99,7 @@ export default function Mypage() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const isDark = useSelector((state) => state.modeReducer);
+  const [isLoading, setIsLoading] = useState(false);
   const userState = useSelector((state) => state.userReducer);
   const [MyModalOpen, setMyModalOpen] = useState(false);
   const [RsModalOpen, setRsModalOpen] = useState(false);
@@ -144,7 +154,9 @@ export default function Mypage() {
   }, [userState]);
 
 
-  return (
+  return isLoading ? (
+    <Loader><Spinner /></Loader>
+  ) : (
     <Wrapper>
       <UserArea>
         <Title isDark={isDark}>{name}님 안녕하세요☺️</Title>
