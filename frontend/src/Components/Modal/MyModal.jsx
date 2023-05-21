@@ -184,13 +184,13 @@ function MyModal(props) {
 
   const handleUpdate = async () => {
     if (checkValidPassword(password) === false) {
-      //alert("비밀번호가 양식과 맞지 않습니다.");
-      //return;
+      alert("비밀번호가 양식과 맞지 않습니다.");
+      return;
     }
 
     if (checkValidPhone(phone)) {
-      //alert("전화번호가 양식과 맞지 않습니다.");
-      //return;
+      alert("전화번호가 양식과 맞지 않습니다.");
+      return;
     }
 
     const updatedInfo = {

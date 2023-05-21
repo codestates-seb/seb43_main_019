@@ -67,16 +67,6 @@ export default function SignUp() {
     setCode((prev) => event.target.value);
   };
 
-  // 중복 아이디를 검사하는 함수. true: 중복 / false: 중복 아님
-  const checkDuplicateId = (id) => {
-    return false;
-  };
-
-  // 이미 존재하는 회원인 경우. true: 중복 / false: 중복 아님
-  const checkDuplicateUser = (name, phone, birthDate, email) => {
-    return false;
-  };
-
   const handleVerificationSubmit = async () => {
     // const email = watch("email");
 
@@ -98,20 +88,6 @@ export default function SignUp() {
   const handleStartJoin = async (data) => {
     const { id, password, password2, name, phone, birthDate, email } = data;
 
-    // 이미 존재하는 아이디인 경우
-    if (checkDuplicateId(id)) {
-      alert("이미 존재하는 아이디입니다.");
-      setFocus("birthDate");
-      return;
-    }
-
-    // 이미 회원가입한 경우
-    if (checkDuplicateUser(name, phone, birthDate, email)) {
-      alert("이미 회원 등록이 되어있습니다.");
-      navigate("/login");
-      return;
-    }
-
     // 비밀번호와 비밀번호 확인이 일치하지 않는 경우
     if (password !== password2) {
       alert("비밀번호가 일치하지 않습니다!");
@@ -129,8 +105,6 @@ export default function SignUp() {
     if (authRequired === false && isEmailVerified === false) {
       const result = await getEmailCode(email);
       setAuthCode((prev) => result);
-
-      console.log(`Code = ${result}`);
 
       setAuthRequired((prev) => true);
       return;
@@ -207,10 +181,10 @@ export default function SignUp() {
         </Line3>
         <Line4>
           <Label03>비밀번호는 최소 8자리 이상이여야하며,</Label03>
-          </Line4>
-          <Line2>
+        </Line4>
+        <Line2>
           <Label02>대소문자,특수문자를 포함해주세요.</Label02>
-          </Line2>
+        </Line2>
         <Line>
           <Label isDark={isDark} htmlFor="password2">
             비밀번호 확인
@@ -247,7 +221,7 @@ export default function SignUp() {
         </Line3>
         <Line2>
           <Label03>전화번호는 010/011로 시작해야 합니다.</Label03>
-          </Line2>
+        </Line2>
         <Line htmlFor="birthDate">
           <Label isDark={isDark}>생년월일</Label>
           <Input

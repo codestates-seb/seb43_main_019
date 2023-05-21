@@ -30,13 +30,13 @@ export default function Sell() {
   useEffect(() => {
     // 만약 로그인한 상태가 아니라면 로그인 페이지로 이동
     if (userState.login === false || userState.userInfo === null) {
-      // navigate("/login");
+      navigate("/login");
       return;
     }
 
     // 만약 판매자가 아니라면 my page로 이동
     if (userState.userInfo.seller === false) {
-      // navigate("/mypage");
+      navigate("/mypage");
     }
   }, []);
 

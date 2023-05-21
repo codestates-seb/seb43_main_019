@@ -143,8 +143,6 @@ function MyModal(props) {
       );
       setCampgrounds((prev) => [...reservations]);
 
-      // setCampgrounds((prev) => [...dummyCampgrounds.data]);
-
       setIsLoading((prev) => false);
     })();
   }, []);

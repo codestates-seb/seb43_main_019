@@ -7,6 +7,7 @@ import { dummyUsers } from "../../Dummy/DummyDatas";
 
 const Container = styled.div`
   width: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,9 +21,9 @@ export default function UserManagement() {
     (async () => {
       setIsLoading((prev) => true);
 
-      // const usersInfo = await getAllMemberInfo();
-      // setUsers((prev) => usersInfo);
-      setUsers((prev) => dummyUsers);
+      const usersInfo = await getAllMemberInfo();
+      setUsers((prev) => usersInfo);
+      // setUsers((prev) => dummyUsers);
 
       setIsLoading((prev) => false);
     })();
@@ -32,12 +33,14 @@ export default function UserManagement() {
     <Container>
       {isLoading ? (
         <h1>Loading...</h1>
-      ) : (
+      ) : users && users.length > 0 ? (
         <>
           {users.map((user) => (
             <User user={user} key={user.memberId + ""} />
           ))}
         </>
+      ) : (
+        <h1>유저가 없습니다.</h1>
       )}
     </Container>
   );
