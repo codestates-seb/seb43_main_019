@@ -151,7 +151,7 @@ const TempWrapper = styled.div`
 const options = {
   root: null,
   rootMargin: "0px",
-  threshold: 1.0,
+  threshold: 0.5,
 };
 
 export default function Main({ searchResults }) {
@@ -198,7 +198,7 @@ export default function Main({ searchResults }) {
     (async () => {
       const observer = new IntersectionObserver(([entry]) => {
         if (entry.isIntersecting) {
-          // 데이터 더 불러오기
+          console.log("ㅋㅋㅋ");
         }
       }, options);
 
