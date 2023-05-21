@@ -5,10 +5,11 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { CommonButton } from "../Components/Common/Button";
 import { Input, AuthCodeInput } from "../Components/Common/Input";
-import { Label } from "../Components/Common/Label";
+import { Label, Label02, Label03 } from "../Components/Common/Label";
 import { getToday } from "../utils/functions";
 import { getEmailCode, handleJoin } from "../utils/MemberFunctions";
 import { checkValidPassword, checkValidPhone } from "../utils/functions";
+import { Line, Line2, Line3, Line4 } from "../Components/Common/Line";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -27,9 +28,9 @@ const Form = styled.form`
     props.isDark ? "var(--white-50)" : "var(--white)"};
   display: flex;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
   flex-direction: column;
-  gap: 12px;
+  /* gap: 12px; */
   border-radius: 20px;
   border: 1px solid var(--black-500);
   margin-top: 80px;
@@ -38,20 +39,9 @@ const Form = styled.form`
 
 const Logo = styled.img`
   width: auto;
-  height: 90px;
+  height: 130px;
   padding-top: 50px;
   margin-bottom: 20px;
-`;
-
-const Line = styled.div`
-  width: 80%;
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: start;
-
-  @media screen and (max-width: 900px) {
-    justify-content: center;
-  }
 `;
 
 const AuthCodeLine = styled.div`
@@ -190,8 +180,7 @@ export default function SignUp() {
     <Wrapper isDark={isDark}>
       <Form isDark={isDark} onSubmit={handleSubmit(handleStartJoin)}>
         <div>
-          <Logo src={"/img/Logo_Light.png"} />
-          <Logo src="/img/Camp.png" />
+          <Logo src={"/img/add-user.png"} />
         </div>
         <Line>
           <Label isDark={isDark} htmlFor="id">
@@ -204,7 +193,7 @@ export default function SignUp() {
             {...register("id", { required: true })}
           />
         </Line>
-        <Line>
+        <Line3>
           <Label isDark={isDark} htmlFor="password">
             비밀번호
           </Label>
@@ -215,7 +204,13 @@ export default function SignUp() {
             placeholder="비밀번호를 입력하세요."
             {...register("password", { required: true })}
           />
-        </Line>
+        </Line3>
+        <Line4>
+          <Label03>비밀번호는 최소 8자리 이상이여야하며,</Label03>
+          </Line4>
+          <Line2>
+          <Label02>대소문자,특수문자를 포함해주세요.</Label02>
+          </Line2>
         <Line>
           <Label isDark={isDark} htmlFor="password2">
             비밀번호 확인
@@ -239,7 +234,7 @@ export default function SignUp() {
             {...register("name", { required: true })}
           />
         </Line>
-        <Line>
+        <Line3>
           <Label isDark={isDark} htmlFor="callNumber">
             전화번호
           </Label>
@@ -249,7 +244,10 @@ export default function SignUp() {
             placeholder="'-'를 포함한 전화번호를 입력하세요."
             {...register("phone", { required: true })}
           />
-        </Line>
+        </Line3>
+        <Line2>
+          <Label03>전화번호는 010/011로 시작해야 합니다.</Label03>
+          </Line2>
         <Line htmlFor="birthDate">
           <Label isDark={isDark}>생년월일</Label>
           <Input

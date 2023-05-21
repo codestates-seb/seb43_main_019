@@ -47,7 +47,7 @@ const Space = styled.div`
 
 const Logo = styled.img`
   width: auto;
-  height: 90px;
+  height: 130px;
   padding-top: 50px;
   margin-bottom: 20px;
 `;
@@ -130,8 +130,7 @@ export default function Login() {
     <Wrapper>
       <Form isDark={isDark} onSubmit={handleSubmit(handleSignIn)}>
         <div>
-          <Logo src={"/img/Logo_Light.png"} />
-          <Logo src="/img/Camp.png" />
+          <Logo src={"/img/login.png"} />
         </div>
         <Space pos={"start"}>
           <Link to="/account-search">

@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import styled, { keyframes } from "styled-components";
 import { useSelector } from "react-redux";
 import { dummyCampgrounds } from "../Dummy/DummyDatas";
 import { useEffect, useRef, useState } from "react";
@@ -6,10 +6,10 @@ import Card2 from "../Components/Card2";
 import { FaChevronUp } from "react-icons/fa";
 import { getCampgroundInfo } from "../utils/ProductFunctions";
 import { getAllCampgroundsInfo } from "../utils/ProductFunctions";
+import Spinner from "../Components/Common/Spinner";
+import { Element, Scroller } from 'react-scroll';
 
 const Loader = styled.h1`
-  font-size: 50px;
-  font-weight: bold;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -39,22 +39,95 @@ const Container = styled.main`
   gap: 20px;
   justify-items: center;
   padding: 50px 0;
-  padding-top: 200px;
+  /* padding-top: 50px; */
 `;
 
 const ContextArea = styled.div`
   width: 100%;
-  margin-top: 50px;
-  position: absolute;
+  margin-top: 20px;
   padding: 35px 0;
+  /* background-color: green; */
   top: 0;
   left: 0;
 `;
+
+const IntroArea = styled.div`
+  display: flex;
+  width: 100%;
+  height: 450px;
+  margin-top: 150px;
+  padding: 10px 0;
+  top: 0;
+  left: 0;
+`;
+
+const IntroContent = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 50px;
+`;
+
+
+const IntroImage = styled.div`
+  flex: 1;
+  background-image: url('/img/Camp02.png');
+  background-size: 70%;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100%;
+  margin-right: 100px;
+
+  @media screen and (max-width: 900px) {
+    display: none;
+  }
+`;
+
+const IntroTitle = styled.h2`
+  flex: 1;
+  margin-left: 20px;
+  display: flex;
+  font-size: 30px;
+  white-space: pre-line;
+  justify-content: center important!; 
+  align-items: center important!;
+  opacity: ${({ inView }) => (inView ? 1 : 0)};
+  transform: translateY(${({ inView }) => (inView ? '0' : '-100%')});
+  transition: opacity 1s ease, transform 1s ease;
+  font-family: "Noto Sans KR", sans-serif;
+  color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--black-700)")};
+
+  @media screen and (max-width: 900px) {
+    display: none;
+  }
+`;
+
+const TitleAnimation = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(0%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(100%);
+  }
+`;
+
 
 const Title = styled.h2`
   margin-left: 150px !important;
   font-family: "Noto Sans KR", sans-serif;
   color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--black-700)")};
+
+  @media screen and (max-width: 900px) {
+    display: none;
+  }
+
+    /* Apply animation */
+  opacity: 0;
+  animation: ${TitleAnimation} 1s ease forwards;
 `;
 
 const ScrollBtn = styled.div`
@@ -87,6 +160,8 @@ export default function Main({ searchResults }) {
   const [isLoading, setIsLoading] = useState(false);
   const [size, setSize] = useState(10);
   const [page, setPage] = useState(1);
+  const [inView, setInView] = useState(false); // inView 상태 추가
+  const [titleInView, setTitleInView] = useState(false);
 
   // 타겟 요소 지정
   let containerRef = useRef(null);
@@ -137,12 +212,62 @@ export default function Main({ searchResults }) {
     })();
   }, [containerRef]);
 
+  const handleScroll = () => {
+    const introElement = document.querySelector('.intro-element');
+  
+    if (introElement) {
+      const introElementPosition = introElement.getBoundingClientRect().top;
+      const windowHeight = window.innerHeight;
+  
+      if (introElementPosition < windowHeight * 0.8) {
+        setInView(true); // inView state update to true
+      } else {
+        setInView(false); // inView state update to false
+      }
+    }
+  };
+
+  const handleTitleScroll = () => {
+    const titleElement = document.querySelector('.title-element');
+  
+    if (titleElement) {
+      const titleElementPosition = titleElement.getBoundingClientRect().top;
+      const windowHeight = window.innerHeight;
+  
+      if (titleElementPosition >= windowHeight * 0.1) {
+        setTitleInView(true);
+      } else {
+        setTitleInView(false);
+      }
+    }
+  };
+  
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+  
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return isLoading ? (
-    <Loader>Loading...</Loader>
+    <Loader><Spinner /></Loader>
   ) : (
     <>
+      <IntroArea>
+          <IntroContent>
+          <Element name="intro" className="intro-element">
+            <IntroTitle isDark={isDark}  inView={inView} >우리 모두 에어캠프로{"\n"}캠핑 가보자GoGo 🤙🤙</IntroTitle>
+          </Element>
+        </IntroContent>
+        <IntroImage />
+        </IntroArea>
       <ContextArea isDark={isDark}>
-        <Title isDark={isDark}>지금 당장 캠핑을 떠나보세요.⛺</Title>
+      <Element name="intro" className="intro-element">
+      <Title isDark={isDark} inView={titleInView}>
+        지금 당장 캠핑을 떠나보세요.⛺
+        </Title>
+        </Element>
       </ContextArea>
       <Container>
         {searchResults.length > 0

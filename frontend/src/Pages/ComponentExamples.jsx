@@ -1,10 +1,12 @@
 import styled from "@emotion/styled";
+import { useState } from "react";
 import Input01 from "../Components/Common/Input01";
 import Input02 from "../Components/Common/Input02";
 import Button01 from "../Components/Common/Button01";
 import Button02 from "../Components/Common/Button02";
 import Label01 from "../Components/Common/Label01";
 import Input03 from "../Components/Common/Input03";
+import Spinner from "../Components/Common/Spinner";
 
 const Container = styled.div`
   width: 100%;
@@ -23,6 +25,8 @@ const KakaoImg = styled.img`
 `;
 
 export default function ComponentExamples() {
+  const [isLoading, setIsLoading] = useState(false);
+  
   return (
     <Container>
       <Input01 />
@@ -32,6 +36,7 @@ export default function ComponentExamples() {
       <Button02 />
       <Button02 bgColor="var(--yellow)" text="카카오색깔버튼" />
       <Label01 />
+      <Spinner />
     </Container>
   );
 }

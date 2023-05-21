@@ -7,6 +7,8 @@ import { CommonButton } from "./Common/Button";
 import Searchbar from "./Searchbar";
 import { useEffect, useState } from "react";
 import { getAllCampgroundsInfo } from "../utils/ProductFunctions";
+import Spinner from "./Common/Spinner";
+import ModeBtn from "./ModeBtn";
 
 const Container = styled.header`
   width: 100%;
@@ -153,8 +155,9 @@ export default function Header({ setSearchResults }) {
           )}
         </Top>
         <Bottom isDark={isDark}>
+          <ModeBtn />
           {isLoading ? (
-            <h1>Loading...</h1>
+            <Spinner />
           ) : (
             <Searchbar setSearchResults={setSearchResults} data={data} />
           )}
