@@ -77,3 +77,23 @@ export const handleDeleteCampground = async (productId) => {
     return false;
   }
 };
+
+// 카카오페이 post
+export const postPaymentData = async (data) => {
+  try {
+    const response = await axios.post(`${BACK}/api/payment`, data);
+    console.log(response.data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// 새로운 예약 등록
+export const postReservationsData = async (data) => {
+  try {
+    const response = await axios.post(`${BACK}/api/reservations`, data);
+    console.log(response.data);
+  } catch (error) {
+    console.error(error);
+  }
+};

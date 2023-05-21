@@ -34,8 +34,7 @@ const Input = styled.input`
 
 const CustomDatePicker = styled(DatePicker)``;
 
-function Picker() {
-  const [startDate, setStartDate] = useState(null);
+function Picker({ startDate, setStartDate }) {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleInputClick = () => {
@@ -46,7 +45,6 @@ function Picker() {
     setStartDate(date);
     setShowDatePicker(false);
   };
-
   return (
     <Container>
       <Input
