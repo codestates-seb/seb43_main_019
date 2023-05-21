@@ -68,8 +68,12 @@ export default function Test() {
     <Wrapper>
       <Form onSubmit={submitInfo}>
         <Input value={name} onChange={inputName} placeholder="이름 입력" />
-        <Input value={name} onChange={inputName} placeholder="이름 입력" />
-        <Input value={name} onChange={inputName} placeholder="이름 입력" />
+        <Input value={age} onChange={inputAge} placeholder="나이 입력" />
+        <Input
+          value={phone}
+          onChange={inputPhone}
+          placeholder="전화번호 입력"
+        />
 
         <Button>제출</Button>
       </Form>

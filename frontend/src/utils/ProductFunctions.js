@@ -10,6 +10,7 @@ export const handlePostCampground = async (campground) => {
     await axios.post(`${BACK}/api/products`, campground);
     return true;
   } catch (error) {
+    console.log(error);
     return false;
   }
 };
@@ -20,6 +21,10 @@ export const handlePostCampground = async (campground) => {
 // 실패 시 null을 반환합니다.
 export const handleUpdateCampground = async (productId, updatedInfo) => {
   try {
+    console.log(productId);
+    console.log(updatedInfo);
+    console.log(updatedInfo.image.get("image"));
+
     const response = await axios.post(
       `${BACK}/api/products/${productId}`,
       updatedInfo

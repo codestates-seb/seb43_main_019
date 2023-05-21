@@ -60,18 +60,14 @@ export const ModalView = styled.div.attrs((props) => ({
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
-    label {
-      display: inline-block;
-      margin-right: 20px;
-      justify-content: flex-start;
-      align-items: flex-start;
-    }
+    width: 300px;
 
     input[type="text"] {
       font-size: 16px;
       padding: 10px 10px 10px 5px;
       display: block;
-      width: 185px;
+      width: 200px;
+      height: 100%;
       border: none;
       border-bottom: 1px solid #6c6c6c;
       background: transparent;
@@ -88,6 +84,14 @@ export const ModalView = styled.div.attrs((props) => ({
       border-radius: 10px;
     }
   }
+
+  & div.button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+  }
 `;
 
 export const ModalBtn = styled.button`
@@ -98,17 +102,6 @@ export const ModalBtn = styled.button`
   color: white;
   border-radius: 30px;
   cursor: grab;
-`;
-
-export const input = styled.input`
-  font-size: 16px;
-  padding: 10px 10px 10px 5px;
-  display: block;
-  width: 185px;
-  border: none;
-  border-bottom: 1px solid #6c6c6c;
-  background: transparent;
-  color: #475ed4;
 `;
 
 export const Exitbtn = styled(ModalBtn)`
@@ -151,14 +144,25 @@ const Btn = styled.div`
   }
 `;
 
+const Label = styled.div`
+  width: 100px;
+  height: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  & label {
+    font-size: 15px;
+  }
+`;
+
 function MyModal(props) {
-  const { isOpen, closeModal } = props;
-  const [name, setName] = useState("");
+  const { isOpen, closeModal, userInfo } = props;
+  const [name, setName] = useState(userInfo.nickname);
   const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
-  const [businessRegistrationNumber, setBusinessRegistrationNumber] =
-    useState("");
-  const { userInfo } = props;
+  const [phone, setPhone] = useState(userInfo.phone || "");
+  const [businessRegistrationNumber, setBusinessRegistrationNumber] = useState(
+    userInfo.businessRegistrationNumber || ""
+  );
 
   const navigate = useNavigate();
 
@@ -237,49 +241,58 @@ function MyModal(props) {
             <label>관리자에게 문의해주세요 :)</label>
           </div>
           <div className="input-container">
-            <label>name</label>
+            <Label>
+              <label>name</label>
+            </Label>
             <input
               type="text"
               name=""
               required="name"
               value={name}
               onChange={handleName}
-            ></input>
+            />
           </div>
           <div className="input-container">
-            <label>PW</label>
+            <Label>
+              <label>PW</label>
+            </Label>
             <input
               type="text"
               name=""
               required="PW"
               value={password}
               onChange={handlePassword}
-            ></input>
+            />
           </div>
           <div className="input-container">
-            <label>phone</label>
+            <Label>
+              <label>phone</label>
+            </Label>
             <input
               type="text"
               name=""
               required="phone"
               value={phone}
               onChange={handlePhone}
-            ></input>
+            />
           </div>
           <div className="input-container">
-            <label>사업자 번호</label>
+            <Label>
+              <label>사업자 번호</label>
+            </Label>
             <input
               type="text"
               name=""
               required="businessRegistrationNumber"
               value={businessRegistrationNumber}
               onChange={handleBusinessRegistrationNumber}
-            ></input>
+              disabled={!(userInfo.isSellerVerifed === true)}
+            />
           </div>
-          <div className="input-container">
+          <div className="button-container">
             <Btn onClick={handleUpdate}>수정하기</Btn>
           </div>
-          <div className="input-container">
+          <div className="button-container">
             <Btn onClick={handleDelete}>회원탈퇴</Btn>
           </div>
         </ModalView>

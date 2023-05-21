@@ -59,7 +59,7 @@ const DropdownContent = styled.div`
   top: 100%;
   left: 0;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.5); 
+  background-color: rgba(255, 255, 255, 0.5);
   border-radius: 4px;
   box-shadow: 0px 10px 20px -18px;
   padding: 8px;
@@ -69,7 +69,6 @@ const DropdownContent = styled.div`
 
 const TagsContainer = styled.div`
   display: flex;
-  
 `;
 
 const Tag = styled.div`
@@ -95,14 +94,14 @@ const Tag = styled.div`
   }
 
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 20px;
     height: 20px;
     background: var(--gray-200);
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1); 
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
     border-radius: 0 0 6px 0;
     transition: transform 500ms;
   }
@@ -125,126 +124,131 @@ const Text = styled.p`
   font-size: 15px;
 `;
 
-
 export default function Searchbar({ setSearchResults, data }) {
-    const [searchText, setSearchText] = useState("");
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [selectedTags, setSelectedTags] = useState([]);
-    const isDark = useSelector((state) => state.modeReducer);
-  
-    const handleSearch = () => {
-      const filteredData = data.filter((campground) => {
-        const productName = campground.productName ? campground.productName.toLowerCase() : "";
-        const location = campground.location ? campground.location.toLowerCase() : "";
-        const uniqueSelectedTags = [...new Set(selectedTags)];
-        const isSeoulSelected = uniqueSelectedTags.includes("Tag 1");
-        const is1to2Selected = uniqueSelectedTags.includes("Tag 2");
-        const isGangwonSelected = uniqueSelectedTags.includes("Tag 4");
-  
-        return (
-          (isSeoulSelected && location.includes("서울")) ||
-          (is1to2Selected && campground.capacity >= 1 && campground.capacity <= 2) ||
-          (isGangwonSelected && location.includes("강원도")) ||
-          (!isSeoulSelected &&
-            !is1to2Selected &&
-            !isGangwonSelected &&
-            (productName.includes(searchText.toLowerCase()) ||
-              location.includes(searchText.toLowerCase()) ||
-              campground.capacity === Number(searchText)))
-        );
-      });
-  
-      setSearchResults(filteredData);
-    };
-  
-    const handleInputChange = (e) => {
-      setSearchText(e.target.value);
-    };
-  
-    const handleKeyPress = (e) => {
-      if (e.key === "Enter") {
-        handleSearch();
-      }
-    };
-  
-    const handleDropdownToggle = () => {
-      setIsDropdownOpen(!isDropdownOpen);
-    };
-  
-    const handleDropdownToggle2 = (isOpen) => {
-      setIsDropdownOpen(isOpen);
-    };
-  
-    const handleTagClick = (tag) => {
-      const isSelected = selectedTags.includes(tag);
-      let updatedTags;
-  
-      if (isSelected) {
-        updatedTags = selectedTags.filter((selectedTag) => selectedTag !== tag);
-      } else {
-        updatedTags = [...selectedTags, tag];
-      }
-  
-      setSelectedTags(updatedTags);
+  const [searchText, setSearchText] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const isDark = useSelector((state) => state.modeReducer);
+
+  const handleSearch = () => {
+    const filteredData = data.filter((campground) => {
+      const productName = campground.productName
+        ? campground.productName.toLowerCase()
+        : "";
+      const location = campground.location
+        ? campground.location.toLowerCase()
+        : "";
+      const uniqueSelectedTags = [...new Set(selectedTags)];
+      const isSeoulSelected = uniqueSelectedTags.includes("Tag 1");
+      const is1to2Selected = uniqueSelectedTags.includes("Tag 2");
+      const isGangwonSelected = uniqueSelectedTags.includes("Tag 4");
+
+      return (
+        (isSeoulSelected && location.includes("서울")) ||
+        (is1to2Selected &&
+          campground.capacity >= 1 &&
+          campground.capacity <= 2) ||
+        (isGangwonSelected && location.includes("강원도")) ||
+        (!isSeoulSelected &&
+          !is1to2Selected &&
+          !isGangwonSelected &&
+          (productName.includes(searchText.toLowerCase()) ||
+            location.includes(searchText.toLowerCase()) ||
+            campground.capacity === Number(searchText)))
+      );
+    });
+
+    setSearchResults(filteredData);
+  };
+
+  const handleInputChange = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
       handleSearch();
-    };
-  
-    const isTagSelected = (tag) => {
-      return selectedTags.includes(tag);
-    };
-  
-    return (
-      <InputSpace>
-        <InputWrapper
-          onMouseEnter={() => handleDropdownToggle2(true)}
-          onMouseLeave={() => handleDropdownToggle2(false)}
-        >
-          <Input
-            type="text"
-            value={searchText}
-            onChange={handleInputChange}
-            onKeyPress={handleKeyPress}
-            placeholder="Search..."
-          />
-          <DropdownButton onClick={handleDropdownToggle}>
-            <FaSortDown size={15} />
-          </DropdownButton>
-          {isDropdownOpen && (
-            <DropdownContent>
-              <div>
-                <TagsContainer>
-                  <Text>원하는 검색어를 입력해보세요.💁🏻‍♀️</Text>
-                </TagsContainer>
-                <TagsContainer>
-                  <Tag
-                    className={isTagSelected("Tag 1") ? "selected" : ""}
-                    onClick={() => handleTagClick("Tag 1")}
-                  >
-                    <TagText># 서울시</TagText>
-                  </Tag>
-                  <Tag
-                    className={isTagSelected("Tag 2") ? "selected" : ""}
-                    onClick={() => handleTagClick("Tag 2")}
-                  >
-                    <TagText># 1~2인</TagText>
-                  </Tag>
-                  <Tag
-                    className={isTagSelected("Tag 3") ? "selected" : ""}
-                    onClick={() => handleTagClick("Tag 3")}
-                  >
-                    <TagText># 캠핑장 14</TagText>
-                  </Tag>
-                  <Tag
-                    className={isTagSelected("Tag 4") ? "selected" : ""}
-                    onClick={() => handleTagClick("Tag 4")}
-                  >
-                    <TagText># 강원도</TagText>
-                  </Tag>
-                </TagsContainer>
-              </div>
-            </DropdownContent>
-          )}
-        </InputWrapper>
-      </InputSpace>
-    );
-  }
+    }
+  };
+
+  const handleDropdownToggle = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleDropdownToggle2 = (isOpen) => {
+    setIsDropdownOpen(isOpen);
+  };
+
+  const handleTagClick = (tag) => {
+    const isSelected = selectedTags.includes(tag);
+    let updatedTags;
+
+    if (isSelected) {
+      updatedTags = selectedTags.filter((selectedTag) => selectedTag !== tag);
+    } else {
+      updatedTags = [...selectedTags, tag];
+    }
+
+    setSelectedTags(updatedTags);
+    handleSearch();
+  };
+
+  const isTagSelected = (tag) => {
+    return selectedTags.includes(tag);
+  };
+
+  return (
+    <InputSpace>
+      <InputWrapper
+        onMouseEnter={() => handleDropdownToggle2(true)}
+        onMouseLeave={() => handleDropdownToggle2(false)}
+      >
+        <Input
+          type="text"
+          value={searchText}
+          onChange={handleInputChange}
+          onKeyPress={handleKeyPress}
+          placeholder="Search..."
+        />
+        <DropdownButton onClick={handleDropdownToggle}>
+          <FaSortDown size={15} />
+        </DropdownButton>
+        {isDropdownOpen && (
+          <DropdownContent>
+            <div>
+              <TagsContainer>
+                <Text>원하는 검색어를 입력해보세요.💁🏻‍♀️</Text>
+              </TagsContainer>
+              <TagsContainer>
+                <Tag
+                  className={isTagSelected("Tag 1") ? "selected" : ""}
+                  onClick={() => handleTagClick("Tag 1")}
+                >
+                  <TagText># 서울시</TagText>
+                </Tag>
+                <Tag
+                  className={isTagSelected("Tag 2") ? "selected" : ""}
+                  onClick={() => handleTagClick("Tag 2")}
+                >
+                  <TagText># 1~2인</TagText>
+                </Tag>
+                <Tag
+                  className={isTagSelected("Tag 3") ? "selected" : ""}
+                  onClick={() => handleTagClick("Tag 3")}
+                >
+                  <TagText># 캠핑장 14</TagText>
+                </Tag>
+                <Tag
+                  className={isTagSelected("Tag 4") ? "selected" : ""}
+                  onClick={() => handleTagClick("Tag 4")}
+                >
+                  <TagText># 강원도</TagText>
+                </Tag>
+              </TagsContainer>
+            </div>
+          </DropdownContent>
+        )}
+      </InputWrapper>
+    </InputSpace>
+  );
+}

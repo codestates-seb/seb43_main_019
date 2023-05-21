@@ -1,10 +1,6 @@
 import styled from "@emotion/styled";
-import { useEffect } from "react";
 import { useState } from "react";
-import { dummyReviews } from "../Dummy/DummyDatas";
-import { useRef } from "react";
-import Review from "../Components/Review";
-import { useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -40,24 +36,10 @@ const Button = styled.button`
 `;
 
 export default function Test() {
-  const [name, setName] = useState("");
-  const [age, setAge] = useState(0);
-  const [phone, setPhone] = useState("");
-
-  const inputName = (event) => {
-    setName((prev) => event.target.value);
-  };
-
-  const inputAge = (event) => {
-    setAge((prev) => event.target.value);
-  };
-
-  const inputPhone = (event) => {
-    setPhone((prev) => event.target.value);
-  };
+  const { register, handleSubmit } = useForm();
 
   const submitInfo = (event) => {
-    event.preventDefault();
+    const { name, age, phone } = event;
 
     console.log(`입력한 이름: ${name}`);
     console.log(`입력한 나이: ${age}`);
@@ -66,10 +48,19 @@ export default function Test() {
 
   return (
     <Wrapper>
-      <Form onSubmit={submitInfo}>
-        <Input value={name} onChange={inputName} placeholder="이름 입력" />
-        <Input value={name} onChange={inputName} placeholder="이름 입력" />
-        <Input value={name} onChange={inputName} placeholder="이름 입력" />
+      <Form onSubmit={handleSubmit(submitInfo)}>
+        <Input
+          placeholder="이름 입력"
+          {...register("name", { required: true })}
+        />
+        <Input
+          placeholder="나이 입력"
+          {...register("age", { required: true })}
+        />
+        <Input
+          placeholder="전화번호 입력"
+          {...register("phone", { required: true })}
+        />
 
         <Button>제출</Button>
       </Form>
