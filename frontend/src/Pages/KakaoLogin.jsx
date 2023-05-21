@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLogin } from "../Redux/Actions";
-import { handleKakaoLogin } from "../utils/MemberFunctions";
+import { getMemberInfo, handleKakaoLogin } from "../utils/MemberFunctions";
 import Spinner from "../Components/Common/Spinner";
 
 const Wrapper = styled.div`
