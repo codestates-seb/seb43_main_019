@@ -98,7 +98,7 @@ export default function Mypage() {
   // 만약 현재 로그인한 상태가 아니라면 로그인 페이지로 보냄
   useEffect(() => {
     if (userState.login === false) {
-      // navigate("/login");
+      navigate("/login");
     }
   }, []);
 
@@ -122,12 +122,26 @@ export default function Mypage() {
     setSeModalOpen(false);
   };
 
-  // 서버에서 회원 정보를 가져온 후 이름을 설정
   useEffect(() => {
-    getMemberInfo().then((response) => {
-      setName(response.name);
-    });
-  }, []);
+    const fetchMemberInfo = async () => {
+      try {
+        if (userState.login) {
+          const response = await getMemberInfo(userState.memberId);
+          if (response) {
+            setName(response.name);
+          } else {
+            console.error("회원 정보를 가져오는 중 오류가 발생했습니다.");
+          }
+        } else {
+          navigate("/login");
+        }
+      } catch (error) {
+        console.error("회원 정보를 가져오는 중 오류가 발생했습니다.", error);
+      }
+    };
+  
+    fetchMemberInfo();
+  }, [userState]);
 
 
   return (
