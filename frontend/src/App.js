@@ -66,6 +66,8 @@ function App() {
           <Route path="/payment" element={<Payment />} />
           <Route path={"/oauth2/*"} element={<KakaoLogin />} />
           <Route path="/:id" element={<Detail />} />
+          {/*           <Route path="/:id(\d+)" element={<Detail />} />
+          <Route path="/:nothing" element={<NotFound />} /> */}
           <Route path="/" element={<Main searchResults={searchResults} />} />
         </Routes>
       </Container>

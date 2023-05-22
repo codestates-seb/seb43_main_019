@@ -40,6 +40,7 @@ export const handleJoin = async (joinInfo) => {
 export const handleUpdateMemberInfo = async (updatedInfo) => {
   try {
     const response = await axios.patch(`${BACK}/api/members/1`, updatedInfo);
+
     return response.data;
   } catch (error) {
     return false;
@@ -50,12 +51,22 @@ export const handleUpdateMemberInfo = async (updatedInfo) => {
 // 유저 id를 인자로 받습니다.
 // 성공 시 user의 정보를 반환합니다.
 // 실패 시 null을 반환합니다.
-export const getMemberInfo = async (memberId) => {
+export const getMemberInfo = async (memberInfo) => {
   try {
-    const response = await axios.get(`${BACK}/api/members/${memberId}`);
+    const response = await axios.get(
+      `${BACK}/api/members/${memberInfo.memberId}`,
+      {
+        headers: {
+          Authorization: memberInfo.accessToken,
+        },
+      }
+    );
     const userInfo = response.data;
+
     return userInfo;
   } catch (error) {
+    console.log("회원정보를 받아올 수 없습니다.");
+    console.log(error);
     return null;
   }
 };
@@ -97,7 +108,6 @@ export const handleStartLogin = async (data) => {
   const loginInfo = { email, password };
 
   try {
-    // 백엔드에게서 result를 받아온다.
     const response = await axios.post(`${BACK}/api/login`, loginInfo);
 
     const data = response.headers;
@@ -108,9 +118,7 @@ export const handleStartLogin = async (data) => {
 
     const decoded = JSON.parse(atob(validToken.split(".")[1]));
 
-    const { memberId } = decoded;
-
-    const userInfo = await getMemberInfo(memberId);
+    const userInfo = { ...decoded, accessToken: authToken };
 
     return userInfo;
   } catch (error) {

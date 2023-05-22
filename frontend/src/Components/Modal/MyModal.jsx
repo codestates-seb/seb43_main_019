@@ -62,7 +62,7 @@ export const ModalView = styled.div.attrs((props) => ({
     justify-content: flex-start;
     width: 300px;
 
-    input[type="text"] {
+    input {
       font-size: 16px;
       padding: 10px 10px 10px 5px;
       display: block;
@@ -156,13 +156,12 @@ const Label = styled.div`
 `;
 
 function MyModal(props) {
-  const { isOpen, closeModal, userInfo } = props;
-  const [name, setName] = useState(userInfo.nickname);
+  const { isOpen, closeModal, myInfo, isSeller } = props;
+  const [name, setName] = useState(myInfo.name);
   const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState(userInfo.phone || "");
-  const [businessRegistrationNumber, setBusinessRegistrationNumber] = useState(
-    userInfo.businessRegistrationNumber || ""
-  );
+  const [phone, setPhone] = useState(myInfo.phone);
+  const [businessRegistrationNumber, setBusinessRegistrationNumber] =
+    useState("");
 
   const navigate = useNavigate();
 
@@ -188,7 +187,7 @@ function MyModal(props) {
       return;
     }
 
-    if (checkValidPhone(phone)) {
+    if (checkValidPhone(phone) === false) {
       alert("전화번호가 양식과 맞지 않습니다.");
       return;
     }
@@ -197,7 +196,7 @@ function MyModal(props) {
       name,
       password,
       phone,
-      isSellerVerified: userInfo.isSellerVerified,
+      isSellerVerified: isSeller,
       businessRegistrationNumber: "000-00-00000",
     };
 
@@ -211,8 +210,7 @@ function MyModal(props) {
   };
 
   const handleDelete = async () => {
-    const memberId = 1; // 추후 수정 필요
-    const success = await handleUserWithdrawal(memberId);
+    const success = await handleUserWithdrawal(myInfo.memberId);
 
     if (success) {
       alert("탈퇴가 완료되었습니다.");
@@ -221,14 +219,6 @@ function MyModal(props) {
       alert("탈퇴가 완료되지 않았습니다.");
     }
   };
-
-  useEffect(() => {
-    setName((prev) => (userInfo ? userInfo.name : "이름"));
-    setPhone((prev) => (userInfo ? userInfo.phone : "010-"));
-    setBusinessRegistrationNumber((prev) =>
-      userInfo ? userInfo.businessRegistrationNumber : "0"
-    );
-  }, []);
 
   return (
     <Modal isOpen={isOpen} onRequestClose={closeModal} style={ModalStyle}>
@@ -242,11 +232,11 @@ function MyModal(props) {
           </div>
           <div className="input-container">
             <Label>
-              <label>name</label>
+              <label htmlFor="name">name</label>
             </Label>
             <input
               type="text"
-              name=""
+              id="name"
               required="name"
               value={name}
               onChange={handleName}
@@ -254,11 +244,11 @@ function MyModal(props) {
           </div>
           <div className="input-container">
             <Label>
-              <label>PW</label>
+              <label htmlFor="password">PW</label>
             </Label>
             <input
-              type="text"
-              name=""
+              type="password"
+              id="password"
               required="PW"
               value={password}
               onChange={handlePassword}
@@ -266,11 +256,11 @@ function MyModal(props) {
           </div>
           <div className="input-container">
             <Label>
-              <label>phone</label>
+              <label htmlFor="phone">phone</label>
             </Label>
             <input
               type="text"
-              name=""
+              id="phone"
               required="phone"
               value={phone}
               onChange={handlePhone}
@@ -278,15 +268,15 @@ function MyModal(props) {
           </div>
           <div className="input-container">
             <Label>
-              <label>사업자 번호</label>
+              <label htmlFor="business">사업자 번호</label>
             </Label>
             <input
               type="text"
-              name=""
+              id="business"
               required="businessRegistrationNumber"
               value={businessRegistrationNumber}
               onChange={handleBusinessRegistrationNumber}
-              disabled={!(userInfo.isSellerVerifed === true)}
+              disabled={!(isSeller === true)}
             />
           </div>
           <div className="button-container">
