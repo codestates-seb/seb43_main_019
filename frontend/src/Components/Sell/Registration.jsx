@@ -174,7 +174,7 @@ export default function Registration({ seller }) {
       latitude: 37.5,
       longitude: 40.5,
       memberId: 1,
-      // image: formData,
+      image: formData,
     };
 
     const success = await handlePostCampground(newProduct);

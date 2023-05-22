@@ -97,20 +97,16 @@ const SellLink = styled.p`
 
 export default function Mypage() {
   const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const isDark = useSelector((state) => state.modeReducer);
+
   const [isLoading, setIsLoading] = useState(false);
-  const userState = useSelector((state) => state.userReducer);
   const [MyModalOpen, setMyModalOpen] = useState(false);
   const [RsModalOpen, setRsModalOpen] = useState(false);
   const [SeModalOpen, setSeModalOpen] = useState(false);
+  const [myInfo, setMyInfo] = useState({ name: "", phone: "" });
+  const [isSeller, setIsSeller] = useState(false);
 
-  // 만약 현재 로그인한 상태가 아니라면 로그인 페이지로 보냄
-  useEffect(() => {
-    if (userState.login === false) {
-      navigate("/login");
-    }
-  }, []);
+  const userState = useSelector((state) => state.userReducer);
+  const isDark = useSelector((state) => state.modeReducer);
 
   const openMyModal = () => {
     setMyModalOpen(true);
@@ -133,72 +129,70 @@ export default function Mypage() {
   };
 
   useEffect(() => {
-    const fetchMemberInfo = async () => {
-      try {
-        if (userState.login) {
-          const response = await getMemberInfo(userState.memberId);
-          if (response) {
-            setName(response.name);
-          } else {
-            console.error("회원 정보를 가져오는 중 오류가 발생했습니다.");
-          }
-        } else {
-          navigate("/login");
-        }
-      } catch (error) {
-        console.error("회원 정보를 가져오는 중 오류가 발생했습니다.", error);
-      }
-    };
-  
-    fetchMemberInfo();
-  }, [userState]);
+    (async () => {
+      setIsLoading((prev) => true);
 
+      const data = await getMemberInfo(userState.userInfo);
+      console.log(data);
 
-  return isLoading ? (
-    <Loader><Spinner /></Loader>
-  ) : (
+      setMyInfo((prev) => data);
+
+      setIsLoading((prev) => false);
+    })();
+  }, []);
+
+  return (
     <Wrapper>
-      <UserArea>
-        <Title isDark={isDark}>{name}님 안녕하세요☺️</Title>
-      </UserArea>
-      <ButtonArea>
-        <div>
-          <ProfileCard onClick={openMyModal}>
-            <FaAddressCard size={25} /> &nbsp;개인정보관리
-          </ProfileCard>
-          <MyModal
-            isOpen={MyModalOpen}
-            closeModal={closeMyModal}
-            userInfo={userState.userInfo}
-          />
-        </div>
-        <div>
-          <ProfileCard onClick={openRsModal}>
-            <FaTwitch size={25} />
-            &nbsp;예약관리
-          </ProfileCard>
-          <RsModal
-            isOpen={RsModalOpen}
-            closeModal={closeRsModal}
-            userInfo={userState.userInfo}
-          />
-        </div>
-        <div>
-          <ProfileCard onClick={openSeModal}>
-            <FaSellcast size={25} />
-            &nbsp;판매자 등록
-          </ProfileCard>
-          <SeModal isOpen={SeModalOpen} closeModal={closeSeModal} />
-        </div>
-      </ButtonArea>
-      <SellArea>
-        <SellMent isDark={isDark}>
-          판매등록을 원하신다면 아래 링크를 눌러주세요👇🏻
-        </SellMent>
-        <SellLink isDark={isDark}>
-          <span onClick={() => navigate("/sell")}>판매 등록하러 가기↪️</span>
-        </SellLink>
-      </SellArea>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <>
+          <UserArea>
+            <Title isDark={isDark}>{`${myInfo.name}님 안녕하세요☺️`}</Title>
+          </UserArea>
+          <ButtonArea>
+            <div>
+              <ProfileCard onClick={openMyModal}>
+                <FaAddressCard size={25} /> &nbsp;개인정보관리
+              </ProfileCard>
+              <MyModal
+                isOpen={MyModalOpen}
+                closeModal={closeMyModal}
+                myInfo={myInfo}
+                isSeller={isSeller}
+              />
+            </div>
+            <div>
+              <ProfileCard onClick={openRsModal}>
+                <FaTwitch size={25} />
+                &nbsp;예약관리
+              </ProfileCard>
+              <RsModal
+                isOpen={RsModalOpen}
+                closeModal={closeRsModal}
+                userInfo={userState.userInfo}
+              />
+            </div>
+            <div>
+              <ProfileCard onClick={openSeModal}>
+                <FaSellcast size={25} />
+                &nbsp;판매자 등록
+              </ProfileCard>
+              <SeModal isOpen={SeModalOpen} closeModal={closeSeModal} />
+            </div>
+          </ButtonArea>
+          <SellArea>
+            <SellMent isDark={isDark}>
+              판매등록을 원하신다면 아래 링크를 눌러주세요👇🏻
+            </SellMent>
+            <SellLink isDark={isDark}>
+              <span onClick={() => navigate("/sell")}>
+                판매 등록하러 가기↪️
+              </span>
+            </SellLink>
+          </SellArea>
+        </>
+      )}
     </Wrapper>
   );
 }
