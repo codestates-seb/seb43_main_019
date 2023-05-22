@@ -8,6 +8,7 @@ import {
   handleDeleteCampground,
   handleUpdateCampground,
 } from "../../utils/ProductFunctions";
+import { useSelector } from "react-redux";
 
 const CloseBtn = styled(AiFillCloseCircle)`
   width: 50px;
@@ -39,6 +40,12 @@ const Img = styled.div`
   background-image: url(${(props) => props.bgphoto});
   background-size: cover;
   background-position: center;
+`;
+
+const ImageInput = styled.input`
+  position: absolute;
+  bottom: 10px;
+  left: 80px;
 `;
 
 const Managements = styled.form`
@@ -121,11 +128,32 @@ export default function ProductModal(props) {
   const { isOpen, closeModal, campground } = props;
   const { register, handleSubmit, setFocus, watch } = useForm();
   const [isUpdate, setIsUpdate] = useState(true);
+  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(campground.imageUrl);
   const navigate = useNavigate();
 
+  const userState = useSelector((state) => state.userReducer);
+
+  const handleImageChange = (event) => {
+    const imageFile = event.target.files[0];
+
+    setImage((prev) => imageFile);
+    setImageUrl((prev) => URL.createObjectURL(imageFile));
+  };
+
   const handleProductUpdate = async (data) => {
+    // 관리자이거나 상품 올린사람이 아니면 불가능하게
+
     if (isUpdate) {
       const { productName, capacity, productPrice } = data;
+
+      if ("이미지가_없는_경우".length === 0) {
+        alert("이미지를 등록해주세요.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("image", image);
 
       const updatedInfo = {
         productName,
@@ -136,6 +164,7 @@ export default function ProductModal(props) {
         cancellationDeadline: campground.cancellationDeadline,
         productPhone: campground.productPhone,
         imageUrl: campground.imageUrl,
+        // image: formData,
       };
 
       const result = await handleUpdateCampground(
@@ -168,10 +197,15 @@ export default function ProductModal(props) {
         <Infos>
           <Img
             bgphoto={
-              campground.imageUrl === "http://~"
+              imageUrl === "http://~"
                 ? "https://yeyak.seoul.go.kr/cmsdata/web_upload/svc/20230329/1680050914280HZAYFX8GLLMTVZI2H6BD0WGPV_IM02.jpg"
-                : campground.imageUrl
+                : imageUrl
             }
+          />
+          <ImageInput
+            type="file"
+            accept=".png, .jpg, .jpeg"
+            onChange={handleImageChange}
           />
           <Managements onSubmit={handleSubmit(handleProductUpdate)}>
             <InputLine>

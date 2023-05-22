@@ -6,6 +6,7 @@ import { CommonButton } from "../Common/Button";
 import { Label } from "../Common/Label";
 import { useState } from "react";
 import { handlePostCampground } from "../../utils/ProductFunctions";
+import axios from "axios";
 
 const Container = styled.div`
   width: 100%;
@@ -58,6 +59,15 @@ const ProductInfos = styled.div`
   padding: 20px;
 `;
 
+const ImageSpace = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+`;
+
 const Image = styled.div`
   max-width: 400px;
   width: 100%;
@@ -66,20 +76,20 @@ const Image = styled.div`
   background-image: url(${(props) => props.bgphoto});
   background-size: cover;
   background-position: center;
+  border: 1px solid black;
 `;
 
-const BeforeUpload = styled.div`
-  max-width: 300px;
-  width: 80%;
-  height: 60%;
-  background-color: var(--white);
-  border-radius: 20px;
-  border: 1px solid var(--black-500);
+const ImageInput = styled.input`
+  width: 100%;
+  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 15px;
   cursor: pointer;
+  position: absolute;
+  bottom: -50px;
+  left: 60px;
 `;
 
 const Inputs = styled.div`
@@ -128,11 +138,20 @@ const StyledSellInput = styled(SellInput)`
 `;
 
 export default function Registration({ seller }) {
-  const [uploaded, setUploaded] = useState(null);
+  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
   const isDark = useSelector((state) => state.modeReducer);
   const { register, handleSubmit, reset } = useForm();
 
   const postProduct = async (data) => {
+    if (image === null) {
+      alert("사진을 등록해주세요.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", image);
+
     const {
       address,
       cancellationDeadline,
@@ -155,12 +174,12 @@ export default function Registration({ seller }) {
       latitude: 37.5,
       longitude: 40.5,
       memberId: 1,
+      // image: formData,
     };
 
     const success = await handlePostCampground(newProduct);
 
     if (success) {
-      console.log(newProduct);
       alert("등록에 성공했습니다.");
       reset();
     } else {
@@ -168,16 +187,26 @@ export default function Registration({ seller }) {
     }
   };
 
+  const handleImageChange = (event) => {
+    const imgFile = event.target.files[0];
+
+    setImage((prev) => imgFile);
+    setImageUrl((prev) => URL.createObjectURL(imgFile));
+  };
+
   return (
     <Container>
       <Title isDark={isDark}>고객님의 캠핑장을 등록해주세요.🙋🏻‍♀️</Title>
       <Form onSubmit={handleSubmit(postProduct)}>
         <ProductInfos>
-          {uploaded ? (
-            <Image />
-          ) : (
-            <BeforeUpload>이미지를 등록해주세요.</BeforeUpload>
-          )}
+          <ImageSpace>
+            <Image bgphoto={imageUrl} />
+            <ImageInput
+              type="file"
+              accept=".png, .jpg, .jpeg"
+              onChange={handleImageChange}
+            />
+          </ImageSpace>
           <Inputs>
             <SmallInput>
               <Label htmlFor="productName">이름</Label>
@@ -209,7 +238,7 @@ export default function Registration({ seller }) {
                 type="number"
                 min="0"
                 id="productPrice"
-                placeholder="가격을 입력해주세요."
+                placeholder="가격"
                 {...register("productPrice", { required: true })}
               />
             </SmallInput>
@@ -228,7 +257,7 @@ export default function Registration({ seller }) {
                 type="number"
                 min="0"
                 id="capacity"
-                placeholder="수용인원을 입력해주세요."
+                placeholder="수용인원"
                 {...register("capacity", { required: true })}
               />
             </SmallInput>

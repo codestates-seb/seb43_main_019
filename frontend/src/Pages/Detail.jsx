@@ -10,6 +10,15 @@ import { useSelector } from "react-redux";
 import { getCampgroundInfo } from "../utils/ProductFunctions";
 import ReviewForm from "../Components/ReviewForm";
 import { format } from "date-fns";
+import Spinner from "../Components/Common/Spinner";
+
+const Loader = styled.h1`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Container = styled.div`
   display: flex;
@@ -93,7 +102,11 @@ function Detail() {
   };
 
   if (!data) {
-    return <div>Loading...</div>;
+    return (
+      <Loader>
+        <Spinner />
+      </Loader>
+    );
   }
 
   return (
@@ -121,7 +134,7 @@ function Detail() {
         </CampgroundContainer>
       </ContainerBox>
       <Map productId={id} />
-      <ReviewForm />
+      <ReviewForm productId={id} />
     </Container>
   );
 }

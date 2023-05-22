@@ -5,6 +5,7 @@ import { dummyReviews } from "../Dummy/DummyDatas";
 import { useRef } from "react";
 import Review from "../Components/Review";
 import { useSelector } from "react-redux";
+import { getAllReview, handlePostReview } from "../utils/ReviewFunctions";
 
 const Container = styled.div`
   max-width: 700px;
@@ -49,6 +50,9 @@ const MyReviewBtn = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 15px;
+  background-color: ${(props) =>
+    props.showMine ? "var(--gray-300)" : "var(--gray-100)"};
+  cursor: pointer;
 `;
 
 const Inputs = styled.form`
@@ -110,23 +114,42 @@ const PostBtn = styled.button`
   justify-content: center;
   align-items: center;
   border-radius: 15px;
+
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+  }
+
+  &:active {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+  }
 `;
 
 const Reviews = styled.div``;
 
-const getProductId = () => {
-  return new Date().getTime();
-};
-
-export default function ReviewForm() {
-  const [reviews, setReviews] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [content, setContent] = useState("");
-  const selectRef = useRef(null);
-  const userState = useSelector((state) => state.userReducer);
+export default function ReviewForm({ productId }) {
+  const [reviews, setReviews] = useState([]); // 현재 보여줄 리뷰들입니다.
+  const [isLoading, setIsLoading] = useState(false); // 보여줄 리뷰들이 로딩중인지를 저장하는 state입니다.
+  const [content, setContent] = useState(""); // 작성할 리뷰의 내용입니다.
+  const [showMine, setShowMine] = useState(false); // 현재 나의 리뷰만을 보여주는지 저장할 state입니다.
+  const selectRef = useRef(null); // 별점을 참조합니다.
+  const userState = useSelector((state) => state.userReducer); // 유저정보
 
   const handleWriteReview = (event) => {
     setContent((prev) => event.target.value);
+  };
+
+  // 현재 상품에 대한 모든 리뷰를 가져오는 함수입니다.
+  const showAllReviews = async () => {
+    const result = await getAllReview(1, 10000);
+
+    const filtered = result.filter((review) => {
+      return review.productId === +productId;
+    });
+
+    return filtered;
   };
 
   // 리뷰 작성 후 리뷰를 등록하는 함수입니다.
@@ -146,17 +169,14 @@ export default function ReviewForm() {
     const newReview = {
       content,
       score: +selectRef.current.value,
-      // memberId: userState.userInfo.memberId,
-      memberId: 1,
-      productId: getProductId(),
+      memberId: userState.userInfo.memberId,
+      productId,
     };
 
-    // const success = await handlePostReview(newReview);
-    const success = true;
+    const success = await handlePostReview(newReview);
 
     if (success === true) {
       newReview.createdAt = new Date().toISOString();
-      console.log(newReview.createdAt);
 
       setReviews((prev) => [newReview, ...prev]);
     } else {
@@ -164,30 +184,46 @@ export default function ReviewForm() {
     }
   };
 
+  // 자기 자신이 작성한 리뷰들을 보여주는 함수입니다.
+  const getMyReviews = async () => {
+    if (showMine) {
+      // 만약, 현재 자신의 리뷰를 보여주는 상황이라면
+      // 다시 전체 리뷰를 보여줍니다.
+      // 즉, 자신의 리뷰 -> 전체 리뷰로 전환합니다.
+
+      setShowMine((prev) => false);
+
+      const filtered = await showAllReviews();
+      setReviews((prev) => [...filtered]);
+    } else {
+      // 만약, 현재 모든 리뷰를 보여주는 상황이라면
+      // 자신의 리뷰만을 보여줍니다.
+      // 즉, 모든 리뷰 -> 자신의 리뷰로 전환합니다.
+
+      setShowMine((prev) => true);
+
+      const { memberId } = userState.userInfo;
+
+      // 현재 reviews에는 모든 리뷰가 저장 되어 있습니다.
+      const myReviews = reviews.filter(
+        (review) => review.memberId === memberId
+      );
+
+      setReviews((prev) => [...myReviews]);
+    }
+  };
+
+  // 가장 먼저 리뷰들을 가져오는 부분입니다.
   useEffect(() => {
     (async () => {
       setIsLoading((prev) => true);
 
-      setReviews((prev) => [...dummyReviews]);
-      // const result = await getAllReview(1, 10000);
-      // 리뷰를 filter 등을 이용해 한 번 거른다.
-      // setReviews((prev) => [...result]);
+      const filtered = await showAllReviews();
+      setReviews((prev) => [...filtered]);
 
       setIsLoading((prev) => false);
     })();
   }, []);
-
-  const getMyReviews = () => {
-    return;
-
-    const myMemberId = userState.userInfo.memberId;
-
-    const myReviews = reviews.filter(
-      (review) => review.memberId === myMemberId
-    );
-
-    setReviews((prev) => [...myReviews]);
-  };
 
   return isLoading ? (
     <h1>Loading...</h1>
@@ -195,35 +231,45 @@ export default function ReviewForm() {
     <Container>
       <Form>
         <Infos>
-          <Info>현재 리뷰 21</Info>
-          <MyReviewBtn onClick={getMyReviews}>My 리뷰</MyReviewBtn>
+          <Info>{`현재 리뷰 ${reviews.length}`}</Info>
+          {userState.login && (
+            <MyReviewBtn showMine={showMine} onClick={getMyReviews}>
+              My 리뷰
+            </MyReviewBtn>
+          )}
         </Infos>
-        <Inputs onSubmit={postReview}>
-          <TextInput
-            value={content}
-            onChange={handleWriteReview}
-            placeholder="리뷰를 작성해 주세요."
-          />
-          <ScoreInput ref={selectRef}>
-            <option value="-">별점</option>
-            <option value="0.0">0.0</option>
-            <option value="0.5">0.5</option>
-            <option value="1.0">1.0</option>
-            <option value="1.5">1.5</option>
-            <option value="2.0">2.0</option>
-            <option value="2.5">2.5</option>
-            <option value="3.0">3.0</option>
-            <option value="3.5">3.5</option>
-            <option value="4.0">4.0</option>
-            <option value="4.5">4.5</option>
-            <option value="5.0">5.0</option>
-          </ScoreInput>
-          <PostBtn>리뷰 작성</PostBtn>
-        </Inputs>
+        {userState.login && (
+          <Inputs onSubmit={postReview}>
+            <TextInput
+              value={content}
+              onChange={handleWriteReview}
+              placeholder="리뷰를 작성해 주세요."
+            />
+            <ScoreInput ref={selectRef}>
+              <option value="-">별점</option>
+              <option value="0.0">0.0</option>
+              <option value="0.5">0.5</option>
+              <option value="1.0">1.0</option>
+              <option value="1.5">1.5</option>
+              <option value="2.0">2.0</option>
+              <option value="2.5">2.5</option>
+              <option value="3.0">3.0</option>
+              <option value="3.5">3.5</option>
+              <option value="4.0">4.0</option>
+              <option value="4.5">4.5</option>
+              <option value="5.0">5.0</option>
+            </ScoreInput>
+            <PostBtn>리뷰 작성</PostBtn>
+          </Inputs>
+        )}
       </Form>
       <Reviews>
         {reviews.map((review) => (
-          <Review key={review.reviewId + ""} review={review} />
+          <Review
+            key={review.reviewId + ""}
+            review={review}
+            userId={userState.userInfo ? userState.userInfo.memberId : -1}
+          />
         ))}
       </Reviews>
     </Container>

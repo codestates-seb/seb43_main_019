@@ -1,10 +1,11 @@
 import styled from "@emotion/styled";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLogin } from "../Redux/Actions";
-import { handleKakaoLogin } from "../utils/MemberFunctions";
+import { getMemberInfo, handleKakaoLogin } from "../utils/MemberFunctions";
+import Spinner from "../Components/Common/Spinner";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -21,45 +22,52 @@ export default function KakaoLogin() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
+    (async () => {
+      const searchParams = new URLSearchParams(location.search);
 
-    const accessToken = searchParams.get("accessToken");
-    const refreshToken = searchParams.get("refreshToken");
-    console.log(accessToken);
+      const accessToken = searchParams.get("accessToken");
+      const refreshToken = searchParams.get("refreshToken");
 
-    const validTokens = accessToken.split(".");
+      const validTokens = accessToken.split(".");
 
-    const encodedUserInfo = validTokens[1];
+      const encoded = validTokens[1];
 
-    const sanitizedString = encodedUserInfo
-      .replace(/-/g, "+")
-      .replace(/_/g, "/");
+      const sanitizedString = encoded.replace(/-/g, "+").replace(/_/g, "/");
 
-    const decodedUserInfo = decodeURIComponent(
-      Array.prototype.map
-        .call(atob(sanitizedString), function (c) {
-          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-        })
-        .join("")
-    );
+      const decoded = decodeURIComponent(
+        Array.prototype.map
+          .call(atob(sanitizedString), function (c) {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join("")
+      );
 
-    const decodedObject = JSON.parse(decodedUserInfo);
+      const decodedObject = JSON.parse(decoded);
 
-    const user = {
-      memberId: decodedObject.memberId,
-      nickname: decodedObject.nickname,
-      email: decodedObject.nickname,
-    };
+      const kakaoUser = {
+        memberId: decodedObject.memberId,
+        nickname: decodedObject.nickname,
+        email: decodedObject.nickname,
+      };
 
-    dispatch(handleLogin(user));
-    navigate("/");
+      const userInfo = await getMemberInfo(kakaoUser.memberId);
+
+      if (userInfo) {
+        dispatch(handleLogin(userInfo));
+      } else {
+        dispatch(handleLogin(kakaoUser));
+      }
+
+      navigate("/");
+    })();
   }, []);
 
   return (
     <Wrapper>
-      <Loader>잠시만 기다려주세요...</Loader>
+      <Spinner />
     </Wrapper>
   );
 }

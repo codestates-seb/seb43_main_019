@@ -3,12 +3,12 @@ import styled from "@emotion/styled";
 const SideMenu = styled.ul`
   max-width: 220px;
   width: 100%;
-  height: 35%;
+  height: 20%;
   background: var(--white);
   margin: 110px 0 0 40px; // 왼쪽 40px, 위쪽 110px
   padding: 10px 0px 20px 0px;
   border: 1px solid var(--black-500);
-  border-radius: 4px;
+  border-radius: 20px;
   /* box-shadow:0px 4px 5px var(--gray-200); */
   /* position: fixed; */
   top: 100px;
@@ -62,12 +62,12 @@ export default function SellSideMenu({ current, handleMenuClick }) {
       >
         등록 상품 조회 🥾
       </SideItem>
-      <SideItem
+      {/* <SideItem
         current={current === "statistic"}
         onClick={() => handleMenuClick("statistic")}
       >
         예약 통계 🔦
-      </SideItem>
+      </SideItem> */}
     </SideMenu>
   );
 }

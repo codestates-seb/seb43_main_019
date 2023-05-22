@@ -7,6 +7,8 @@ import { CommonButton } from "./Common/Button";
 import Searchbar from "./Searchbar";
 import { useEffect, useState } from "react";
 import { getAllCampgroundsInfo } from "../utils/ProductFunctions";
+import Spinner from "./Common/Spinner";
+import ModeBtn from "./ModeBtn";
 
 const Container = styled.header`
   width: 100%;
@@ -87,7 +89,6 @@ const UserStatus = styled.div`
   }
 `;
 
-
 export default function Header({ setSearchResults }) {
   const navigate = useNavigate();
   const isDark = useSelector((state) => state.modeReducer);
@@ -96,7 +97,6 @@ export default function Header({ setSearchResults }) {
 
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
 
   const handleSignOut = async () => {
     try {
@@ -114,7 +114,7 @@ export default function Header({ setSearchResults }) {
       // setData((prev) => [...dummyCampgrounds.data]);
 
       // 실제 데이터 받아오는 과정
-      const initData = await getAllCampgroundsInfo(1, 10);
+      const initData = await getAllCampgroundsInfo(1, 1000);
       setData((prev) => [...initData]);
 
       setIsLoading((prev) => false);
@@ -155,8 +155,9 @@ export default function Header({ setSearchResults }) {
           )}
         </Top>
         <Bottom isDark={isDark}>
+          <ModeBtn />
           {isLoading ? (
-            <h1>Loading...</h1>
+            <Spinner />
           ) : (
             <Searchbar setSearchResults={setSearchResults} data={data} />
           )}

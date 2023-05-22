@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { handleLogin } from "../Redux/Actions";
 import { handleKakaoLogin } from "../utils/MemberFunctions";
+import Spinner from "../Components/Common/Spinner";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -15,7 +16,6 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const Loader = styled.h1``;
 
 export default function KakaoLogin2() {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ export default function KakaoLogin2() {
 
   return (
     <Wrapper>
-      <Loader>잠시만 기다려주세요...</Loader>
+      <Spinner />
     </Wrapper>
   );
 }

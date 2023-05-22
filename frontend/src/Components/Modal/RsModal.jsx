@@ -129,7 +129,7 @@ const ModalStyle = {
 };
 
 function MyModal(props) {
-  const { isOpen, closeModal } = props;
+  const { isOpen, closeModal, userInfo } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [campgrounds, setCampgrounds] = useState([]);
 
@@ -137,14 +137,11 @@ function MyModal(props) {
     (async () => {
       setIsLoading((prev) => true);
 
-      /*
       const allCampgrounds = await getAllCampgroundsInfo(1, 10000);
-      const reservations = allCampgrounds.filter((campground) => {
-        return true;
-      });
+      const reservations = allCampgrounds.filter(
+        (campground) => campground.memberId === userInfo.memberId
+      );
       setCampgrounds((prev) => [...reservations]);
-      */
-      setCampgrounds((prev) => [...dummyCampgrounds.data]);
 
       setIsLoading((prev) => false);
     })();
@@ -156,6 +153,8 @@ function MyModal(props) {
         <CloseBtn onClick={closeModal} />
         {isLoading ? (
           <h1>Loading...</h1>
+        ) : campgrounds.length === 0 ? (
+          <h1>예약한 캠핑장이 없습니다.</h1>
         ) : (
           <>
             {campgrounds.map((campground) => (

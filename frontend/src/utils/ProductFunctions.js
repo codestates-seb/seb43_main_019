@@ -10,6 +10,7 @@ export const handlePostCampground = async (campground) => {
     await axios.post(`${BACK}/api/products`, campground);
     return true;
   } catch (error) {
+    console.log(error);
     return false;
   }
 };

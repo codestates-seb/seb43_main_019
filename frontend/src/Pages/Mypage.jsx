@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { FaAddressCard, FaTwitch, FaSellcast } from "react-icons/fa";
+import Spinner from "../Components/Common/Spinner";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import MyModal from "../Components/Modal/MyModal";
@@ -8,11 +9,19 @@ import RsModal from "../Components/Modal/RsModal";
 import SeModal from "../Components/Modal/SeModal";
 import { getMemberInfo } from "../utils/MemberFunctions";
 
+const Loader = styled.h1`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Wrapper = styled.div`
   max-width: 1200px;
   width: 100%;
   height: 100vh;
-  display: flex; 
+  display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 3.02vw;
@@ -90,6 +99,7 @@ export default function Mypage() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const isDark = useSelector((state) => state.modeReducer);
+  const [isLoading, setIsLoading] = useState(false);
   const userState = useSelector((state) => state.userReducer);
   const [MyModalOpen, setMyModalOpen] = useState(false);
   const [RsModalOpen, setRsModalOpen] = useState(false);
@@ -98,7 +108,7 @@ export default function Mypage() {
   // 만약 현재 로그인한 상태가 아니라면 로그인 페이지로 보냄
   useEffect(() => {
     if (userState.login === false) {
-      // navigate("/login");
+      navigate("/login");
     }
   }, []);
 
@@ -122,15 +132,31 @@ export default function Mypage() {
     setSeModalOpen(false);
   };
 
-  // 서버에서 회원 정보를 가져온 후 이름을 설정
   useEffect(() => {
-    getMemberInfo().then((response) => {
-      setName(response.name);
-    });
-  }, []);
+    const fetchMemberInfo = async () => {
+      try {
+        if (userState.login) {
+          const response = await getMemberInfo(userState.memberId);
+          if (response) {
+            setName(response.name);
+          } else {
+            console.error("회원 정보를 가져오는 중 오류가 발생했습니다.");
+          }
+        } else {
+          navigate("/login");
+        }
+      } catch (error) {
+        console.error("회원 정보를 가져오는 중 오류가 발생했습니다.", error);
+      }
+    };
+  
+    fetchMemberInfo();
+  }, [userState]);
 
 
-  return (
+  return isLoading ? (
+    <Loader><Spinner /></Loader>
+  ) : (
     <Wrapper>
       <UserArea>
         <Title isDark={isDark}>{name}님 안녕하세요☺️</Title>
@@ -151,7 +177,11 @@ export default function Mypage() {
             <FaTwitch size={25} />
             &nbsp;예약관리
           </ProfileCard>
-          <RsModal isOpen={RsModalOpen} closeModal={closeRsModal} />
+          <RsModal
+            isOpen={RsModalOpen}
+            closeModal={closeRsModal}
+            userInfo={userState.userInfo}
+          />
         </div>
         <div>
           <ProfileCard onClick={openSeModal}>
@@ -166,7 +196,7 @@ export default function Mypage() {
           판매등록을 원하신다면 아래 링크를 눌러주세요👇🏻
         </SellMent>
         <SellLink isDark={isDark}>
-          <a onClick={() => navigate("/sell")}>판매 등록하러 가기↪️</a>
+          <span onClick={() => navigate("/sell")}>판매 등록하러 가기↪️</span>
         </SellLink>
       </SellArea>
     </Wrapper>

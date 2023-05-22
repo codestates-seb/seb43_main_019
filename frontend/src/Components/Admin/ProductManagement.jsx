@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { dummyCampgrounds } from "../../Dummy/DummyDatas";
 import Card from "./Card";
 import { useEffect, useState } from "react";
+import { getAllCampgroundsInfo } from "../../utils/ProductFunctions";
 
 const Container = styled.div`
   width: 100%;
@@ -43,7 +44,8 @@ export default function ProductManagement() {
     (async () => {
       setIsLoading((prev) => true);
 
-      setCampgrounds((prev) => dummyCampgrounds.data);
+      const result = await getAllCampgroundsInfo(1, 10000);
+      setCampgrounds((prev) => result);
 
       setIsLoading((prev) => false);
     })();
