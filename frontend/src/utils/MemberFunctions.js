@@ -97,8 +97,7 @@ export const handleStartLogin = async (data) => {
   const loginInfo = { email, password };
 
   try {
-    // 백엔드에게서 result를 받아온다.
-    const response = await axios.post(`${BACK}/api/login`, loginInfo);
+    const response = await axios.post(`${BACK}/api/login, loginInfo`);
 
     const data = response.headers;
 
