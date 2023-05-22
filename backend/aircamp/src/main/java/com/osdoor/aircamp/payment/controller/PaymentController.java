@@ -37,6 +37,7 @@ public class PaymentController {
     // 결제 성공
     @GetMapping("/api/payments/success")
     public ResponseEntity success(@RequestParam(value = "tid") String tid) {
+        paymentService.completePayment(tid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

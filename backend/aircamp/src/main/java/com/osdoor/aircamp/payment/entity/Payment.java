@@ -1,6 +1,7 @@
 package com.osdoor.aircamp.payment.entity;
 
 import com.osdoor.aircamp.audit.Auditable;
+import com.osdoor.aircamp.reservation.entity.PaymentStatus;
 import com.osdoor.aircamp.reservation.entity.Reservation;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,6 @@ public class Payment extends Auditable {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Reservation.PaymentStatus paymentStatus = Reservation.PaymentStatus.COMPLETED;
+    private PaymentStatus paymentStatus = PaymentStatus.COMPLETED;
 
 }

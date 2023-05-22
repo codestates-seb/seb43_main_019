@@ -101,12 +101,12 @@ public class PaymentService {
         return headers;
     }
 
-//    private Payment getPayment(String tid) {
-//        return paymentRepository.findByReservation(tid)
-//                .orElseThrow(() -> new CoinOrderNotFoundException(tid));
-//    }
-//
-//    public KakaoApproveResponse getPaymentInfo(String tid) {
-//        return KakaoApproveResponse.tid;
-//    }
+    public Payment completePayment(String tid) {
+        Payment payment = getPayment(tid);
+        return paymentRepository.save(payment);
+    }
+
+    private Payment getPayment(String tid) {
+        return paymentRepository.findByReservation(tid).orElse(null);
+    }
 }
