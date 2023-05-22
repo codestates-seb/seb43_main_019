@@ -5,6 +5,7 @@ import lombok.Getter;
 public enum ExceptionCode {
     // global
     NOT_IMPLEMENTATION(501, "해당 기능을 수행할 수 없거나 아직 구현되지 않았습니다."),
+    ADDRESS_NOT_FOUND(404, "주소를 찾을 수 없습니다."),
 
     // member
     INVALID_MEMBER_STATUS(400, "유효하지 않은 회원 상태입니다."),
