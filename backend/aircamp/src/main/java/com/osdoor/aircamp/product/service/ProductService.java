@@ -46,9 +46,11 @@ public class ProductService {
         Optional.ofNullable(product.getCancellationDeadline()).ifPresent(findProduct::setCancellationDeadline);
         Optional.ofNullable(product.getProductPrice()).ifPresent(findProduct::setProductPrice);
         Optional.ofNullable(product.getProductPhone()).ifPresent(findProduct::setProductPhone);
-        Optional.ofNullable(product.getLatitude()).ifPresent(findProduct::setLatitude);
-        Optional.ofNullable(product.getLongitude()).ifPresent(findProduct::setLongitude);
         Optional.ofNullable(product.getImageUrl()).ifPresent(findProduct::setImageUrl);
+
+        String[] coordinateFromAddress = kakaoRestApiHelper.getCoordinateFromAddress(product.getAddress());
+        findProduct.setLongitude(Double.valueOf(coordinateFromAddress[0]));
+        findProduct.setLatitude(Double.valueOf(coordinateFromAddress[1]));
 
         return repository.save(findProduct);
     }
