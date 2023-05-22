@@ -7,6 +7,8 @@ import { handleLogin } from "../Redux/Actions";
 import { useEffect } from "react";
 import { LoginButton, SocialLogin } from "../Components/Common/Button";
 import { handleStartLogin } from "../utils/MemberFunctions";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const KAKAO_AUTH_URL =
   "http://ec2-3-34-91-147.ap-northeast-2.compute.amazonaws.com/oauth2/authorization/kakao";
@@ -100,19 +102,21 @@ const KakaoImg = styled.img`
 export default function Login() {
   const navigate = useNavigate();
   const { register, handleSubmit, watch } = useForm();
-
   const userState = useSelector((state) => state.userReducer);
   const isDark = useSelector((state) => state.modeReducer);
   const dispatch = useDispatch();
 
   const handleSignIn = async (data) => {
     const result = await handleStartLogin(data);
+    const notify1 = () => toast("Success!");
+    const notify2 = () => toast("Failed!");
 
     if (result) {
       dispatch(handleLogin(result));
       navigate("/");
+      toast("로그인에 성공하셨습니다.");
     } else {
-      alert("로그인에 실패했습니다.");
+      toast("로그인에 실패하셨습니다.");
     }
   };
 
@@ -165,6 +169,7 @@ export default function Login() {
           </SocialLoginWrapper>
         </Others>
       </Form>
+      <ToastContainer /> {/* 알림 메시지 컨테이너 */}
     </Wrapper>
   );
 }

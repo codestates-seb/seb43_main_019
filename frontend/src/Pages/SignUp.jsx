@@ -10,6 +10,8 @@ import { getToday } from "../utils/functions";
 import { getEmailCode, handleJoin } from "../utils/MemberFunctions";
 import { checkValidPassword, checkValidPhone } from "../utils/functions";
 import { Line, Line2, Line3, Line4 } from "../Components/Common/Line";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -71,16 +73,16 @@ export default function SignUp() {
     // const email = watch("email");
 
     if (authCode === null) {
-      alert("인증코드 발송에 실패했습니다.");
+      toast("인증코드 발송에 실패했습니다.");
       return;
     }
 
     if (code === authCode) {
-      alert("인증 성공!");
+      toast("인증 성공!");
       setIsEmailVerified((prev) => true);
       setAuthRequired((prev) => false);
     } else {
-      alert("인증에 실패하였습니다.");
+      toast("인증에 실패하였습니다.");
       setCode((prev) => "");
     }
   };
@@ -90,14 +92,14 @@ export default function SignUp() {
 
     // 비밀번호와 비밀번호 확인이 일치하지 않는 경우
     if (password !== password2) {
-      alert("비밀번호가 일치하지 않습니다!");
+      toast("비밀번호가 일치하지 않습니다!");
       setFocus("password");
       return;
     }
 
     // 생년월일이 이상한 경우
     if (birthDate >= today) {
-      alert("생년월일이 이상합니다!");
+      toast("생년월일이 이상합니다!");
       setFocus("birthDate");
       return;
     }
@@ -111,12 +113,12 @@ export default function SignUp() {
     }
 
     if (checkValidPassword(password) === false) {
-      alert("비밀번호 양식이 맞지 않습니다.");
+      toast("비밀번호 양식이 맞지 않습니다.");
       return;
     }
 
     if (checkValidPhone(phone) === false) {
-      alert("전화번호 양식이 맞지 않습니다.");
+      toast("전화번호 양식이 맞지 않습니다.");
       return;
     }
 
@@ -134,10 +136,10 @@ export default function SignUp() {
     const success = await handleJoin(joinInfo);
 
     if (success === true) {
-      alert("성공!");
+      toast("성공!");
       navigate("/login");
     } else {
-      alert("회원가입에 실패했습니다.");
+      toast("회원가입에 실패했습니다.");
     }
   };
 
@@ -181,17 +183,10 @@ export default function SignUp() {
         </Line3>
         <Line4>
           <Label03>비밀번호는 최소 8자리 이상이여야하며,</Label03>
-<<<<<<< HEAD
           </Line4>
           <Line2>
           <Label02>대소문자,특수문자를 포함해주세요.</Label02>
           </Line2>
-=======
-        </Line4>
-        <Line2>
-          <Label02>대소문자,특수문자를 포함해주세요.</Label02>
-        </Line2>
->>>>>>> 3aea466f6bedd903078017ae14126536a9a67190
         <Line>
           <Label isDark={isDark} htmlFor="password2">
             비밀번호 확인
@@ -228,11 +223,7 @@ export default function SignUp() {
         </Line3>
         <Line2>
           <Label03>전화번호는 010/011로 시작해야 합니다.</Label03>
-<<<<<<< HEAD
-          </Line2>
-=======
         </Line2>
->>>>>>> 3aea466f6bedd903078017ae14126536a9a67190
         <Line htmlFor="birthDate">
           <Label isDark={isDark}>생년월일</Label>
           <Input
@@ -271,6 +262,7 @@ export default function SignUp() {
           </AuthCodeLine>
         )}
       </Form>
+      <ToastContainer /> {/* 알림 메시지 컨테이너 */}
     </Wrapper>
   );
 }
