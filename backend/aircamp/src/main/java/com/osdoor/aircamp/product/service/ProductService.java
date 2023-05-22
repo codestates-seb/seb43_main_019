@@ -3,33 +3,34 @@ package com.osdoor.aircamp.product.service;
 import com.osdoor.aircamp.auth.utils.AuthorizationUtils;
 import com.osdoor.aircamp.exception.BusinessLogicException;
 import com.osdoor.aircamp.exception.ExceptionCode;
-import com.osdoor.aircamp.member.entity.Member;
-import com.osdoor.aircamp.member.service.MemberService;
+import com.osdoor.aircamp.helper.api.KakaoRestApiHelper;
 import com.osdoor.aircamp.product.repository.ProductRepository;
 import com.osdoor.aircamp.product.entity.Product;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
 import java.util.Optional;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class ProductService {
 
     private final ProductRepository repository;
-    private final MemberService memberService;
     private final AuthorizationUtils authorizationUtils;
+    private final KakaoRestApiHelper kakaoRestApiHelper;
 
     public Product createProduct(Product product) {
+        String[] coordinateFromAddress = kakaoRestApiHelper.getCoordinateFromAddress(product.getAddress());
+        product.setLongitude(Double.valueOf(coordinateFromAddress[0]));
+        product.setLatitude(Double.valueOf(coordinateFromAddress[1]));
+
         return repository.save(product);
     }
 
@@ -45,17 +46,21 @@ public class ProductService {
         Optional.ofNullable(product.getCancellationDeadline()).ifPresent(findProduct::setCancellationDeadline);
         Optional.ofNullable(product.getProductPrice()).ifPresent(findProduct::setProductPrice);
         Optional.ofNullable(product.getProductPhone()).ifPresent(findProduct::setProductPhone);
-        Optional.ofNullable(product.getLatitude()).ifPresent(findProduct::setLatitude);
-        Optional.ofNullable(product.getLongitude()).ifPresent(findProduct::setLongitude);
         Optional.ofNullable(product.getImageUrl()).ifPresent(findProduct::setImageUrl);
+
+        String[] coordinateFromAddress = kakaoRestApiHelper.getCoordinateFromAddress(product.getAddress());
+        findProduct.setLongitude(Double.valueOf(coordinateFromAddress[0]));
+        findProduct.setLatitude(Double.valueOf(coordinateFromAddress[1]));
 
         return repository.save(findProduct);
     }
 
+    @Transactional(readOnly = true)
     public Product findProduct(long productId) {
         return findVerifiedProduct(productId);
     }
 
+    @Transactional(readOnly = true)
     public Page<Product> findAll(int page, int size) {
         return repository.findAll(PageRequest.of(page - 1, size, Sort.by("productId").descending()));
     }

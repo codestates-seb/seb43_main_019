@@ -7,25 +7,25 @@ import com.osdoor.aircamp.product.entity.Product;
 import com.osdoor.aircamp.product.mapper.ProductMapper;
 import com.osdoor.aircamp.product.service.ProductService;
 import com.osdoor.aircamp.utils.UriCreator;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Positive;
 import java.net.URI;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
+@Validated
+@RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
     private final ProductMapper mapper;
-
-    public ProductController(ProductService productService, ProductMapper mapper) {
-        this.productService = productService;
-        this.mapper = mapper;
-    }
 
     @PostMapping
     public ResponseEntity postProduct(@RequestBody ProductPostDto requestBody) {
@@ -37,7 +37,7 @@ public class ProductController {
     }
 
     @PatchMapping("/{productId}")
-    public ResponseEntity patchProduct(@PathVariable long productId,
+    public ResponseEntity patchProduct(@PathVariable @Positive long productId,
                                        @RequestBody ProductPatchDto requestBody) {
         requestBody.setProductId(productId);
         Product product = productService.updateProduct(mapper.productPatchToProduct(requestBody));
@@ -46,15 +46,15 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
-    public ResponseEntity getProduct(@PathVariable long productId) {
+    public ResponseEntity getProduct(@PathVariable @Positive long productId) {
         Product product = productService.findProduct(productId);
 
         return new ResponseEntity(mapper.productToProductResponse(product), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity getProducts(@RequestParam int page,
-                                      @RequestParam int size) {
+    public ResponseEntity getProducts(@RequestParam @Positive int page,
+                                      @RequestParam @Positive int size) {
         Page<Product> pageProducts = productService.findAll(page, size);
         List<Product> products = pageProducts.getContent();
 
@@ -63,7 +63,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{productId}")
-    public ResponseEntity deleteProduct(@PathVariable long productId) {
+    public ResponseEntity deleteProduct(@PathVariable @Positive long productId) {
         productService.deleteProduct(productId);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);

@@ -5,12 +5,14 @@ import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.product.entity.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity(name = "RESERVATIONS")
 public class Reservation extends Auditable {
     @Id

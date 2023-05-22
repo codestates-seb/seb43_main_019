@@ -13,7 +13,8 @@ public enum ExceptionCode {
     NOT_IMPLEMENTATION(501, "해당 기능을 수행할 수 없거나 아직 구현되지 않았습니다."),
     INVALID_MEMBER_STATUS(400, "유효하지 않은 회원 상태입니다."),
     MEMBER_NOT_VALID(403,"유효하지 않은 회원입니다."),
-    EXPIRED_TID(404,"tid 값이 존재하지 않습니다.");
+    EXPIRED_TID(404,"tid 값이 존재하지 않습니다."),
+    ADDRESS_NOT_FOUND(404, "주소를 찾을 수 없습니다.");
 
     @Getter
     private int status;

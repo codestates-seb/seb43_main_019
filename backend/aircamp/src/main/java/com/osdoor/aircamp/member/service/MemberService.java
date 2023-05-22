@@ -93,6 +93,10 @@ public class MemberService {
 //                .ifPresent(findMember::setVerificationToken);
         findMember.setModifiedAt(LocalDateTime.now());
 
+        if (member.isSellerVerified()) {
+            findMember.getRoles().add("SELLER");
+        }
+
         return memberRepository.save(findMember);
     }
 
