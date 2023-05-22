@@ -1,6 +1,5 @@
 package com.osdoor.aircamp.reservation.mapper;
 
-import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.reservation.dto.ReservationPatchDto;
 import com.osdoor.aircamp.reservation.dto.ReservationPostDto;
 import com.osdoor.aircamp.reservation.dto.ReservationResponseDto;
@@ -14,15 +13,7 @@ public interface ReservationMapper {
     Reservation reservationPatchDtoToReservation(ReservationPatchDto reservationPatchDto);
     List<ReservationResponseDto> reservationsToReservationResponseDtos(List<Reservation> reservations);
     
-    default Reservation reservationPostDtoToReservation(ReservationPostDto reservationPostDto) {
-        Reservation reservation = new Reservation();
-        Member member = new Member();
-        member.setMemberId(reservationPostDto.getMemberId()); // member 객체에 memberId 주입
-
-        reservation.setMember(member); // reservation 객체에 member 객체 주입
-        
-        return reservation;
-    }
+    Reservation reservationPostDtoToReservation(ReservationPostDto reservationPostDto);
 
     default ReservationResponseDto reservationToReservationResponseDto(Reservation reservation){
         ReservationResponseDto reservationResponseDto = new ReservationResponseDto();
