@@ -4,6 +4,7 @@ import com.osdoor.aircamp.member.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -16,7 +17,7 @@ public class ProductResponseDto {
     private String location;
     private String content;
     private Integer capacity;
-    private LocalDateTime cancellationDeadline;
+    private LocalDate cancellationDeadline;
     private Integer productPrice;
     private String productPhone;
     private Double latitude;
