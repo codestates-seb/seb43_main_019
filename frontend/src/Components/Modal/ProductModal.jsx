@@ -8,6 +8,7 @@ import {
   handleDeleteCampground,
   handleUpdateCampground,
 } from "../../utils/ProductFunctions";
+import { useSelector } from "react-redux";
 
 const CloseBtn = styled(AiFillCloseCircle)`
   width: 50px;
@@ -131,6 +132,8 @@ export default function ProductModal(props) {
   const [imageUrl, setImageUrl] = useState(campground.imageUrl);
   const navigate = useNavigate();
 
+  const userState = useSelector((state) => state.userReducer);
+
   const handleImageChange = (event) => {
     const imageFile = event.target.files[0];
 
@@ -139,6 +142,8 @@ export default function ProductModal(props) {
   };
 
   const handleProductUpdate = async (data) => {
+    // 관리자이거나 상품 올린사람이 아니면 불가능하게
+
     if (isUpdate) {
       const { productName, capacity, productPrice } = data;
 
