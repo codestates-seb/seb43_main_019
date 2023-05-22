@@ -82,7 +82,7 @@ public class Member {
     private boolean isEmailVerified;
 
     @Column
-    private boolean isSellerVerified;
+    private boolean sellerVerified;
     @Column
     private String businessRegistrationNumber;
     @Column
