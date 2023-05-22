@@ -5,7 +5,10 @@ import com.osdoor.aircamp.exception.BusinessLogicException;
 import com.osdoor.aircamp.exception.ExceptionCode;
 import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.member.service.MemberService;
+import com.osdoor.aircamp.product.entity.Product;
 import com.osdoor.aircamp.product.service.ProductService;
+import com.osdoor.aircamp.reservation.dto.ReservationPostDto;
+import com.osdoor.aircamp.reservation.mapper.ReservationMapper;
 import com.osdoor.aircamp.reservation.entity.Reservation;
 import com.osdoor.aircamp.reservation.entity.ReservationStatus;
 import com.osdoor.aircamp.reservation.repository.ReservationRepository;
@@ -24,19 +27,29 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final ProductService productService;
     private final AuthorizationUtils authorizationUtils;
+    private final ReservationMapper reservationMapper;
 
     public ReservationService(MemberService memberService,
                               ReservationRepository reservationRepository,
-                              ProductService productService, AuthorizationUtils authorizationUtils) {
+                              ProductService productService,
+                              AuthorizationUtils authorizationUtils,
+                              ReservationMapper reservationMapper) {
         this.memberService = memberService;
         this.reservationRepository = reservationRepository;
         this.productService = productService;
         this.authorizationUtils = authorizationUtils;
+        this.reservationMapper = reservationMapper;
     }
 
-    public Reservation createReservation(Reservation reservation) {
-        verifyReservation(reservation);
-        Reservation savedReservation = saveReservation(reservation);
+    public Reservation createReservation(ReservationPostDto reservationPostDto) {
+        Member member = memberService.findMember(reservationPostDto.getMemberId());
+        Product product = productService.findProduct(reservationPostDto.getProductId());
+
+        Reservation reservation = reservationMapper.reservationPostDtoToReservation(reservationPostDto);
+        reservation.setMember(member);
+        reservation.setProduct(product);
+
+        Reservation savedReservation = reservationRepository.save(reservation);
 
         return savedReservation;
     }
@@ -108,6 +121,15 @@ public class ReservationService {
         member.setUsageCount(usageCount);
 
         memberService.updateMember(member);
+    }
+
+    @Transactional(readOnly = true)
+    public Reservation verifyPaymentStatus(long reservationId) {
+        Reservation reservation = findVerifiedReservation(reservationId);
+        if (reservation.getPaymentStatus().getCode() > 1) { // 1=결제전, 2=결제완료, 3=결제취소
+            throw new BusinessLogicException(ExceptionCode.CAN_NOT_PAY);
+        }
+        return reservation;
     }
 }
 
