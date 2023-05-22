@@ -1,8 +1,6 @@
 package com.osdoor.aircamp.auth.oauth;
 
 import com.osdoor.aircamp.auth.utils.CustomAuthorityUtils;
-import com.osdoor.aircamp.exception.BusinessLogicException;
-import com.osdoor.aircamp.exception.ExceptionCode;
 import com.osdoor.aircamp.member.entity.Favorite;
 import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.member.repositoy.MemberRepository;
@@ -12,6 +10,7 @@ import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserServ
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,9 +43,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     private Member saveOAuthUser(OAuth2Attribute auth2Attribute) {
         Optional<Member> optionalMember = memberRepository.findByEmailAndProvider(auth2Attribute.getEmail(), auth2Attribute.getProvider());
 
-        if(optionalMember.isPresent()) return optionalMember.orElseThrow();
+        if(optionalMember.isPresent()) {
+            return optionalMember.orElseThrow();
+        }
+
         if(memberRepository.existsByEmail(auth2Attribute.getEmail())) {
-            throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
+            throw new OAuth2AuthenticationException(new OAuth2Error("member_exists"), auth2Attribute.getEmail());
         }
 
         Member member = new Member();

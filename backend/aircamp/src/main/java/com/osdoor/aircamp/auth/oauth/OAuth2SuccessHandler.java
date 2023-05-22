@@ -3,6 +3,7 @@ package com.osdoor.aircamp.auth.oauth;
 import com.osdoor.aircamp.auth.jwt.JwtTokenizer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -23,6 +24,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    @Value("${customPath.redirectUrl}")
+    private String REDIRECT_URL;
     private final JwtTokenizer jwtTokenizer;
 
     @Override
@@ -52,7 +55,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     private String makeRedirectUrl(String accessToken, String refreshToken) {
         return UriComponentsBuilder
-                .fromUriString("http://localhost:3000/oauth2/redirect?accessToken=" + accessToken + "&refreshToken=" + refreshToken)
+                .fromUriString(REDIRECT_URL + "/oauth2/redirect?accessToken=" + accessToken + "&refreshToken=" + refreshToken)
                 .build()
                 .toUriString();
     }
