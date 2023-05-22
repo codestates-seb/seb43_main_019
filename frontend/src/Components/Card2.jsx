@@ -11,6 +11,7 @@ const Container = styled.div`
   height: 350px;
   perspective: 1000px;
   border-radius: 10px;
+  border : 1 soild ;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   transition: border-radius 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
