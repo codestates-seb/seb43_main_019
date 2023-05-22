@@ -2,6 +2,7 @@ package com.osdoor.aircamp.reservation.entity;
 
 import com.osdoor.aircamp.audit.Auditable;
 import com.osdoor.aircamp.member.entity.Member;
+import com.osdoor.aircamp.payment.entity.Payment;
 import com.osdoor.aircamp.product.entity.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,6 +45,10 @@ public class Reservation extends Auditable {
     private ReservationStatus reservationStatus = ReservationStatus.RESERVATION_REQUEST;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus = PaymentStatus.NOT_PAYMENT;
+
+    @Column(nullable = false)
     private boolean deleted = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -53,6 +58,9 @@ public class Reservation extends Auditable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRODUCT_ID")
     private Product product;
+
+    @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL)
+    private Payment payment;
 
     public void setMember(Member member) {
         this.member = member;

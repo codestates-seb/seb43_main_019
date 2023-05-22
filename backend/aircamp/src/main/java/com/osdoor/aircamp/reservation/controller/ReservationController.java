@@ -4,6 +4,7 @@ import com.osdoor.aircamp.dto.SingleResponseDto;
 import com.osdoor.aircamp.member.service.MemberService;
 import com.osdoor.aircamp.reservation.dto.ReservationPatchDto;
 import com.osdoor.aircamp.reservation.dto.ReservationPostDto;
+import com.osdoor.aircamp.reservation.dto.ReservationIdResponseDto;
 import com.osdoor.aircamp.reservation.entity.Reservation;
 import com.osdoor.aircamp.reservation.mapper.ReservationMapper;
 import com.osdoor.aircamp.reservation.service.ReservationService;
@@ -36,12 +37,12 @@ public class ReservationController {
     }
 
     // 새로운 예약을 등록
-    @PostMapping
-    public ResponseEntity postReservation(@Valid @RequestBody ReservationPostDto reservationPostDto) {
-        Reservation reservation = reservationService.createReservation(mapper.reservationPostDtoToReservation(reservationPostDto));
-        URI location = UriCreator.createUri(RESERVATION_DEFAULT_URL, reservation.getReservationId());
+    @PostMapping("/reservations")
+    public ResponseEntity<ReservationIdResponseDto> postReservation(@RequestBody ReservationPostDto reservationPostDto) {
+        Reservation savedReservation = reservationService.createReservation(reservationPostDto);
+        ReservationIdResponseDto reservationIdResponseDto = new ReservationIdResponseDto(savedReservation.getReservationId());
 
-        return ResponseEntity.created(location).build();
+        return new ResponseEntity<>(reservationIdResponseDto, HttpStatus.CREATED);
     }
 
     // 예약을 수정
