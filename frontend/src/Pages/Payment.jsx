@@ -169,16 +169,16 @@ const PaymentPage = () => {
   const [isAgreed, setIsAgreed] = useState(false);
   console.log(data);
   console.log(startDate);
-  // useEffect(() => {
-  //   setIsVisible(true);
-  // }, []);
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
-  // useEffect(() => {
-  //   if (!userState.login) {
-  //     alert("로그인이 필요한 서비스입니다.");
-  //     navigate("/login");
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!userState.login) {
+      alert("로그인이 필요한 서비스입니다.");
+      navigate("/login");
+    }
+  }, []);
 
   const handleAgreementChange = (e) => {
     setIsAgreed(e.target.checked);
