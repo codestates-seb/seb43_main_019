@@ -8,6 +8,7 @@ import com.osdoor.aircamp.auth.handler.MemberAuthenticationEntryPoint;
 import com.osdoor.aircamp.auth.handler.MemberAuthenticationFailureHandler;
 import com.osdoor.aircamp.auth.handler.MemberAuthenticationSuccessHandler;
 import com.osdoor.aircamp.auth.jwt.JwtTokenizer;
+import com.osdoor.aircamp.auth.oauth.OAuth2FailureHandler;
 import com.osdoor.aircamp.auth.oauth.OAuth2SuccessHandler;
 import com.osdoor.aircamp.auth.utils.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,7 @@ public class SecurityConfiguration {
     private final CustomAuthorityUtils authorityUtils;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private final OAuth2FailureHandler oAuth2FailureHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -73,6 +75,7 @@ public class SecurityConfiguration {
                         .anyRequest().permitAll())
                 .oauth2Login()
                 .successHandler(oAuth2SuccessHandler)
+                .failureHandler(oAuth2FailureHandler)
                 .userInfoEndpoint()
                 .userService(customOAuth2UserService);
 
