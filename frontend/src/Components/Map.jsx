@@ -51,7 +51,7 @@ function Map({ productId }) {
     }
   }, [campgroundInfo, map]);
 
-  return <div id="map" style={{ width: "1000px", height: "800px" }}></div>;
+  return <div id="map" style={{ width: "800px", height: "650px" }}></div>;
 }
 
 export default Map;

@@ -51,6 +51,7 @@ export default function KakaoLogin() {
         memberId: decodedObject.memberId,
         nickname: decodedObject.nickname,
         email: decodedObject.nickname,
+        accessToken: "Bearer " + accessToken,
       };
 
       const userInfo = await getMemberInfo(kakaoUser.memberId);

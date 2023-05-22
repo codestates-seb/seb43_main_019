@@ -12,7 +12,7 @@ const StyledButton = styled.button`
   opacity: ${(props) => (props.disabled ? 0.6 : 1)};
 `;
 
-const KakaoPayButton = ({ onClick, isAgreed }) => {
+const KakaoPayButton = ({ onClick, isAgreed, children }) => {
   const handleClick = () => {
     if (isAgreed) {
       onClick();
@@ -21,7 +21,7 @@ const KakaoPayButton = ({ onClick, isAgreed }) => {
 
   return (
     <StyledButton onClick={handleClick} disabled={!isAgreed}>
-      카카오페이 결제
+      {children}
     </StyledButton>
   );
 };
