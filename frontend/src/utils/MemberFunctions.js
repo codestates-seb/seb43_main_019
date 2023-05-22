@@ -110,9 +110,9 @@ export const handleStartLogin = async (data) => {
 
     const { memberId } = decoded;
 
-    const userInfo = await getMemberInfo(memberId);
+    // const userInfo = await getMemberInfo(memberId);
 
-    return userInfo;
+    return decoded;
   } catch (error) {
     return null;
   }
@@ -136,11 +136,11 @@ export const handleKakaoLogin = async (KAKAO_CODE) => {
 
     const decoded = JSON.parse(atob(validToken.split(".")[1]));
 
-    const { memberId } = decoded;
+    // const { memberId } = decoded;
 
-    const userInfo = await getMemberInfo(memberId);
+    // const userInfo = await getMemberInfo(memberId);
 
-    return userInfo;
+    return decoded;
   } catch (error) {
     return null;
   }
