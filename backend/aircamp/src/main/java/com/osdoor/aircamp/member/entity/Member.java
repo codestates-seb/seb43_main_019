@@ -29,7 +29,7 @@ public class Member {
     private String email;
 
     private String birthDate;
-
+  
     private String password;
 
     @Column(nullable = false)
@@ -85,6 +85,7 @@ public class Member {
     private boolean sellerVerified;
     @Column
     private String businessRegistrationNumber;
+
     @Column
     private String businessRegistrationDate;
 
