@@ -36,9 +36,14 @@ const Container = styled.main`
     grid-template-columns: repeat(4, 1fr);
   }
 
-  gap: 20px;
+  @media screen and (max-width: 400px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  gap: 10px;
   justify-items: center;
-  padding: 50px 0;
+  padding: 20px 0;
   /* padding-top: 50px; */
 `;
 
@@ -46,9 +51,14 @@ const ContextArea = styled.div`
   width: 100%;
   margin-top: 20px;
   padding: 35px 0;
-  /* background-color: green; */
   top: 0;
   left: 0;
+
+  @media screen and (max-width: 400px) {
+    height: calc(100vh - 450px);
+    
+    
+  }
 `;
 
 const IntroArea = styled.div`
@@ -59,6 +69,10 @@ const IntroArea = styled.div`
   padding: 10px 0;
   top: 0;
   left: 0;
+
+  @media screen and (max-width: 400px) {
+    display: none;
+  }
 `;
 
 const IntroContent = styled.div`
@@ -121,8 +135,13 @@ const Title = styled.h2`
   font-family: "Noto Sans KR", sans-serif;
   color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--black-700)")};
 
-  @media screen and (max-width: 900px) {
-    display: none;
+  @media screen and (max-width: 400px) {
+    margin-left: 0px !important;
+    padding-top: 30px;
+    text-align: center;
+    font-size: 22px;
+
+    
   }
 
     /* Apply animation */
@@ -198,7 +217,7 @@ export default function Main({ searchResults }) {
     (async () => {
       const observer = new IntersectionObserver(([entry]) => {
         if (entry.isIntersecting) {
-          console.log("ㅋㅋㅋ");
+          // console.log("ㅋㅋㅋ");
         }
       }, options);
 
@@ -250,37 +269,87 @@ export default function Main({ searchResults }) {
     };
   }, []);
 
+  const filteredResults = data.filter((campground) => {
+    return campground.capacity >= 1 && campground.capacity <= 2;
+  });
+
+  const filteredResults02 = data.filter((campground) => {
+    return campground.location.includes("강원도");
+  });
+
+  const displayResults = searchResults.length > 0 ? searchResults : data.slice(0, 8);
+
   return isLoading ? (
     <Loader><Spinner /></Loader>
   ) : (
     <>
+    {searchResults.length === 0 ? (
+      <>
       <IntroArea>
-          <IntroContent>
-          <Element name="intro" className="intro-element">
-            <IntroTitle isDark={isDark}  inView={inView} >우리 모두 에어캠프로{"\n"}캠핑 가보자GoGo 🤙🤙</IntroTitle>
-          </Element>
+        <IntroContent>
+        <Element name="intro" className="intro-element">
+          <IntroTitle isDark={isDark}  inView={inView} >우리 모두 에어캠프로{"\n"}캠핑 가보자GoGo 🤙🤙</IntroTitle>
+       </Element>
         </IntroContent>
         <IntroImage />
-        </IntroArea>
-      <ContextArea isDark={isDark}>
-      <Element name="intro" className="intro-element">
-      <Title isDark={isDark} inView={titleInView}>
+     </IntroArea>
+     <ContextArea isDark={isDark}>
+       <Element name="intro" className="intro-element">
+       <Title isDark={isDark} inView={titleInView}>
         지금 당장 캠핑을 떠나보세요.⛺
-        </Title>
-        </Element>
-      </ContextArea>
-      <Container>
-        {searchResults.length > 0
-          ? searchResults.map((campground) => (
-              <Card2 key={campground.productId + ""} campground={campground} />
-            ))
-          : data.map((campground) => (
+       </Title>
+       </Element>
+     </ContextArea>
+     <Container>
+     {data.slice(0, 8).map((campground) => (
               <Card2 key={campground.productId + ""} campground={campground} />
             ))}
+     </Container>
+
+     <ContextArea isDark={isDark}>
+       <Element name="intro" className="intro-element">
+       <Title isDark={isDark} inView={titleInView}>
+        커플💛이신가요? 2인실만 보세요!
+       </Title>
+       </Element>
+     </ContextArea>
+     <Container>
+     {(filteredResults.length > 0 ? filteredResults : data.slice(0, 8)).map((campground) => (
+    <Card2 key={campground.productId + ""} campground={campground} />
+  ))}
       </Container>
-      <ScrollBtn onClick={() => window.scrollTo(0, 0)} ref={containerRef}>
-        <FaChevronUp size={40} />
-      </ScrollBtn>
+
+     <ContextArea isDark={isDark}>
+       <Element name="intro" className="intro-element">
+       <Title isDark={isDark} inView={titleInView}>
+        강원도 검색 결과만 모아보세요.🌳
+       </Title>
+       </Element>
+     </ContextArea>
+     <Container>
+     {(filteredResults02.length > 0 ? filteredResults02 : data.slice(0, 8)).map((campground) => (
+    <Card2 key={campground.productId + ""} campground={campground} />
+  ))}
+     </Container>
     </>
+    
+    ) : (
+     <>
+     <ContextArea isDark={isDark}>       
+     <Title isDark={isDark} inView={titleInView}>
+      검색하신 결과 입니다.😄
+    </Title>
+    </ContextArea>
+      <Container>
+      {displayResults.map((campground) => (
+          <Card2 key={campground.productId + ""} campground={campground} />
+        ))}
+      </Container>
+     </>
+    )}
+  <ScrollBtn onClick={() => window.scrollTo(0, 0)} ref={containerRef}>
+    <FaChevronUp size={40} />
+  </ScrollBtn>
+  </>
   );
 }

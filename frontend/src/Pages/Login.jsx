@@ -37,6 +37,11 @@ const Form = styled.form`
   border-radius: 20px;
   border: 1px solid var(--black-500);
   margin-top: 80px;
+
+  @media screen and (max-width: 400px) {
+    margin-top: 120px;
+
+  }
 `;
 
 const Space = styled.div`
@@ -108,8 +113,6 @@ export default function Login() {
 
   const handleSignIn = async (data) => {
     const result = await handleStartLogin(data);
-    const notify1 = () => toast("Success!");
-    const notify2 = () => toast("Failed!");
 
     if (result) {
       dispatch(handleLogin(result));

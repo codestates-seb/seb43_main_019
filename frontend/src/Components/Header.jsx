@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import { getAllCampgroundsInfo } from "../utils/ProductFunctions";
 import Spinner from "./Common/Spinner";
 import ModeBtn from "./ModeBtn";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Container = styled.header`
   width: 100%;
@@ -49,6 +51,11 @@ const Bottom = styled.div`
     height: 40px;
     display: flex;
   }
+  @media screen and (max-width: 400px) {
+    padding-top : 20px;
+    padding-bottom: 40px;
+
+  }
 `;
 
 const Line = styled.hr`
@@ -59,6 +66,8 @@ const Line = styled.hr`
     ${(props) => (props.isDark ? "var(--white)" : "var(--black-500)")};
   margin-bottom: 0px;
   margin-top: 0px;
+
+  
 `;
 
 const Logo = styled.img`
@@ -101,8 +110,9 @@ export default function Header({ setSearchResults }) {
   const handleSignOut = async () => {
     try {
       dispatch(handleLogout());
+      toast("로그아웃 되셨습니다.");
     } catch (error) {
-      alert("로그아웃에 실패했습니다.");
+      toast("로그아웃에 실패하셨습니다.");
       return;
     }
   };
@@ -163,6 +173,7 @@ export default function Header({ setSearchResults }) {
           )}
         </Bottom>
         <Line isDark={isDark} />
+        <ToastContainer /> {/* 알림 메시지 컨테이너 */}
       </Container>
     </>
   );
