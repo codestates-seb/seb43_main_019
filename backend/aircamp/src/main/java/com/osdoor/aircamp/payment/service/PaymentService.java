@@ -29,7 +29,7 @@ public class PaymentService {
     @Value("https://kapi.kakao.com/v1/payment")
     private String host;
 
-    @Value("localhost:8080")
+    @Value("http://aircamp-codestates-019.s3-website.ap-northeast-2.amazonaws.com")
     private String redirectUrl;
 
     private KakaoReadyResponse kakaoReady;
