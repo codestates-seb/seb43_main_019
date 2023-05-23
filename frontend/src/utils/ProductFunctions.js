@@ -61,6 +61,7 @@ export const getAllCampgroundsInfo = async (page, size) => {
 
     return infos;
   } catch (error) {
+    console.log(error);
     return null;
   }
 };

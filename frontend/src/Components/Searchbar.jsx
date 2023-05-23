@@ -8,9 +8,6 @@ const InputSpace = styled.div`
   align-items: center;
   justify-content: center; /* 중앙 정렬을 위한 코드 */
 
-  @media screen and (max-width: 900px) {
-    display: none;
-  }
 `;
 
 const InputWrapper = styled.div`
@@ -43,6 +40,14 @@ const Input = styled.input`
 
   background-color: var(--white);
   color: var(--black);
+
+  @media screen and (max-width: 900px) {
+    width: 300px;
+
+  }  @media screen and (max-width: 400px) {
+    width: 200px;
+    margin-left: 170px;
+  }
 `;
 
 const DropdownButton = styled.button`
@@ -154,7 +159,7 @@ export default function Searchbar({ setSearchResults, data }) {
           !isGangwonSelected &&
           (productName.includes(searchText.toLowerCase()) ||
             location.includes(searchText.toLowerCase()) ||
-            campground.capacity === Number(searchText)))
+            String(campground.capacity) === searchText))
       );
     });
 

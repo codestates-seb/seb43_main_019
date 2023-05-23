@@ -7,7 +7,8 @@ import { FaChevronUp } from "react-icons/fa";
 import { getCampgroundInfo } from "../utils/ProductFunctions";
 import { getAllCampgroundsInfo } from "../utils/ProductFunctions";
 import Spinner from "../Components/Common/Spinner";
-import { Element, Scroller } from 'react-scroll';
+import { Element, Scroller } from "react-scroll";
+import { getMemberInfo } from "../utils/MemberFunctions";
 
 const Loader = styled.h1`
   width: 100vw;
@@ -36,9 +37,14 @@ const Container = styled.main`
     grid-template-columns: repeat(4, 1fr);
   }
 
-  gap: 20px;
+  @media screen and (max-width: 400px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  gap: 10px;
   justify-items: center;
-  padding: 50px 0;
+  padding: 20px 0;
   /* padding-top: 50px; */
 `;
 
@@ -46,9 +52,14 @@ const ContextArea = styled.div`
   width: 100%;
   margin-top: 20px;
   padding: 35px 0;
-  /* background-color: green; */
   top: 0;
   left: 0;
+
+  @media screen and (max-width: 400px) {
+    height: calc(100vh - 450px);
+    
+    
+  }
 `;
 
 const IntroArea = styled.div`
@@ -59,6 +70,10 @@ const IntroArea = styled.div`
   padding: 10px 0;
   top: 0;
   left: 0;
+
+  @media screen and (max-width: 400px) {
+    display: none;
+  }
 `;
 
 const IntroContent = styled.div`
@@ -70,10 +85,9 @@ const IntroContent = styled.div`
   padding: 0 50px;
 `;
 
-
 const IntroImage = styled.div`
   flex: 1;
-  background-image: url('/img/Camp02.png');
+  background-image: url("/img/Camp02.png");
   background-size: 70%;
   background-position: center;
   background-repeat: no-repeat;
@@ -91,10 +105,10 @@ const IntroTitle = styled.h2`
   display: flex;
   font-size: 30px;
   white-space: pre-line;
-  justify-content: center important!; 
+  justify-content: center important!;
   align-items: center important!;
   opacity: ${({ inView }) => (inView ? 1 : 0)};
-  transform: translateY(${({ inView }) => (inView ? '0' : '-100%')});
+  transform: translateY(${({ inView }) => (inView ? "0" : "-100%")});
   transition: opacity 1s ease, transform 1s ease;
   font-family: "Noto Sans KR", sans-serif;
   color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--black-700)")};
@@ -115,17 +129,21 @@ const TitleAnimation = keyframes`
   }
 `;
 
-
 const Title = styled.h2`
   margin-left: 150px !important;
   font-family: "Noto Sans KR", sans-serif;
   color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--black-700)")};
 
-  @media screen and (max-width: 900px) {
-    display: none;
+  @media screen and (max-width: 400px) {
+    margin-left: 0px !important;
+    padding-top: 30px;
+    text-align: center;
+    font-size: 22px;
+
+    
   }
 
-    /* Apply animation */
+  /* Apply animation */
   opacity: 0;
   animation: ${TitleAnimation} 1s ease forwards;
 `;
@@ -162,6 +180,7 @@ export default function Main({ searchResults }) {
   const [page, setPage] = useState(1);
   const [inView, setInView] = useState(false); // inView 상태 추가
   const [titleInView, setTitleInView] = useState(false);
+  const userState = useSelector((state) => state.userReducer);
 
   // 타겟 요소 지정
   let containerRef = useRef(null);
@@ -198,7 +217,7 @@ export default function Main({ searchResults }) {
     (async () => {
       const observer = new IntersectionObserver(([entry]) => {
         if (entry.isIntersecting) {
-          console.log("ㅋㅋㅋ");
+          // console.log("ㅋㅋㅋ");
         }
       }, options);
 
@@ -213,12 +232,12 @@ export default function Main({ searchResults }) {
   }, [containerRef]);
 
   const handleScroll = () => {
-    const introElement = document.querySelector('.intro-element');
-  
+    const introElement = document.querySelector(".intro-element");
+
     if (introElement) {
       const introElementPosition = introElement.getBoundingClientRect().top;
       const windowHeight = window.innerHeight;
-  
+
       if (introElementPosition < windowHeight * 0.8) {
         setInView(true); // inView state update to true
       } else {
@@ -228,12 +247,12 @@ export default function Main({ searchResults }) {
   };
 
   const handleTitleScroll = () => {
-    const titleElement = document.querySelector('.title-element');
-  
+    const titleElement = document.querySelector(".title-element");
+
     if (titleElement) {
       const titleElementPosition = titleElement.getBoundingClientRect().top;
       const windowHeight = window.innerHeight;
-  
+
       if (titleElementPosition >= windowHeight * 0.1) {
         setTitleInView(true);
       } else {
@@ -241,32 +260,65 @@ export default function Main({ searchResults }) {
       }
     }
   };
-  
+
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-  
+    window.addEventListener("scroll", handleScroll);
+
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
+  const filteredResults = data.filter((campground) => {
+    return campground.capacity >= 1 && campground.capacity <= 2;
+  });
+
+  const filteredResults02 = data.filter((campground) => {
+    return campground.location.includes("강원도");
+  });
+
+  const displayResults = searchResults.length > 0 ? searchResults : data.slice(0, 8);
+
   return isLoading ? (
-    <Loader><Spinner /></Loader>
+    <Loader>
+      <Spinner />
+    </Loader>
   ) : (
     <>
+    {searchResults.length === 0 ? (
+      <>
       <IntroArea>
-          <IntroContent>
+        <IntroContent>
+<<<<<<< HEAD
+        <Element name="intro" className="intro-element">
+          <IntroTitle isDark={isDark}  inView={inView} >우리 모두 에어캠프로{"\n"}캠핑 가보자GoGo 🤙🤙</IntroTitle>
+       </Element>
+        </IntroContent>
+        <IntroImage />
+     </IntroArea>
+     <ContextArea isDark={isDark}>
+       <Element name="intro" className="intro-element">
+       <Title isDark={isDark} inView={titleInView}>
+        지금 당장 캠핑을 떠나보세요.⛺
+       </Title>
+       </Element>
+     </ContextArea>
+     <Container>
+     {data.slice(0, 8).map((campground) => (
+=======
           <Element name="intro" className="intro-element">
-            <IntroTitle isDark={isDark}  inView={inView} >우리 모두 에어캠프로{"\n"}캠핑 가보자GoGo 🤙🤙</IntroTitle>
+            <IntroTitle isDark={isDark} inView={inView}>
+              우리 모두 에어캠프로{"\n"}캠핑 가보자GoGo 🤙🤙
+            </IntroTitle>
           </Element>
         </IntroContent>
         <IntroImage />
-        </IntroArea>
+      </IntroArea>
       <ContextArea isDark={isDark}>
-      <Element name="intro" className="intro-element">
-      <Title isDark={isDark} inView={titleInView}>
-        지금 당장 캠핑을 떠나보세요.⛺
-        </Title>
+        <Element name="intro" className="intro-element">
+          <Title isDark={isDark} inView={titleInView}>
+            지금 당장 캠핑을 떠나보세요.⛺
+          </Title>
         </Element>
       </ContextArea>
       <Container>
@@ -275,12 +327,55 @@ export default function Main({ searchResults }) {
               <Card2 key={campground.productId + ""} campground={campground} />
             ))
           : data.map((campground) => (
+>>>>>>> fef225ad1f9a66bf4b30086c98e2f85741adb074
               <Card2 key={campground.productId + ""} campground={campground} />
             ))}
+     </Container>
+
+     <ContextArea isDark={isDark}>
+       <Element name="intro" className="intro-element">
+       <Title isDark={isDark} inView={titleInView}>
+        커플💛이신가요? 2인실만 보세요!
+       </Title>
+       </Element>
+     </ContextArea>
+     <Container>
+     {(filteredResults.length > 0 ? filteredResults : data.slice(0, 8)).map((campground) => (
+    <Card2 key={campground.productId + ""} campground={campground} />
+  ))}
       </Container>
-      <ScrollBtn onClick={() => window.scrollTo(0, 0)} ref={containerRef}>
-        <FaChevronUp size={40} />
-      </ScrollBtn>
+
+     <ContextArea isDark={isDark}>
+       <Element name="intro" className="intro-element">
+       <Title isDark={isDark} inView={titleInView}>
+        강원도 검색 결과만 모아보세요.🌳
+       </Title>
+       </Element>
+     </ContextArea>
+     <Container>
+     {(filteredResults02.length > 0 ? filteredResults02 : data.slice(0, 8)).map((campground) => (
+    <Card2 key={campground.productId + ""} campground={campground} />
+  ))}
+     </Container>
     </>
+    
+    ) : (
+     <>
+     <ContextArea isDark={isDark}>       
+     <Title isDark={isDark} inView={titleInView}>
+      검색하신 결과 입니다.😄
+    </Title>
+    </ContextArea>
+      <Container>
+      {displayResults.map((campground) => (
+          <Card2 key={campground.productId + ""} campground={campground} />
+        ))}
+      </Container>
+     </>
+    )}
+  <ScrollBtn onClick={() => window.scrollTo(0, 0)} ref={containerRef}>
+    <FaChevronUp size={40} />
+  </ScrollBtn>
+  </>
   );
 }

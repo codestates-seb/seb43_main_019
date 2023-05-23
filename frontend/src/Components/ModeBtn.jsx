@@ -19,6 +19,11 @@ const Container = styled.div`
     props.isDark ? "1px solid var(--white)" : "1px solid var(--black-500)"};
   &:hover {
     cursor: pointer;
+
+    @media screen and (max-width: 400px) {
+      width: 40px; /* Adjust the width to the desired value for mobile devices */
+    height: 20px;
+  }
   }
 `;
 
