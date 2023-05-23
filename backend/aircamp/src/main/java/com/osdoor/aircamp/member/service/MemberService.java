@@ -88,6 +88,15 @@ public class MemberService {
         Optional.ofNullable(member.getUsageCount())
                 .ifPresent(findMember::setUsageCount);  // 예약 시 이용횟수 + 1 추가
 
+        Optional.ofNullable(member.getBusinessRegistrationNumber())
+                .ifPresent(findMember::setBusinessRegistrationNumber);
+
+        Optional.ofNullable(member.getBusinessRegistrationDate())
+                .ifPresent(findMember::setBusinessRegistrationDate);
+
+        // 사업자등록번호 값이 존재하는 경우, 해당 회원의 isSellerVerified 값을 true 로 변경.
+        if(!findMember.getBusinessRegistrationNumber().isEmpty()) findMember.setSellerVerified(true);
+
         findMember.setModifiedBy(setByField(member));
 //        Optional.ofNullable(member.getVerificationToken())
 //                .ifPresent(findMember::setVerificationToken);
