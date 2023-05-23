@@ -102,7 +102,11 @@ function Detail() {
   };
 
   if (!data) {
-    return <Loader><Spinner /></Loader>;
+    return (
+      <Loader>
+        <Spinner />
+      </Loader>
+    );
   }
 
   return (

@@ -61,6 +61,7 @@ export const getAllCampgroundsInfo = async (page, size) => {
 
     return infos;
   } catch (error) {
+    console.log(error);
     return null;
   }
 };
@@ -84,16 +85,23 @@ export const postPaymentData = async (data) => {
   try {
     const response = await axios.post(`${BACK}/api/payment`, data);
     console.log(response.data);
+    return response.data;
   } catch (error) {
     console.error(error);
   }
 };
 
 // 새로운 예약 등록
-export const postReservationsData = async (data) => {
+export const postReservationsData = async (data, memberInfo) => {
   try {
-    const response = await axios.post(`${BACK}/api/reservations`, data);
+    const response = await axios.post(`${BACK}/api/reservations`, data, {
+      headers: {
+        Authorization: memberInfo.accessToken,
+      },
+    });
     console.log(response.data);
+    const { reservation_id } = response.data;
+    return response.data;
   } catch (error) {
     console.error(error);
   }

@@ -7,10 +7,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
-import {
-  postPaymentData,
-  postReservationsData,
-} from "../utils/ProductFunctions";
+import { postReservationsData } from "../utils/ProductFunctions";
 
 const Container = styled.div`
   width: 100%;
@@ -167,25 +164,29 @@ const PaymentPage = () => {
   const navigate = useNavigate();
   const { register, handleSubmit, watch } = useForm();
   const [isAgreed, setIsAgreed] = useState(false);
-  console.log(data);
-  console.log(startDate);
-  // useEffect(() => {
-  //   setIsVisible(true);
-  // }, []);
+  const [reservationId, setReservationId] = useState(null);
 
-  // useEffect(() => {
-  //   if (!userState.login) {
-  //     alert("로그인이 필요한 서비스입니다.");
-  //     navigate("/login");
-  //   }
-  // }, []);
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  useEffect(() => {
+    if (!userState.login) {
+      alert("로그인이 필요한 서비스입니다.");
+      navigate("/login");
+    }
+  }, []);
 
   const handleAgreementChange = (e) => {
     setIsAgreed(e.target.checked);
   };
 
-  const handlePaymentSubmit = async (formData) => {
-    // 예약 정보 등록
+  // 예약 정보 등록
+  const handlePaymentSubmit = async () => {
+    navigate("/Pay", {
+      state: { reservationId, productPrice: data.productPrice },
+    });
+
     const reservationData = {
       memberId: data.memberId,
       productId: data.productId,
@@ -193,35 +194,21 @@ const PaymentPage = () => {
       reservationName: watch("text"),
       reservationPhone: watch("tel"),
       reservationEmail: watch("email"),
+      usedRewardPoints: 0,
+      actualPaymentAmount: data.productPrice,
     };
 
     try {
-      await postReservationsData(reservationData);
+      const response = await postReservationsData(
+        reservationData,
+        userState.userInfo
+      );
       setIsAgreed(true);
-      console.log("예약 정보 등록 완료");
+      setReservationId(response.reservation_id);
     } catch (error) {
       setIsAgreed(false);
       console.error("예약 정보 등록 실패:", error);
-      return;
     }
-
-    // 결제 정보 전송
-    // const paymentData = {
-    //   reservation_id: "{reservation_id}",
-    //   used_reward_points: "3023",
-    //   actual_payment_amount: data.productPrice,
-    // };
-
-    // try {
-    //   await postPaymentData(paymentData);
-    //   console.log("결제 정보 전송 완료");
-    // } catch (error) {
-    //   console.error("결제 정보 전송 실패:", error);
-    //   return;
-    // }
-
-    // 예약 및 결제 완료 후 다음 작업 수행
-    // ...
   };
   return (
     <Container>
@@ -288,7 +275,9 @@ const PaymentPage = () => {
               type="submit"
               onClick={handlePaymentSubmit}
               isAgreed={isAgreed}
-            />
+            >
+              결제하기
+            </KakaoPayButton>
           </PaymentButtonContainer>
         </PaymentContainer>
       </Form>

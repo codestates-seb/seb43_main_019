@@ -23,6 +23,7 @@ import ChatBox from "./Components/ChatBox";
 import ComponentExamples from "./Pages/ComponentExamples";
 import NotFound from "./Pages/NotFound";
 import Test from "./Pages/Test";
+import SelectPay from "./Pages/SelectPay";
 
 // 모든 요청에 withCredentials가 true로 설정됩니다.
 axios.defaults.withCredentials = true;
@@ -65,7 +66,10 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/payment" element={<Payment />} />
           <Route path={"/oauth2/*"} element={<KakaoLogin />} />
+          <Route path="/Pay" element={<SelectPay />} />
           <Route path="/:id" element={<Detail />} />
+          {/*           <Route path="/:id(\d+)" element={<Detail />} />
+          <Route path="/:nothing" element={<NotFound />} /> */}
           <Route path="/" element={<Main searchResults={searchResults} />} />
         </Routes>
       </Container>
