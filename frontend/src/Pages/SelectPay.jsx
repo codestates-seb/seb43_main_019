@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import KakaoPayButton from "../Components/Payment/KakaoPayBtn";
 import { postPaymentData } from "../utils/ProductFunctions";
+import { useEffect } from "react";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -64,6 +65,7 @@ const Text2 = styled.div`
 const PayPage = (props) => {
   const [redirectUrl, setRedirectUrl] = useState("");
   const navigate = useNavigate();
+  /*
   const { reservationId, productPrice } = props.location.state || {};
 
   const handleSubmitPayment = async () => {
@@ -80,15 +82,19 @@ const PayPage = (props) => {
       console.log(error);
     }
   };
+  */
+
+  useEffect(() => {
+    console.log("SelectPay 시작");
+    console.log(props);
+  }, []);
 
   return (
     <Wrapper>
       <Form>
         <Logo src={"/img/Logo_Light.png"} />
         <Title>지금 당장 캠핑을 떠나보세요.⛺</Title>
-        <KakaoPayButton onClick={handleSubmitPayment} isAgreed={true}>
-          카카오페이로 결제하기
-        </KakaoPayButton>
+        <KakaoPayButton isAgreed={true}>카카오페이로 결제하기</KakaoPayButton>
       </Form>
       <Text>판매등록을 원하신다면 아래 링크를 눌러주세요</Text>
       <Text2 onClick={() => navigate("/sell")}>판매 등록하러 가기↪️</Text2>
@@ -97,3 +103,5 @@ const PayPage = (props) => {
 };
 
 export default PayPage;
+
+/*onClick={handleSubmitPayment}*/

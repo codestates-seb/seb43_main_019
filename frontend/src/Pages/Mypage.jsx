@@ -130,10 +130,13 @@ export default function Mypage() {
 
   useEffect(() => {
     (async () => {
+      if (userState.login === false) {
+        navigate("/login");
+      }
+
       setIsLoading((prev) => true);
 
       const data = await getMemberInfo(userState.userInfo);
-      console.log(data);
 
       setMyInfo((prev) => data);
 
@@ -145,7 +148,7 @@ export default function Mypage() {
     <Wrapper>
       {isLoading ? (
         <Spinner />
-      ) : (
+      ) : myInfo ? (
         <>
           <UserArea>
             <Title isDark={isDark}>{`${myInfo.name}님 안녕하세요☺️`}</Title>
@@ -158,6 +161,7 @@ export default function Mypage() {
               <MyModal
                 isOpen={MyModalOpen}
                 closeModal={closeMyModal}
+                userInfo={userState.userInfo}
                 myInfo={myInfo}
                 isSeller={isSeller}
               />
@@ -176,7 +180,7 @@ export default function Mypage() {
             <div>
               <ProfileCard onClick={openSeModal}>
                 <FaSellcast size={25} />
-                &nbsp;판매자 등록
+                &nbsp;판매자 등록/수정
               </ProfileCard>
               <SeModal isOpen={SeModalOpen} closeModal={closeSeModal} />
             </div>
@@ -192,7 +196,7 @@ export default function Mypage() {
             </SellLink>
           </SellArea>
         </>
-      )}
+      ) : null}
     </Wrapper>
   );
 }

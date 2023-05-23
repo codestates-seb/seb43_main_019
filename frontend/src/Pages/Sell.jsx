@@ -28,19 +28,6 @@ export default function Sell() {
   };
 
   useEffect(() => {
-    // 만약 로그인한 상태가 아니라면 로그인 페이지로 이동
-    if (userState.login === false || userState.userInfo === null) {
-      navigate("/login");
-      return;
-    }
-
-    // 만약 판매자가 아니라면 my page로 이동
-    if (userState.userInfo.seller === false) {
-      navigate("/mypage");
-    }
-  }, []);
-
-  useEffect(() => {
     let menu = params["*"];
 
     if (sellMenu.indexOf(menu) === -1) {
@@ -48,6 +35,18 @@ export default function Sell() {
     }
 
     setSelected((prev) => menu);
+
+    // 만약 로그인한 상태가 아니라면 로그인 페이지로 이동
+    if (userState.login === false || userState.userInfo === null) {
+      navigate("/login");
+      return;
+    }
+
+    // 만약 판매자가 아니라면 my page로 이동
+
+    if (userState.userInfo.roles.indexOf("SELLER") === -1) {
+      // navigate("/mypage");
+    }
   }, [params]);
 
   return (

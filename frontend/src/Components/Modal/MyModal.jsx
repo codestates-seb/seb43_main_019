@@ -7,7 +7,8 @@ import {
   handleUserWithdrawal,
 } from "../../utils/MemberFunctions";
 import { checkValidPassword, checkValidPhone } from "../../utils/functions";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { handleLogout } from "../../Redux/Actions";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -158,7 +159,7 @@ const Label = styled.div`
 `;
 
 function MyModal(props) {
-  const { isOpen, closeModal, myInfo, isSeller } = props;
+  const { isOpen, closeModal, userInfo, myInfo } = props;
   const [name, setName] = useState(myInfo.name);
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState(myInfo.phone);
@@ -166,6 +167,7 @@ function MyModal(props) {
     useState("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleName = (event) => {
     setName((prev) => event.target.value);
@@ -179,23 +181,14 @@ function MyModal(props) {
     setPhone((prev) => event.target.value);
   };
 
-  const handleBusinessRegistrationNumber = (event) => {
-    setBusinessRegistrationNumber((prev) => event.target.value);
-  };
-
   const handleUpdate = async () => {
     if (checkValidPassword(password) === false) {
       toast("비밀번호가 양식과 맞지 않습니다.");
       return;
     }
 
-<<<<<<< HEAD
-    if (checkValidPhone(phone)) {
-      toast("전화번호가 양식과 맞지 않습니다.");
-=======
     if (checkValidPhone(phone) === false) {
-      alert("전화번호가 양식과 맞지 않습니다.");
->>>>>>> fef225ad1f9a66bf4b30086c98e2f85741adb074
+      toast("전화번호가 양식과 맞지 않습니다.");
       return;
     }
 
@@ -203,11 +196,9 @@ function MyModal(props) {
       name,
       password,
       phone,
-      isSellerVerified: isSeller,
-      businessRegistrationNumber: "000-00-00000",
     };
 
-    const success = await handleUpdateMemberInfo(updatedInfo);
+    const success = await handleUpdateMemberInfo(userInfo, updatedInfo);
 
     if (success) {
       toast("업데이트에 성공했습니다!");
@@ -217,10 +208,11 @@ function MyModal(props) {
   };
 
   const handleDelete = async () => {
-    const success = await handleUserWithdrawal(myInfo.memberId);
+    const success = await handleUserWithdrawal(userInfo);
 
     if (success) {
       toast("탈퇴가 완료되었습니다.");
+      dispatch(handleLogout());
       navigate("/");
     } else {
       toast("탈퇴가 완료되지 않았습니다.");
@@ -271,19 +263,6 @@ function MyModal(props) {
               required="phone"
               value={phone}
               onChange={handlePhone}
-            />
-          </div>
-          <div className="input-container">
-            <Label>
-              <label htmlFor="business">사업자 번호</label>
-            </Label>
-            <input
-              type="text"
-              id="business"
-              required="businessRegistrationNumber"
-              value={businessRegistrationNumber}
-              onChange={handleBusinessRegistrationNumber}
-              disabled={!(isSeller === true)}
             />
           </div>
           <div className="button-container">
