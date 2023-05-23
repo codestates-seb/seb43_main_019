@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
 import { postReservationsData } from "../utils/ProductFunctions";
-
+import { formatPrice } from "../utils/functions";
 const Container = styled.div`
   width: 100%;
   display: flex;
@@ -218,6 +218,12 @@ const PaymentPage = () => {
       setIsAgreed(false);
       console.error("예약 정보 등록 실패:", error);
     }
+
+    /*
+    navigate("/Pay", {
+      state: { reservationId, productPrice: data.productPrice },
+    });
+    */
   };
   return (
     <Container>
@@ -237,7 +243,7 @@ const PaymentPage = () => {
             <ProductInfoList>
               <ProductInfoItem>
                 <div>{data.content}</div>
-                <div>{data.productPrice}</div>
+                <div>{formatPrice(data.productPrice)}</div>
                 <div>{startDate}</div>
               </ProductInfoItem>
             </ProductInfoList>
@@ -280,13 +286,7 @@ const PaymentPage = () => {
             </AgreementContainer>
           </OrderInfoContainer>
           <PaymentButtonContainer>
-            <KakaoPayButton
-              type="submit"
-              onClick={handlePaymentSubmit}
-              isAgreed={isAgreed}
-            >
-              결제하기
-            </KakaoPayButton>
+            <button isAgreed={isAgreed}>결제하기</button>
           </PaymentButtonContainer>
         </PaymentContainer>
       </Form>

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { useSelector } from "react-redux";
+import { formatPrice } from "../utils/functions";
 
 const TextWrapper = styled.div`
   width: 100%;
@@ -39,7 +40,9 @@ function DetailInfo(props) {
       <Title isDark={isDark}>{productName}</Title>
       <Description isDark={isDark}>{location}</Description>
       <Description isDark={isDark}>{content}</Description>
-      <Description isDark={isDark}>가격: {productPrice}</Description>
+      <Description isDark={isDark}>
+        가격: {formatPrice(productPrice)}
+      </Description>
       <Description isDark={isDark}>{address}</Description>
       <Description isDark={isDark}>{productPhone}</Description>
       <Description isDark={isDark}>{capacity} 인실</Description>

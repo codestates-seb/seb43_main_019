@@ -2,7 +2,15 @@ import React from "react";
 import Modal from "react-modal";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { handleUpdateMemberInfo } from "../../utils/MemberFunctions";
+import {
+  handleUpdateMemberInfo,
+  registerSellerAccount,
+  updateSellerAccount,
+} from "../../utils/MemberFunctions";
+import { validBusinessDate, validBusinessNumber } from "../../utils/functions";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 Modal.setAppElement("#root");
 
@@ -48,14 +56,16 @@ export const ModalView = styled.form.attrs((props) => ({
   > div.input-container {
     margin: 10px 0;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 300px;
 
-    input[type="text"] {
+    input {
       font-size: 16px;
       padding: 10px 10px 10px 5px;
       display: block;
-      width: 185px;
+      width: 200px;
+      height: 100%;
       border: none;
       border-bottom: 1px solid #6c6c6c;
       background: transparent;
@@ -102,6 +112,21 @@ export const Exitbtn = styled(ModalBtn)`
   padding: 5px 10px;
 `;
 
+const Label = styled.div`
+  width: 100px;
+  height: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  & label {
+    font-size: 13px;
+  }
+`;
+
+const Button = styled.button`
+  margin: 0 auto;
+`;
+
 const ModalStyle = {
   overlay: {
     position: "fixed",
@@ -119,32 +144,59 @@ const ModalStyle = {
 
 function MyModal(props) {
   const { isOpen, closeModal } = props;
+  const [isUpdate, setIsUpdate] = useState(false);
   const { register, handleSubmit } = useForm();
-  const userInfo = {
-    name: "김길동",
-    password: "zZ3@$!%*?&",
-    phone: "010-111-2222",
-    isSellerVerified: true,
-    businessRegistrationNumber: "000-00-00000",
-  };
+  const navigate = useNavigate();
+  const userState = useSelector((state) => state.userReducer);
 
   const handleChangeBusinessNumber = async (data) => {
     const { code, date } = data;
 
-    const updatedInfo = {
-      name: userInfo.name,
-      password: userInfo.password,
-      phone: userInfo.phone,
-      isSellerVerified: true,
+    if (validBusinessNumber(code) === false) {
+      alert("사업자 등록 번호의 패턴이 유효하지 않습니다.");
+      return;
+    }
+
+    if (validBusinessDate(date) === false) {
+      alert("사업자 등록 일자의 패턴이 유효하지 않습니다.");
+      return;
+    }
+
+    const registratonInfo = {
       businessRegistrationNumber: code,
+      businessRegistrationDate: date,
     };
 
-    const result = await handleUpdateMemberInfo(updatedInfo);
+    if (isUpdate) {
+      // 만약 판매자 계정이 아니라면 수정 자체를 못하게
 
-    if (result === false) {
-      alert("갱신에 실패했습니다.");
+      const result = await updateSellerAccount(
+        userState.userInfo,
+        registratonInfo
+      );
+
+      console.log(result);
+
+      if (result) {
+        alert("판매자 등록에 성공했습니다!");
+        navigate("/mypage");
+      } else {
+        alert("판매자 등록에 실패했습니다!");
+      }
     } else {
-      alert("갱신이 성공했습니다!");
+      const result = await registerSellerAccount(
+        userState.userInfo,
+        registratonInfo
+      );
+
+      console.log(result);
+
+      if (result) {
+        alert("판매자 등록에 성공했습니다!");
+        navigate("/mypage");
+      } else {
+        alert("판매자 등록에 실패했습니다!");
+      }
     }
   };
 
@@ -157,27 +209,32 @@ function MyModal(props) {
             <label>사업자번호와 등록날짜를 입력해주세요.</label>
           </div>
           <div className="input-container">
-            <label>사업자 번호</label>
+            <Label>
+              <label>사업자 번호</label>
+            </Label>
             <input
               type="text"
               name=""
               required="number"
-              placeholder="000-000-000"
+              placeholder="000-00-00000"
               {...register("code", { required: true })}
             />
           </div>
           <div className="input-container">
-            <label>등록날짜</label>
+            <Label>
+              <label>등록날짜</label>
+            </Label>
             <input
-              type="date"
+              type="text"
               name=""
               required="date"
-              placeholder="00-00-00"
+              placeholder="0000-00-00"
               {...register("date", { required: true })}
             />
           </div>
           <div className="input-container">
-            <button>제출하기</button>
+            <Button onClick={() => setIsUpdate(false)}>제출하기</Button>
+            <Button onClick={() => setIsUpdate(true)}>수정하기</Button>
           </div>
         </ModalView>
       </ModalBackdrop>

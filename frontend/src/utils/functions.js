@@ -33,11 +33,32 @@ export const checkValidPhone = (phone) => {
 // 돈에 쉼표를 찍어서 반환하는 함수입니다.
 // 쉼표가 찍힌 문자열을 반환합니다. (예를 들어 30000 => 30,000)
 export const formatPrice = (price) => {
-  return price.toLocaleString();
+  return "₩ " + price.toLocaleString();
 };
 
 // 랜덤(사실 랜덤 아님)한 id를 반환하는 함수입니다.
 // 숫자형의 값을 반환합니다.
 export const getRandomId = () => {
   return new Date().getTime();
+};
+
+// 사업자 등록 번호의 패턴이 유효한지 판별하는 함수입니다.
+export const validBusinessNumber = (code) => {
+  const codePattern = /^\d{3}-\d{2}-\d{5}$/;
+
+  return codePattern.test(code);
+};
+
+// 사업자 등록 일자의 패턴이 유효한지 판별하는 함수입니다.
+export const validBusinessDate = (date) => {
+  const codePattern = /^\d{4}-\d{2}-\d{2}$/;
+
+  return codePattern.test(date);
+};
+
+// 위도/경도가 유효한지 판별하는 함수입니다.
+export const validCoordinate = (coord) => {
+  const coordPattern = /^\d*\.?\d*$/;
+
+  return coordPattern.test(coord);
 };

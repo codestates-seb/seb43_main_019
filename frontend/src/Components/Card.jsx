@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ProductModal from "./Modal/ProductModal";
 import { getMemberInfo } from "../utils/MemberFunctions";
+import { formatPrice } from "../utils/functions";
 
 const Container = styled.div`
   background-color: transparent;
@@ -37,6 +38,7 @@ const Front = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 `;
 
 const Img = styled.div`
@@ -112,7 +114,7 @@ export default function Card({ campground }) {
               <Info>{`이름: ${campground.productName}`}</Info>
               <Info>{`위치: ${campground.location}`}</Info>
               <Info>{`판매자: ${isSellerLoading ? "로딩중" : seller}`}</Info>
-              <Info>{`가격: ${campground.productPrice}`}</Info>
+              <Info>{`가격: ${formatPrice(campground.productPrice)}`}</Info>
             </Infos>
           </Front>
         </Inner>

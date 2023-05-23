@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import KakaoPayButton from "../Components/Payment/KakaoPayBtn";
 import { postPaymentData } from "../utils/ProductFunctions";
+import { useEffect } from "react";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -64,7 +65,8 @@ const Text2 = styled.div`
 const PayPage = (props) => {
   // const [redirectUrl, setRedirectUrl] = useState("");
   const navigate = useNavigate();
-  // const { reservationId, productPrice } = props.location.state || {};
+  /*
+  const { reservationId, productPrice } = props.location.state || {};
 
   // const handleSubmitPayment = async () => {
   //   try {
@@ -73,13 +75,19 @@ const PayPage = (props) => {
   //       actual_payment_amount: productPrice,
   //     };
 
-  //     const response = await postPaymentData(paymentData);
-  //     setRedirectUrl(response.next_redirect_pc_url);
-  //     window.open(response.next_redirect_pc_url); // 새 창을 열기 위해 redirectUrl을 사용하여 페이지 열기
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+      const response = await postPaymentData(paymentData);
+      setRedirectUrl(response.next_redirect_pc_url);
+      window.open(response.next_redirect_pc_url); // 새 창을 열기 위해 redirectUrl을 사용하여 페이지 열기
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  */
+
+  useEffect(() => {
+    console.log("SelectPay 시작");
+    console.log(props);
+  }, []);
 
   return (
     <Wrapper>
@@ -95,3 +103,5 @@ const PayPage = (props) => {
 };
 
 export default PayPage;
+
+/*onClick={handleSubmitPayment}*/
