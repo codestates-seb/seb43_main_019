@@ -68,8 +68,12 @@ function App() {
           <Route path={"/oauth2/*"} element={<KakaoLogin />} />
           <Route path="/Pay" element={<SelectPay />} />
           <Route path="/:id" element={<Detail />} />
+<<<<<<< HEAD
+          <Route path="/Pay" element={<SelectPay />} />
+=======
           {/*           <Route path="/:id(\d+)" element={<Detail />} />
           <Route path="/:nothing" element={<NotFound />} /> */}
+>>>>>>> 44ec0a0956bb0cb6c6a51237457841b93dd2db22
           <Route path="/" element={<Main searchResults={searchResults} />} />
         </Routes>
       </Container>

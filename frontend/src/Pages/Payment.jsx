@@ -71,6 +71,9 @@ const ProductInfoHeading = styled.div`
   justify-content: space-between;
   font-weight: bold;
   font-size: 1.5rem;
+  @media (max-width: 400px) {
+    font-size: 1rem;
+  }
 `;
 
 const ProductInfoList = styled.ul`
@@ -83,6 +86,9 @@ const ProductInfoItem = styled.li`
   justify-content: space-between;
   font-size: 1.2rem;
   margin: 0.5rem 0;
+  @media (max-width: 400px) {
+    font-size: 0.7rem;
+  }
 `;
 
 const Divider = styled.hr`
@@ -90,6 +96,9 @@ const Divider = styled.hr`
   border: none;
   border-bottom: 1px solid gray;
   width: 100%;
+  @media (max-width: 400px) {
+    margin: 0;
+  }
 `;
 
 const OrderInfoContainer = styled.div`
@@ -182,7 +191,11 @@ const PaymentPage = () => {
   };
 
   // 예약 정보 등록
-  const handlePaymentSubmit = async (data) => {
+  const handlePaymentSubmit = async () => {
+    // navigate("/Pay", {
+    //   state: { reservationId, productPrice: data.productPrice },
+    // });
+
     const reservationData = {
       memberId: data.memberId,
       productId: data.productId,

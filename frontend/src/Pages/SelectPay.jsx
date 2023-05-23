@@ -63,17 +63,17 @@ const Text2 = styled.div`
 `;
 
 const PayPage = (props) => {
-  const [redirectUrl, setRedirectUrl] = useState("");
+  // const [redirectUrl, setRedirectUrl] = useState("");
   const navigate = useNavigate();
   /*
   const { reservationId, productPrice } = props.location.state || {};
 
-  const handleSubmitPayment = async () => {
-    try {
-      const paymentData = {
-        reservation_id: reservationId,
-        actual_payment_amount: productPrice,
-      };
+  // const handleSubmitPayment = async () => {
+  //   try {
+  //     const paymentData = {
+  //       reservation_id: reservationId,
+  //       actual_payment_amount: productPrice,
+  //     };
 
       const response = await postPaymentData(paymentData);
       setRedirectUrl(response.next_redirect_pc_url);

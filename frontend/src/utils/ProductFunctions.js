@@ -117,8 +117,8 @@ export const postReservationsData = async (data, memberInfo) => {
       },
     });
     console.log(response.data);
-    const { reservation_id } = response.data;
-    return reservation_id;
+    // const { reservation_id } = response.data;
+    // return reservation_id;
   } catch (error) {
     console.error(error);
   }
