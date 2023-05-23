@@ -1,6 +1,7 @@
 package com.osdoor.aircamp.product.service;
 
 import com.osdoor.aircamp.auth.utils.AuthorizationUtils;
+import com.osdoor.aircamp.aws.S3Upload;
 import com.osdoor.aircamp.exception.BusinessLogicException;
 import com.osdoor.aircamp.exception.ExceptionCode;
 import com.osdoor.aircamp.helper.api.KakaoRestApiHelper;
@@ -13,7 +14,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Service
@@ -25,8 +28,12 @@ public class ProductService {
     private final ProductRepository repository;
     private final AuthorizationUtils authorizationUtils;
     private final KakaoRestApiHelper kakaoRestApiHelper;
+    private final S3Upload s3Upload;
 
-    public Product createProduct(Product product) {
+
+    public Product createProduct(Product product, MultipartFile multipartFile) {
+        product.setImageUrl(handleProductImageUpload(product, multipartFile));
+
         String[] coordinateFromAddress = kakaoRestApiHelper.getCoordinateFromAddress(product.getAddress());
         product.setLongitude(Double.valueOf(coordinateFromAddress[0]));
         product.setLatitude(Double.valueOf(coordinateFromAddress[1]));
@@ -34,7 +41,7 @@ public class ProductService {
         return repository.save(product);
     }
 
-    public Product updateProduct(Product product) {
+    public Product updateProduct(Product product, MultipartFile multipartFile) {
         Product findProduct = findVerifiedProduct(product.getProductId());
         authorizationUtils.verifyAuthorizedMember(findProduct.getMember().getEmail());
 
@@ -46,7 +53,8 @@ public class ProductService {
         Optional.ofNullable(product.getCancellationDeadline()).ifPresent(findProduct::setCancellationDeadline);
         Optional.ofNullable(product.getProductPrice()).ifPresent(findProduct::setProductPrice);
         Optional.ofNullable(product.getProductPhone()).ifPresent(findProduct::setProductPhone);
-        Optional.ofNullable(product.getImageUrl()).ifPresent(findProduct::setImageUrl);
+
+        findProduct.setImageUrl(handleProductImageUpload(findProduct, multipartFile));
 
         String[] coordinateFromAddress = kakaoRestApiHelper.getCoordinateFromAddress(product.getAddress());
         findProduct.setLongitude(Double.valueOf(coordinateFromAddress[0]));
@@ -77,5 +85,20 @@ public class ProductService {
 
         return findProduct.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.PRODUCT_NOT_FOUND));
+    }
+
+    private String handleProductImageUpload(Product product, MultipartFile multipartFile) {
+        String imageUrl = product.getImageUrl();
+        log.info("# imageUrl={}", imageUrl);
+        try {
+            if(!multipartFile.isEmpty())  {
+                imageUrl = s3Upload.upload(multipartFile);
+            }
+        } catch (IOException e) {
+            log.info("# s3Upload.upload Error={}", e.getMessage());
+        }
+        log.info("# setImageUrl={}", imageUrl);
+
+        return imageUrl;
     }
 }
