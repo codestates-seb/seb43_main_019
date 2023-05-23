@@ -29,12 +29,12 @@ public class MemberPostDto {
     @AssertTrue(message = "본인인증의 결과는 반드시 true 이어야 합니다.")
     private boolean isEmailVerified;
 
-    private boolean isSellerVerified;
-    @Pattern(regexp = "^\\d{3}-\\d{2}-\\d{5}$",
-    message = "올바른 형식의 사업자등록번호를 입력해주세요. 333-22-55555 형식만 가능합니다.")
-    private String businessRegistrationNumber;
-
-    @Pattern(regexp = "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\\d|3[0-1])$",
-            message = "사업자등록일자는 yyyy-mm-dd 형식만 가능합니다.")
-    private String businessRegistrationDate;
+//    private boolean isSellerVerified;
+//    @Pattern(regexp = "^\\d{3}-\\d{2}-\\d{5}$",
+//    message = "올바른 형식의 사업자등록번호를 입력해주세요. 333-22-55555 형식만 가능합니다.")
+//    private String businessRegistrationNumber;
+//
+//    @Pattern(regexp = "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\\d|3[0-1])$",
+//            message = "사업자등록일자는 yyyy-mm-dd 형식만 가능합니다.")
+//    private String businessRegistrationDate;
 }
