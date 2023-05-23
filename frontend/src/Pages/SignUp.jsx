@@ -37,6 +37,10 @@ const Form = styled.form`
   border: 1px solid var(--black-500);
   margin-top: 80px;
   padding-bottom: 30px;
+
+  @media screen and (max-width: 400px) {
+    margin-top: 120px;
+  }
 `;
 
 const Logo = styled.img`

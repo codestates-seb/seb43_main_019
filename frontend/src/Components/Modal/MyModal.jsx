@@ -8,6 +8,8 @@ import {
 } from "../../utils/MemberFunctions";
 import { checkValidPassword, checkValidPhone } from "../../utils/functions";
 import { useSelector } from "react-redux";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 Modal.setAppElement("#root");
 
@@ -183,12 +185,17 @@ function MyModal(props) {
 
   const handleUpdate = async () => {
     if (checkValidPassword(password) === false) {
-      alert("비밀번호가 양식과 맞지 않습니다.");
+      toast("비밀번호가 양식과 맞지 않습니다.");
       return;
     }
 
+<<<<<<< HEAD
+    if (checkValidPhone(phone)) {
+      toast("전화번호가 양식과 맞지 않습니다.");
+=======
     if (checkValidPhone(phone) === false) {
       alert("전화번호가 양식과 맞지 않습니다.");
+>>>>>>> fef225ad1f9a66bf4b30086c98e2f85741adb074
       return;
     }
 
@@ -203,9 +210,9 @@ function MyModal(props) {
     const success = await handleUpdateMemberInfo(updatedInfo);
 
     if (success) {
-      alert("업데이트 성공!");
+      toast("업데이트에 성공했습니다!");
     } else {
-      alert("업데이트에 실패했습니다.");
+      toast("업데이트에 실패했습니다.");
     }
   };
 
@@ -213,10 +220,10 @@ function MyModal(props) {
     const success = await handleUserWithdrawal(myInfo.memberId);
 
     if (success) {
-      alert("탈퇴가 완료되었습니다.");
+      toast("탈퇴가 완료되었습니다.");
       navigate("/");
     } else {
-      alert("탈퇴가 완료되지 않았습니다.");
+      toast("탈퇴가 완료되지 않았습니다.");
     }
   };
 
@@ -287,6 +294,7 @@ function MyModal(props) {
           </div>
         </ModalView>
       </ModalBackdrop>
+      <ToastContainer /> {/* 알림 메시지 컨테이너 */}
     </Modal>
   );
 }

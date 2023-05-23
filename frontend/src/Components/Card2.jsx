@@ -11,19 +11,31 @@ const Container = styled.div`
   height: 350px;
   perspective: 1000px;
   border-radius: 10px;
+<<<<<<< HEAD
+
+=======
   border : 1 soild ;
+>>>>>>> fef225ad1f9a66bf4b30086c98e2f85741adb074
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   transition: border-radius 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   &:hover .inner {
     transform: rotateY(180deg);
   }
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    width: calc(100% - 25px);
+    height: 230px;
+  }
+
 `;
 
 const Inner = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+
   text-align: center;
   transition: transform 0.6s;
   transform-style: preserve-3d;
@@ -34,14 +46,16 @@ const Front = styled.div`
   width: 100%;
   height: 100%;
   border-radius: 2em;
+  border: 1px solid var(--black-500); /* Add border */
   backface-visibility: hidden;
   background-color: ${(props) =>
     props.isDark ? "var(--white-50)" : "var(--white)"};
   color: var(--black-700);
-  border: none;
+  /* border: none; */
   display: flex;
   flex-direction: column;
   align-items: center;
+
 `;
 
 const Img = styled.div`
@@ -62,17 +76,32 @@ const Img = styled.div`
 const Name = styled.div`
   margin-bottom: 10px;
   font-size: 18px;
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    font-size: 12px;
+  }
 `;
 
 const Selection = styled.div`
   margin: 30px 0 10px 0;
   font-size: 13px;
   /* color : #DF2E38; */
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    font-size: 8px;
+  }
 `;
 
 const Price = styled.div`
   /* margin: 30px 0 10px 0; */
   font-size: 25px;
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    font-size: 20px;
+  }
 `;
 
 const Back = styled.div`
@@ -80,6 +109,7 @@ const Back = styled.div`
   width: 100%;
   height: 100%;
   border-radius: 2em;
+  border: 1px solid var(--black-500); /* Add border */
   backface-visibility: hidden;
   background-color: ${(props) =>
     props.isDark ? "var(--white-50)" : "var(--white)"};
@@ -97,6 +127,8 @@ const Info = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center; // 추가
+
+  
 `;
 
 const Descriptions = styled.div`
@@ -116,6 +148,11 @@ const Description = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center; // 추가
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    font-size: 15px;
+  }
 `;
 
 const Icons = styled.div`
@@ -124,11 +161,24 @@ const Icons = styled.div`
   align-items: center;
   color: var(--black-700);
   margin-bottom: 100px;
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    margin-bottom: 70px;
+    justify-content:space-around;
+  }
+  
 `;
 
 const Icon = styled(FontAwesomeIcon)`
   font-size: 25px;
   cursor: pointer;
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    font-size: 15px;
+    width: 80%;
+  }
 `;
 
 const loremIpsum = "지금 바로 예약하세요!";
