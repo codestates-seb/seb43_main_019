@@ -35,6 +35,9 @@ const ContainerBox = styled.div`
   align-items: center;
   margin: 100px;
   max-width: 1800px;
+  @media (max-width: 900px) {
+    flex-direction: column;
+  }
 `;
 
 const CampgroundContainer = styled.div`
@@ -43,18 +46,41 @@ const CampgroundContainer = styled.div`
   align-items: flex-start;
   width: 50%;
   margin-right: 50px;
+
+  @media (max-width: 900px) {
+    width: 100%;
+    margin-right: 0;
+  }
 `;
 
 const ImgContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 50%;
+
+  @media (max-width: 900px) {
+    margin-top: 100px;
+    position: relative;
+    width: auto;
+    align-items: center;
+  }
 `;
 
 const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 100px;
+
+  @media (max-width: 900px) {
+    margin-left: 0;
+    margin-top: 40px;
+  }
+
+  @media (max-width: 400px) {
+    margin-left: -60px;
+    margin-right: 50px;
+    margin-bottom: -80px;
+  }
 `;
 
 function Detail() {
@@ -64,8 +90,6 @@ function Detail() {
   const isDark = useSelector((state) => state.modeReducer);
   const userState = useSelector((state) => state.userReducer);
   const [data, setData] = useState(null);
-  console.log(data);
-  console.log(startDate);
 
   useEffect(() => {
     async function fetchData() {
