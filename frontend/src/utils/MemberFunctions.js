@@ -165,6 +165,7 @@ export const handleKakaoLogin = async (KAKAO_CODE) => {
     const decoded = JSON.parse(atob(validToken.split(".")[1]));
 
     // const { memberId } = decoded;
+    // const { memberId } = decoded;
 
     // const userInfo = await getMemberInfo(memberId);
 
