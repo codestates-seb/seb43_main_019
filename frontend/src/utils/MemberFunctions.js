@@ -34,12 +34,23 @@ export const handleJoin = async (joinInfo) => {
 };
 
 // 특정 멤버 정보를 업데이트 하는 함수입니다.
-// 업데이트된 정보를 인자로 받습니다.
+// 기존의 멤버 정보와 업데이트된 정보를 인자로 받습니다.
 // 성공 시 업데이트된 회원의 정보를 반환합니다.
 // 실패 시 false를 반환합니다.
-export const handleUpdateMemberInfo = async (updatedInfo) => {
+export const handleUpdateMemberInfo = async (memberInfo, updatedInfo) => {
   try {
-    const response = await axios.patch(`${BACK}/api/members/1`, updatedInfo);
+    console.log(memberInfo);
+    console.log(updatedInfo);
+
+    const response = await axios.patch(
+      `${BACK}/api/members/${memberInfo.memberId}`,
+      updatedInfo,
+      {
+        headers: {
+          Authorization: memberInfo.accessToken,
+        },
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -53,6 +64,8 @@ export const handleUpdateMemberInfo = async (updatedInfo) => {
 // 실패 시 null을 반환합니다.
 export const getMemberInfo = async (memberInfo) => {
   try {
+    console.log(memberInfo);
+
     const response = await axios.get(
       `${BACK}/api/members/${memberInfo.memberId}`,
       {
@@ -86,15 +99,22 @@ export const getAllMemberInfo = async () => {
 };
 
 // 특정 회원 정보를 삭제(탈퇴)하는 함수입니다.
-// 멤버 id를 인자로 받습니다.
+// 멤버 정보를 인자로 받습니다.
 // 성공 시 true를 반환합니다.
 // 실패 시 false를 반환합니다.
-export const handleUserWithdrawal = async (memberId) => {
+export const handleUserWithdrawal = async (memberInfo) => {
   try {
-    await axios.delete(`${BACK}/api/members/${memberId}`);
+    console.log(memberInfo);
+    console.log(memberInfo.memberId);
+    await axios.delete(`${BACK}/api/members/${memberInfo.memberId}`, {
+      headers: {
+        Authorization: memberInfo.accessToken,
+      },
+    });
 
     return true;
   } catch (error) {
+    console.log(error);
     return false;
   }
 };
@@ -120,7 +140,7 @@ export const handleStartLogin = async (data) => {
 
     const userInfo = { ...decoded, accessToken: authToken };
 
-    return decoded;
+    return userInfo;
   } catch (error) {
     return null;
   }
@@ -150,6 +170,58 @@ export const handleKakaoLogin = async (KAKAO_CODE) => {
 
     return decoded;
   } catch (error) {
+    return null;
+  }
+};
+
+// 일반 계정을 판매자 계정으로 등록하는 함수입니다.
+// 멤버 id와 판매자 등록 정보를 인자로 받습니다.
+// 성공 시 멤버 정보를 반환합니다.
+// 실패 시 null을 반환합니다.
+export const registerSellerAccount = async (userInfo, registratonInfo) => {
+  try {
+    console.log(userInfo);
+    console.log(registratonInfo);
+
+    const response = await axios.post(
+      `${BACK}/api/sellers/${userInfo.memberId}`,
+      registratonInfo,
+      {
+        headers: {
+          Authorization: userInfo.accessToken,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+// 일반 계정을 판매자 계정으로 등록하는 함수입니다.
+// 멤버 id와 판매자 등록 정보를 인자로 받습니다.
+// 성공 시 멤버 정보를 반환합니다.
+// 실패 시 null을 반환합니다.
+export const updateSellerAccount = async (userInfo, registratonInfo) => {
+  try {
+    console.log(userInfo);
+    console.log(registratonInfo);
+
+    const response = await axios.patch(
+      `${BACK}/api/sellers/${userInfo.memberId}`,
+      registratonInfo,
+      {
+        headers: {
+          Authorization: userInfo.accessToken,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
     return null;
   }
 };

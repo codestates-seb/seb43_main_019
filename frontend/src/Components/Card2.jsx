@@ -4,6 +4,7 @@ import { faPhone, faMap, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { formatPrice } from "../utils/functions";
 
 const Container = styled.div`
   background-color: transparent;
@@ -11,7 +12,7 @@ const Container = styled.div`
   height: 350px;
   perspective: 1000px;
   border-radius: 10px;
-  border : 1 soild ;
+  border: 1 soild;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   transition: border-radius 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
@@ -165,11 +166,9 @@ export default function Card2({ campground }) {
                 : campground.imageUrl
             }
           />
-          <Selection>
-            {campground.capacity},{campground.productPrice}
-          </Selection>
+          <Selection></Selection>
           <Name>{campground.productName}</Name>
-          <Price>{campground.productPrice}</Price>
+          <Price>{formatPrice(campground.productPrice)}</Price>
         </Front>
         <Back isDark={isDark}>
           <Info>

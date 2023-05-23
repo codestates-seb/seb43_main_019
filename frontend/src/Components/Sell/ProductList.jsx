@@ -16,6 +16,7 @@ const Container = styled.div`
 
 const Title = styled.h1`
   font-size: 40px;
+  margin-top: 100px;
 `;
 
 const Products = styled.div`
@@ -23,6 +24,15 @@ const Products = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   row-gap: 30px;
+  justify-items: center;
+
+  @media screen and (max-width: 1250px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (max-width: 700px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 export default function ProductList({ seller }) {
@@ -33,14 +43,13 @@ export default function ProductList({ seller }) {
     (async () => {
       setIsLoading((prev) => true);
 
-      /*
       const allProducts = await getAllCampgroundsInfo(1, 10000);
       const mine = allProducts.filter(
         (product) => product.memberId === seller.memberId
       );
       setMyProducts((prev) => mine);
-    */
-      setMyProducts((prev) => [...dummyCampgrounds.data]);
+
+      // setMyProducts((prev) => [...dummyCampgrounds.data]);
 
       setIsLoading((prev) => false);
     })();
