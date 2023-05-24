@@ -12,5 +12,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     // 새로운 예약을 등록할 때, 중복 예약임을 판별하는 메서드
     Optional<Reservation> findByProductIdAndReservationDateAndReservationStatusIn(
             Long productId, LocalDate reservationDate, List<ReservationStatus> reservationStatuses);
+
+    // 특정 productID와 예약 날짜에 해당하는 예약을 찾는 메서드
+    Optional<Reservation> findReservationByProductIdAndReservationDate(Long productId, LocalDate reservationDate);
+
 }
 
