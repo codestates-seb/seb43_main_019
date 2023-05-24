@@ -89,7 +89,6 @@ public class ProductService {
 
     private String handleProductImageUpload(Product product, MultipartFile multipartFile) {
         String imageUrl = product.getImageUrl();
-        log.info("# imageUrl={}", imageUrl);
         try {
             if(!multipartFile.isEmpty())  {
                 imageUrl = s3Upload.upload(multipartFile);
@@ -97,7 +96,6 @@ public class ProductService {
         } catch (IOException e) {
             log.info("# s3Upload.upload Error={}", e.getMessage());
         }
-        log.info("# setImageUrl={}", imageUrl);
 
         return imageUrl;
     }
