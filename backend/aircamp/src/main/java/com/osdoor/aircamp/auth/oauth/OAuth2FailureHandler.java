@@ -22,7 +22,7 @@ public class OAuth2FailureHandler extends SimpleUrlAuthenticationFailureHandler 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         if(exception instanceof OAuth2AuthenticationException) {
-            log.info("# 이미 가입한 회원이 존재합니다: {}", exception.getMessage());
+            log.info("# {}: {}",((OAuth2AuthenticationException) exception).getError().getErrorCode() , exception.getMessage());
         }
 
         getRedirectStrategy().sendRedirect(request, response, REDIRECT_URL + "/login?error");
