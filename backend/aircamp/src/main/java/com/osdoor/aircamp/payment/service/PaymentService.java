@@ -84,8 +84,8 @@ public class PaymentService {
         MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<>();
         parameters.add("cid", cid);
         parameters.add("tid", tid);
-        parameters.add("partner_order_id", "reservationId");
-        parameters.add("partner_user_id", "가맹점 회원 ID");
+        parameters.add("partner_order_id", "reservationId"); // 가맹점 예약 아이디
+        parameters.add("partner_user_id", "memberId"); // 가맹점 회원 아이디
         parameters.add("pg_token", pgToken);
 
         // 파라미터, 헤더
