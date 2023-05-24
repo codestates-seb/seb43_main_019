@@ -1,209 +1,235 @@
 import styled from "@emotion/styled";
 import { SellInput } from "../Common/Input";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { CommonButton } from "../Common/Button";
 import { Label } from "../Common/Label";
 import { useState } from "react";
 import { handlePostCampground } from "../../utils/ProductFunctions";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 const Container = styled.div`
+  margin: 100px 20px;
   width: 100%;
-  height: 100%;
-  margin-left: 100px;
-  margin-top: 80px;
-  padding: 50px;
-
-  @media screen and (max-width: 900px) {
-    margin-left: 0;
-    padding-top: 100px;
-  }
-
   display: flex;
   flex-direction: column;
-  align-items: start;
-  justify-content: start;
+  align-items: center;
 `;
 
 const Title = styled.p`
-  width: 100%;
   font-size: 20px;
   color: ${(props) => (props.isDark ? "var( --white)" : "var(--black)")};
 `;
 
 const Form = styled.form`
-  display: flex;
-  max-width: 800px;
-  width: 100%;
-  height: 100%;
-  padding: 0 5px;
-  text-align: center;
   background-color: ${(props) =>
     props.isDark ? "var(--white-50)" : "var(--white)"};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 12px;
-  border-radius: 20px;
   border: 1px solid var(--black-500);
-  margin-top: 30px;
-`;
+  width: 80%;
+  height: 100%;
+  min-height: 800px;
+  border-radius: 20px;
+  padding-top: 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 
-const ProductInfos = styled.div`
-  height: 500px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  padding: 20px;
+  @media screen and (max-width: 1250px) {
+    grid-template-columns: none;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  @media (min-width: 320px) and (max-width: 480px) {
+    padding-bottom: 50px;
+  }
 `;
 
 const ImageSpace = styled.div`
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
 `;
 
 const Image = styled.div`
-  max-width: 400px;
-  width: 100%;
-  height: 100%;
   border-radius: 20px;
   background-image: url(${(props) => props.bgphoto});
   background-size: cover;
   background-position: center;
   border: 1px solid black;
+
+  width: 80%;
+  height: 80%;
 `;
 
 const ImageInput = styled.input`
-  width: 100%;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 15px;
-  cursor: pointer;
-  position: absolute;
-  bottom: -50px;
-  left: 60px;
+  left: 0;
+  right: 0%;
+  margin: auto auto;
 `;
 
 const Inputs = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  display: grid;
+  grid-template-rows: repeat(auto, 1fr);
+  align-items: start;
 `;
 
 const SmallInput = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-  padding: 10px;
-  margin-left: 15px;
+  width: 100%;
+  height: 100%;
 
-  & > label {
-    margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+
+  & label {
+    height: 100%;
   }
-`;
-
-const DateInputs = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
 
   & input {
-    width: 100%;
-  }
+    width: 70%;
 
-  & span {
-    font-size: 20px;
-    font-weight: bold;
+    @media (min-width: 320px) and (max-width: 480px) {
+      width: 50%;
+    }
   }
 `;
 
 const StyledCommonButton = styled(CommonButton)`
-  margin-bottom: 20px;
+  width: 50%;
+  height: 50%;
+  margin: auto auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-const StyledSellInput = styled(SellInput)`
-  width: 280px;
+const StyledSellInput = styled(SellInput)``;
+
+const Overlay = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  z-index: 5;
 `;
+
+const Modal = styled.div`
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto auto;
+  width: 800px;
+  height: 400px;
+  background-color: white;
+  z-index: 10;
+  border-radius: 20px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+`;
+
+const SampleImg = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  border-radius: 20px;
+  background-image: url(${(props) => props.bgphoto});
+  background-size: cover;
+  background-position: center;
+`;
+
+const sampleImgs = [
+  "https://cdn.pixabay.com/photo/2016/01/26/23/32/camp-1163419_1280.jpg",
+  "https://cdn.pixabay.com/photo/2020/02/09/08/08/tent-4832252_1280.jpg",
+  "https://cdn.pixabay.com/photo/2015/05/23/00/25/utah-780108_1280.jpg",
+];
 
 export default function Registration({ seller }) {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
+  const [selectImg, setSelectImg] = useState(false);
   const isDark = useSelector((state) => state.modeReducer);
   const { register, handleSubmit, reset } = useForm();
 
+  const navigate = useNavigate();
+
+  const userState = useSelector((state) => state.userReducer);
+  const dispatch = useDispatch();
+
   const postProduct = async (data) => {
-    if (image === null) {
-      alert("사진을 등록해주세요.");
+    if (imageUrl === "") {
+      toast("사진을 등록해주세요.");
       return;
     }
 
-    const formData = new FormData();
-    formData.append("image", image);
-
     const {
-      address,
-      cancellationDeadline,
-      capacity,
-      content,
-      location,
       productName,
+      address,
+      location,
+      content,
+      capacity,
+      cancellationDeadline,
       productPrice,
     } = data;
 
-    const newProduct = {
+    const jsonData = {
       productName,
       address,
       location,
       content,
       capacity: +capacity,
-      cancellationDeadline: cancellationDeadline + "T10:00:00",
+      cancellationDeadline: cancellationDeadline,
       productPrice,
       productPhone: "010-1111-1111",
-      latitude: 37.5,
-      longitude: 40.5,
       memberId: 1,
-      image: formData,
     };
 
-    const success = await handlePostCampground(newProduct);
+    const formData = new FormData();
+    formData.append("images", image);
+    formData.append("jsonData", JSON.stringify(jsonData));
+
+    const success = await handlePostCampground(formData, userState.userInfo);
 
     if (success) {
-      alert("등록에 성공했습니다.");
+      toast("등록에 성공했습니다.");
       reset();
+      navigate("/");
     } else {
-      alert("등록에 실패했습니다.");
+      toast("등록에 실패했습니다.");
     }
   };
 
   const handleImageChange = (event) => {
     const imgFile = event.target.files[0];
-
     setImage((prev) => imgFile);
     setImageUrl((prev) => URL.createObjectURL(imgFile));
   };
 
   return (
-    <Container>
-      <Title isDark={isDark}>고객님의 캠핑장을 등록해주세요.🙋🏻‍♀️</Title>
-      <Form onSubmit={handleSubmit(postProduct)}>
-        <ProductInfos>
+    <>
+      <Container>
+        <Title isDark={isDark}>고객님의 캠핑장을 등록해주세요.🙋🏻‍♀️</Title>
+        <Form onSubmit={handleSubmit(postProduct)}>
           <ImageSpace>
             <Image bgphoto={imageUrl} />
             <ImageInput
               type="file"
-              accept=".png, .jpg, .jpeg"
+              accept="image/*"
               onChange={handleImageChange}
             />
           </ImageSpace>
@@ -244,12 +270,10 @@ export default function Registration({ seller }) {
             </SmallInput>
             <SmallInput>
               <Label>취소 기한</Label>
-              <DateInputs>
-                <SellInput
-                  type="date"
-                  {...register("cancellationDeadline", { required: true })}
-                />
-              </DateInputs>
+              <SellInput
+                type="date"
+                {...register("cancellationDeadline", { required: true })}
+              />
             </SmallInput>
             <SmallInput>
               <Label htmlFor="capacity">수용인원</Label>
@@ -269,10 +293,24 @@ export default function Registration({ seller }) {
                 {...register("content", { required: true })}
               />
             </SmallInput>
+            <StyledCommonButton>등록하기</StyledCommonButton>
           </Inputs>
-        </ProductInfos>
-        <StyledCommonButton>등록하기</StyledCommonButton>
-      </Form>
-    </Container>
+        </Form>
+      </Container>
+      {selectImg && (
+        <>
+          <Overlay onClick={() => setSelectImg(false)} />
+          <Modal>
+            {sampleImgs.map((sampleImg) => (
+              <SampleImg
+                bgphoto={sampleImg}
+                key={sampleImg}
+                onClick={() => handleImageChange(sampleImg)}
+              />
+            ))}
+          </Modal>
+        </>
+      )}
+    </>
   );
 }

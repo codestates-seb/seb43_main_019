@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
 import { postReservationsData } from "../utils/ProductFunctions";
+import { formatPrice } from "../utils/functions";
 
 const Container = styled.div`
   width: 100%;
@@ -71,6 +72,9 @@ const ProductInfoHeading = styled.div`
   justify-content: space-between;
   font-weight: bold;
   font-size: 1.5rem;
+  @media (max-width: 400px) {
+    font-size: 1rem;
+  }
 `;
 
 const ProductInfoList = styled.ul`
@@ -83,6 +87,9 @@ const ProductInfoItem = styled.li`
   justify-content: space-between;
   font-size: 1.2rem;
   margin: 0.5rem 0;
+  @media (max-width: 400px) {
+    font-size: 0.7rem;
+  }
 `;
 
 const Divider = styled.hr`
@@ -90,6 +97,9 @@ const Divider = styled.hr`
   border: none;
   border-bottom: 1px solid gray;
   width: 100%;
+  @media (max-width: 400px) {
+    margin: 0;
+  }
 `;
 
 const OrderInfoContainer = styled.div`
@@ -165,6 +175,7 @@ const PaymentPage = () => {
   const { register, handleSubmit, watch } = useForm();
   const [isAgreed, setIsAgreed] = useState(false);
   const [reservationId, setReservationId] = useState(null);
+  const [productPrice, setProductPrice] = useState(null);
 
   useEffect(() => {
     setIsVisible(true);
@@ -183,19 +194,15 @@ const PaymentPage = () => {
 
   // 예약 정보 등록
   const handlePaymentSubmit = async () => {
-    navigate("/Pay", {
-      state: { reservationId, productPrice: data.productPrice },
-    });
-
     const reservationData = {
-      memberId: data.memberId,
+      memberId: userState.userInfo.memberId,
       productId: data.productId,
       reservationDate: startDate,
       reservationName: watch("text"),
       reservationPhone: watch("tel"),
       reservationEmail: watch("email"),
-      usedRewardPoints: 0,
       actualPaymentAmount: data.productPrice,
+      usedRewardPoints: 0,
     };
 
     try {
@@ -204,12 +211,18 @@ const PaymentPage = () => {
         userState.userInfo
       );
       setIsAgreed(true);
-      setReservationId(response.reservation_id);
+      setReservationId(response);
+      setProductPrice(data.productPrice);
+
+      navigate("/Pay", {
+        state: { reservationId: response, productPrice: data.productPrice },
+      });
     } catch (error) {
       setIsAgreed(false);
       console.error("예약 정보 등록 실패:", error);
     }
   };
+
   return (
     <Container>
       <Form onSubmit={handleSubmit(handlePaymentSubmit)}>
@@ -228,7 +241,7 @@ const PaymentPage = () => {
             <ProductInfoList>
               <ProductInfoItem>
                 <div>{data.content}</div>
-                <div>{data.productPrice}</div>
+                <div>{formatPrice(data.productPrice)}</div>
                 <div>{startDate}</div>
               </ProductInfoItem>
             </ProductInfoList>
@@ -271,11 +284,7 @@ const PaymentPage = () => {
             </AgreementContainer>
           </OrderInfoContainer>
           <PaymentButtonContainer>
-            <KakaoPayButton
-              type="submit"
-              onClick={handlePaymentSubmit}
-              isAgreed={isAgreed}
-            >
+            <KakaoPayButton type="submit" isAgreed={isAgreed}>
               결제하기
             </KakaoPayButton>
           </PaymentButtonContainer>

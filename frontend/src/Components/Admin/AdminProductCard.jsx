@@ -1,10 +1,9 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import ProductModal from "./Modal/ProductModal";
-import { getMemberInfo, validUser } from "../utils/MemberFunctions";
-import { formatPrice } from "../utils/functions";
-import { useNavigate } from "react-router-dom";
+import ProductModal from "../Modal/ProductModal";
+import { getMemberInfo } from "../../utils/MemberFunctions";
+import AdminProductModal from "./AdminProductModal";
 
 const Container = styled.div`
   background-color: transparent;
@@ -14,7 +13,6 @@ const Container = styled.div`
   border-radius: 10px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   transition: border-radius 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  cursor: pointer;
 `;
 
 const Inner = styled.div`
@@ -39,7 +37,6 @@ const Front = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 `;
 
 const Img = styled.div`
@@ -62,25 +59,20 @@ const Infos = styled.div`
   height: 150px;
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: center;
   justify-content: center;
-  padding-left: 30px;
 `;
 
 const Info = styled.h5`
   font-size: 15px;
   margin: 0;
-  margin-bottom: 5px;
 `;
 
-export default function Card({ campground, myInfo }) {
-  const [openModal, setOpenModal] = useState(false);
-  const [isSellerLoading, setIsSellerLoading] = useState(false);
-
+export default function AdminProductCard({ campground }) {
   const isDark = useSelector((state) => state.modeReducer);
-  const userState = useSelector((state) => state.userReducer);
-
-  const navigate = useNavigate();
+  const [openModal, setOpenModal] = useState(false);
+  const [seller, setSeller] = useState("");
+  const [isSellerLoading, setIsSellerLoading] = useState(false);
 
   const handleOpenModal = () => {
     setOpenModal((prev) => true);
@@ -99,15 +91,12 @@ export default function Card({ campground, myInfo }) {
             <Infos>
               <Info>{`이름: ${campground.productName}`}</Info>
               <Info>{`위치: ${campground.location}`}</Info>
-              <Info>{`판매자: ${
-                isSellerLoading ? "로딩중" : myInfo.name
-              }`}</Info>
-              <Info>{`가격: ${formatPrice(campground.productPrice)}`}</Info>
+              <Info>{`가격: ${campground.productPrice}`}</Info>
             </Infos>
           </Front>
         </Inner>
       </Container>
-      <ProductModal
+      <AdminProductModal
         isOpen={openModal}
         closeModal={handleCloseModal}
         campground={campground}

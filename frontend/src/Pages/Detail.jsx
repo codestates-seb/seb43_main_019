@@ -11,6 +11,7 @@ import { getCampgroundInfo } from "../utils/ProductFunctions";
 import ReviewForm from "../Components/ReviewForm";
 import { format } from "date-fns";
 import Spinner from "../Components/Common/Spinner";
+import { toast } from "react-toastify";
 import { FaChevronUp } from "react-icons/fa";
 
 const Loader = styled.h1`
@@ -231,6 +232,9 @@ const ContainerBox = styled.div`
   align-items: center;
   margin: 100px;
   max-width: 1800px;
+  @media (max-width: 900px) {
+    flex-direction: column;
+  }
 `;
 
 const CampgroundContainer = styled.div`
@@ -239,6 +243,11 @@ const CampgroundContainer = styled.div`
   align-items: flex-start;
   width: 50%;
   margin-right: 50px;
+
+  @media (max-width: 900px) {
+    width: 100%;
+    margin-right: 0;
+  }
 `;
 
 const ImgContainer = styled.div`
@@ -256,6 +265,14 @@ const ImgContainer = styled.div`
     border-radius: 20px;
 
   }
+  width: 50%;
+
+  @media (max-width: 900px) {
+    margin-top: 100px;
+    position: relative;
+    width: auto;
+    align-items: center;
+  }
 `;
 
 const ScrollBtn = styled.div`
@@ -265,6 +282,19 @@ const ScrollBtn = styled.div`
   justify-content: center;
   align-items: center;
   margin: 0 auto;
+  flex-direction: column;
+  margin-left: 100px;
+
+  @media (max-width: 900px) {
+    margin-left: 0;
+    margin-top: 40px;
+  }
+
+  @media (max-width: 400px) {
+    margin-left: -60px;
+    margin-right: 50px;
+    margin-bottom: -81px;
+  }
 `;
 
 const options = {
@@ -338,6 +368,16 @@ function Detail() {
       navigate("/login"); // 로그인 페이지로 이동
     }
   };
+
+  useEffect(() => {
+    const idPattern = /^[0-9]{1,}$/;
+
+    if (idPattern.test(id) === false) {
+      toast("잘못된 접근입니다.");
+      navigate("/404");
+      return;
+    }
+  });
 
   if (!data) {
     return (

@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { useEffect } from "react";
 import { useState } from "react";
-import { dummyReviews } from "../Dummy/DummyDatas";
 import { useRef } from "react";
 import Review from "../Components/Review";
 import { useSelector } from "react-redux";

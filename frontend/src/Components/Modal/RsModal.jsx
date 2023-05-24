@@ -3,12 +3,14 @@ import Modal from "react-modal";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { useState, useEffect } from "react";
 import {
+  getMemberReservations,
   handleDeleteCampground,
   handleUpdateCampground,
 } from "../../utils/ProductFunctions";
 import { getAllCampgroundsInfo } from "../../utils/ProductFunctions";
-import { dummyCampgrounds } from "../../Dummy/DummyDatas";
 import Reservation from "../Reservation";
+import Spinner from "../Common/Spinner";
+import { useSelector } from "react-redux";
 
 Modal.setAppElement("#root");
 
@@ -132,16 +134,17 @@ function MyModal(props) {
   const { isOpen, closeModal, userInfo } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [campgrounds, setCampgrounds] = useState([]);
+  const userState = useSelector((state) => state.userReducer);
 
   useEffect(() => {
     (async () => {
       setIsLoading((prev) => true);
 
-      const allCampgrounds = await getAllCampgroundsInfo(1, 10000);
-      const reservations = allCampgrounds.filter(
-        (campground) => campground.memberId === userInfo.memberId
-      );
-      setCampgrounds((prev) => [...reservations]);
+      const allReservations = await getMemberReservations(userInfo);
+
+      console.log(allReservations);
+
+      setCampgrounds((prev) => [...allReservations]);
 
       setIsLoading((prev) => false);
     })();
@@ -152,13 +155,17 @@ function MyModal(props) {
       <Wrapper>
         <CloseBtn onClick={closeModal} />
         {isLoading ? (
-          <h1>Loading...</h1>
+          <Spinner />
         ) : campgrounds.length === 0 ? (
           <h1>예약한 캠핑장이 없습니다.</h1>
         ) : (
           <>
             {campgrounds.map((campground) => (
-              <Reservation key={campground.productId} campground={campground} />
+              <Reservation
+                key={campground.productId}
+                campground={campground}
+                userInfo={userState.userInfo}
+              />
             ))}
           </>
         )}

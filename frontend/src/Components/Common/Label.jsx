@@ -8,7 +8,7 @@ export const Label = styled.label`
   align-items: center;
   color: var(--black);
   @media screen and (max-width: 900px) {
-    display: none;
+    // display: none;
   }
 `;
 

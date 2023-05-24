@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { handleUserWithdrawal } from "../../utils/MemberFunctions";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const CloseBtn = styled(AiFillCloseCircle)`
   width: 50px;
@@ -23,7 +24,6 @@ const Wrapper = styled.div`
 
 const Infos = styled.div`
   width: 100%;
-
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 10px;
@@ -118,39 +118,21 @@ const ModalStyle = {
 
 export default function UserModal(props) {
   const { isOpen, closeModal, user } = props;
-  const [isUpdate, setIsUpdate] = useState(false);
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
+  const userState = useSelector((state) => state.userReducer);
 
   const handleUserUpdate = async (data) => {
-    if (isUpdate) {
-      const { name, phone, businessRegistrationNumber } = data;
+    const success = await handleUserWithdrawal(
+      user.memberId,
+      userState.userInfo
+    );
 
-      const updatedInfo = {
-        name,
-        password: user.password,
-        phone,
-        isSellerVerified: user.isSellerVerified,
-        businessRegistrationNumber,
-      };
-
-      const result = await handleUserWithdrawal(user.memberId, updatedInfo);
-
-      if (result) {
-        alert("수정이 완료되었습니다.");
-        navigate("/admin/user-management");
-      } else {
-        alert("수정을 실패했습니다.");
-      }
+    if (success === true) {
+      alert("삭제가 완료되었습니다.");
+      navigate("/admin/user-management");
     } else {
-      const success = await handleUserWithdrawal(user.memberId);
-
-      if (success === true) {
-        alert("삭제가 완료되었습니다.");
-        navigate("/admin/user-management");
-      } else {
-        alert("삭제를 실패했습니다.");
-      }
+      alert("삭제를 실패했습니다.");
     }
   };
 
@@ -196,8 +178,7 @@ export default function UserModal(props) {
               />
             </InputLine>
             <Btns>
-              <Btn onClick={() => setIsUpdate(true)}>수정</Btn>
-              <Btn onClick={() => setIsUpdate(false)}>삭제</Btn>
+              <Btn>삭제</Btn>
             </Btns>
           </Managements>
         </Infos>

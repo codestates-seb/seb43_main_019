@@ -8,6 +8,9 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { GrUpdate } from "react-icons/gr";
 import { handleDeleteReview } from "../utils/ReviewFunctions";
 import { handleUpdateReview } from "../utils/ReviewFunctions";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -192,12 +195,8 @@ export default function Review({ review, userId }) {
   const [update, setUpdate] = useState(false);
   const [updatedContent, setUpdatedContent] = useState(review.content);
   const [updatedScore, setUpdatedScore] = useState(review.score + "");
-  /*
-  const { data, isLoading } = useQuery(
-    "reviewUser",
-    getMemberInfo(review.memberId)
-  );
-    */
+  const userState = useSelector((state) => state.userReducer);
+  const navigate = useNavigate();
 
   const handleUpdateContent = (event) => {
     setUpdatedContent((prev) => event.target.value);
@@ -210,12 +209,18 @@ export default function Review({ review, userId }) {
   const updateReview = async (event) => {
     event.preventDefault();
 
+    const myInfo = await getMemberInfo(userState.userInfo);
+
+    if (myInfo === null) {
+      toast("토큰이 만료되었습니다.");
+      navigate("/login");
+      return;
+    }
+
     const updatedReview = {
       content: updatedContent,
       score: updatedScore,
     };
-
-    console.log(updatedReview);
 
     const result = await handleUpdateReview(review.reviewId, updatedReview);
 
@@ -231,7 +236,18 @@ export default function Review({ review, userId }) {
   };
 
   const deleteReview = async () => {
-    const success = await handleDeleteReview(review.reviewID);
+    const myInfo = await getMemberInfo(userState.userInfo);
+
+    if (myInfo === null) {
+      toast("토큰이 만료되었습니다.");
+      navigate("/login");
+      return;
+    }
+
+    const success = await handleDeleteReview(
+      review.reviewId,
+      userState.userInfo
+    );
 
     if (success) {
       alert("성공적으로 삭제했습니다!");

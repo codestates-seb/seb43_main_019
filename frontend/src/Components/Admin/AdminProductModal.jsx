@@ -8,9 +8,10 @@ import {
   handleDeleteCampground,
   handleUpdateCampground,
 } from "../../utils/ProductFunctions";
-import { useSelector } from "react-redux";
-import { getMemberInfo } from "../../utils/MemberFunctions";
+import { useDispatch, useSelector } from "react-redux";
+import { getMemberInfo, validUser } from "../../utils/MemberFunctions";
 import { toast } from "react-toastify";
+import { handleLogout } from "../../Redux/Actions";
 
 const CloseBtn = styled(AiFillCloseCircle)`
   width: 50px;
@@ -126,78 +127,35 @@ const ModalStyle = {
   },
 };
 
-export default function ProductModal(props) {
+export default function AdminProductModal(props) {
   const { isOpen, closeModal, campground } = props;
-  const { register, handleSubmit, setFocus, watch } = useForm();
-  const [isUpdate, setIsUpdate] = useState(true);
+  const { register, handleSubmit } = useForm();
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(campground.imageUrl);
   const navigate = useNavigate();
 
   const userState = useSelector((state) => state.userReducer);
-
-  const handleImageChange = (event) => {
-    const imageFile = event.target.files[0];
-    setImage((prev) => imageFile);
-    setImageUrl((prev) => URL.createObjectURL(imageFile));
-  };
+  const dispatch = useDispatch();
 
   const handleProductUpdate = async (data) => {
     const myInfo = await getMemberInfo(userState.userInfo);
 
     if (myInfo === null) {
       toast("토큰이 만료되었습니다.");
+      dispatch(handleLogout());
       navigate("/login");
-      return;
     }
 
-    if (isUpdate) {
-      if (imageUrl === "") {
-        toast("사진을 등록해주세요.");
-        return;
-      }
+    const success = await handleDeleteCampground(
+      campground.productIdx,
+      userState.userInfo
+    );
 
-      const { productName, capacity, productPrice } = data;
-
-      const updatedInfo = {
-        productName,
-        address: campground.address,
-        location: campground.location,
-        content: campground.content,
-        capacity,
-        cancellationDeadline: campground.cancellationDeadline,
-        productPrice,
-        productPhone: campground.productPhone,
-      };
-
-      const formData = new FormData();
-      formData.append("image", image);
-      formData.append("jsonData", JSON.stringify(updatedInfo));
-
-      const result = await handleUpdateCampground(
-        campground.productId,
-        formData,
-        userState.userInfo
-      );
-
-      if (result) {
-        alert("수정이 완료되었습니다.");
-        navigate("/admin/product-management");
-      } else {
-        alert("수정을 실패했습니다.");
-      }
+    if (success === true) {
+      alert("삭제가 완료되었습니다.");
+      navigate("/admin/product-management");
     } else {
-      const success = await handleDeleteCampground(
-        campground.productId,
-        userState.userInfo
-      );
-
-      if (success === true) {
-        alert("삭제가 완료되었습니다.");
-        navigate("/admin/product-management");
-      } else {
-        alert("삭제를 실패했습니다.");
-      }
+      alert("삭제를 실패했습니다.");
     }
   };
 
@@ -207,11 +165,6 @@ export default function ProductModal(props) {
         <CloseBtn onClick={closeModal} />
         <Infos>
           <Img bgphoto={imageUrl} />
-          <ImageInput
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-          />
           <Managements onSubmit={handleSubmit(handleProductUpdate)}>
             <InputLine>
               <Label>
@@ -244,8 +197,7 @@ export default function ProductModal(props) {
               />
             </InputLine>
             <Btns>
-              <Btn onClick={() => setIsUpdate(true)}>수정</Btn>
-              <Btn onClick={() => setIsUpdate(false)}>삭제</Btn>
+              <Btn>삭제</Btn>
             </Btns>
           </Managements>
         </Infos>

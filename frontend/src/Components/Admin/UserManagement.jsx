@@ -3,7 +3,7 @@ import User from "./User";
 import { useState } from "react";
 import { useEffect } from "react";
 import { getAllMemberInfo } from "../../utils/MemberFunctions";
-import { dummyUsers } from "../../Dummy/DummyDatas";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   width: 100%;
@@ -16,12 +16,13 @@ const Container = styled.div`
 export default function UserManagement() {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const userState = useSelector((state) => state.userReducer);
 
   useEffect(() => {
     (async () => {
       setIsLoading((prev) => true);
 
-      const usersInfo = await getAllMemberInfo();
+      const usersInfo = await getAllMemberInfo(userState.userInfo);
       setUsers((prev) => usersInfo);
       // setUsers((prev) => dummyUsers);
 

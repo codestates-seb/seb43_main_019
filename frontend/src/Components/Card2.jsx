@@ -4,6 +4,7 @@ import { faPhone, faMap, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { formatPrice } from "../utils/functions";
 
 const Container = styled.div`
   background-color: transparent;
@@ -11,13 +12,20 @@ const Container = styled.div`
   height: 350px;
   perspective: 1000px;
   border-radius: 10px;
-
+  border: 1 soild;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   transition: border-radius 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   &:hover .inner {
     transform: rotateY(180deg);
   }
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    width: calc(100% - 25px);
+    height: 230px;
+  }
+
 
   @media screen and (max-width: 400px) {
     /* Adjust the card size for 400px width */
@@ -43,14 +51,16 @@ const Front = styled.div`
   height: 100%;
   border-radius: 2em;
   border: 1px solid var(--black-500); /* Add border */
+  border: 1px solid var(--black-500); /* Add border */
   backface-visibility: hidden;
   background-color: ${(props) =>
     props.isDark ? "var(--white-50)" : "var(--white)"};
   color: var(--black-700);
-  /* border: none; */
+  /* /* border: none; */ */
   display: flex;
   flex-direction: column;
   align-items: center;
+
 
 `;
 
@@ -77,12 +87,22 @@ const Name = styled.div`
     /* Adjust the card size for 400px width */
     font-size: 12px;
   }
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    font-size: 12px;
+  }
 `;
 
 const Selection = styled.div`
   margin: 30px 0 10px 0;
   font-size: 13px;
   /* color : #DF2E38; */
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    font-size: 8px;
+  }
 
   @media screen and (max-width: 400px) {
     /* Adjust the card size for 400px width */
@@ -98,6 +118,11 @@ const Price = styled.div`
     /* Adjust the card size for 400px width */
     font-size: 20px;
   }
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    font-size: 20px;
+  }
 `;
 
 const Back = styled.div`
@@ -105,6 +130,7 @@ const Back = styled.div`
   width: 100%;
   height: 100%;
   border-radius: 2em;
+  border: 1px solid var(--black-500); /* Add border */
   border: 1px solid var(--black-500); /* Add border */
   backface-visibility: hidden;
   background-color: ${(props) =>
@@ -123,6 +149,8 @@ const Info = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center; // 추가
+
+  
 
   
 `;
@@ -149,6 +177,11 @@ const Description = styled.div`
     /* Adjust the card size for 400px width */
     font-size: 15px;
   }
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    font-size: 15px;
+  }
 `;
 
 const Icons = styled.div`
@@ -164,11 +197,24 @@ const Icons = styled.div`
     justify-content:space-around;
   }
   
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    margin-bottom: 70px;
+    justify-content:space-around;
+  }
+  
 `;
 
 const Icon = styled(FontAwesomeIcon)`
   font-size: 25px;
   cursor: pointer;
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    font-size: 15px;
+    width: 80%;
+  }
 
   @media screen and (max-width: 400px) {
     /* Adjust the card size for 400px width */
@@ -211,11 +257,9 @@ export default function Card2({ campground }) {
                 : campground.imageUrl
             }
           />
-          <Selection>
-            {campground.capacity},{campground.productPrice}
-          </Selection>
+          <Selection></Selection>
           <Name>{campground.productName}</Name>
-          <Price>{campground.productPrice}</Price>
+          <Price>{formatPrice(campground.productPrice)}</Price>
         </Front>
         <Back isDark={isDark}>
           <Info>

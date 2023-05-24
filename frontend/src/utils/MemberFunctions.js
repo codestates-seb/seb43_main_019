@@ -1,5 +1,6 @@
 import axios from "axios";
 import { BACK } from "../config";
+import { toast } from "react-toastify";
 
 // 이메일 인증 코드를 받아오는 함수입니다.
 // 이메일을 인자로 받습니다.
@@ -34,12 +35,20 @@ export const handleJoin = async (joinInfo) => {
 };
 
 // 특정 멤버 정보를 업데이트 하는 함수입니다.
-// 업데이트된 정보를 인자로 받습니다.
+// 기존의 멤버 정보와 업데이트된 정보를 인자로 받습니다.
 // 성공 시 업데이트된 회원의 정보를 반환합니다.
 // 실패 시 false를 반환합니다.
-export const handleUpdateMemberInfo = async (updatedInfo) => {
+export const handleUpdateMemberInfo = async (memberInfo, updatedInfo) => {
   try {
-    const response = await axios.patch(`${BACK}/api/members/1`, updatedInfo);
+    const response = await axios.patch(
+      `${BACK}/api/members/${memberInfo.memberId}`,
+      updatedInfo,
+      {
+        headers: {
+          Authorization: memberInfo.accessToken,
+        },
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -66,7 +75,7 @@ export const getMemberInfo = async (memberInfo) => {
     return userInfo;
   } catch (error) {
     console.log("회원정보를 받아올 수 없습니다.");
-    console.log(error);
+
     return null;
   }
 };
@@ -74,27 +83,35 @@ export const getMemberInfo = async (memberInfo) => {
 // 모든 멤버의 정보를 받아오는 함수입니다.
 // 성공 시 모든 유저 정보가 담긴 배열을 반환합니다.
 // 실패 시 null을 반환합니다.
-export const getAllMemberInfo = async () => {
+export const getAllMemberInfo = async (memberInfo) => {
   try {
-    const response = await axios.get(`${BACK}/api/members`);
-    const userInfos = response.data;
-
-    return userInfos;
+    const response = await axios.get(`${BACK}/api/members`, {
+      headers: {
+        Authorization: memberInfo.accessToken,
+      },
+    });
+    return response.data;
   } catch (error) {
+    console.log(error);
     return null;
   }
 };
 
 // 특정 회원 정보를 삭제(탈퇴)하는 함수입니다.
-// 멤버 id를 인자로 받습니다.
+// 멤버 정보를 인자로 받습니다.
 // 성공 시 true를 반환합니다.
 // 실패 시 false를 반환합니다.
-export const handleUserWithdrawal = async (memberId) => {
+export const handleUserWithdrawal = async (memberId, memberInfo) => {
   try {
-    await axios.delete(`${BACK}/api/members/${memberId}`);
+    await axios.delete(`${BACK}/api/members/${memberInfo.memberId}`, {
+      headers: {
+        Authorization: memberInfo.accessToken,
+      },
+    });
 
     return true;
   } catch (error) {
+    console.log(error);
     return false;
   }
 };
@@ -108,6 +125,7 @@ export const handleStartLogin = async (data) => {
   const loginInfo = { email, password };
 
   try {
+    console.log(loginInfo);
     const response = await axios.post(`${BACK}/api/login`, loginInfo);
 
     const data = response.headers;
@@ -120,8 +138,10 @@ export const handleStartLogin = async (data) => {
 
     const userInfo = { ...decoded, accessToken: authToken };
 
-    return decoded;
+    return userInfo;
   } catch (error) {
+    console.log(error);
+
     return null;
   }
 };
@@ -144,13 +164,54 @@ export const handleKakaoLogin = async (KAKAO_CODE) => {
 
     const decoded = JSON.parse(atob(validToken.split(".")[1]));
 
-    // const { memberId } = decoded;
-    // const { memberId } = decoded;
-
-    // const userInfo = await getMemberInfo(memberId);
-
     return decoded;
   } catch (error) {
+    return null;
+  }
+};
+
+// 일반 계정을 판매자 계정으로 등록하는 함수입니다.
+// 멤버 id와 판매자 등록 정보를 인자로 받습니다.
+// 성공 시 멤버 정보를 반환합니다.
+// 실패 시 null을 반환합니다.
+export const registerSellerAccount = async (userInfo, registratonInfo) => {
+  try {
+    const response = await axios.post(
+      `${BACK}/api/sellers/${userInfo.memberId}`,
+      registratonInfo,
+      {
+        headers: {
+          Authorization: userInfo.accessToken,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+// 일반 계정을 판매자 계정으로 등록하는 함수입니다.
+// 멤버 id와 판매자 등록 정보를 인자로 받습니다.
+// 성공 시 멤버 정보를 반환합니다.
+// 실패 시 null을 반환합니다.
+export const updateSellerAccount = async (userInfo, registratonInfo) => {
+  try {
+    const response = await axios.patch(
+      `${BACK}/api/sellers/${userInfo.memberId}`,
+      registratonInfo,
+      {
+        headers: {
+          Authorization: userInfo.accessToken,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
     return null;
   }
 };

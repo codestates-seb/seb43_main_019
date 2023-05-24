@@ -66,6 +66,8 @@ const Line = styled.hr`
     ${(props) => (props.isDark ? "var(--white)" : "var(--black-500)")};
   margin-bottom: 0px;
   margin-top: 0px;
+
+  
 `;
 
 const Logo = styled.img`
