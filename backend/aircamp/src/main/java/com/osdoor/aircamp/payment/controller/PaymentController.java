@@ -22,7 +22,7 @@ public class PaymentController {
 
     // 결제 요청
     @PostMapping("/ready")
-    public ResponseEntity readyToKakaoPay(@RequestParam("reservation_id")long reservationId){
+    public ResponseEntity readyToKakaoPay(@RequestParam("reservation_id") long reservationId){
         Reservation reservation = reservationService.verifyPaymentStatus(reservationId);
         return ResponseEntity.ok(paymentService.kakaoPayReady(reservationId, reservation.getActualPaymentAmount()));
     }
