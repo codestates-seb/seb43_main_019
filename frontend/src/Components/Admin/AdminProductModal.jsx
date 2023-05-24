@@ -1,11 +1,16 @@
 import styled from "@emotion/styled";
 import Modal from "react-modal";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { FcBusinessman } from "react-icons/fc";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { handleUserWithdrawal } from "../../utils/MemberFunctions";
-import { useNavigate } from "react-router-dom";
+import {
+  handleDeleteCampground,
+  handleUpdateCampground,
+} from "../../utils/ProductFunctions";
+import { useSelector } from "react-redux";
+import { getMemberInfo, validUser } from "../../utils/MemberFunctions";
+import { toast } from "react-toastify";
 
 const CloseBtn = styled(AiFillCloseCircle)`
   width: 50px;
@@ -18,25 +23,31 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
 `;
 
 const Infos = styled.div`
   width: 100%;
+  height: 100%;
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
 `;
 
-const Icon = styled.div`
+const Img = styled.div`
   min-width: 250px;
   width: 80%;
   min-height: 250px;
   height: 100%;
   border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-image: url(${(props) => props.bgphoto});
+  background-size: cover;
+  background-position: center;
+`;
+
+const ImageInput = styled.input`
+  position: absolute;
+  bottom: 10px;
+  left: 80px;
 `;
 
 const Managements = styled.form`
@@ -115,41 +126,40 @@ const ModalStyle = {
   },
 };
 
-export default function UserModal(props) {
-  const { isOpen, closeModal, user } = props;
-  const [isUpdate, setIsUpdate] = useState(false);
-  const { register, handleSubmit } = useForm();
+export default function AdminProductModal(props) {
+  const { isOpen, closeModal, campground } = props;
+  const { register, handleSubmit, setFocus, watch } = useForm();
+  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(campground.imageUrl);
   const navigate = useNavigate();
 
-  const handleUserUpdate = async (data) => {
-    if (isUpdate) {
-      const { name, phone, businessRegistrationNumber } = data;
+  const userState = useSelector((state) => state.userReducer);
 
-      const updatedInfo = {
-        name,
-        password: user.password,
-        phone,
-        isSellerVerified: user.isSellerVerified,
-        businessRegistrationNumber,
-      };
+  const handleImageChange = (event) => {
+    const imageFile = event.target.files[0];
 
-      const result = await handleUserWithdrawal(user.memberId, updatedInfo);
+    setImage((prev) => imageFile);
+    setImageUrl((prev) => URL.createObjectURL(imageFile));
+  };
 
-      if (result) {
-        alert("수정이 완료되었습니다.");
-        navigate("/admin/user-management");
-      } else {
-        alert("수정을 실패했습니다.");
-      }
+  const handleProductUpdate = async (data) => {
+    const myInfo = await getMemberInfo(userState.userInfo);
+
+    if (myInfo === null) {
+      toast("토큰이 만료되었습니다.");
+      navigate("/login");
+    }
+
+    const success = await handleDeleteCampground(
+      campground.productIdx,
+      userState.userInfo
+    );
+
+    if (success === true) {
+      alert("삭제가 완료되었습니다.");
+      navigate("/admin/product-management");
     } else {
-      const success = await handleUserWithdrawal(user.memberId);
-
-      if (success === true) {
-        alert("삭제가 완료되었습니다.");
-        navigate("/admin/user-management");
-      } else {
-        alert("삭제를 실패했습니다.");
-      }
+      alert("삭제를 실패했습니다.");
     }
   };
 
@@ -158,45 +168,40 @@ export default function UserModal(props) {
       <Wrapper>
         <CloseBtn onClick={closeModal} />
         <Infos>
-          <Icon>
-            <FcBusinessman size={"100px"} />
-          </Icon>
-          <Managements onSubmit={handleSubmit(handleUserUpdate)}>
+          <Img bgphoto={imageUrl} />
+          <Managements onSubmit={handleSubmit(handleProductUpdate)}>
             <InputLine>
               <Label>
-                <label htmlFor="productName">회원 이름</label>
+                <label htmlFor="productName">캠핑장 이름</label>
               </Label>
               <Input
-                id="name"
-                defaultValue={user.name}
-                {...register("name", { required: true })}
+                id="productName"
+                defaultValue={campground.productName}
+                {...register("productName", { required: true })}
               />
             </InputLine>
             <InputLine>
               <Label>
-                <label htmlFor="phone">회원 전화번호</label>
+                <label htmlFor="capacity">캠핑장 수용인원</label>
               </Label>
               <Input
-                id="phone"
-                defaultValue={user.phone}
+                id="capacity"
+                defaultValue={campground.capacity}
                 {...register("capacity", { required: true })}
               />
             </InputLine>
             <InputLine>
               <Label>
-                <label htmlFor="productPrice">회원 사업자 번호</label>
+                <label htmlFor="productPrice">캠핑장 가격</label>
               </Label>
               <Input
-                id="businessRegistrationNumber"
-                defaultValue={
-                  user.businessRegistrationNumber || "사업자등록번호 없음"
-                }
-                {...register("businessRegistrationNumber", { required: true })}
+                id="productPrice"
+                defaultValue={campground.productPrice}
+                {...register("productPrice", { required: true })}
               />
             </InputLine>
             <Btns>
-              <Btn onClick={() => setIsUpdate(true)}>수정</Btn>
-              <Btn onClick={() => setIsUpdate(false)}>삭제</Btn>
+              <Btn>삭제</Btn>
             </Btns>
           </Managements>
         </Infos>

@@ -2,15 +2,18 @@ import styled from "@emotion/styled";
 import { FcBusinessman, FcAcceptDatabase } from "react-icons/fc";
 
 const Container = styled.ul`
-  max-width: 1200px;
   width: 100%;
   height: 100vh;
   display: grid;
   grid-template-columns: 1fr 1fr;
   justify-items: center;
   align-items: start;
-  padding: 0 200px;
   padding-top: 50px;
+
+  @media screen and (max-width: 900px) {
+    grid-template-columns: none;
+    grid-template-rows: 1fr 1fr;
+  }
 `;
 
 const Menu = styled.li`

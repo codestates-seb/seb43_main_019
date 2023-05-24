@@ -1,5 +1,6 @@
 import axios from "axios";
 import { BACK } from "../config";
+import { toast } from "react-toastify";
 
 // 이메일 인증 코드를 받아오는 함수입니다.
 // 이메일을 인자로 받습니다.
@@ -39,9 +40,6 @@ export const handleJoin = async (joinInfo) => {
 // 실패 시 false를 반환합니다.
 export const handleUpdateMemberInfo = async (memberInfo, updatedInfo) => {
   try {
-    console.log(memberInfo);
-    console.log(updatedInfo);
-
     const response = await axios.patch(
       `${BACK}/api/members/${memberInfo.memberId}`,
       updatedInfo,
@@ -64,8 +62,6 @@ export const handleUpdateMemberInfo = async (memberInfo, updatedInfo) => {
 // 실패 시 null을 반환합니다.
 export const getMemberInfo = async (memberInfo) => {
   try {
-    console.log(memberInfo);
-
     const response = await axios.get(
       `${BACK}/api/members/${memberInfo.memberId}`,
       {
@@ -79,7 +75,7 @@ export const getMemberInfo = async (memberInfo) => {
     return userInfo;
   } catch (error) {
     console.log("회원정보를 받아올 수 없습니다.");
-    console.log(error);
+
     return null;
   }
 };
@@ -87,13 +83,16 @@ export const getMemberInfo = async (memberInfo) => {
 // 모든 멤버의 정보를 받아오는 함수입니다.
 // 성공 시 모든 유저 정보가 담긴 배열을 반환합니다.
 // 실패 시 null을 반환합니다.
-export const getAllMemberInfo = async () => {
+export const getAllMemberInfo = async (memberInfo) => {
   try {
-    const response = await axios.get(`${BACK}/api/members`);
-    const userInfos = response.data;
-
-    return userInfos;
+    const response = await axios.get(`${BACK}/api/members`, {
+      headers: {
+        Authorization: memberInfo.accessToken,
+      },
+    });
+    return response.data;
   } catch (error) {
+    console.log(error);
     return null;
   }
 };
@@ -104,8 +103,6 @@ export const getAllMemberInfo = async () => {
 // 실패 시 false를 반환합니다.
 export const handleUserWithdrawal = async (memberInfo) => {
   try {
-    console.log(memberInfo);
-    console.log(memberInfo.memberId);
     await axios.delete(`${BACK}/api/members/${memberInfo.memberId}`, {
       headers: {
         Authorization: memberInfo.accessToken,
@@ -181,9 +178,6 @@ export const handleKakaoLogin = async (KAKAO_CODE) => {
 // 실패 시 null을 반환합니다.
 export const registerSellerAccount = async (userInfo, registratonInfo) => {
   try {
-    console.log(userInfo);
-    console.log(registratonInfo);
-
     const response = await axios.post(
       `${BACK}/api/sellers/${userInfo.memberId}`,
       registratonInfo,
@@ -207,9 +201,6 @@ export const registerSellerAccount = async (userInfo, registratonInfo) => {
 // 실패 시 null을 반환합니다.
 export const updateSellerAccount = async (userInfo, registratonInfo) => {
   try {
-    console.log(userInfo);
-    console.log(registratonInfo);
-
     const response = await axios.patch(
       `${BACK}/api/sellers/${userInfo.memberId}`,
       registratonInfo,
@@ -224,5 +215,19 @@ export const updateSellerAccount = async (userInfo, registratonInfo) => {
   } catch (error) {
     console.log(error);
     return null;
+  }
+};
+
+// 현재 로그인이 유효한지 검사하는 함수입니다.
+// 멤버 정보를 인자로 받습니다.
+export const validUser = async (userInfo) => {
+  const result = await getMemberInfo(userInfo);
+
+  if (result === null) {
+    toast("토큰이 만료되었습니다.");
+
+    return null;
+  } else {
+    return result;
   }
 };

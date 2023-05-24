@@ -81,34 +81,15 @@ export default function Card({ campground }) {
     setOpenModal((prev) => false);
   };
 
-  useEffect(() => {
-    (async () => {
-      setIsSellerLoading((prev) => true);
-
-      setSeller((prev) => "나중에");
-      // const sellerInfo = await getMemberInfo(campground.memberId);
-      // setSeller((perv) => sellerInfo.name);
-
-      setIsSellerLoading((prev) => false);
-    })();
-  }, []);
-
   return (
     <>
       <Container onClick={handleOpenModal}>
         <Inner className="inner">
           <Front isDark={isDark}>
-            <Img
-              bgphoto={
-                campground.imageUrl === "http://~"
-                  ? "https://yeyak.seoul.go.kr/cmsdata/web_upload/svc/20230329/1680050914280HZAYFX8GLLMTVZI2H6BD0WGPV_IM02.jpg"
-                  : campground.imageUrl
-              }
-            />
+            <Img bgphoto={campground.imageUrl} />
             <Infos>
               <Info>{`이름: ${campground.productName}`}</Info>
               <Info>{`위치: ${campground.location}`}</Info>
-              <Info>{`판매자: ${isSellerLoading ? "로딩중" : seller}`}</Info>
               <Info>{`가격: ${campground.productPrice}`}</Info>
             </Infos>
           </Front>

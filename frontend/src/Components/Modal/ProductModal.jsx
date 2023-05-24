@@ -9,6 +9,8 @@ import {
   handleUpdateCampground,
 } from "../../utils/ProductFunctions";
 import { useSelector } from "react-redux";
+import { validUser } from "../../utils/MemberFunctions";
+import { toast } from "react-toastify";
 
 const CloseBtn = styled(AiFillCloseCircle)`
   width: 50px;
@@ -142,7 +144,11 @@ export default function ProductModal(props) {
   };
 
   const handleProductUpdate = async (data) => {
-    // 관리자이거나 상품 올린사람이 아니면 불가능하게
+    const myInfo = await validUser(userState.userInfo);
+
+    if (myInfo === null) {
+      navigate("/login");
+    }
 
     if (isUpdate) {
       const { productName, capacity, productPrice } = data;

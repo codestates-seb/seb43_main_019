@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { dummyCampgrounds } from "../../Dummy/DummyDatas";
-import Card from "./Card";
+import AdminProductCard from "../Admin/AdminProductCard";
 import { useEffect, useState } from "react";
 import { getAllCampgroundsInfo } from "../../utils/ProductFunctions";
 
@@ -60,7 +60,10 @@ export default function ProductManagement() {
           <Title>상품을 선택하여 관리할 수 있습니다.</Title>
           <Cards>
             {campgrounds.map((campground) => (
-              <Card campground={campground} key={campground.productId} />
+              <AdminProductCard
+                campground={campground}
+                key={campground.productId}
+              />
             ))}
           </Cards>
         </>

@@ -14,6 +14,7 @@ const Container = styled.div`
   align-items: center;
   padding: 0 50px;
   margin: 10px 0;
+  position: relative;
 `;
 
 const Info = styled.h3`
@@ -28,7 +29,7 @@ const Infos = styled.div`
   justify-content: space-between;
   padding: 0 100px;
 
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: 750px) {
     justify-content: center;
   }
 `;
@@ -41,7 +42,7 @@ const MainInfos = styled.div`
   justify-content: center;
   align-items: start;
 
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: 750px) {
     align-items: center;
   }
 `;
@@ -53,9 +54,18 @@ const SideInfos = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: 750px) {
     display: none;
   }
+`;
+
+const IconSpace = styled.div`
+  height: 100%;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: ${(props) => props.left};
+  right: ${(props) => props.right};
 `;
 
 export default function User({ user }) {
@@ -72,7 +82,9 @@ export default function User({ user }) {
   return (
     <>
       <Container>
-        <FcBusinessman size={"50px"} />
+        <IconSpace left={"10px"}>
+          <FcBusinessman size={"50px"} />
+        </IconSpace>
         <Infos>
           <MainInfos>
             <Info>{user.name}</Info>
@@ -83,7 +95,9 @@ export default function User({ user }) {
             <Info>{user.isSellerVerifed ? "판매자" : ""}</Info>
           </SideInfos>
         </Infos>
-        <BsInfoCircleFill onClick={handleOpenModal} size={"50px"} />
+        <IconSpace right={"10px"}>
+          <BsInfoCircleFill onClick={handleOpenModal} size={"50px"} />
+        </IconSpace>
       </Container>
       <UserModal isOpen={openModal} closeModal={handleCloseModal} user={user} />
     </>

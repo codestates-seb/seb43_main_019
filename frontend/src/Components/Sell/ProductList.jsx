@@ -5,6 +5,9 @@ import Card from "../Card";
 import { useState } from "react";
 import { useEffect } from "react";
 import { getAllCampgroundsInfo } from "../../utils/ProductFunctions";
+import { useSelector } from "react-redux";
+import { validUser } from "../../utils/MemberFunctions";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -38,6 +41,10 @@ const Products = styled.div`
 export default function ProductList({ seller }) {
   const [myProducts, setMyProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [myInfo, setMyInfo] = useState(null);
+  const navigate = useNavigate();
+
+  const userState = useSelector((state) => state.userReducer);
 
   useEffect(() => {
     (async () => {
@@ -49,7 +56,13 @@ export default function ProductList({ seller }) {
       );
       setMyProducts((prev) => mine);
 
-      // setMyProducts((prev) => [...dummyCampgrounds.data]);
+      const myInfoResponse = await validUser(userState.userInfo);
+
+      if (myInfoResponse) {
+        setMyInfo((prev) => myInfoResponse);
+      } else {
+        navigate("/login");
+      }
 
       setIsLoading((prev) => false);
     })();
@@ -66,7 +79,11 @@ export default function ProductList({ seller }) {
             <h1>등록된 상품이 없습니다.</h1>
           ) : (
             myProducts.map((campground) => (
-              <Card key={campground.productId} campground={campground} />
+              <Card
+                key={campground.productId}
+                campground={campground}
+                myInfo={myInfo}
+              />
             ))
           )}
         </Products>

@@ -10,7 +10,6 @@ export const handlePostReview = async (review) => {
   // 이는 처음 정보를 입력 받을 때, 처리해주시기 바랍니다.
 
   try {
-    console.log(review);
     await axios.post(`${BACK}/api/reviews`, review);
 
     return true;

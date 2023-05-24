@@ -125,6 +125,14 @@ function Detail() {
     }
   };
 
+  useEffect(() => {
+    const idPattern = /^[0-9]{1,}$/;
+
+    if (idPattern.test(id) === false) {
+      navigate("/404");
+    }
+  });
+
   if (!data) {
     return (
       <Loader>
