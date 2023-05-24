@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { dummyCampgrounds } from "../../Dummy/DummyDatas";
 import AdminProductCard from "../Admin/AdminProductCard";
 import { useEffect, useState } from "react";
 import { getAllCampgroundsInfo } from "../../utils/ProductFunctions";

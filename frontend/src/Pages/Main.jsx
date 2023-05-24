@@ -1,6 +1,5 @@
 import styled, { keyframes } from "styled-components";
 import { useSelector } from "react-redux";
-import { dummyCampgrounds } from "../Dummy/DummyDatas";
 import { useEffect, useRef, useState } from "react";
 import Card2 from "../Components/Card2";
 import { FaChevronUp } from "react-icons/fa";

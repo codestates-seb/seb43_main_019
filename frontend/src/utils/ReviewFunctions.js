@@ -69,9 +69,13 @@ export const getAllReview = async (page, size) => {
 // 리뷰 아이디를 인자로 받습니다.
 // 성공 시 true를 반환합니다.
 // 실패 시 false를 반환합니다.
-export const handleDeleteReview = async (reviewId) => {
+export const handleDeleteReview = async (reviewId, memberInfo) => {
   try {
-    await axios.delete(`${BACK}/api/reviews/${reviewId}`);
+    await axios.delete(`${BACK}/api/reviews/${reviewId}`, {
+      headers: {
+        Authorization: memberInfo.accessToken,
+      },
+    });
     return true;
   } catch (error) {
     console.log(error);

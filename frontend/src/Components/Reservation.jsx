@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 import { useEffect } from "react";
 import { formatPrice } from "../utils/functions";
+import { handleCancelReservation } from "../utils/ReservationFunctions";
+import { toast } from "react-toastify";
 
 const Container = styled.div`
   width: 80%;
@@ -54,19 +56,23 @@ const Info = styled.h4`
   font-size: 13px;
 `;
 
-export default function Reservation({ campground }) {
-  useEffect(() => {
-    console.log(campground);
-  }, []);
+export default function Reservation({ campground, userInfo }) {
+  const deleteReservation = async () => {
+    const success = await handleCancelReservation(
+      campground.reservationId,
+      userInfo
+    );
+
+    if (success) {
+      toast("삭제되었습니다.");
+    } else {
+      toast("삭제가 안되었습니다.");
+    }
+  };
+
   return (
     <Container>
-      <Img
-        bgphoto={
-          campground.imageUrl === "http://~"
-            ? "https://yeyak.seoul.go.kr/cmsdata/web_upload/svc/20230329/1680050914280HZAYFX8GLLMTVZI2H6BD0WGPV_IM02.jpg"
-            : campground.imageUrl
-        }
-      />
+      <Img bgphoto={campground.imageUr} />
       <Managements>
         <InputLine>
           <Info>{campground.reservationName}</Info>
@@ -80,6 +86,7 @@ export default function Reservation({ campground }) {
         <InputLine>
           <Info>{formatPrice(campground.actualPaymentAmount)}</Info>
         </InputLine>
+        <div onClick={deleteReservation}>삭제</div>
       </Managements>
     </Container>
   );

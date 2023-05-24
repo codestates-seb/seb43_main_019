@@ -65,6 +65,8 @@ function App() {
           dispatch(handleLogout());
           return;
         }
+        console.log(userState.userInfo);
+        console.log(myInfo);
       }
     })();
   }, []);

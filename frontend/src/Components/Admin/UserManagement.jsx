@@ -3,7 +3,6 @@ import User from "./User";
 import { useState } from "react";
 import { useEffect } from "react";
 import { getAllMemberInfo } from "../../utils/MemberFunctions";
-import { dummyUsers } from "../../Dummy/DummyDatas";
 import { useSelector } from "react-redux";
 
 const Container = styled.div`
