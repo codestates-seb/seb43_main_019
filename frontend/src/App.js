@@ -2,7 +2,7 @@ import styled from "styled-components";
 import axios from "axios";
 import Header from "./Components/Header";
 import ModeBtn from "./Components/ModeBtn";
-import { Routes, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Main from "./Pages/Main";
 import SignUp from "./Pages/SignUp";
@@ -24,6 +24,9 @@ import ComponentExamples from "./Pages/ComponentExamples";
 import NotFound from "./Pages/NotFound";
 import Test from "./Pages/Test";
 import SelectPay from "./Pages/SelectPay";
+import PaySuccessPage from "./Pages/PaySuccessPage";
+import PayCancelPage from "./Pages/PayCancelPage";
+import PayFailPage from "./Pages/PayFailPage";
 
 // 모든 요청에 withCredentials가 true로 설정됩니다.
 axios.defaults.withCredentials = true;
@@ -69,6 +72,9 @@ function App() {
           <Route path="/Pay" element={<SelectPay />} />
           <Route path="/:id" element={<Detail />} />
           <Route path="/Pay" element={<SelectPay />} />
+          <Route path="/api/payments/success" element={<PaySuccessPage />} />
+          <Route path="/api/payments/cancel" element={<PayCancelPage />} />
+          <Route path="/api/payments/fail" element={<PayFailPage />} />
           <Route path="/" element={<Main searchResults={searchResults} />} />
         </Routes>
       </Container>

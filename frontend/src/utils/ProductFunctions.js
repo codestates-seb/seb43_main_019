@@ -94,31 +94,34 @@ export const handleDeleteCampground = async (productId) => {
 };
 
 // 카카오페이 post
-export const postPaymentData = async (data) => {
+export const postPaymentData = async (data, reservationId, memberInfo) => {
   try {
-    const response = await axios.post(`${BACK}/api/payment`, data);
+    const response = await axios.post(
+      `${BACK}/api/payments/ready?reservation_id=${reservationId}`,
+      data,
+      {
+        headers: {
+          Authorization: memberInfo.accessToken,
+        },
+      }
+    );
     console.log(response.data);
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 };
 
 // 새로운 예약 등록
 export const postReservationsData = async (data, memberInfo) => {
   try {
-    console.log("Post Reservation Data");
-    console.log(data);
-    console.log(memberInfo);
-
     const response = await axios.post(`${BACK}/api/reservations`, data, {
       headers: {
         Authorization: memberInfo.accessToken,
       },
     });
     console.log(response.data);
-    // const { reservation_id } = response.data;
-    // return reservation_id;
+    return response.data;
   } catch (error) {
     console.error(error);
   }
