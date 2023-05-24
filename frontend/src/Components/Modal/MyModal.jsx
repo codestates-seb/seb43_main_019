@@ -189,13 +189,8 @@ function MyModal(props) {
       return;
     }
 
-<<<<<<< HEAD
     if (checkValidPhone(phone)) {
       toast("전화번호가 양식과 맞지 않습니다.");
-=======
-    if (checkValidPhone(phone) === false) {
-      alert("전화번호가 양식과 맞지 않습니다.");
->>>>>>> fef225ad1f9a66bf4b30086c98e2f85741adb074
       return;
     }
 

@@ -8,6 +8,11 @@ const ImageWrapper = styled.div`
   width: 500px;
   height: 500px;
   border-radius: 30px;
+
+  @media screen and (max-width: 400px) {
+    border-radius: 20px;
+
+  }
 `;
 
 function DetailImage(props) {

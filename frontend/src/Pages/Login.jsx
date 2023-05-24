@@ -40,7 +40,6 @@ const Form = styled.form`
 
   @media screen and (max-width: 400px) {
     margin-top: 120px;
-
   }
 `;
 
@@ -113,8 +112,6 @@ export default function Login() {
 
   const handleSignIn = async (data) => {
     const result = await handleStartLogin(data);
-    const notify1 = () => toast("Success!");
-    const notify2 = () => toast("Failed!");
 
     if (result) {
       dispatch(handleLogin(result));

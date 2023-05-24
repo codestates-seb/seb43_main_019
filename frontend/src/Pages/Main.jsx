@@ -57,8 +57,6 @@ const ContextArea = styled.div`
 
   @media screen and (max-width: 400px) {
     height: calc(100vh - 450px);
-    
-    
   }
 `;
 
@@ -130,22 +128,22 @@ const TitleAnimation = keyframes`
 `;
 
 const Title = styled.h2`
-  margin-left: 150px !important;
+  margin-left: 250px;
+  margin-bottom: 30px;
   font-family: "Noto Sans KR", sans-serif;
   color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--black-700)")};
 
   @media screen and (max-width: 400px) {
-    margin-left: 0px !important;
+    margin-left: 0px ;
     padding-top: 30px;
     text-align: center;
     font-size: 22px;
-
-    
   }
-
   /* Apply animation */
   opacity: 0;
   animation: ${TitleAnimation} 1s ease forwards;
+
+
 `;
 
 const ScrollBtn = styled.div`
@@ -289,7 +287,6 @@ export default function Main({ searchResults }) {
       <>
       <IntroArea>
         <IntroContent>
-<<<<<<< HEAD
         <Element name="intro" className="intro-element">
           <IntroTitle isDark={isDark}  inView={inView} >우리 모두 에어캠프로{"\n"}캠핑 가보자GoGo 🤙🤙</IntroTitle>
        </Element>
@@ -305,29 +302,6 @@ export default function Main({ searchResults }) {
      </ContextArea>
      <Container>
      {data.slice(0, 8).map((campground) => (
-=======
-          <Element name="intro" className="intro-element">
-            <IntroTitle isDark={isDark} inView={inView}>
-              우리 모두 에어캠프로{"\n"}캠핑 가보자GoGo 🤙🤙
-            </IntroTitle>
-          </Element>
-        </IntroContent>
-        <IntroImage />
-      </IntroArea>
-      <ContextArea isDark={isDark}>
-        <Element name="intro" className="intro-element">
-          <Title isDark={isDark} inView={titleInView}>
-            지금 당장 캠핑을 떠나보세요.⛺
-          </Title>
-        </Element>
-      </ContextArea>
-      <Container>
-        {searchResults.length > 0
-          ? searchResults.map((campground) => (
-              <Card2 key={campground.productId + ""} campground={campground} />
-            ))
-          : data.map((campground) => (
->>>>>>> fef225ad1f9a66bf4b30086c98e2f85741adb074
               <Card2 key={campground.productId + ""} campground={campground} />
             ))}
      </Container>

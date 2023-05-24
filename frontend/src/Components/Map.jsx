@@ -1,7 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { getCampgroundInfo } from "../utils/ProductFunctions";
+import styled from "@emotion/styled";
 
 const { kakao } = window;
+
+const MapContainer = styled.div`
+  width: 500px;
+  height: 300px;
+  border-radius: 20px;
+
+  @media screen and (max-width: 400px) {
+    width: 300px;
+    height: 200px;
+
+  }
+`;
 
 function Map({ productId }) {
   const [campgroundInfo, setCampgroundInfo] = useState(null);
@@ -51,7 +64,7 @@ function Map({ productId }) {
     }
   }, [campgroundInfo, map]);
 
-  return <div id="map" style={{ width: "800px", height: "650px" }}></div>;
+  return <MapContainer id="map" />;
 }
 
 export default Map;

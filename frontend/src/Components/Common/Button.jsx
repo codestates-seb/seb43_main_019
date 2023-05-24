@@ -19,6 +19,26 @@ export const CommonButton = styled.button`
   margin-right: 10px;
 `;
 
+export const DetailButton = styled.button`
+  position: relative;
+  width: 80%;
+  overflow: hidden;
+  border-radius: 3px;
+  border: 1px solid var(--black);
+  color: var(--white);
+  display: inline-block;
+  font-size: 13px;
+  line-height: 13px;
+  padding: 16px 16px 15px;
+  text-decoration: none;
+  cursor: pointer;
+  background: #27374D;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin-right: 10px;
+`;
+
 export const LoginButton = styled.button`
   width: 63%;
   height: 40px;
