@@ -84,8 +84,8 @@ public class ReservationService {
 
         int step = findReservation.getReservationStatus().getStepNumber();
 
-        // ReservationStatus의 step이 4인 경우(RESERVATION_CANCEL)에는 예약 취소가 되지 않도록한다.
-        if (step == 4) {
+        // ReservationStatus의 step이 3인 경우(RESERVATION_CANCEL)에는 예약 취소가 되지 않도록한다.
+        if (step == 3) {
             throw new BusinessLogicException(ExceptionCode.CANNOT_CANCEL_RESERVATION);
         }
         findReservation.setReservationStatus(ReservationStatus.RESERVATION_CANCEL);
