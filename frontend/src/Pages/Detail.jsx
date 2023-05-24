@@ -262,10 +262,8 @@ const ImgContainer = styled.div`
   @media screen and (max-width: 400px) {
     width: 300px;
     height: 200px;
-    border-radius: 20px;
 
   }
-  width: 50%;
 
   @media (max-width: 900px) {
     margin-top: 100px;
@@ -283,7 +281,7 @@ const ScrollBtn = styled.div`
   align-items: center;
   margin: 0 auto;
   flex-direction: column;
-  margin-left: 100px;
+  /* margin-left: 100px; */
 
   @media (max-width: 900px) {
     margin-left: 0;
@@ -445,6 +443,7 @@ function Detail() {
           </Form>
         </FormContainer>
       </ContentContainer>
+      <ReviewForm productId={id} />
 
       {/* <ContainerBox>
         <ImgContainer>

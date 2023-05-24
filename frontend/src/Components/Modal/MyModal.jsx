@@ -188,8 +188,6 @@ function MyModal(props) {
 
     if (checkValidPhone(phone) === false) {
       toast("전화번호가 양식과 맞지 않습니다.");
-    if (checkValidPhone(phone)) {
-      toast("전화번호가 양식과 맞지 않습니다.");
       return;
     }
 
@@ -203,9 +201,7 @@ function MyModal(props) {
 
     if (success) {
       toast("업데이트에 성공했습니다!");
-      toast("업데이트에 성공했습니다!");
     } else {
-      toast("업데이트에 실패했습니다.");
       toast("업데이트에 실패했습니다.");
     }
   };
@@ -214,12 +210,10 @@ function MyModal(props) {
     const success = await handleUserWithdrawal(userInfo.memberId, userInfo);
 
     if (success) {
-      toast("탈퇴가 완료되었습니다.");
-      dispatch(handleLogout());
+      alert("탈퇴가 완료되었습니다.");
       navigate("/");
       return;
     } else {
-      toast("탈퇴가 완료되지 않았습니다.");
       toast("탈퇴가 완료되지 않았습니다.");
     }
   };
