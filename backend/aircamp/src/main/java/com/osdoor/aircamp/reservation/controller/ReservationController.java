@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.dao.OptimisticLockingFailureException;
+
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -39,11 +41,19 @@ public class ReservationController {
 
     // 새로운 예약을 등록
     @PostMapping
-    public ResponseEntity<ReservationIdResponseDto> postReservation(@RequestBody ReservationPostDto reservationPostDto) {
-        Reservation savedReservation = reservationService.createReservation(reservationPostDto);
-        ReservationIdResponseDto reservationIdResponseDto = new ReservationIdResponseDto(savedReservation.getReservationId());
+    public ResponseEntity<Object> postReservation(@RequestBody ReservationPostDto reservationPostDto) {
+        // 해당 날짜에 중복된 예약이 있는지 체크
+        if (reservationService.isDuplicateReservation(reservationPostDto)) {
+            return new ResponseEntity<>("해당 날짜에 이미 진행중이거나 완료된 예약이 존재합니다.", HttpStatus.BAD_REQUEST);
+        }
 
-        return new ResponseEntity<>(reservationIdResponseDto, HttpStatus.CREATED);
+        // 동시에 같은 예약을 시도하는 경합 상황이 발생했는지 체크
+        try {
+            Reservation reservation = reservationService.createReservation(reservationPostDto);
+            return new ResponseEntity<>(reservation, HttpStatus.CREATED);
+        } catch (OptimisticLockingFailureException e) {
+            return new ResponseEntity<>("동시에 중복 예약을 시도하는 상황이 발생하였습니다. 잠시 후 다시 시도해주세요.", HttpStatus.CONFLICT);
+        }
     }
 
     // 예약을 수정

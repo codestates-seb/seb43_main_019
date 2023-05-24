@@ -13,12 +13,15 @@ import com.osdoor.aircamp.reservation.mapper.ReservationMapper;
 import com.osdoor.aircamp.reservation.entity.Reservation;
 import com.osdoor.aircamp.reservation.entity.ReservationStatus;
 import com.osdoor.aircamp.reservation.repository.ReservationRepository;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,17 +47,53 @@ public class ReservationService {
         this.reservationMapper = reservationMapper;
     }
 
+    // 새로운 예약을 생성
     public Reservation createReservation(ReservationPostDto reservationPostDto) {
         Member member = memberService.findMember(reservationPostDto.getMemberId());
         Product product = productService.findProduct(reservationPostDto.getProductId());
+
+        // 기존에 동일한 productId와 reservationDate를 가진 예약이 있는지 조회
+        Optional<Reservation> existingReservationOpt = reservationRepository.findReservationByProductIdAndReservationDate(
+                reservationPostDto.getProductId(),
+                reservationPostDto.getReservationDate());
+
+        if (existingReservationOpt.isPresent()) {
+            // 기존 예약이 존재하면 version 값을 증가
+            Reservation existingReservation = existingReservationOpt.get();
+            existingReservation.setVersion(existingReservation.getVersion() + 1);
+            reservationRepository.save(existingReservation);
+        }
 
         Reservation reservation = reservationMapper.reservationPostDtoToReservation(reservationPostDto);
         reservation.setMember(member);
         reservation.setProduct(product);
 
-        Reservation savedReservation = reservationRepository.save(reservation);
+        // 새로운 예약을 저장
+        Reservation savedReservation;
+        try {
+            savedReservation = reservationRepository.save(reservation);
+        } catch (ObjectOptimisticLockingFailureException e) {
+            throw new OptimisticLockingFailureException("예약 생성 중 경합 상황 발생");
+        }
 
         return savedReservation;
+    }
+
+    // 중복된 예약이 있는지 확인
+    public boolean isDuplicateReservation(ReservationPostDto reservationPostDto) {
+        // 중복 예약으로 간주되는 ReservationStatus 리스트
+        List<ReservationStatus> statusList = Arrays.asList(
+                // 예약이 진행중이거나 완료되었다면, 중복 예약의 첫 번째 조건으로 간주함
+                ReservationStatus.RESERVATION_IN_PROGRESS,
+                ReservationStatus.RESERVATION_COMPLETE);
+
+        // productId, reservationDate 가 일치하며 예약이 진행중이거나 완료되었다면, Optional 객체에 담음
+        Optional<Reservation> reservationOptional =
+                reservationRepository.findByProductIdAndReservationDateAndReservationStatusIn(
+                        reservationPostDto.getProductId(), reservationPostDto.getReservationDate(), statusList);
+
+        // reservationOptional 객체의 값이 존재하면 중복 예약으로 간주함
+        return reservationOptional.isPresent();
     }
 
     public Reservation updateReservation(Reservation reservation) {
@@ -84,8 +123,8 @@ public class ReservationService {
 
         int step = findReservation.getReservationStatus().getStepNumber();
 
-        // ReservationStatus의 step이 4인 경우(RESERVATION_CANCEL)에는 예약 취소가 되지 않도록한다.
-        if (step == 4) {
+        // ReservationStatus의 step이 3인 경우(RESERVATION_CANCEL)에는 예약 취소가 되지 않도록한다.
+        if (step == 3) {
             throw new BusinessLogicException(ExceptionCode.CANNOT_CANCEL_RESERVATION);
         }
         findReservation.setReservationStatus(ReservationStatus.RESERVATION_CANCEL);

@@ -21,10 +21,10 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 @Transactional
 public class PaymentService {
-    @Value("${kakaoPay.cid}") // 테스트용 임시 가맹점 코드
+    @Value("${kakaoPay.cid}")
     private String cid;
 
-    @Value("${kakaoPay.adminKey}") // 임시 어드민 키
+    @Value("${kakaoPay.adminKey}")
     private String admin_key;
 
     @Value("${kakaoPay.host}")
@@ -71,7 +71,7 @@ public class PaymentService {
             Payment payment = new Payment();
             payment.setTid(kakaoReady.getTid());  // TID 설정
             payment.setReservation(reservation);  // 예약 정보 설정
-            payment.setPaymentStatus(PaymentStatus.NOT_PAYMENT);  // 결제 상태 설정 (아직 완료되지 않았으므로)
+            payment.setPaymentStatus(PaymentStatus.NOT_PAYMENT);  // 결제 상태 설정
             paymentRepository.save(payment);  // 데이터베이스에 저장
         }
 
@@ -84,8 +84,8 @@ public class PaymentService {
         MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<>();
         parameters.add("cid", cid);
         parameters.add("tid", tid);
-        parameters.add("partner_order_id", "reservationId");
-        parameters.add("partner_user_id", "가맹점 회원 ID");
+        parameters.add("partner_order_id", "reservationId"); // 가맹점 예약 아이디
+        parameters.add("partner_user_id", "memberId"); // 가맹점 회원 아이디
         parameters.add("pg_token", pgToken);
 
         // 파라미터, 헤더
@@ -98,7 +98,7 @@ public class PaymentService {
                 KakaoApproveResponse.class);
 
         // Payment 를 찾고, 결제 완료 상태를 저장
-        Payment payment = paymentRepository.findByReservation(tid).orElse(null);
+        Payment payment = paymentRepository.findByTid(tid).orElse(null);
         if (payment != null) {
             Reservation reservation = payment.getReservation();
 
@@ -114,7 +114,7 @@ public class PaymentService {
         return approveResponse;
     }
 
-    // 카카오에서 요구하는 헤더값 생성 메소드
+    // 카카오페이 api 로 보낼 헤더값 생성
     private HttpHeaders getHeaders() {
         HttpHeaders headers = new HttpHeaders();
 
@@ -132,6 +132,6 @@ public class PaymentService {
     }
 
     private Payment getPayment(String tid) {
-        return paymentRepository.findByReservation(tid).orElse(null);
+        return paymentRepository.findByTid(tid).orElse(null);
     }
 }

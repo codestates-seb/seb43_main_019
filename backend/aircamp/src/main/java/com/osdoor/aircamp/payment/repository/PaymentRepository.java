@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
-    @Query("select c from Payment c " +
-            "left join fetch c.reservation " +
-            "where c.tid =:tid")
-    Optional<Payment> findByReservation(String tid);
+    // Tid 값으로 payment 객체를 찾는 메서드
+    Optional<Payment> findByTid(String tid);
 }
