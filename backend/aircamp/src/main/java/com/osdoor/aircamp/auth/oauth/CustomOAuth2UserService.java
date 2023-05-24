@@ -44,11 +44,14 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         Optional<Member> optionalMember = memberRepository.findByEmailAndProvider(auth2Attribute.getEmail(), auth2Attribute.getProvider());
 
         if(optionalMember.isPresent()) {
-            return optionalMember.orElseThrow();
+            Member member = optionalMember.orElseThrow();
+            if(member.getMemberStatus().getStatus().equals("탈퇴 상태")) {
+                throw new OAuth2AuthenticationException(new OAuth2Error("탈퇴한 회원"), auth2Attribute.getEmail());
+            }
         }
 
         if(memberRepository.existsByEmail(auth2Attribute.getEmail())) {
-            throw new OAuth2AuthenticationException(new OAuth2Error("member_exists"), auth2Attribute.getEmail());
+            throw new OAuth2AuthenticationException(new OAuth2Error("가입한 회원"), auth2Attribute.getEmail());
         }
 
         Member member = new Member();
