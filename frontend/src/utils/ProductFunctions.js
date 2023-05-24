@@ -29,11 +29,21 @@ export const handlePostCampground = async (campground, memberInfo) => {
 // 수정된 정보를 인자로 받습니다.
 // 성공 시 업데이트된 정보를 반환합니다.
 // 실패 시 null을 반환합니다.
-export const handleUpdateCampground = async (productId, updatedInfo) => {
+export const handleUpdateCampground = async (
+  productId,
+  updatedInfo,
+  memberInfo
+) => {
   try {
     const response = await axios.post(
       `${BACK}/api/products/${productId}`,
-      updatedInfo
+      updatedInfo,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: memberInfo.accessToken,
+        },
+      }
     );
     const { data } = response;
 

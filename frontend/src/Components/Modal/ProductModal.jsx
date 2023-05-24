@@ -9,7 +9,7 @@ import {
   handleUpdateCampground,
 } from "../../utils/ProductFunctions";
 import { useSelector } from "react-redux";
-import { validUser } from "../../utils/MemberFunctions";
+import { getMemberInfo } from "../../utils/MemberFunctions";
 import { toast } from "react-toastify";
 
 const CloseBtn = styled(AiFillCloseCircle)`
@@ -138,44 +138,46 @@ export default function ProductModal(props) {
 
   const handleImageChange = (event) => {
     const imageFile = event.target.files[0];
-
     setImage((prev) => imageFile);
     setImageUrl((prev) => URL.createObjectURL(imageFile));
   };
 
   const handleProductUpdate = async (data) => {
-    const myInfo = await validUser(userState.userInfo);
+    const myInfo = await getMemberInfo(userState.userInfo);
 
     if (myInfo === null) {
+      toast("토큰이 만료되었습니다.");
       navigate("/login");
+      return;
     }
 
     if (isUpdate) {
-      const { productName, capacity, productPrice } = data;
-
-      if ("이미지가_없는_경우".length === 0) {
-        alert("이미지를 등록해주세요.");
+      if (imageUrl === "") {
+        toast("사진을 등록해주세요.");
         return;
       }
 
-      const formData = new FormData();
-      formData.append("image", image);
+      const { productName, capacity, productPrice } = data;
 
       const updatedInfo = {
         productName,
-        capacity,
-        productPrice,
         address: campground.address,
+        location: campground.location,
         content: campground.content,
+        capacity,
         cancellationDeadline: campground.cancellationDeadline,
+        productPrice,
         productPhone: campground.productPhone,
-        imageUrl: campground.imageUrl,
-        // image: formData,
       };
+
+      const formData = new FormData();
+      formData.append("image", image);
+      formData.append("jsonData", JSON.stringify(updatedInfo));
 
       const result = await handleUpdateCampground(
         campground.productId,
-        updatedInfo
+        formData,
+        userState.userInfo
       );
 
       if (result) {
@@ -185,7 +187,10 @@ export default function ProductModal(props) {
         alert("수정을 실패했습니다.");
       }
     } else {
-      const success = await handleDeleteCampground(campground.productId);
+      const success = await handleDeleteCampground(
+        campground.productId,
+        userState.userInfo
+      );
 
       if (success === true) {
         alert("삭제가 완료되었습니다.");
@@ -201,16 +206,10 @@ export default function ProductModal(props) {
       <Wrapper>
         <CloseBtn onClick={closeModal} />
         <Infos>
-          <Img
-            bgphoto={
-              imageUrl === "http://~"
-                ? "https://yeyak.seoul.go.kr/cmsdata/web_upload/svc/20230329/1680050914280HZAYFX8GLLMTVZI2H6BD0WGPV_IM02.jpg"
-                : imageUrl
-            }
-          />
+          <Img bgphoto={imageUrl} />
           <ImageInput
             type="file"
-            accept=".png, .jpg, .jpeg"
+            accept="image/*"
             onChange={handleImageChange}
           />
           <Managements onSubmit={handleSubmit(handleProductUpdate)}>

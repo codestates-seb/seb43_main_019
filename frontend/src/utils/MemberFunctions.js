@@ -101,7 +101,7 @@ export const getAllMemberInfo = async (memberInfo) => {
 // 멤버 정보를 인자로 받습니다.
 // 성공 시 true를 반환합니다.
 // 실패 시 false를 반환합니다.
-export const handleUserWithdrawal = async (memberInfo) => {
+export const handleUserWithdrawal = async (memberId, memberInfo) => {
   try {
     await axios.delete(`${BACK}/api/members/${memberInfo.memberId}`, {
       headers: {
@@ -139,6 +139,8 @@ export const handleStartLogin = async (data) => {
 
     return userInfo;
   } catch (error) {
+    console.log(error);
+
     return null;
   }
 };
@@ -160,11 +162,6 @@ export const handleKakaoLogin = async (KAKAO_CODE) => {
     const validToken = authToken.slice(7);
 
     const decoded = JSON.parse(atob(validToken.split(".")[1]));
-
-    // const { memberId } = decoded;
-    // const { memberId } = decoded;
-
-    // const userInfo = await getMemberInfo(memberId);
 
     return decoded;
   } catch (error) {
@@ -215,19 +212,5 @@ export const updateSellerAccount = async (userInfo, registratonInfo) => {
   } catch (error) {
     console.log(error);
     return null;
-  }
-};
-
-// 현재 로그인이 유효한지 검사하는 함수입니다.
-// 멤버 정보를 인자로 받습니다.
-export const validUser = async (userInfo) => {
-  const result = await getMemberInfo(userInfo);
-
-  if (result === null) {
-    toast("토큰이 만료되었습니다.");
-
-    return null;
-  } else {
-    return result;
   }
 };

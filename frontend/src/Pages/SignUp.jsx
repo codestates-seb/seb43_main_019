@@ -10,8 +10,8 @@ import { getToday } from "../utils/functions";
 import { getEmailCode, handleJoin } from "../utils/MemberFunctions";
 import { checkValidPassword, checkValidPhone } from "../utils/functions";
 import { Line, Line2, Line3, Line4 } from "../Components/Common/Line";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -92,7 +92,7 @@ export default function SignUp() {
   };
 
   const handleStartJoin = async (data) => {
-    const { id, password, password2, name, phone, birthDate, email } = data;
+    const { password, password2, name, phone, birthDate, email } = data;
 
     // 비밀번호와 비밀번호 확인이 일치하지 않는 경우
     if (password !== password2) {
@@ -147,7 +147,6 @@ export default function SignUp() {
     }
   };
 
-  // 가장 먼저 로그인한 상태인지, 현재 날짜를 확인한다.
   useEffect(() => {
     if (userState.login) {
       navigate("/");
@@ -163,14 +162,15 @@ export default function SignUp() {
           <Logo src={"/img/add-user.png"} />
         </div>
         <Line>
-          <Label isDark={isDark} htmlFor="id">
-            ID
+          <Label isDark={isDark} htmlFor="email">
+            이메일
           </Label>
           <Input
+            id="email"
             isDark={isDark}
-            id="id"
-            placeholder="ID를 입력하세요."
-            {...register("id", { required: true })}
+            type="email"
+            placeholder="본인 확인을 위한 이메일을 입력하세요."
+            {...register("email", { required: true })}
           />
         </Line>
         <Line3>
@@ -187,10 +187,10 @@ export default function SignUp() {
         </Line3>
         <Line4>
           <Label03>비밀번호는 최소 8자리 이상이여야하며,</Label03>
-          </Line4>
-          <Line2>
+        </Line4>
+        <Line2>
           <Label02>대소문자,특수문자를 포함해주세요.</Label02>
-          </Line2>
+        </Line2>
         <Line>
           <Label isDark={isDark} htmlFor="password2">
             비밀번호 확인
@@ -236,18 +236,6 @@ export default function SignUp() {
             isDark={isDark}
             type="date"
             {...register("birthDate", { required: true })}
-          />
-        </Line>
-        <Line>
-          <Label isDark={isDark} htmlFor="email">
-            이메일
-          </Label>
-          <Input
-            id="email"
-            isDark={isDark}
-            type="email"
-            placeholder="본인 확인을 위한 이메일을 입력하세요."
-            {...register("email", { required: true })}
           />
         </Line>
         <CommonButton disabled={authRequired}>

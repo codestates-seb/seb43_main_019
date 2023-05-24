@@ -7,6 +7,7 @@ import Registration from "../Components/Sell/Registration";
 import ProductList from "../Components/Sell/ProductList";
 import Reservation from "../Components/Sell/Reservation";
 import Statistic from "../Components/Statistic";
+import { toast } from "react-toastify";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -38,6 +39,7 @@ export default function Sell() {
 
     // 만약 로그인한 상태가 아니라면 로그인 페이지로 이동
     if (userState.login === false || userState.userInfo === null) {
+      toast("로그인이 필요한 서비스입니다.");
       navigate("/login");
       return;
     }
@@ -45,7 +47,9 @@ export default function Sell() {
     // 만약 판매자가 아니라면 my page로 이동
 
     if (userState.userInfo.roles.indexOf("SELLER") === -1) {
-      // navigate("/mypage");
+      toast("판매자가 아닙니다.");
+      navigate("/mypage");
+      return;
     }
   }, [params]);
 

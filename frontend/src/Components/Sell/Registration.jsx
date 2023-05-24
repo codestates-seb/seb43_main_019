@@ -4,14 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { CommonButton } from "../Common/Button";
 import { Label } from "../Common/Label";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { handlePostCampground } from "../../utils/ProductFunctions";
-import axios from "axios";
-import { validCoordinate } from "../../utils/functions";
-import { getMemberInfo, validUser } from "../../utils/MemberFunctions";
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { handleLogout } from "../../Redux/Actions";
+import { useEffect } from "react";
 
 const Container = styled.div`
   margin: 100px 20px;
@@ -109,8 +106,6 @@ const StyledCommonButton = styled(CommonButton)`
 
 const StyledSellInput = styled(SellInput)``;
 
-const CoordinateInput = styled(SellInput)``;
-
 const Overlay = styled.div`
   width: 100vw;
   height: 100vh;
@@ -169,12 +164,7 @@ export default function Registration({ seller }) {
   const [imageUrl, setImageUrl] = useState("");
   const [selectImg, setSelectImg] = useState(false);
   const isDark = useSelector((state) => state.modeReducer);
-  const { register, handleSubmit, reset } = useForm({
-    defaultValues: {
-      latitude: "37.5",
-      longitude: "40.5",
-    },
-  });
+  const { register, handleSubmit, reset } = useForm();
 
   const navigate = useNavigate();
 
@@ -183,7 +173,7 @@ export default function Registration({ seller }) {
 
   const postProduct = async (data) => {
     if (imageUrl === "") {
-      alert("사진을 등록해주세요.");
+      toast("사진을 등록해주세요.");
       return;
     }
 
@@ -216,11 +206,11 @@ export default function Registration({ seller }) {
     const success = await handlePostCampground(formData, userState.userInfo);
 
     if (success) {
-      alert("등록에 성공했습니다.");
+      toast("등록에 성공했습니다.");
       reset();
       navigate("/");
     } else {
-      alert("등록에 실패했습니다.");
+      toast("등록에 실패했습니다.");
     }
   };
 
@@ -228,9 +218,6 @@ export default function Registration({ seller }) {
     const imgFile = event.target.files[0];
     setImage((prev) => imgFile);
     setImageUrl((prev) => URL.createObjectURL(imgFile));
-
-    // setImageUrl((prev) => imgUrl);
-    // setSelectImg(false);
   };
 
   return (
@@ -240,9 +227,6 @@ export default function Registration({ seller }) {
         <Form onSubmit={handleSubmit(postProduct)}>
           <ImageSpace>
             <Image bgphoto={imageUrl} />
-            {/*               <ImageInputButton onClick={() => setSelectImg(true)}>
-                이미지 선택
-              </ImageInputButton> */}
             <ImageInput
               type="file"
               accept="image/*"

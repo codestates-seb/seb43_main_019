@@ -8,9 +8,10 @@ import {
   handleDeleteCampground,
   handleUpdateCampground,
 } from "../../utils/ProductFunctions";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getMemberInfo, validUser } from "../../utils/MemberFunctions";
 import { toast } from "react-toastify";
+import { handleLogout } from "../../Redux/Actions";
 
 const CloseBtn = styled(AiFillCloseCircle)`
   width: 50px;
@@ -128,25 +129,20 @@ const ModalStyle = {
 
 export default function AdminProductModal(props) {
   const { isOpen, closeModal, campground } = props;
-  const { register, handleSubmit, setFocus, watch } = useForm();
+  const { register, handleSubmit } = useForm();
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(campground.imageUrl);
   const navigate = useNavigate();
 
   const userState = useSelector((state) => state.userReducer);
-
-  const handleImageChange = (event) => {
-    const imageFile = event.target.files[0];
-
-    setImage((prev) => imageFile);
-    setImageUrl((prev) => URL.createObjectURL(imageFile));
-  };
+  const dispatch = useDispatch();
 
   const handleProductUpdate = async (data) => {
     const myInfo = await getMemberInfo(userState.userInfo);
 
     if (myInfo === null) {
       toast("토큰이 만료되었습니다.");
+      dispatch(handleLogout());
       navigate("/login");
     }
 

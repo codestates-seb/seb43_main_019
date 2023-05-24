@@ -95,13 +95,7 @@ export default function Card({ campground, myInfo }) {
       <Container onClick={handleOpenModal}>
         <Inner className="inner">
           <Front isDark={isDark}>
-            <Img
-              bgphoto={
-                campground.imageUrl === "http://~"
-                  ? "https://yeyak.seoul.go.kr/cmsdata/web_upload/svc/20230329/1680050914280HZAYFX8GLLMTVZI2H6BD0WGPV_IM02.jpg"
-                  : campground.imageUrl
-              }
-            />
+            <Img bgphoto={campground.imageUrl} />
             <Infos>
               <Info>{`이름: ${campground.productName}`}</Info>
               <Info>{`위치: ${campground.location}`}</Info>
