@@ -27,7 +27,7 @@ public class PaymentService {
     @Value("${kakaoPay.adminKey}") // 임시 어드민 키
     private String admin_key;
 
-    @Value("{kakaoPay.host}")
+    @Value("${kakaoPay.host}")
     private String host;
 
     @Value("${customPath.redirectUrl}")
