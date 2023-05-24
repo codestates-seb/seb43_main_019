@@ -4,6 +4,7 @@ import com.osdoor.aircamp.payment.dto.KakaoApproveResponse;
 import com.osdoor.aircamp.payment.dto.KakaoReadyResponse;
 import com.osdoor.aircamp.payment.entity.Payment;
 import com.osdoor.aircamp.payment.repository.PaymentRepository;
+import com.osdoor.aircamp.reservation.entity.PaymentStatus;
 import com.osdoor.aircamp.reservation.entity.Reservation;
 import com.osdoor.aircamp.reservation.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,16 +21,16 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 @Transactional
 public class PaymentService {
-    @Value("TC0ONETIME") // 테스트용 임시 가맹점 코드
+    @Value("${kakaoPay.cid}") // 테스트용 임시 가맹점 코드
     private String cid;
 
-    @Value("5354945e7fb218d6086a2afb5225250c") // 임시 어드민 키
+    @Value("${kakaoPay.adminKey}") // 임시 어드민 키
     private String admin_key;
 
-    @Value("https://kapi.kakao.com/v1/payment")
+    @Value("${kakaoPay.host}")
     private String host;
 
-    @Value("http://aircamp-codestates-019.s3-website.ap-northeast-2.amazonaws.com")
+    @Value("${customPath.redirectUrl}")
     private String redirectUrl;
 
     private KakaoReadyResponse kakaoReady;
@@ -64,6 +65,16 @@ public class PaymentService {
                 requestEntity,
                 KakaoReadyResponse.class);
 
+        // 새로운 Payment 객체를 생성하고 저장
+        Reservation reservation = reservationRepository.findById(reservationId).orElse(null);
+        if (reservation != null) {
+            Payment payment = new Payment();
+            payment.setTid(kakaoReady.getTid());  // TID 설정
+            payment.setReservation(reservation);  // 예약 정보 설정
+            payment.setPaymentStatus(PaymentStatus.NOT_PAYMENT);  // 결제 상태 설정 (아직 완료되지 않았으므로)
+            paymentRepository.save(payment);  // 데이터베이스에 저장
+        }
+
         return kakaoReady;
     }
 
@@ -85,6 +96,20 @@ public class PaymentService {
                 host+"/approve",
                 requestEntity,
                 KakaoApproveResponse.class);
+
+        // Payment 를 찾고, 결제 완료 상태를 저장
+        Payment payment = paymentRepository.findByReservation(tid).orElse(null);
+        if (payment != null) {
+            Reservation reservation = payment.getReservation();
+
+            // 결제 완료 상태를 저장
+            payment.setPaymentStatus(PaymentStatus.COMPLETED);
+            paymentRepository.save(payment);
+
+            // Reservation 에도 결제 정보를 업데이트
+            reservation.setPayment(payment);
+            reservationRepository.save(reservation);
+        }
 
         return approveResponse;
     }
