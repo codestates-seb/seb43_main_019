@@ -182,6 +182,7 @@ function MyModal(props) {
   const handleUpdate = async () => {
     if (checkValidPassword(password) === false) {
       toast("비밀번호가 양식과 맞지 않습니다.");
+      toast("비밀번호가 양식과 맞지 않습니다.");
       return;
     }
 
@@ -209,8 +210,7 @@ function MyModal(props) {
     const success = await handleUserWithdrawal(userInfo.memberId, userInfo);
 
     if (success) {
-      toast("탈퇴가 완료되었습니다.");
-      dispatch(handleLogout());
+      alert("탈퇴가 완료되었습니다.");
       navigate("/");
       return;
     } else {

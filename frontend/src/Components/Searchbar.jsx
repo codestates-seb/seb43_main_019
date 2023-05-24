@@ -8,6 +8,11 @@ const InputSpace = styled.div`
   align-items: center;
   justify-content: center; /* 중앙 정렬을 위한 코드 */
 
+  @media screen and (max-width: 868px) {
+    margin-left: 200px;
+
+  }  
+
 `;
 
 const InputWrapper = styled.div`
@@ -41,10 +46,11 @@ const Input = styled.input`
   background-color: var(--white);
   color: var(--black);
 
-  @media screen and (max-width: 900px) {
+  @media screen and (max-width: 768px) {
     width: 300px;
 
-  }  @media screen and (max-width: 400px) {
+  }  
+  @media screen and (max-width: 400px) {
     width: 200px;
     margin-left: 170px;
   }

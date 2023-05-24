@@ -8,13 +8,10 @@ const ImageWrapper = styled.div`
   width: 500px;
   height: 500px;
   border-radius: 30px;
-  transition: width 0.5s, height 0.5s;
 
-  @media (max-width: 400px) {
-    width: 300px;
-    height: auto;
-    padding-bottom: 100%;
-    max-width: 500px;
+  @media screen and (max-width: 400px) {
+    border-radius: 20px;
+
   }
 `;
 

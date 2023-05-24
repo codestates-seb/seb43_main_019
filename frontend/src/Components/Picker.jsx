@@ -9,10 +9,12 @@ const Container = styled.div`
 `;
 
 const Input = styled.input`
-  margin-left: 150px;
-  margin-top: 30px;
-  width: 180px;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 300px;
   height: 48px;
+  margin-left: 100px;
   font-size: 16px;
   padding: 15px 20px;
   background-color: #fff;
@@ -33,6 +35,14 @@ const Input = styled.input`
   &::placeholder {
     color: #999;
   }
+
+  @media screen and (max-width: 868px) {
+    margin-left: 0px;
+  }
+
+  @media screen and (max-width: 400px) {
+    margin-left: 0px;
+  }
 `;
 
 const CustomDatePicker = styled(DatePicker)``;
@@ -52,7 +62,7 @@ function Picker({ startDate, setStartDate }) {
     <Container>
       <Input
         type="text"
-        placeholder="날짜를 선택하세요"
+        placeholder="날짜를 선택하세요."
         onClick={handleInputClick}
         value={startDate ? startDate.toLocaleDateString() : ""}
         readOnly
