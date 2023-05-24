@@ -48,6 +48,8 @@ dependencies {
 
     implementation 'net.jodah:expiringmap:0.5.9' // 카카오페이 서비스에서 사용
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client' // oauth2 적용
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.470'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.2'
 }
 
 tasks.named('test') {

@@ -7,6 +7,7 @@ import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.member.service.MemberService;
 import com.osdoor.aircamp.product.entity.Product;
 import com.osdoor.aircamp.product.service.ProductService;
+import com.osdoor.aircamp.reservation.dto.ReservationDto;
 import com.osdoor.aircamp.reservation.dto.ReservationPostDto;
 import com.osdoor.aircamp.reservation.mapper.ReservationMapper;
 import com.osdoor.aircamp.reservation.entity.Reservation;
@@ -18,7 +19,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -130,6 +133,14 @@ public class ReservationService {
             throw new BusinessLogicException(ExceptionCode.CAN_NOT_PAY);
         }
         return reservation;
+    }
+
+    public List<ReservationDto> getReservationsByMemberId(Long memberId) {
+        List<Reservation> reservations = reservationRepository.findAll();
+        return reservations.stream()
+                .filter(reservation -> reservation.getMember().getMemberId().equals(memberId))
+                .map(ReservationDto::fromEntity)
+                .collect(Collectors.toList());
     }
 }
 
