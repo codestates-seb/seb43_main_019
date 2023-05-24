@@ -1,9 +1,7 @@
+import React from "react";
 import styled from "@emotion/styled";
-import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import KakaoPayButton from "../Components/Payment/KakaoPayBtn";
-import { postPaymentData } from "../utils/ProductFunctions";
-import { useSelector } from "react-redux";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -62,41 +60,15 @@ const Text2 = styled.div`
   cursor: pointer;
 `;
 
-const PayPage = () => {
-  const [redirectUrl, setRedirectUrl] = useState("");
+const PayFailPage = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { reservationId, productPrice } = location.state || {};
-  const userState = useSelector((state) => state.userReducer);
-
-  const handleSubmitPayment = async (event) => {
-    event.preventDefault();
-    try {
-      console.log("handleSubmitPayment시작!!");
-      const paymentData = {
-        reservation_id: reservationId.reservationId,
-        actual_payment_amount: productPrice,
-      };
-
-      const response = await postPaymentData(
-        paymentData,
-        reservationId.reservationId,
-        userState.userInfo
-      );
-
-      setRedirectUrl(response.next_redirect_pc_url);
-      window.open(response.next_redirect_pc_url); // 새 창을 열기 위해 redirectUrl을 사용하여 페이지 열기
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <Wrapper>
-      <Form onSubmit={handleSubmitPayment}>
+      <Form onSubmit={() => navigate("/")}>
         <Logo src={"/img/Logo_Light.png"} />
-        <Title>지금 당장 캠핑을 떠나보세요.⛺</Title>
-        <KakaoPayButton isAgreed={true}>카카오페이로 결제하기</KakaoPayButton>
+        <Title>결제에 실패하였습니다.</Title>
+        <KakaoPayButton isAgreed={true}>홈으로 돌아가기</KakaoPayButton>
       </Form>
       <Text>판매등록을 원하신다면 아래 링크를 눌러주세요</Text>
       <Text2 onClick={() => navigate("/sell")}>판매 등록하러 가기↪️</Text2>
@@ -104,4 +76,4 @@ const PayPage = () => {
   );
 };
 
-export default PayPage;
+export default PayFailPage;

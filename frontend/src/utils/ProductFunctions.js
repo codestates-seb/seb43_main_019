@@ -105,13 +105,21 @@ export const handleDeleteCampground = async (productId, memberInfo) => {
 };
 
 // 카카오페이 post
-export const postPaymentData = async (data) => {
+export const postPaymentData = async (data, reservationId, memberInfo) => {
   try {
-    const response = await axios.post(`${BACK}/api/payment`, data);
-
+    const response = await axios.post(
+      `${BACK}/api/payments/ready?reservation_id=${reservationId}`,
+      data,
+      {
+        headers: {
+          Authorization: memberInfo.accessToken,
+        },
+      }
+    );
+    console.log(response.data);
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 };
 
@@ -124,8 +132,7 @@ export const postReservationsData = async (data, memberInfo) => {
       },
     });
     console.log(response.data);
-    // const { reservation_id } = response.data;
-    // return reservation_id;
+    return response.data;
   } catch (error) {
     console.error(error);
   }

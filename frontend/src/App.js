@@ -26,6 +26,9 @@ import Test from "./Pages/Test";
 import SelectPay from "./Pages/SelectPay";
 import { getMemberInfo } from "./utils/MemberFunctions";
 import { toast } from "react-toastify";
+import PaySuccessPage from "./Pages/PaySuccessPage";
+import PayCancelPage from "./Pages/PayCancelPage";
+import PayFailPage from "./Pages/PayFailPage";
 
 // 모든 요청에 withCredentials가 true로 설정됩니다.
 axios.defaults.withCredentials = true;
@@ -85,9 +88,12 @@ function App() {
           <Route path="/payment" element={<Payment />} />
           <Route path={"/oauth2/*"} element={<KakaoLogin />} />
           <Route path="/Pay" element={<SelectPay />} />
-          <Route path="/Pay" element={<SelectPay />} />
+
           <Route path="/:id" element={<Detail />} />
           <Route path="/404" element={<NotFound />} />
+          <Route path="/api/payments/success" element={<PaySuccessPage />} />
+          <Route path="/api/payments/cancel" element={<PayCancelPage />} />
+          <Route path="/api/payments/fail" element={<PayFailPage />} />
           <Route path="/" element={<Main searchResults={searchResults} />} />
         </Routes>
       </Container>

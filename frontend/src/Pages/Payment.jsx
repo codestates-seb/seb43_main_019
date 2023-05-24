@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
 import { postReservationsData } from "../utils/ProductFunctions";
 import { formatPrice } from "../utils/functions";
+
 const Container = styled.div`
   width: 100%;
   display: flex;
@@ -174,6 +175,7 @@ const PaymentPage = () => {
   const { register, handleSubmit, watch } = useForm();
   const [isAgreed, setIsAgreed] = useState(false);
   const [reservationId, setReservationId] = useState(null);
+  const [productPrice, setProductPrice] = useState(null);
 
   useEffect(() => {
     setIsVisible(true);
@@ -192,12 +194,8 @@ const PaymentPage = () => {
 
   // 예약 정보 등록
   const handlePaymentSubmit = async () => {
-    // navigate("/Pay", {
-    //   state: { reservationId, productPrice: data.productPrice },
-    // });
-
     const reservationData = {
-      memberId: data.memberId,
+      memberId: userState.userInfo.memberId,
       productId: data.productId,
       reservationDate: startDate,
       reservationName: watch("text"),
@@ -213,18 +211,18 @@ const PaymentPage = () => {
         userState.userInfo
       );
       setIsAgreed(true);
-      setReservationId(response.reservation_id);
+      setReservationId(response);
+      setProductPrice(data.productPrice);
+
+      navigate("/Pay", {
+        state: { reservationId: response, productPrice: data.productPrice },
+      });
     } catch (error) {
       setIsAgreed(false);
       console.error("예약 정보 등록 실패:", error);
     }
-
-    /*
-    navigate("/Pay", {
-      state: { reservationId, productPrice: data.productPrice },
-    });
-    */
   };
+
   return (
     <Container>
       <Form onSubmit={handleSubmit(handlePaymentSubmit)}>
@@ -286,7 +284,9 @@ const PaymentPage = () => {
             </AgreementContainer>
           </OrderInfoContainer>
           <PaymentButtonContainer>
-            <button isAgreed={isAgreed}>결제하기</button>
+            <KakaoPayButton type="submit" isAgreed={isAgreed}>
+              결제하기
+            </KakaoPayButton>
           </PaymentButtonContainer>
         </PaymentContainer>
       </Form>

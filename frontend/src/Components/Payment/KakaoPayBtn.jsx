@@ -12,15 +12,9 @@ const StyledButton = styled.button`
   opacity: ${(props) => (props.disabled ? 0.6 : 1)};
 `;
 
-const KakaoPayButton = ({ onClick, isAgreed, children }) => {
-  const handleClick = () => {
-    if (isAgreed) {
-      onClick();
-    }
-  };
-
+const KakaoPayButton = ({ isAgreed, children }) => {
   return (
-    <StyledButton onClick={handleClick} disabled={!isAgreed}>
+    <StyledButton type="submit" disabled={!isAgreed}>
       {children}
     </StyledButton>
   );
