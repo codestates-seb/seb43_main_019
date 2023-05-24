@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { SellInput } from "../Common/Input";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { CommonButton } from "../Common/Button";
 import { Label } from "../Common/Label";
@@ -8,8 +8,10 @@ import { useEffect, useState } from "react";
 import { handlePostCampground } from "../../utils/ProductFunctions";
 import axios from "axios";
 import { validCoordinate } from "../../utils/functions";
-import { getMemberInfo } from "../../utils/MemberFunctions";
+import { getMemberInfo, validUser } from "../../utils/MemberFunctions";
 import { json, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { handleLogout } from "../../Redux/Actions";
 
 const Container = styled.div`
   margin: 100px 20px;
@@ -88,7 +90,6 @@ const SmallInput = styled.div`
   }
 
   & input {
-    height: 100%;
     width: 70%;
 
     @media (min-width: 320px) and (max-width: 480px) {
@@ -167,7 +168,6 @@ export default function Registration({ seller }) {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [selectImg, setSelectImg] = useState(false);
-  const [myInfo, setMyInfo] = useState(null);
   const isDark = useSelector((state) => state.modeReducer);
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -179,6 +179,7 @@ export default function Registration({ seller }) {
   const navigate = useNavigate();
 
   const userState = useSelector((state) => state.userReducer);
+  const dispatch = useDispatch();
 
   const postProduct = async (data) => {
     if (imageUrl === "") {
@@ -205,21 +206,14 @@ export default function Registration({ seller }) {
       cancellationDeadline: cancellationDeadline,
       productPrice,
       productPhone: "010-1111-1111",
-      memberId: 17,
+      memberId: 1,
     };
 
-    const imagesFormData = new FormData();
-    imagesFormData.append("images", image);
+    const formData = new FormData();
+    formData.append("images", image);
+    formData.append("jsonData", JSON.stringify(jsonData));
 
-    const jsonFormData = new FormData();
-    jsonFormData.append("jsonData", jsonData);
-
-    const newProduct = {
-      images: imagesFormData,
-      jsonData: jsonFormData,
-    };
-
-    const success = await handlePostCampground(newProduct, userState.userInfo);
+    const success = await handlePostCampground(formData, userState.userInfo);
 
     if (success) {
       alert("등록에 성공했습니다.");
@@ -239,13 +233,6 @@ export default function Registration({ seller }) {
     // setSelectImg(false);
   };
 
-  useEffect(() => {
-    (async () => {
-      const result = await getMemberInfo(userState.userInfo);
-      setMyInfo((prev) => result);
-    })();
-  }, []);
-
   return (
     <>
       <Container>
@@ -258,7 +245,7 @@ export default function Registration({ seller }) {
               </ImageInputButton> */}
             <ImageInput
               type="file"
-              accept=".png, .jpg, .jpeg"
+              accept="image/*"
               onChange={handleImageChange}
             />
           </ImageSpace>

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import KakaoPayButton from "../Components/Payment/KakaoPayBtn";
 import { postPaymentData } from "../utils/ProductFunctions";
 import { useEffect } from "react";
@@ -62,36 +62,35 @@ const Text2 = styled.div`
   cursor: pointer;
 `;
 
-const PayPage = (props) => {
-  // const [redirectUrl, setRedirectUrl] = useState("");
+const PayPage = () => {
+  const [redirectUrl, setRedirectUrl] = useState("");
   const navigate = useNavigate();
-  /*
-  const { reservationId, productPrice } = props.location.state || {};
+  const location = useLocation();
+  const { reservationId, productPrice } = location.state || {};
+  console.log(reservationId);
+  console.log(productPrice);
 
-  // const handleSubmitPayment = async () => {
-  //   try {
-  //     const paymentData = {
-  //       reservation_id: reservationId,
-  //       actual_payment_amount: productPrice,
-  //     };
-
+  const handleSubmitPayment = async (event) => {
+    event.preventDefault();
+    try {
+      console.log("handleSubmitPayment시작!!");
+      const paymentData = {
+        reservation_id: reservationId,
+        actual_payment_amount: productPrice,
+      };
+      console.log(paymentData);
       const response = await postPaymentData(paymentData);
-      setRedirectUrl(response.next_redirect_pc_url);
-      window.open(response.next_redirect_pc_url); // 새 창을 열기 위해 redirectUrl을 사용하여 페이지 열기
+      console.log(`response =${response}`);
+      // setRedirectUrl(response.next_redirect_pc_url);
+      // window.open(response.next_redirect_pc_url); // 새 창을 열기 위해 redirectUrl을 사용하여 페이지 열기
     } catch (error) {
       console.log(error);
     }
   };
-  */
-
-  useEffect(() => {
-    console.log("SelectPay 시작");
-    console.log(props);
-  }, []);
 
   return (
     <Wrapper>
-      <Form>
+      <Form onSubmit={handleSubmitPayment}>
         <Logo src={"/img/Logo_Light.png"} />
         <Title>지금 당장 캠핑을 떠나보세요.⛺</Title>
         <KakaoPayButton isAgreed={true}>카카오페이로 결제하기</KakaoPayButton>
@@ -103,5 +102,3 @@ const PayPage = (props) => {
 };
 
 export default PayPage;
-
-/*onClick={handleSubmitPayment}*/

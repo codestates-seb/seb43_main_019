@@ -11,12 +11,9 @@ export const handlePostCampground = async (campground, memberInfo) => {
     // images라는 이름의 FormData // key: images, value: 실제 이미지
     // jsonData라는 이름의 FormData // key: 나머지 원래 있어야 하는 키들, value: 나머지 원래 있어야 하는 값들
 
-    console.log(campground.images.get("images"));
-    console.log(campground.jsonData.get("jsonData"));
-    console.log(memberInfo);
-
     await axios.post(`${BACK}/api/products`, campground, {
       headers: {
+        "Content-Type": "multipart/form-data",
         Authorization: memberInfo.accessToken,
       },
     });
@@ -83,9 +80,13 @@ export const getAllCampgroundsInfo = async (page, size) => {
 // 캠핑장 아이디를 인자로 받습니다.
 // 성공 시 true를 반환합니다.
 // 실패 시 false를 반환합니다.
-export const handleDeleteCampground = async (productId) => {
+export const handleDeleteCampground = async (productId, memberInfo) => {
   try {
-    await axios.delete(`${BACK}/api/products/${productId}`);
+    await axios.delete(`${BACK}/api/products/${productId}`, {
+      headers: {
+        Authorization: memberInfo.accessToken,
+      },
+    });
 
     return true;
   } catch (error) {
@@ -97,7 +98,7 @@ export const handleDeleteCampground = async (productId) => {
 export const postPaymentData = async (data) => {
   try {
     const response = await axios.post(`${BACK}/api/payment`, data);
-    console.log(response.data);
+
     return response.data;
   } catch (error) {
     console.error(error);
@@ -107,10 +108,6 @@ export const postPaymentData = async (data) => {
 // 새로운 예약 등록
 export const postReservationsData = async (data, memberInfo) => {
   try {
-    console.log("Post Reservation Data");
-    console.log(data);
-    console.log(memberInfo);
-
     const response = await axios.post(`${BACK}/api/reservations`, data, {
       headers: {
         Authorization: memberInfo.accessToken,
@@ -121,5 +118,22 @@ export const postReservationsData = async (data, memberInfo) => {
     // return reservation_id;
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const getMemberReservations = async (memberInfo) => {
+  try {
+    const response = await axios.get(
+      `${BACK}/api/reservations/member/${memberInfo.memberId}`,
+      {
+        headers: {
+          Authorization: memberInfo.accessToken,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return null;
   }
 };

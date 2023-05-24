@@ -175,8 +175,6 @@ function MyModal(props) {
         registratonInfo
       );
 
-      console.log(result);
-
       if (result) {
         alert("판매자 등록에 성공했습니다!");
         navigate("/mypage");
@@ -188,8 +186,6 @@ function MyModal(props) {
         userState.userInfo,
         registratonInfo
       );
-
-      console.log(result);
 
       if (result) {
         alert("판매자 등록에 성공했습니다!");

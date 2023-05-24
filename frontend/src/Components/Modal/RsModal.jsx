@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { useState, useEffect } from "react";
 import {
+  getMemberReservations,
   handleDeleteCampground,
   handleUpdateCampground,
 } from "../../utils/ProductFunctions";
@@ -137,11 +138,14 @@ function MyModal(props) {
     (async () => {
       setIsLoading((prev) => true);
 
-      const allCampgrounds = await getAllCampgroundsInfo(1, 10000);
-      const reservations = allCampgrounds.filter(
-        (campground) => campground.memberId === userInfo.memberId
-      );
-      setCampgrounds((prev) => [...reservations]);
+      const allCampgrounds = await getMemberReservations(userInfo);
+
+      if (allCampgrounds) {
+        const reservations = allCampgrounds.filter(
+          (campground) => campground.memberId === userInfo.memberId
+        );
+        setCampgrounds((prev) => [...reservations]);
+      }
 
       setIsLoading((prev) => false);
     })();

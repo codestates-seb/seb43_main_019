@@ -215,8 +215,6 @@ export default function Review({ review, userId }) {
       score: updatedScore,
     };
 
-    console.log(updatedReview);
-
     const result = await handleUpdateReview(review.reviewId, updatedReview);
 
     if (result) {

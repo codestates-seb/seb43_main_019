@@ -2,7 +2,7 @@ import styled from "styled-components";
 import axios from "axios";
 import Header from "./Components/Header";
 import ModeBtn from "./Components/ModeBtn";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Main from "./Pages/Main";
 import SignUp from "./Pages/SignUp";
@@ -67,8 +67,9 @@ function App() {
           <Route path="/payment" element={<Payment />} />
           <Route path={"/oauth2/*"} element={<KakaoLogin />} />
           <Route path="/Pay" element={<SelectPay />} />
-          <Route path="/:id" element={<Detail />} />
           <Route path="/Pay" element={<SelectPay />} />
+          <Route path="/:id" element={<Detail />} />
+          <Route path="/404" element={<NotFound />} />
           <Route path="/" element={<Main searchResults={searchResults} />} />
         </Routes>
       </Container>
