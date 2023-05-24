@@ -82,7 +82,7 @@ export default function User({ user }) {
   return (
     <>
       <Container>
-        <IconSpace left={"10px"}>
+        <IconSpace left={"30px"}>
           <FcBusinessman size={"50px"} />
         </IconSpace>
         <Infos>

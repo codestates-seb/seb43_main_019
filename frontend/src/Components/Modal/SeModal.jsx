@@ -11,6 +11,7 @@ import { validBusinessDate, validBusinessNumber } from "../../utils/functions";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 Modal.setAppElement("#root");
 
@@ -169,6 +170,11 @@ function MyModal(props) {
 
     if (isUpdate) {
       // 만약 판매자 계정이 아니라면 수정 자체를 못하게
+      if (userState.userInfo.roles.includes("SELLER") === false) {
+        toast("판매자가 아닙니다.");
+        navigate("/mypage");
+        return;
+      }
 
       const result = await updateSellerAccount(
         userState.userInfo,
@@ -176,12 +182,18 @@ function MyModal(props) {
       );
 
       if (result) {
-        alert("판매자 등록에 성공했습니다!");
+        alert("판매자 정보 업데이트에 성공했습니다!");
         navigate("/mypage");
       } else {
-        alert("판매자 등록에 실패했습니다!");
+        alert("판매자 정보 업데이트가 실패했습니다!");
       }
     } else {
+      if (userState.userInfo.roles.includes("SELLER") === true) {
+        toast("이미 판매자 등록이 된 계정입니다.");
+        navigate("/mypage");
+        return;
+      }
+
       const result = await registerSellerAccount(
         userState.userInfo,
         registratonInfo
@@ -229,8 +241,12 @@ function MyModal(props) {
             />
           </div>
           <div className="input-container">
-            <Button onClick={() => setIsUpdate(false)}>제출하기</Button>
-            <Button onClick={() => setIsUpdate(true)}>수정하기</Button>
+            {userState.userInfo.roles.includes("SELLER") === false && (
+              <Button onClick={() => setIsUpdate(false)}>제출하기</Button>
+            )}
+            {userState.userInfo.roles.includes("SELLER") === true && (
+              <Button onClick={() => setIsUpdate(true)}>수정하기</Button>
+            )}
           </div>
         </ModalView>
       </ModalBackdrop>

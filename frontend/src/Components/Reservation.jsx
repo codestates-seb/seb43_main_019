@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import { useEffect } from "react";
+import { formatPrice } from "../utils/functions";
 
 const Container = styled.div`
   width: 80%;
@@ -53,6 +55,9 @@ const Info = styled.h4`
 `;
 
 export default function Reservation({ campground }) {
+  useEffect(() => {
+    console.log(campground);
+  }, []);
   return (
     <Container>
       <Img
@@ -64,20 +69,16 @@ export default function Reservation({ campground }) {
       />
       <Managements>
         <InputLine>
-          <Label>캠핑장 이름</Label>
-          <Info>{campground.productName}</Info>
+          <Info>{campground.reservationName}</Info>
         </InputLine>
         <InputLine>
-          <Label>캠핑장 주소</Label>
-          <Info>{campground.address}</Info>
+          <Info>{campground.reservationPhone}</Info>
         </InputLine>
         <InputLine>
-          <Label>캠핑장 전화번호</Label>
-          <Info>{campground.productPhone}</Info>
+          <Info>{campground.reservationDate}</Info>
         </InputLine>
         <InputLine>
-          <Label>캠핑장 가격</Label>
-          <Info>{campground.productPrice}</Info>
+          <Info>{formatPrice(campground.actualPaymentAmount)}</Info>
         </InputLine>
       </Managements>
     </Container>

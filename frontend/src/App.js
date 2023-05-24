@@ -24,6 +24,8 @@ import ComponentExamples from "./Pages/ComponentExamples";
 import NotFound from "./Pages/NotFound";
 import Test from "./Pages/Test";
 import SelectPay from "./Pages/SelectPay";
+import { getMemberInfo } from "./utils/MemberFunctions";
+import { toast } from "react-toastify";
 
 // 모든 요청에 withCredentials가 true로 설정됩니다.
 axios.defaults.withCredentials = true;
@@ -51,6 +53,21 @@ function App() {
   const isDark = useSelector((state) => state.modeReducer);
   const dispatch = useDispatch();
   const [searchResults, setSearchResults] = useState([]);
+  const userState = useSelector((state) => state.userReducer);
+
+  useEffect(() => {
+    (async () => {
+      if (userState.login) {
+        const myInfo = await getMemberInfo(userState.userInfo);
+
+        if (myInfo === null) {
+          toast("토큰이 만료되었습니다.");
+          dispatch(handleLogout());
+          return;
+        }
+      }
+    })();
+  }, []);
 
   return (
     <Wrapper>
@@ -58,7 +75,6 @@ function App() {
       <Container isDark={isDark}>
         <Routes>
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/account-search" element={<AccountSearch />} />
           <Route path="/login" element={<Login />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path={"/sell/*"} element={<Sell />} />

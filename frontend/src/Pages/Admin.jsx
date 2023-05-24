@@ -6,6 +6,7 @@ import TotalStatistics from "../Components/Admin/TotalStatistics";
 import UserManagement from "../Components/Admin/UserManagement";
 import ProductManagement from "../Components/Admin/ProductManagement";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -52,8 +53,6 @@ export default function Admin() {
   };
 
   useEffect(() => {
-    // 만약 관리자가 아니라면 메인으로 돌려보냄
-
     if (userState.login === false) {
       navigate("/404");
       return;
@@ -83,7 +82,6 @@ export default function Admin() {
       <Container>
         <Title>{menuToTitle(selected)}</Title>
         {selected === "" && <Menus handleMenuClick={handleMenuClick} />}
-        {selected === "total-statistics" && <TotalStatistics />}
         {selected === "user-management" && <UserManagement />}
         {selected === "product-management" && <ProductManagement />}
       </Container>

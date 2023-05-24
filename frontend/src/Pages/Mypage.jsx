@@ -136,7 +136,9 @@ export default function Mypage() {
   useEffect(() => {
     (async () => {
       if (userState.login === false) {
+        toast("로그인이 되지 않았습니다.");
         navigate("/login");
+        return;
       }
 
       setIsLoading((prev) => true);
@@ -144,9 +146,10 @@ export default function Mypage() {
       const data = await getMemberInfo(userState.userInfo);
 
       if (data === null) {
-        dispatch(handleLogout());
         toast("토큰이 만료되었습니다.");
+        dispatch(handleLogout());
         navigate("/login");
+        return;
       }
 
       setMyInfo((prev) => data);
