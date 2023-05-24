@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { dummyCampgrounds } from "../../Dummy/DummyDatas";
 import Campground from "../Campground";
 import Card from "../Card";
 import { useState } from "react";

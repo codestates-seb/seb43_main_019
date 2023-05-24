@@ -125,6 +125,7 @@ export const handleStartLogin = async (data) => {
   const loginInfo = { email, password };
 
   try {
+    console.log(loginInfo);
     const response = await axios.post(`${BACK}/api/login`, loginInfo);
 
     const data = response.headers;

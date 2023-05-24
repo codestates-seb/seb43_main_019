@@ -52,9 +52,15 @@ export const handleUpdateReservation = async (updated) => {
 // 예약 id를 인자로 받습니다.
 // 성공 시 true를 반환합니다.
 // 실패 시 false를 반환합니다.
-export const handleCancelReservation = async (reservationId) => {
+export const handleCancelReservation = async (reservationId, memberInfo) => {
   try {
-    await axios.delete(`${BACK}${RES}/${reservationId}`);
+    console.log(reservationId);
+    console.log(memberInfo);
+    await axios.delete(`${BACK}${RES}/${reservationId}`, {
+      headers: {
+        Authorization: memberInfo.accessToken,
+      },
+    });
     return true;
   } catch (error) {
     return false;
