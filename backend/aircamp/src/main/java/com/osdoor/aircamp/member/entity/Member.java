@@ -79,7 +79,7 @@ public class Member {
     private List<Review> reviews = new ArrayList<>();  // 유져가 작성한 리뷰들.
 
     @Column(name = "EMAIL_VERIFIED")
-    private boolean isEmailVerified;
+    private boolean emailVerified;
 
     @Column
     private boolean sellerVerified;
