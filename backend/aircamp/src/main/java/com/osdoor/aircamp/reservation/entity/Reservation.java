@@ -42,7 +42,7 @@ public class Reservation extends Auditable {
     private LocalDate paymentDate; // 결제일
 
     @Enumerated(EnumType.STRING)
-    private ReservationStatus reservationStatus = ReservationStatus.RESERVATION_REQUEST;
+    private ReservationStatus reservationStatus = ReservationStatus.RESERVATION_IN_PROGRESS;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

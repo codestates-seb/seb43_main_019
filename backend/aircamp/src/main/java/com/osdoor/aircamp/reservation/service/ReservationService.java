@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -57,6 +58,23 @@ public class ReservationService {
         return savedReservation;
     }
 
+    // 중복된 예약이 있는지 확인하는 메서드
+    public boolean isDuplicateReservation(ReservationPostDto reservationPostDto) {
+        // 중복 예약으로 간주되는 ReservationStatus 리스트
+        List<ReservationStatus> statusList = Arrays.asList(
+                // 예약이 진행중이거나 완료되었다면, 중복 예약의 첫 번째 조건으로 간주함
+                ReservationStatus.RESERVATION_IN_PROGRESS,
+                ReservationStatus.RESERVATION_COMPLETE);
+
+        // productId, reservationDate 가 일치하며 예약이 진행중이거나 완료되었다면, Optional 객체에 담음
+        Optional<Reservation> reservationOptional =
+                reservationRepository.findByProductIdAndReservationDateAndReservationStatusIn(
+                        reservationPostDto.getProductId(), reservationPostDto.getReservationDate(), statusList);
+
+        // reservationOptional 객체의 값이 존재하면 중복 예약으로 간주함
+        return reservationOptional.isPresent();
+    }
+
     public Reservation updateReservation(Reservation reservation) {
         Reservation findReservation = findVerifiedReservation(reservation.getReservationId());
         authorizationUtils.verifyAuthorizedMember(findReservation.getMember().getEmail());
@@ -84,8 +102,8 @@ public class ReservationService {
 
         int step = findReservation.getReservationStatus().getStepNumber();
 
-        // ReservationStatus의 step이 4인 경우(RESERVATION_CANCEL)에는 예약 취소가 되지 않도록한다.
-        if (step == 4) {
+        // ReservationStatus의 step이 3인 경우(RESERVATION_CANCEL)에는 예약 취소가 되지 않도록한다.
+        if (step == 3) {
             throw new BusinessLogicException(ExceptionCode.CANNOT_CANCEL_RESERVATION);
         }
         findReservation.setReservationStatus(ReservationStatus.RESERVATION_CANCEL);
