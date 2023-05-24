@@ -51,6 +51,9 @@ public class Reservation extends Auditable {
     @Column(nullable = false)
     private boolean deleted = false;
 
+    @Version
+    private int version;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
