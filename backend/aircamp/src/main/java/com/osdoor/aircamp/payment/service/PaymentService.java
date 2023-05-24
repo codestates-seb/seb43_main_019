@@ -65,6 +65,16 @@ public class PaymentService {
                 requestEntity,
                 KakaoReadyResponse.class);
 
+        // 새로운 Payment 객체를 생성하고 저장
+        Reservation reservation = reservationRepository.findById(reservationId).orElse(null);
+        if (reservation != null) {
+            Payment payment = new Payment();
+            payment.setTid(kakaoReady.getTid());  // TID 설정
+            payment.setReservation(reservation);  // 예약 정보 설정
+            payment.setPaymentStatus(PaymentStatus.NOT_PAYMENT);  // 결제 상태 설정 (아직 완료되지 않았으므로)
+            paymentRepository.save(payment);  // 데이터베이스에 저장
+        }
+
         return kakaoReady;
     }
 
