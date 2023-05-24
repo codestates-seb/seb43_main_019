@@ -39,11 +39,12 @@ public class ReservationController {
 
     // 새로운 예약을 등록
     @PostMapping
-    public ResponseEntity<ReservationIdResponseDto> postReservation(@RequestBody ReservationPostDto reservationPostDto) {
-        Reservation savedReservation = reservationService.createReservation(reservationPostDto);
-        ReservationIdResponseDto reservationIdResponseDto = new ReservationIdResponseDto(savedReservation.getReservationId());
-
-        return new ResponseEntity<>(reservationIdResponseDto, HttpStatus.CREATED);
+    public ResponseEntity<Object> postReservation(@RequestBody ReservationPostDto reservationPostDto) {
+        if (reservationService.isDuplicateReservation(reservationPostDto)) {
+            return new ResponseEntity<>("해당 날짜에 이미 진행중이거나 완료된 예약이 존재합니다.", HttpStatus.BAD_REQUEST);
+        }
+        Reservation reservation = reservationService.createReservation(reservationPostDto);
+        return new ResponseEntity<>(reservation, HttpStatus.CREATED);
     }
 
     // 예약을 수정
