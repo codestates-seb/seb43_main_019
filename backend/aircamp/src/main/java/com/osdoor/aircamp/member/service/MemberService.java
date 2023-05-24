@@ -102,7 +102,7 @@ public class MemberService {
 //                .ifPresent(findMember::setVerificationToken);
         findMember.setModifiedAt(LocalDateTime.now());
 
-        if (member.isSellerVerified()) {
+        if (findMember.isSellerVerified() && !findMember.getRoles().contains("SELLER")) {
             findMember.getRoles().add("SELLER");
         }
 

@@ -1,6 +1,8 @@
 package com.osdoor.aircamp.auth.oauth;
 
 import com.osdoor.aircamp.auth.jwt.JwtTokenizer;
+import com.osdoor.aircamp.member.entity.Member;
+import com.osdoor.aircamp.member.repositoy.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +29,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     @Value("${customPath.redirectUrl}")
     private String REDIRECT_URL;
     private final JwtTokenizer jwtTokenizer;
+    private final MemberRepository memberRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -35,13 +38,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         Map<String, Object> profile = (Map<String, Object>) kakao_account.get("profile");
         String email = (String) kakao_account.get("email");
 
+        Member member = memberRepository.findByEmail(email).orElseThrow();
         Map<String, Object> claims = new HashMap<>();
-        claims.put("email", email);
-        claims.put("nickname", profile.get("nickname"));
-        claims.put("roles", oAuth2User.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList()));
-        claims.put("memberId", oAuth2User.getMemberId());
+        claims.put("email", member.getEmail());
+        claims.put("nickname", member.getName());
+        claims.put("roles", member.getRoles());
+        claims.put("memberId", member.getMemberId());
 
         log.info("# JWT 토큰 생성");
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
