@@ -1,15 +1,14 @@
 import styled from "@emotion/styled";
 import { SellInput } from "../Common/Input";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { CommonButton } from "../Common/Button";
 import { Label } from "../Common/Label";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { handlePostCampground } from "../../utils/ProductFunctions";
-import axios from "axios";
-import { validCoordinate } from "../../utils/functions";
-import { getMemberInfo } from "../../utils/MemberFunctions";
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 const Container = styled.div`
   margin: 100px 20px;
@@ -88,7 +87,6 @@ const SmallInput = styled.div`
   }
 
   & input {
-    height: 100%;
     width: 70%;
 
     @media (min-width: 320px) and (max-width: 480px) {
@@ -107,8 +105,6 @@ const StyledCommonButton = styled(CommonButton)`
 `;
 
 const StyledSellInput = styled(SellInput)``;
-
-const CoordinateInput = styled(SellInput)``;
 
 const Overlay = styled.div`
   width: 100vw;
@@ -167,22 +163,17 @@ export default function Registration({ seller }) {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [selectImg, setSelectImg] = useState(false);
-  const [myInfo, setMyInfo] = useState(null);
   const isDark = useSelector((state) => state.modeReducer);
-  const { register, handleSubmit, reset } = useForm({
-    defaultValues: {
-      latitude: "37.5",
-      longitude: "40.5",
-    },
-  });
+  const { register, handleSubmit, reset } = useForm();
 
   const navigate = useNavigate();
 
   const userState = useSelector((state) => state.userReducer);
+  const dispatch = useDispatch();
 
   const postProduct = async (data) => {
     if (imageUrl === "") {
-      alert("사진을 등록해주세요.");
+      toast("사진을 등록해주세요.");
       return;
     }
 
@@ -205,28 +196,21 @@ export default function Registration({ seller }) {
       cancellationDeadline: cancellationDeadline,
       productPrice,
       productPhone: "010-1111-1111",
-      memberId: 17,
+      memberId: 1,
     };
 
-    const imagesFormData = new FormData();
-    imagesFormData.append("images", image);
+    const formData = new FormData();
+    formData.append("images", image);
+    formData.append("jsonData", JSON.stringify(jsonData));
 
-    const jsonFormData = new FormData();
-    jsonFormData.append("jsonData", jsonData);
-
-    const newProduct = {
-      images: imagesFormData,
-      jsonData: jsonFormData,
-    };
-
-    const success = await handlePostCampground(newProduct, userState.userInfo);
+    const success = await handlePostCampground(formData, userState.userInfo);
 
     if (success) {
-      alert("등록에 성공했습니다.");
+      toast("등록에 성공했습니다.");
       reset();
       navigate("/");
     } else {
-      alert("등록에 실패했습니다.");
+      toast("등록에 실패했습니다.");
     }
   };
 
@@ -234,17 +218,7 @@ export default function Registration({ seller }) {
     const imgFile = event.target.files[0];
     setImage((prev) => imgFile);
     setImageUrl((prev) => URL.createObjectURL(imgFile));
-
-    // setImageUrl((prev) => imgUrl);
-    // setSelectImg(false);
   };
-
-  useEffect(() => {
-    (async () => {
-      const result = await getMemberInfo(userState.userInfo);
-      setMyInfo((prev) => result);
-    })();
-  }, []);
 
   return (
     <>
@@ -253,12 +227,9 @@ export default function Registration({ seller }) {
         <Form onSubmit={handleSubmit(postProduct)}>
           <ImageSpace>
             <Image bgphoto={imageUrl} />
-            {/*               <ImageInputButton onClick={() => setSelectImg(true)}>
-                이미지 선택
-              </ImageInputButton> */}
             <ImageInput
               type="file"
-              accept=".png, .jpg, .jpeg"
+              accept="image/*"
               onChange={handleImageChange}
             />
           </ImageSpace>

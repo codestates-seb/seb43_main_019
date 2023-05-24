@@ -2,12 +2,15 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { FaAddressCard, FaTwitch, FaSellcast } from "react-icons/fa";
 import Spinner from "../Components/Common/Spinner";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import MyModal from "../Components/Modal/MyModal";
 import RsModal from "../Components/Modal/RsModal";
 import SeModal from "../Components/Modal/SeModal";
 import { getMemberInfo } from "../utils/MemberFunctions";
+import CheckLogin from "../Components/CheckLogin";
+import { toast } from "react-toastify";
+import { handleLogout } from "../Redux/Actions";
 
 const Loader = styled.h1`
   width: 100vw;
@@ -108,6 +111,8 @@ export default function Mypage() {
   const userState = useSelector((state) => state.userReducer);
   const isDark = useSelector((state) => state.modeReducer);
 
+  const dispatch = useDispatch();
+
   const openMyModal = () => {
     setMyModalOpen(true);
   };
@@ -131,12 +136,21 @@ export default function Mypage() {
   useEffect(() => {
     (async () => {
       if (userState.login === false) {
+        toast("로그인이 되지 않았습니다.");
         navigate("/login");
+        return;
       }
 
       setIsLoading((prev) => true);
 
       const data = await getMemberInfo(userState.userInfo);
+
+      if (data === null) {
+        toast("토큰이 만료되었습니다.");
+        dispatch(handleLogout());
+        navigate("/login");
+        return;
+      }
 
       setMyInfo((prev) => data);
 

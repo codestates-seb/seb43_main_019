@@ -2,7 +2,7 @@ import styled from "styled-components";
 import axios from "axios";
 import Header from "./Components/Header";
 import ModeBtn from "./Components/ModeBtn";
-import { Route, Routes } from "react-router-dom";
+import { Routes, Route, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Main from "./Pages/Main";
 import SignUp from "./Pages/SignUp";
@@ -24,6 +24,8 @@ import ComponentExamples from "./Pages/ComponentExamples";
 import NotFound from "./Pages/NotFound";
 import Test from "./Pages/Test";
 import SelectPay from "./Pages/SelectPay";
+import { getMemberInfo } from "./utils/MemberFunctions";
+import { toast } from "react-toastify";
 import PaySuccessPage from "./Pages/PaySuccessPage";
 import PayCancelPage from "./Pages/PayCancelPage";
 import PayFailPage from "./Pages/PayFailPage";
@@ -54,6 +56,21 @@ function App() {
   const isDark = useSelector((state) => state.modeReducer);
   const dispatch = useDispatch();
   const [searchResults, setSearchResults] = useState([]);
+  const userState = useSelector((state) => state.userReducer);
+
+  useEffect(() => {
+    (async () => {
+      if (userState.login) {
+        const myInfo = await getMemberInfo(userState.userInfo);
+
+        if (myInfo === null) {
+          toast("토큰이 만료되었습니다.");
+          dispatch(handleLogout());
+          return;
+        }
+      }
+    })();
+  }, []);
 
   return (
     <Wrapper>
@@ -61,7 +78,6 @@ function App() {
       <Container isDark={isDark}>
         <Routes>
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/account-search" element={<AccountSearch />} />
           <Route path="/login" element={<Login />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path={"/sell/*"} element={<Sell />} />
@@ -70,8 +86,9 @@ function App() {
           <Route path="/payment" element={<Payment />} />
           <Route path={"/oauth2/*"} element={<KakaoLogin />} />
           <Route path="/Pay" element={<SelectPay />} />
+
           <Route path="/:id" element={<Detail />} />
-          <Route path="/Pay" element={<SelectPay />} />
+          <Route path="/404" element={<NotFound />} />
           <Route path="/api/payments/success" element={<PaySuccessPage />} />
           <Route path="/api/payments/cancel" element={<PayCancelPage />} />
           <Route path="/api/payments/fail" element={<PayFailPage />} />

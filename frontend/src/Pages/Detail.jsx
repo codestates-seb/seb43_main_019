@@ -11,6 +11,7 @@ import { getCampgroundInfo } from "../utils/ProductFunctions";
 import ReviewForm from "../Components/ReviewForm";
 import { format } from "date-fns";
 import Spinner from "../Components/Common/Spinner";
+import { toast } from "react-toastify";
 
 const Loader = styled.h1`
   width: 100vw;
@@ -124,6 +125,16 @@ function Detail() {
       navigate("/login"); // 로그인 페이지로 이동
     }
   };
+
+  useEffect(() => {
+    const idPattern = /^[0-9]{1,}$/;
+
+    if (idPattern.test(id) === false) {
+      toast("잘못된 접근입니다.");
+      navigate("/404");
+      return;
+    }
+  });
 
   if (!data) {
     return (

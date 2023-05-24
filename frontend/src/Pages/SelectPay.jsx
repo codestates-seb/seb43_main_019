@@ -70,9 +70,9 @@ const PayPage = () => {
   const userState = useSelector((state) => state.userReducer);
 
   const handleSubmitPayment = async (event) => {
+    event.preventDefault();
     try {
-      event.preventDefault();
-
+      console.log("handleSubmitPayment시작!!");
       const paymentData = {
         reservation_id: reservationId.reservationId,
         actual_payment_amount: productPrice,
@@ -83,6 +83,7 @@ const PayPage = () => {
         reservationId.reservationId,
         userState.userInfo
       );
+
       setRedirectUrl(response.next_redirect_pc_url);
       window.open(response.next_redirect_pc_url); // 새 창을 열기 위해 redirectUrl을 사용하여 페이지 열기
     } catch (error) {

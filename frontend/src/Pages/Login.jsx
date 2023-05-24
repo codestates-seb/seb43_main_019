@@ -7,8 +7,8 @@ import { handleLogin } from "../Redux/Actions";
 import { useEffect } from "react";
 import { LoginButton, SocialLogin } from "../Components/Common/Button";
 import { handleStartLogin } from "../utils/MemberFunctions";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const KAKAO_AUTH_URL =
   "http://ec2-3-34-91-147.ap-northeast-2.compute.amazonaws.com/oauth2/authorization/kakao";
@@ -40,7 +40,6 @@ const Form = styled.form`
 
   @media screen and (max-width: 400px) {
     margin-top: 120px;
-
   }
 `;
 
@@ -106,15 +105,13 @@ const KakaoImg = styled.img`
 
 export default function Login() {
   const navigate = useNavigate();
-  const { register, handleSubmit, watch } = useForm();
+  const { register, handleSubmit } = useForm();
   const userState = useSelector((state) => state.userReducer);
   const isDark = useSelector((state) => state.modeReducer);
   const dispatch = useDispatch();
 
   const handleSignIn = async (data) => {
     const result = await handleStartLogin(data);
-    const notify1 = () => toast("Success!");
-    const notify2 = () => toast("Failed!");
 
     if (result) {
       dispatch(handleLogin(result));
@@ -142,9 +139,6 @@ export default function Login() {
           <Logo src={"/img/login.png"} />
         </div>
         <Space pos={"start"}>
-          <Link to="/account-search">
-            <AccountRelated>아이디/비밀번호 찾기</AccountRelated>
-          </Link>
           <Link to="/signup">
             <AccountRelated>회원가입</AccountRelated>
           </Link>

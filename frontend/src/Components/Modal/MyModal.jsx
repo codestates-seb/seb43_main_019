@@ -9,8 +9,8 @@ import {
 import { checkValidPassword, checkValidPhone } from "../../utils/functions";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLogout } from "../../Redux/Actions";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 Modal.setAppElement("#root");
 
@@ -163,8 +163,6 @@ function MyModal(props) {
   const [name, setName] = useState(myInfo.name);
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState(myInfo.phone);
-  const [businessRegistrationNumber, setBusinessRegistrationNumber] =
-    useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -208,12 +206,13 @@ function MyModal(props) {
   };
 
   const handleDelete = async () => {
-    const success = await handleUserWithdrawal(userInfo);
+    const success = await handleUserWithdrawal(userInfo.memberId, userInfo);
 
     if (success) {
       toast("탈퇴가 완료되었습니다.");
       dispatch(handleLogout());
       navigate("/");
+      return;
     } else {
       toast("탈퇴가 완료되지 않았습니다.");
     }
