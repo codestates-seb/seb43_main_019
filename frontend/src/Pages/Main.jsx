@@ -67,6 +67,7 @@ const ContextArea = styled.div`
 
   @media screen and (max-width: 400px) {
     height: calc(100vh - 600px);
+    margin-bottom: 30px;
   }
 
   @media screen and (max-width: 400px) {
@@ -158,7 +159,6 @@ const Title = styled.h2`
   color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--black-700)")};
 
   @media screen and (max-width: 400px) {
-    margin-left: 0px ;
     margin-left: 0px ;
     padding-top: 30px;
     text-align: center;
