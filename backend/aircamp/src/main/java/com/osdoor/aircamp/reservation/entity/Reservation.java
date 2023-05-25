@@ -1,5 +1,6 @@
 package com.osdoor.aircamp.reservation.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.osdoor.aircamp.audit.Auditable;
 import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.payment.entity.Payment;
@@ -54,10 +55,12 @@ public class Reservation extends Auditable {
     @Version
     private int version;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRODUCT_ID")
     private Product product;
