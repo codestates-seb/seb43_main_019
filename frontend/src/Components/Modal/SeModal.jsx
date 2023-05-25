@@ -8,10 +8,11 @@ import {
   updateSellerAccount,
 } from "../../utils/MemberFunctions";
 import { validBusinessDate, validBusinessNumber } from "../../utils/functions";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { handleLogout } from "../../Redux/Actions";
 
 Modal.setAppElement("#root");
 
@@ -149,6 +150,7 @@ function MyModal(props) {
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
   const userState = useSelector((state) => state.userReducer);
+  const dispatch = useDispatch();
 
   const handleChangeBusinessNumber = async (data) => {
     const { code, date } = data;
@@ -200,10 +202,12 @@ function MyModal(props) {
       );
 
       if (result) {
-        alert("판매자 등록에 성공했습니다!");
-        navigate("/mypage");
+        toast("틍록이 완료되었습니다.");
+        dispatch(handleLogout());
+        navigate("/login");
+        return;
       } else {
-        alert("판매자 등록에 실패했습니다!");
+        toast("판매자 등록에 실패했습니다!");
       }
     }
   };
@@ -242,7 +246,7 @@ function MyModal(props) {
           </div>
           <div className="input-container">
             {userState.userInfo.roles.includes("SELLER") === false && (
-              <Button onClick={() => setIsUpdate(false)}>제출하기</Button>
+              <Button onClick={() => setIsUpdate(false)}>등록하기</Button>
             )}
             {userState.userInfo.roles.includes("SELLER") === true && (
               <Button onClick={() => setIsUpdate(true)}>수정하기</Button>

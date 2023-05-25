@@ -201,6 +201,9 @@ function MyModal(props) {
 
     if (success) {
       toast("업데이트에 성공했습니다!");
+      navigate("/mypage");
+      closeModal();
+      return;
     } else {
       toast("업데이트에 실패했습니다.");
     }

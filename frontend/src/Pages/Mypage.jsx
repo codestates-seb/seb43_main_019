@@ -12,39 +12,37 @@ import CheckLogin from "../Components/CheckLogin";
 import { toast } from "react-toastify";
 import { handleLogout } from "../Redux/Actions";
 
-const Loader = styled.h1`
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const Wrapper = styled.div`
-  max-width: 1200px;
   width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 3.02vw;
+
+  @media screen and (max-width: 480px) {
+    margin-top: 100px;
+  }
 `;
 
-const UserArea = styled.div`
-  width: 100%;
-`;
+const UserArea = styled.div``;
 
 const ButtonArea = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-left: 250px;
   align-items: center;
   flex-direction: row;
+
+  @media screen and (max-width: 480px) {
+    flex-direction: column;
+  }
 `;
 
 const SellArea = styled.div`
-  width: 100%;
+  @media screen and (min-width: 480px) {
+    width: 100%;
+  }
 `;
 
 const ProfileCard = styled.button`
@@ -65,7 +63,7 @@ const ProfileCard = styled.button`
   user-select: none;
   font-weight: bolder;
   color: black;
-  margin-right: 20px;
+  margin: 0 20px;
   font-family: "Noto Sans KR", sans-serif;
 
   &:hover {
@@ -75,25 +73,37 @@ const ProfileCard = styled.button`
   &:active {
     transform: scale(0.95) rotateZ(1.7deg);
   }
+
+  @media screen and (max-width: 480px) {
+    margin: 20px 0;
+  }
 `;
 
 const Title = styled.h2`
   margin-top: 100px !important;
   margin-bottom: 80px !important;
-  margin-left: 360px !important;
   font-family: "Noto Sans KR", sans-serif;
   color: ${(props) => (props.isDark ? "var( --white)" : "var(--black)")};
 `;
 
 const SellMent = styled.p`
-  margin-top: 100px !important;
-  margin-left: 360px !important;
+  @media screen and (min-width: 480px) {
+    margin-top: 100px !important;
+    margin-left: 360px !important;
+  }
+
   font-family: "Noto Sans KR", sans-serif;
   color: ${(props) => (props.isDark ? "var( --white)" : "var(--black)")};
 `;
 
 const SellLink = styled.p`
-  margin-left: 360px !important;
+  @media screen and (min-width: 480px) {
+    margin-left: 360px !important;
+  }
+  @media screen and (max-width: 480px) {
+    margin-bottom: 100px;
+  }
+
   font-family: "Noto Sans KR", sans-serif;
   color: ${(props) => (props.isDark ? "var( --white)" : "var(--black)")};
 `;
@@ -120,6 +130,11 @@ export default function Mypage() {
     setRsModalOpen(true);
   };
   const openSeModal = () => {
+    if (myInfo.birthDate === null) {
+      toast("카카오 계정은 등록할 수 없습니다.");
+      return;
+    }
+
     setSeModalOpen(true);
   };
 

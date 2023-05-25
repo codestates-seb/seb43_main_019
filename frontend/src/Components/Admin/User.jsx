@@ -88,7 +88,6 @@ export default function User({ user }) {
         <Infos>
           <MainInfos>
             <Info>{user.name}</Info>
-            <Info>{user.email}</Info>
           </MainInfos>
           <SideInfos>
             <Info>{user.phone}</Info>

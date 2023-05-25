@@ -56,6 +56,10 @@ const Info = styled.h4`
   font-size: 13px;
 `;
 
+const Cancel = styled.div`
+  cursor: pointer;
+`;
+
 export default function Reservation({ campground, userInfo }) {
   const deleteReservation = async () => {
     const success = await handleCancelReservation(
@@ -65,6 +69,7 @@ export default function Reservation({ campground, userInfo }) {
 
     if (success) {
       toast("삭제되었습니다.");
+      window.location.reload();
     } else {
       toast("삭제가 안되었습니다.");
     }
@@ -86,7 +91,7 @@ export default function Reservation({ campground, userInfo }) {
         <InputLine>
           <Info>{formatPrice(campground.actualPaymentAmount)}</Info>
         </InputLine>
-        <div onClick={deleteReservation}>삭제</div>
+        <Cancel onClick={deleteReservation}>삭제</Cancel>
       </Managements>
     </Container>
   );
