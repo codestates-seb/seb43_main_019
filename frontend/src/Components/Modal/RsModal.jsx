@@ -140,11 +140,13 @@ function MyModal(props) {
     (async () => {
       setIsLoading((prev) => true);
 
-      const allReservations = await getMemberReservations(userInfo);
+      const result = await getMemberReservations(userInfo);
 
-      console.log(allReservations);
+      const reservations = result.filter(
+        (reservation) => reservation.reservationStatus !== "RESERVATION_CANCEL"
+      );
 
-      setCampgrounds((prev) => [...allReservations]);
+      setCampgrounds((prev) => [...reservations]);
 
       setIsLoading((prev) => false);
     })();
@@ -162,7 +164,7 @@ function MyModal(props) {
           <>
             {campgrounds.map((campground) => (
               <Reservation
-                key={campground.productId}
+                key={campground.reservationId}
                 campground={campground}
                 userInfo={userState.userInfo}
               />

@@ -251,6 +251,7 @@ export default function Review({ review, userId }) {
 
     if (success) {
       alert("성공적으로 삭제했습니다!");
+      window.location.reload();
     } else {
       alert("삭제 실패");
     }
