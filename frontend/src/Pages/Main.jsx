@@ -56,6 +56,7 @@ const ContextArea = styled.div`
   position: relative;
   @media screen and (max-width: 400px) {
     height: calc(100vh - 600px);
+    margin-bottom: 30px;
   }
 `;
 
@@ -110,8 +111,8 @@ const IntroTitle = styled.h2`
   display: flex;
   font-size: 30px;
   white-space: pre-line;
-  justify-content: center important!;
-  align-items: center important!;
+  justify-content: center ;
+  align-items: center ;
   opacity: ${({ inView }) => (inView ? 1 : 0)};
   transform: translateY(${({ inView }) => (inView ? "0" : "-100%")});
   transition: opacity 1s ease, transform 1s ease;

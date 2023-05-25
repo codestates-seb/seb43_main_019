@@ -10,7 +10,10 @@ const InputSpace = styled.div`
 
   @media screen and (max-width: 868px) {
     margin-left: 200px;
-  }
+  }  
+  @media screen and (max-width: 400px) {
+    margin-left: 0px;
+  }  
 `;
 
 const InputWrapper = styled.div`

@@ -93,7 +93,6 @@ function App() {
           <Route path="/payment" element={<Payment />} />
           <Route path={"/oauth2/*"} element={<KakaoLogin />} />
           <Route path="/Pay" element={<SelectPay />} />
-
           <Route path="/:id" element={<Detail />} />
           <Route path="/404" element={<NotFound />} />
           <Route path="api/payments/success" element={<PaySuccessPage />} />

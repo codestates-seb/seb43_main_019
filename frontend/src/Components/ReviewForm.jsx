@@ -6,16 +6,27 @@ import Review from "../Components/Review";
 import { useSelector } from "react-redux";
 import { getAllReview, handlePostReview } from "../utils/ReviewFunctions";
 import { toast } from "react-toastify";
+import Spinner from "./Common/Spinner";
 
 const Container = styled.div`
-  max-width: 700px;
+  max-width: 1000px;
   width: 100%;
-  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  display: flex;
+  flex-direction: column;
+
+  @media screen and (max-width: 400px) {
+    margin-top: 100px;
+  }
 `;
 
 const Form = styled.div`
-  padding-bottom: 5px;
-  border-bottom: 1px solid var(--gray-400);
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  /* border-bottom: 1px solid var(--gray-400); */
 `;
 
 const Infos = styled.div`
@@ -25,21 +36,21 @@ const Infos = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--gray-100);
+  /* background-color: var(--gray-100); */
 `;
 
 const Info = styled.h4``;
 
 const MyReviewBtn = styled.div`
   overflow: hidden;
-  border: 1px solid var(--black);
-  color: var(--black-700);
+  /* border: 1px solid var(--black); */
+  /* color: var(--black-700); */
   font-size: 13px;
   line-height: 13px;
   padding: 16px 16px 15px;
   text-decoration: none;
   cursor: pointer;
-  background: var(--white-50);
+  /* background: var(--white-50); */
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
@@ -50,8 +61,6 @@ const MyReviewBtn = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 15px;
-  background-color: ${(props) =>
-    props.showMine ? "var(--gray-300)" : "var(--gray-100)"};
   cursor: pointer;
 `;
 
@@ -67,7 +76,7 @@ const Inputs = styled.form`
 const TextInput = styled.input`
   width: 100%;
   height: 100%;
-  font-size: 18px;
+  font-size: 15px;
   padding-left: 10px;
   background-color: var(--white);
   color: var(--black);
@@ -91,19 +100,18 @@ const TextInput = styled.input`
 `;
 
 const ScoreInput = styled.select`
-  border-radius: 10px;
+  border-radius: 3px;
 `;
 
 const PostBtn = styled.button`
   overflow: hidden;
-  border: 1px solid var(--black);
-  color: var(--black-700);
+  color: var(--white);
   font-size: 13px;
-  line-height: 13px;
+  line-height: 11px;
   padding: 16px 16px 15px;
   text-decoration: none;
   cursor: pointer;
-  background: ${(props) => (props.disabled ? "black" : "var(--white-50)")};
+  background: #27374D;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
@@ -113,7 +121,7 @@ const PostBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 15px;
+  border-radius: 3px;
 
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 
@@ -127,7 +135,17 @@ const PostBtn = styled.button`
   }
 `;
 
-const Reviews = styled.div``;
+const Reviews = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap : wrap;
+
+  @media screen and (max-width: 868px) {
+    flex-direction: column;
+  }
+
+
+  `;
 
 export default function ReviewForm({ productId }) {
   const [reviews, setReviews] = useState([]); // 현재 보여줄 리뷰들입니다.
@@ -224,14 +242,13 @@ export default function ReviewForm({ productId }) {
       setReviews((prev) => [...filtered]);
 
       let isMine = false;
-
-      if (userState.login) {
-        filtered.forEach((review) => {
-          if (review.memberId === userState.userInfo.memberId) {
-            isMine = true;
-          }
-        });
-      }
+      if (userState.login){
+      filtered.forEach((review) => {
+        if (review.memberId === userState.userInfo.memberId) {
+          isMine = true;
+        }
+      });
+    }
 
       setIsReviewWritten((prev) => isMine);
 
@@ -240,12 +257,12 @@ export default function ReviewForm({ productId }) {
   }, []);
 
   return isLoading ? (
-    <h1>Loading...</h1>
+    <Spinner />
   ) : (
     <Container>
       <Form>
         <Infos>
-          <Info>{`현재 리뷰 ${reviews.length}`}</Info>
+          <Info>{`후기 ${reviews.length}개`}</Info>
           {userState.login && (
             <MyReviewBtn showMine={showMine} onClick={getMyReviews}>
               My 리뷰
@@ -287,5 +304,6 @@ export default function ReviewForm({ productId }) {
         ))}
       </Reviews>
     </Container>
+    
   );
 }

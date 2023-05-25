@@ -55,7 +55,7 @@ const Front = styled.div`
   background-color: ${(props) =>
     props.isDark ? "var(--white-50)" : "var(--white)"};
   color: var(--black-700);
-  /* /* border: none; */ */
+  /* border: none; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -202,12 +202,6 @@ const Icons = styled.div`
 const Icon = styled(FontAwesomeIcon)`
   font-size: 25px;
   cursor: pointer;
-
-  @media screen and (max-width: 400px) {
-    /* Adjust the card size for 400px width */
-    font-size: 15px;
-    width: 80%;
-  }
 
   @media screen and (max-width: 400px) {
     /* Adjust the card size for 400px width */

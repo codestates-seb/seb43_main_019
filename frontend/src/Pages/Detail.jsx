@@ -53,7 +53,6 @@ const ContextArea02 = styled.div`
 `;
 
 const Title = styled.h2`
-  /* margin-left: 100px ; */
   font-family: "Noto Sans KR", sans-serif;
   color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--black-700)")};
 
@@ -66,7 +65,6 @@ const Title = styled.h2`
 `;
 
 const Information = styled.p`
-  /* margin-left: 200px ; */
   font-family: "Noto Sans KR", sans-serif;
   display: flex;
   font-size: 25px;
@@ -83,7 +81,6 @@ const Information = styled.p`
 `;
 
 const Form02Information = styled.p`
-  /* margin-left: 200px ; */
   font-family: "Noto Sans KR", sans-serif;
   display: flex;
   font-size: 15px;
@@ -101,7 +98,6 @@ const ContentContainer = styled.div`
   display: flex;
   width: 100%;
   height: auto;
-  /* margin-top: 150px; */
   padding: 10px 0;
   top: 0;
   left: 0;
@@ -135,7 +131,6 @@ const FormContainer = styled.div`
 const InfoContainer = styled.div`
   flex: 1;
   overflow-y: auto;
-  /* padding-top: 35px; */
   flex-direction: column;
   display: flex;
   justify-content: start;
@@ -160,7 +155,6 @@ const Line02 = styled.hr`
   border: 1px solid var(--black-500);
   ${(props) => (props.isDark ? "var(--white)" : "var(--black-500)")};
   margin-bottom: 0px;
-  /* margin-top: 20px; */
 `;
 
 const Form = styled.form`
@@ -203,46 +197,6 @@ const PriceArea = styled.h2`
   display: flex;
 `;
 
-const InformationArea = styled.h3`
-  /* margin-left: 200px ; */
-  font-family: "Noto Sans KR", sans-serif;
-  display: flex;
-  /* justify-content: center; */
-  /* align-items: center; */
-  color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--black-700)")};
-
-  @media screen and (max-width: 400px) {
-    margin-left: 0px;
-    padding-top: 30px;
-    text-align: center;
-    font-size: 22px;
-  }
-`;
-
-const ContainerBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 100px;
-  max-width: 1800px;
-  @media (max-width: 900px) {
-    flex-direction: column;
-  }
-`;
-
-const CampgroundContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  width: 50%;
-  margin-right: 50px;
-
-  @media (max-width: 900px) {
-    width: 100%;
-    margin-right: 0;
-  }
-`;
-
 const ImgContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -281,9 +235,7 @@ const ScrollBtn = styled.div`
   }
 
   @media (max-width: 400px) {
-    margin-left: -60px;
-    margin-right: 50px;
-    margin-bottom: -81px;
+    margin-left: 130px;
   }
 `;
 
@@ -394,91 +346,58 @@ function Detail() {
     </Loader>
   ) : (
     <>
-      <Container>
-        <ContextArea isDark={isDark}>
-          <Title
-            isDark={isDark}
-          >{`${productName}입니다. 예약을 진행해보세요.🚘`}</Title>
-        </ContextArea>
-        <Line02 />
-        <ContentContainer>
-          <InfoContainer>
-            <ContextArea isDark={isDark}>
-              <Information isDark={isDark}>캠핑장 사진 보기</Information>
-            </ContextArea>
-            <ImgContainer>
-              <CampgroundImage src={imageUrl} />
-            </ImgContainer>
-            <Line />
-            <ContextArea isDark={isDark}>
-              <Information isDark={isDark}>캠핑장 위치 📍</Information>
-            </ContextArea>
-            <Map productId={id} />
-            <Line />
-            <ContextArea isDark={isDark}>
-              <Information isDark={isDark}>숙소 정보 보기</Information>
-            </ContextArea>
-            <ContextArea isDark={isDark}>
-              <Information isDark={isDark}>{`${content}`}</Information>
-            </ContextArea>
-
-            <Line />
-            <ContextArea isDark={isDark}>
-              <Information isDark={isDark}>
-                날짜를 선택하시고 예약을 진행하세요.👇👇
-              </Information>
-            </ContextArea>
-            <Picker startDate={startDate} setStartDate={setStartDate} />
-          </InfoContainer>
-          <FormContainer>
-            <Form>
-              <ContextArea02 isDark={isDark}>
-                <PriceArea isDark={isDark}>{`₩${productPrice}/박`}</PriceArea>
-              </ContextArea02>
-              <Form02>
-                <ContextArea02 isDark={isDark}>
-                  <Form02Information
-                    isDark={isDark}
-                  >{`위치 : ${location}`}</Form02Information>
-                </ContextArea02>
-                <Line02 />
-                <ContextArea02 isDark={isDark}>
-                  <Form02Information
-                    isDark={isDark}
-                  >{`수용인원 : ${capacity}인`}</Form02Information>
-                </ContextArea02>
-              </Form02>
-              <DetailButton onClick={handleReservation}>예약 하기</DetailButton>
-            </Form>
-          </FormContainer>
-        </ContentContainer>
-        <ReviewForm productId={id} />
-
-        {/* <ContainerBox>
-        <ImgContainer>
+    <Container>
+      <ContextArea isDark={isDark}>
+      <Title isDark={isDark}>{`${productName}입니다. 예약을 진행해보세요.🚘`}</Title>
+      </ContextArea>
+      <Line02 />
+      <ContentContainer>
+        <InfoContainer>
+          <ContextArea isDark={isDark}>
+            <Information isDark={isDark}>캠핑장 사진 보기</Information>
+           </ContextArea>
+         <ImgContainer>
           <CampgroundImage src={imageUrl} />
-          <Picker startDate={startDate} setStartDate={setStartDate} />
-        </ImgContainer>
-        <CampgroundContainer>
-          <InfoContainer>
-            <CampgroundInfo
-              productName={productName}
-              location={location}
-              content={content}
-              productPrice={productPrice}
-              address={address}
-              productPhone={productPhone}
-              capacity={capacity}
-              isDark={isDark}
-            >
-              <CommonButton onClick={handleReservation}>예약 하기</CommonButton>
-            </CampgroundInfo>
-          </InfoContainer>
-        </CampgroundContainer>
-      </ContainerBox>
-      <Map productId={id} />
-      <ReviewForm productId={id} /> */}
-      </Container>
+          </ImgContainer>
+          <Line />
+          <ContextArea isDark={isDark}>
+            <Information isDark={isDark}>캠핑장 위치 📍</Information>
+           </ContextArea>
+          <Map productId={id} />
+          <Line />
+          <ContextArea isDark={isDark}>
+            <Information isDark={isDark}>숙소 정보 보기</Information>
+           </ContextArea>
+           <ContextArea isDark={isDark}>
+           <Information isDark={isDark}>{`${content}`}</Information>
+           </ContextArea>
+
+           <Line />
+          <ContextArea isDark={isDark}>
+            <Information isDark={isDark}>날짜를 선택하시고 예약을 진행하세요.👇👇</Information>
+           </ContextArea>
+           <Picker startDate={startDate} setStartDate={setStartDate} />
+        </InfoContainer>
+        <FormContainer>
+          <Form>
+          <ContextArea02 isDark={isDark}>
+            <PriceArea isDark={isDark}>{`₩${productPrice}/박`}</PriceArea>
+           </ContextArea02>
+           <Form02>
+           <ContextArea02 isDark={isDark}>
+           <Form02Information isDark={isDark}>{`위치 : ${location}`}</Form02Information>
+           </ContextArea02>
+           <Line02 />
+           <ContextArea02 isDark={isDark}>
+           <Form02Information isDark={isDark}>{`수용인원 : ${capacity}인`}</Form02Information>
+           </ContextArea02>
+           </Form02>
+           <DetailButton onClick={handleReservation}>예약 하기</DetailButton>
+          </Form>
+        </FormContainer>
+      </ContentContainer>
+      <ReviewForm productId={id} />
+    </Container>
       <ScrollBtn onClick={() => window.scrollTo(0, 0)} ref={containerRef}>
         <FaChevronUp size={40} />
       </ScrollBtn>
