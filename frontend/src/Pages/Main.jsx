@@ -160,6 +160,7 @@ const Title = styled.h2`
 
   @media screen and (max-width: 400px) {
     margin-left: 0px ;
+    margin-left: 0px ;
     padding-top: 30px;
     text-align: center;
     font-size: 22px;
