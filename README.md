@@ -13,7 +13,7 @@
 | 주재민<br>(FE, FE팀장) | 오준혁<br>(FE) | 김정환<br>(FE) | 유한별<br>(BE, BE팀장) | 조현우<br>(BE) | 변상현<br>(BE) |
 | :---: | :---: | :---: | :---: | :---: | :---: |
 | <img alt="주재민" src="https://avatars.githubusercontent.com/u/69967974?v=4" height="100" width="100"> | <img alt="오준혁" src="https://avatars.githubusercontent.com/u/84076925?v=4" height="100" width="100"> | <img alt="김정환" src="https://avatars.githubusercontent.com/u/78897615?v=4" height="100" width="100"> | <img alt="유한별" src="https://avatars.githubusercontent.com/u/120434232?v=4" height="100" width="100"> | <img alt="조현우" src="https://avatars.githubusercontent.com/u/108291609?v=4" height="100" width="100"> |<img alt="변상현" src="https://avatars.githubusercontent.com/u/103120984?v=4" height="100" width="100"> |
-| [@nowaveosu](https://github.com/nowaveosu) |   [@Latemarch](https://github.com/Latemarch) | [@als982001](https://github.com/als982001) | [@mikiehw](https://github.com/mikiehw) | [@NYinJP](https://github.com/NYinJP) |[@SHyeonCoding](https://github.com/SHyeonCoding) |
+| [@als982001](https://github.com/als982001) |   [@JS2L](https://github.com/JS2L) | [@wjdghksdigh](https://github.com/wjdghksdigh) | [@exertivestar](https://github.com/exertivestar) | [@mikiehw](https://github.com/mikiehw) |[@SHyeonCoding](https://github.com/SHyeonCoding) |
 |<p align="left">- Front </p> | <p align="left">- Front </p>| <p align="left">- Front </p> | <p align="left">- Back </p> | <p align="left">- Back </p>| <p align="left">- Back </p>|
 
 ## 🛠 Skils
