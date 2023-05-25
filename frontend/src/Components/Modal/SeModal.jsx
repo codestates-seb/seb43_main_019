@@ -7,7 +7,12 @@ import {
   registerSellerAccount,
   updateSellerAccount,
 } from "../../utils/MemberFunctions";
-import { validBusinessDate, validBusinessNumber } from "../../utils/functions";
+import {
+  maekDate,
+  makeCode,
+  validBusinessDate,
+  validBusinessNumber,
+} from "../../utils/functions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -153,15 +158,28 @@ function MyModal(props) {
   const dispatch = useDispatch();
 
   const handleChangeBusinessNumber = async (data) => {
-    const { code, date } = data;
+    let { code, date } = data;
+
+    if (code.length !== 10) {
+      toast("사업자 등록 번호의 패턴이 유효하지 않습니다.");
+      return;
+    }
+
+    if (date.length !== 8) {
+      toast("사업자 등록 일자의 패턴이 유효하지 않습니다.");
+      return;
+    }
+
+    code = makeCode(code);
+    date = maekDate(date);
 
     if (validBusinessNumber(code) === false) {
-      alert("사업자 등록 번호의 패턴이 유효하지 않습니다.");
+      toast("사업자 등록 번호의 패턴이 유효하지 않습니다.");
       return;
     }
 
     if (validBusinessDate(date) === false) {
-      alert("사업자 등록 일자의 패턴이 유효하지 않습니다.");
+      toast("사업자 등록 일자의 패턴이 유효하지 않습니다.");
       return;
     }
 
@@ -184,10 +202,10 @@ function MyModal(props) {
       );
 
       if (result) {
-        alert("판매자 정보 업데이트에 성공했습니다!");
+        toast("판매자 정보 업데이트에 성공했습니다!");
         navigate("/mypage");
       } else {
-        alert("판매자 정보 업데이트가 실패했습니다!");
+        toast("판매자 정보 업데이트가 실패했습니다!");
       }
     } else {
       if (userState.userInfo.roles.includes("SELLER") === true) {
@@ -228,7 +246,7 @@ function MyModal(props) {
               type="text"
               name=""
               required="number"
-              placeholder="000-00-00000"
+              placeholder="'-' 없이 입력"
               {...register("code", { required: true })}
             />
           </div>
@@ -240,7 +258,7 @@ function MyModal(props) {
               type="text"
               name=""
               required="date"
-              placeholder="0000-00-00"
+              placeholder="'-' 없이 입력"
               {...register("date", { required: true })}
             />
           </div>

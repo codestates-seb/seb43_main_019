@@ -62,3 +62,22 @@ export const validCoordinate = (coord) => {
 
   return coordPattern.test(coord);
 };
+
+// 사업자 등록 번호 양식을 맞추는 함수입니다.
+export const makeCode = (code) => {
+  return code.slice(0, 3) + "-" + code.slice(3, 5) + "-" + code.slice(5);
+};
+
+// 생년월일 양식을 맞추는 함수입니다.
+export const maekDate = (date) => {
+  return date.slice(0, 4) + "-" + date.slice(4, 6) + "-" + date.slice(6);
+};
+
+// 전화번호 양식 맞추는 함수입니다.
+export const makePhone = (phone) => {
+  if (phone.length === 10) {
+    return phone.slice(0, 3) + "-" + phone.slice(3, 6) + "-" + phone.slice(6);
+  } else {
+    return phone.slice(0, 3) + "-" + phone.slice(3, 7) + "-" + phone.slice(7);
+  }
+};

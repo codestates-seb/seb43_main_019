@@ -13,6 +13,7 @@ import { format } from "date-fns";
 import Spinner from "../Components/Common/Spinner";
 import { toast } from "react-toastify";
 import { FaChevronUp } from "react-icons/fa";
+import { handleCheckReservationDate } from "../utils/ReservationFunctions";
 
 const Loader = styled.h1`
   width: 100vw;
@@ -56,7 +57,7 @@ const Title = styled.h2`
   color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--black-700)")};
 
   @media screen and (max-width: 400px) {
-    margin-left: 0px ;
+    margin-left: 0px;
     padding-top: 30px;
     text-align: center;
     font-size: 22px;
@@ -72,7 +73,7 @@ const Information = styled.p`
   color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--black-700)")};
 
   @media screen and (max-width: 400px) {
-    margin-left: 0px ;
+    margin-left: 0px;
     padding-top: 30px;
     text-align: center;
     font-size: 22px;
@@ -87,13 +88,11 @@ const Form02Information = styled.p`
   align-items: start;
   margin-left: 30px;
 
-
   @media screen and (max-width: 400px) {
     text-align: center;
     font-size: 12px;
   }
 `;
-
 
 const ContentContainer = styled.div`
   display: flex;
@@ -111,7 +110,6 @@ const ContentContainer = styled.div`
   @media screen and (max-width: 400px) {
     flex-direction: column;
   }
-
 `;
 
 const FormContainer = styled.div`
@@ -127,7 +125,6 @@ const FormContainer = styled.div`
 
   @media (max-width: 768px) {
     order: 2;
-
   }
 `;
 
@@ -139,8 +136,7 @@ const InfoContainer = styled.div`
   justify-content: start;
   align-items: start;
   text-align: start;
-  height: calc(300vh - 150px);  
-
+  height: calc(300vh - 150px);
 `;
 
 const Line = styled.hr`
@@ -157,10 +153,9 @@ const Line02 = styled.hr`
   width: 100%;
   margin: 0 auto;
   border: 1px solid var(--black-500);
-    ${(props) => (props.isDark ? "var(--white)" : "var(--black-500)")};
+  ${(props) => (props.isDark ? "var(--white)" : "var(--black-500)")};
   margin-bottom: 0px;
 `;
-
 
 const Form = styled.form`
   max-width: 450px;
@@ -194,7 +189,6 @@ const Form02 = styled.div`
   box-shadow: 12px 17px 51px var(--gray-300);
 
   @media screen and (max-width: 400px) {
-
   }
 `;
 
@@ -215,7 +209,6 @@ const ImgContainer = styled.div`
   @media screen and (max-width: 400px) {
     width: 300px;
     height: 200px;
-
   }
 
   @media (max-width: 900px) {
@@ -252,7 +245,6 @@ const options = {
   threshold: 0.5,
 };
 
-
 function Detail() {
   const [startDate, setStartDate] = useState(null);
   const { id } = useParams();
@@ -273,24 +265,24 @@ function Detail() {
     fetchData();
   }, [id]);
 
-    // 무한 스크롤을 위한 useEffect
-    useEffect(() => {
-      (async () => {
-        const observer = new IntersectionObserver(([entry]) => {
-          if (entry.isIntersecting) {
-            // console.log("ㅋㅋㅋ");
-          }
-        }, options);
-  
-        if (containerRef.current) {
-          observer.observe(containerRef.current);
+  // 무한 스크롤을 위한 useEffect
+  useEffect(() => {
+    (async () => {
+      const observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          // console.log("ㅋㅋㅋ");
         }
-  
-        return () => {
-          observer.disconnect();
-        };
-      })();
-    }, [containerRef]);
+      }, options);
+
+      if (containerRef.current) {
+        observer.observe(containerRef.current);
+      }
+
+      return () => {
+        observer.disconnect();
+      };
+    })();
+  }, [containerRef]);
 
   const {
     content,
@@ -303,7 +295,7 @@ function Detail() {
     capacity,
   } = data || {};
 
-  const handleReservation = () => {
+  const handleReservation = async () => {
     if (!startDate) {
       alert("날짜를 선택해주세요."); // 날짜 선택하지 않은 경우 경고창 표시
       return;
@@ -311,6 +303,18 @@ function Detail() {
 
     if (userState.login) {
       const formattedDate = format(startDate, "yyyy-MM-dd");
+
+      const isReservated = await handleCheckReservationDate(
+        { productId: data.productId, reservationDate: formattedDate },
+        userState.userInfo
+      );
+
+      if (isReservated === false) {
+        toast("이미 예약이 되어있는 날짜입니다.");
+        navigate(`/${id}`);
+        return;
+      }
+
       navigate("/Payment", { state: { data, startDate: formattedDate } });
     } else {
       alert("로그인이 필요한 서비스입니다."); // 로그인이 필요한 경우 경고창 표시
@@ -335,8 +339,6 @@ function Detail() {
       </Loader>
     );
   }
-
-  
 
   return isLoading ? (
     <Loader>
@@ -397,8 +399,8 @@ function Detail() {
       <ReviewForm productId={id} />
     </Container>
       <ScrollBtn onClick={() => window.scrollTo(0, 0)} ref={containerRef}>
-      <FaChevronUp size={40} />
-    </ScrollBtn>
+        <FaChevronUp size={40} />
+      </ScrollBtn>
     </>
   );
 }

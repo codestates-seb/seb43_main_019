@@ -24,15 +24,14 @@ const Container = styled.div`
     /* Adjust the card size for 400px width */
     width: calc(100% - 25px);
     height: 230px;
+    margin-bottom: 50px;
   }
-
 
   @media screen and (max-width: 400px) {
     /* Adjust the card size for 400px width */
     width: calc(100% - 25px);
     height: 230px;
   }
-
 `;
 
 const Inner = styled.div`
@@ -149,10 +148,6 @@ const Info = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center; // 추가
-
-  
-
-  
 `;
 
 const Descriptions = styled.div`
@@ -194,16 +189,14 @@ const Icons = styled.div`
   @media screen and (max-width: 400px) {
     /* Adjust the card size for 400px width */
     margin-bottom: 70px;
-    justify-content:space-around;
+    justify-content: space-around;
   }
-  
 
   @media screen and (max-width: 400px) {
     /* Adjust the card size for 400px width */
     margin-bottom: 70px;
-    justify-content:space-around;
+    justify-content: space-around;
   }
-  
 `;
 
 const Icon = styled(FontAwesomeIcon)`

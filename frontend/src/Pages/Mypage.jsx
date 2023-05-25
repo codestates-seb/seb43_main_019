@@ -209,21 +209,25 @@ export default function Mypage() {
             <div>
               <ProfileCard onClick={openSeModal}>
                 <FaSellcast size={25} />
-                &nbsp;판매자 등록/수정
+                {userState.userInfo.roles.includes("SELLER")
+                  ? "판매자 수정"
+                  : "판매자 등록"}
               </ProfileCard>
               <SeModal isOpen={SeModalOpen} closeModal={closeSeModal} />
             </div>
           </ButtonArea>
-          <SellArea>
-            <SellMent isDark={isDark}>
-              판매등록을 원하신다면 아래 링크를 눌러주세요👇🏻
-            </SellMent>
-            <SellLink isDark={isDark}>
-              <span onClick={() => navigate("/sell")}>
-                판매 등록하러 가기↪️
-              </span>
-            </SellLink>
-          </SellArea>
+          {userState.userInfo.roles.includes("SELLER") && (
+            <SellArea>
+              <SellMent isDark={isDark}>
+                판매등록을 원하신다면 아래 링크를 눌러주세요👇🏻
+              </SellMent>
+              <SellLink isDark={isDark}>
+                <span onClick={() => navigate("/sell")}>
+                  판매 등록하러 가기↪️
+                </span>
+              </SellLink>
+            </SellArea>
+          )}
         </>
       ) : null}
     </Wrapper>

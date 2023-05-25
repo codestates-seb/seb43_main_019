@@ -22,6 +22,7 @@ const Container = styled.main`
   margin: 0 auto;
   width: 100%;
   height: auto;
+  min-height: 100vh;
 
   display: grid;
   grid-template-columns: 1fr;
@@ -41,20 +42,7 @@ const Container = styled.main`
   }
 
   gap: 10px;
-  @media screen and (max-width: 400px) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-
-  gap: 10px;
-  @media screen and (max-width: 400px) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-
-  gap: 10px;
   justify-items: center;
-  padding: 20px 0;
   padding: 20px 0;
 `;
 
@@ -65,13 +53,10 @@ const ContextArea = styled.div`
   top: 0;
   left: 0;
 
+  position: relative;
   @media screen and (max-width: 400px) {
     height: calc(100vh - 600px);
     margin-bottom: 30px;
-  }
-
-  @media screen and (max-width: 400px) {
-    height: calc(100vh - 450px);
   }
 `;
 
@@ -157,10 +142,9 @@ const Title = styled.h2`
   margin-bottom: 30px;
   font-family: "Noto Sans KR", sans-serif;
   color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--black-700)")};
-
   @media screen and (max-width: 400px) {
-    margin-left: 0px ;
-    margin-left: 0px ;
+    margin-left: 0px;
+    margin-left: 0px;
     padding-top: 30px;
     text-align: center;
     font-size: 22px;
@@ -168,10 +152,6 @@ const Title = styled.h2`
   /* Apply animation */
   opacity: 0;
   animation: ${TitleAnimation} 1s ease forwards;
-
-
-
-
 `;
 
 const ScrollBtn = styled.div`
@@ -186,14 +166,6 @@ const ScrollBtn = styled.div`
   }
 `;
 
-const TempWrapper = styled.div`
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 // 관측에 적용할 수 있는 옵션
 const options = {
   root: null,
@@ -201,7 +173,11 @@ const options = {
   threshold: 0.5,
 };
 
-export default function Main({ searchResults }) {
+export default function Main({
+  searchOption,
+  setSearchOption,
+  setSelectedTag,
+}) {
   const [data, setData] = useState([]);
   const [displayData, setDisplayData] = useState([]);
   const [couple, setCouple] = useState([]);
@@ -209,6 +185,7 @@ export default function Main({ searchResults }) {
   const [isLoading, setIsLoading] = useState(false);
   const [inView, setInView] = useState(false); // inView 상태 추가
   const [titleInView, setTitleInView] = useState(false);
+  const [showAll, setShowAll] = useState(true);
 
   const userState = useSelector((state) => state.userReducer);
   const isDark = useSelector((state) => state.modeReducer);
@@ -217,31 +194,25 @@ export default function Main({ searchResults }) {
     (async () => {
       setIsLoading((prev) => true);
 
-      // setData((prev) => [...dummyCampgrounds.data]);
-
-      // 실제 데이터 받아오는 과정
       const initData = await getAllCampgroundsInfo(1, 1000000);
-      const onlyGangwondo = initData.filter((data) =>
+      const liveDatas = initData.filter((prod) => prod.deleted === false);
+      const onlyGangwondo = liveDatas.filter((data) =>
         data.location.includes("강원도")
       );
-      const onlyCouple = initData.filter(
+      const onlyCouple = liveDatas.filter(
         (data) => 1 <= data.capacity && data.capacity <= 2
       );
 
-      setData((prev) => [...initData]);
+      setData((prev) => [...liveDatas]);
       setGangwondo((prev) => onlyGangwondo);
       setCouple((prev) => onlyCouple);
-      setDisplayData((prev) =>
-        searchResults.length > 0
-          ? searchResults.slice(0, 8)
-          : initData.slice(0, 8)
-      );
+
+      setShowAll(true);
+      setDisplayData((prev) => liveDatas.slice(0, 8));
 
       setIsLoading((prev) => false);
     })();
   }, []);
-
-
 
   const handleScroll = () => {
     const introElement = document.querySelector(".intro-element");
@@ -277,11 +248,67 @@ export default function Main({ searchResults }) {
     window.addEventListener("scroll", handleScroll);
 
     return () => {
-      console.log("zzz");
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      console.log(searchOption);
+
+      setIsLoading((prev) => true);
+
+      const initData = await getAllCampgroundsInfo(1, 1000000);
+      const liveDatas = initData.filter((prod) => prod.deleted === false);
+
+      if (Object.keys(searchOption).length === 0) {
+        setDisplayData((prev) => liveDatas.slice(0, 8));
+      } else {
+        setShowAll(false);
+
+        let result = [];
+        setDisplayData((prev) => []);
+
+        if (searchOption.productName) {
+          const filtered = liveDatas.filter((prod) =>
+            prod.productName.includes(searchOption.productName)
+          );
+          result = [...result, ...filtered];
+        } else if (searchOption.capacity) {
+          const filtered = liveDatas.filter(
+            (prod) =>
+              searchOption.capacity[0] <= prod.capacity &&
+              prod.capacity <= searchOption.capacity[1]
+          );
+          result = [...result, ...filtered];
+        } else if (searchOption.productPrice) {
+          const filtered = liveDatas.filter(
+            (prod) =>
+              searchOption.productPrice[0] <= prod.productPrice &&
+              prod.productPrice <= searchOption.productPrice[1]
+          );
+          result = [...result, ...filtered];
+        }
+
+        setDisplayData((prev) => [...result]);
+      }
+
+      setIsLoading((prev) => false);
+    })();
+  }, [searchOption]);
+
+  useEffect(() => {
+    (async () => {
+      if (showAll) {
+        const initData = await getAllCampgroundsInfo(1, 1000000);
+        const liveDatas = initData.filter((prod) => prod.deleted === false);
+        setDisplayData((prev) => liveDatas.slice(0, 8));
+        setSelectedTag(-1);
+
+        await setSearchOption({});
+      }
+    })();
+  }, [showAll]);
 
   return isLoading ? (
     <Loader>
@@ -289,7 +316,7 @@ export default function Main({ searchResults }) {
     </Loader>
   ) : (
     <>
-      {searchResults.length === 0 ? (
+      {showAll ? (
         <>
           <IntroArea>
             <IntroContent>
@@ -309,8 +336,8 @@ export default function Main({ searchResults }) {
             </Element>
           </ContextArea>
           <Container>
-            {searchResults.length > 0
-              ? searchResults.map((campground) => (
+            {displayData.length > 0
+              ? displayData.map((campground) => (
                   <Card2
                     key={campground.productId + ""}
                     campground={campground}
@@ -371,6 +398,14 @@ export default function Main({ searchResults }) {
               <Card2 key={campground.productId + ""} campground={campground} />
             ))}
           </Container>
+          <Title
+            isDark={isDark}
+            inView={titleInView}
+            onClick={() => setShowAll(true)}
+            style={{ cursor: "pointer" }}
+          >
+            전체 상품 보기↪️
+          </Title>
         </>
       )}
       <ScrollBtn onClick={() => window.scrollTo(0, 0)}>

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { CommonButton } from "../Components/Common/Button";
 import { Input, AuthCodeInput } from "../Components/Common/Input";
 import { Label, Label02, Label03 } from "../Components/Common/Label";
-import { getToday } from "../utils/functions";
+import { getToday, makePhone } from "../utils/functions";
 import { getEmailCode, handleJoin } from "../utils/MemberFunctions";
 import { checkValidPassword, checkValidPhone } from "../utils/functions";
 import { Line, Line2, Line3, Line4 } from "../Components/Common/Line";
@@ -92,7 +92,7 @@ export default function SignUp() {
   };
 
   const handleStartJoin = async (data) => {
-    const { password, password2, name, phone, birthDate, email } = data;
+    let { password, password2, name, phone, birthDate, email } = data;
 
     // 비밀번호와 비밀번호 확인이 일치하지 않는 경우
     if (password !== password2) {
@@ -120,6 +120,13 @@ export default function SignUp() {
       toast("비밀번호 양식이 맞지 않습니다.");
       return;
     }
+
+    if (phone.length !== 10 && phone.length !== 11) {
+      toast("전화번호 양식이 맞지 않습니다.");
+      return;
+    }
+
+    phone = makePhone(phone);
 
     if (checkValidPhone(phone) === false) {
       toast("전화번호 양식이 맞지 않습니다.");

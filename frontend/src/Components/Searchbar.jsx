@@ -10,13 +10,10 @@ const InputSpace = styled.div`
 
   @media screen and (max-width: 868px) {
     margin-left: 200px;
-
   }  
   @media screen and (max-width: 400px) {
     margin-left: 0px;
-
   }  
-
 `;
 
 const InputWrapper = styled.div`
@@ -52,8 +49,7 @@ const Input = styled.input`
 
   @media screen and (max-width: 768px) {
     width: 300px;
-
-  }  
+  }
   @media screen and (max-width: 400px) {
     width: 200px;
     margin-left: 170px;
@@ -139,41 +135,18 @@ const Text = styled.p`
   font-size: 15px;
 `;
 
-export default function Searchbar({ setSearchResults, data }) {
+export default function Searchbar({
+  searchOption,
+  setSearchOption,
+  selectedTag,
+  setSelectedTag,
+}) {
   const [searchText, setSearchText] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedTags, setSelectedTags] = useState([]);
   const isDark = useSelector((state) => state.modeReducer);
 
-  const handleSearch = () => {
-    const filteredData = data.filter((campground) => {
-      const productName = campground.productName
-        ? campground.productName.toLowerCase()
-        : "";
-      const location = campground.location
-        ? campground.location.toLowerCase()
-        : "";
-      const uniqueSelectedTags = [...new Set(selectedTags)];
-      const isSeoulSelected = uniqueSelectedTags.includes("Tag 1");
-      const is1to2Selected = uniqueSelectedTags.includes("Tag 2");
-      const isGangwonSelected = uniqueSelectedTags.includes("Tag 4");
-
-      return (
-        (isSeoulSelected && location.includes("서울")) ||
-        (is1to2Selected &&
-          campground.capacity >= 1 &&
-          campground.capacity <= 2) ||
-        (isGangwonSelected && location.includes("강원도")) ||
-        (!isSeoulSelected &&
-          !is1to2Selected &&
-          !isGangwonSelected &&
-          (productName.includes(searchText.toLowerCase()) ||
-            location.includes(searchText.toLowerCase()) ||
-            String(campground.capacity) === searchText))
-      );
-    });
-
-    setSearchResults(filteredData);
+  const handleKeywordSearch = () => {
+    setSearchOption({ productName: searchText });
   };
 
   const handleInputChange = (e) => {
@@ -182,7 +155,7 @@ export default function Searchbar({ setSearchResults, data }) {
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      handleSearch();
+      handleKeywordSearch();
     }
   };
 
@@ -194,22 +167,11 @@ export default function Searchbar({ setSearchResults, data }) {
     setIsDropdownOpen(isOpen);
   };
 
-  const handleTagClick = (tag) => {
-    const isSelected = selectedTags.includes(tag);
-    let updatedTags;
-
-    if (isSelected) {
-      updatedTags = selectedTags.filter((selectedTag) => selectedTag !== tag);
-    } else {
-      updatedTags = [...selectedTags, tag];
+  const handleTagClick = (key, value, tagId) => {
+    if (selectedTag !== tagId) {
+      setSelectedTag((prev) => tagId);
+      setSearchOption({ ...searchOption, [key]: value });
     }
-
-    setSelectedTags(updatedTags);
-    handleSearch();
-  };
-
-  const isTagSelected = (tag) => {
-    return selectedTags.includes(tag);
   };
 
   return (
@@ -236,28 +198,30 @@ export default function Searchbar({ setSearchResults, data }) {
               </TagsContainer>
               <TagsContainer>
                 <Tag
-                  className={isTagSelected("Tag 1") ? "selected" : ""}
-                  onClick={() => handleTagClick("Tag 1")}
+                  className={selectedTag === 0 ? "selected" : ""}
+                  onClick={() => handleTagClick("productName", "서울시", 0)}
                 >
                   <TagText># 서울시</TagText>
                 </Tag>
                 <Tag
-                  className={isTagSelected("Tag 2") ? "selected" : ""}
-                  onClick={() => handleTagClick("Tag 2")}
+                  className={selectedTag === 1 ? "selected" : ""}
+                  onClick={() => handleTagClick("productName", "강원도", 1)}
+                >
+                  <TagText># 강원도</TagText>
+                </Tag>
+                <Tag
+                  className={selectedTag === 2 ? "selected" : ""}
+                  onClick={() => handleTagClick("capacity", [1, 2], 2)}
                 >
                   <TagText># 1~2인</TagText>
                 </Tag>
                 <Tag
-                  className={isTagSelected("Tag 3") ? "selected" : ""}
-                  onClick={() => handleTagClick("Tag 3")}
+                  className={selectedTag === 3 ? "selected" : ""}
+                  onClick={() =>
+                    handleTagClick("productPrice", [10000, 100000], 3)
+                  }
                 >
-                  <TagText># 캠핑장 14</TagText>
-                </Tag>
-                <Tag
-                  className={isTagSelected("Tag 4") ? "selected" : ""}
-                  onClick={() => handleTagClick("Tag 4")}
-                >
-                  <TagText># 강원도</TagText>
+                  <TagText># 10000원~100000원</TagText>
                 </Tag>
               </TagsContainer>
             </div>

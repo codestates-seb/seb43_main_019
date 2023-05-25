@@ -35,7 +35,7 @@ export const handleUpdateCampground = async (
   memberInfo
 ) => {
   try {
-    const response = await axios.post(
+    const response = await axios.patch(
       `${BACK}/api/products/${productId}`,
       updatedInfo,
       {
