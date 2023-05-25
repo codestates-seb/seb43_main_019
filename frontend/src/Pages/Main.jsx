@@ -22,7 +22,6 @@ const Container = styled.main`
   margin: 0 auto;
   width: 100%;
   height: auto;
-  min-height: 100vh;
 
   display: grid;
   grid-template-columns: 1fr;
@@ -48,10 +47,15 @@ const Container = styled.main`
   }
 
   gap: 10px;
+  @media screen and (max-width: 400px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  gap: 10px;
   justify-items: center;
   padding: 20px 0;
   padding: 20px 0;
-  /* padding-top: 50px; */
 `;
 
 const ContextArea = styled.div`
@@ -62,7 +66,7 @@ const ContextArea = styled.div`
   left: 0;
 
   @media screen and (max-width: 400px) {
-    height: calc(100vh - 450px);
+    height: calc(100vh - 600px);
   }
 
   @media screen and (max-width: 400px) {
@@ -78,6 +82,10 @@ const IntroArea = styled.div`
   padding: 10px 0;
   top: 0;
   left: 0;
+
+  @media screen and (max-width: 400px) {
+    display: none;
+  }
 
   @media screen and (max-width: 400px) {
     display: none;
@@ -144,10 +152,13 @@ const TitleAnimation = keyframes`
 const Title = styled.h2`
   margin-left: 250px;
   margin-bottom: 30px;
+  margin-left: 250px;
+  margin-bottom: 30px;
   font-family: "Noto Sans KR", sans-serif;
   color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--black-700)")};
 
   @media screen and (max-width: 400px) {
+    margin-left: 0px ;
     margin-left: 0px ;
     padding-top: 30px;
     text-align: center;
@@ -156,6 +167,8 @@ const Title = styled.h2`
   /* Apply animation */
   opacity: 0;
   animation: ${TitleAnimation} 1s ease forwards;
+
+
 
 
 `;
@@ -167,6 +180,9 @@ const ScrollBtn = styled.div`
   justify-content: center;
   align-items: center;
   margin: 0 auto;
+  @media screen and (max-width: 400px) {
+    padding-bottom: 100px;
+  }
 `;
 
 const TempWrapper = styled.div`
@@ -185,31 +201,17 @@ const options = {
 };
 
 export default function Main({ searchResults }) {
-  const isDark = useSelector((state) => state.modeReducer);
   const [data, setData] = useState([]);
+  const [displayData, setDisplayData] = useState([]);
+  const [couple, setCouple] = useState([]);
+  const [gangwondo, setGangwondo] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [size, setSize] = useState(10);
-  const [page, setPage] = useState(1);
   const [inView, setInView] = useState(false); // inView 상태 추가
   const [titleInView, setTitleInView] = useState(false);
+
   const userState = useSelector((state) => state.userReducer);
+  const isDark = useSelector((state) => state.modeReducer);
 
-  // 타겟 요소 지정
-  let containerRef = useRef(null);
-
-  // 검색 결과 상태 관리
-  // const [searchResults, setSearchResults] = useState([]);
-
-  // 검색 함수
-  /*
-  const handleSearch = (searchText) => {
-    const filteredData = data.filter((campground) => {
-      return campground.productName.toLowerCase().includes(searchText.toLowerCase());
-    });
-
-    setSearchResults(filteredData);
-  };
-  */
   useEffect(() => {
     (async () => {
       setIsLoading((prev) => true);
@@ -217,31 +219,28 @@ export default function Main({ searchResults }) {
       // setData((prev) => [...dummyCampgrounds.data]);
 
       // 실제 데이터 받아오는 과정
-      const initData = await getAllCampgroundsInfo(page, size);
+      const initData = await getAllCampgroundsInfo(1, 1000000);
+      const onlyGangwondo = initData.filter((data) =>
+        data.location.includes("강원도")
+      );
+      const onlyCouple = initData.filter(
+        (data) => 1 <= data.capacity && data.capacity <= 2
+      );
+
       setData((prev) => [...initData]);
+      setGangwondo((prev) => onlyGangwondo);
+      setCouple((prev) => onlyCouple);
+      setDisplayData((prev) =>
+        searchResults.length > 0
+          ? searchResults.slice(0, 8)
+          : initData.slice(0, 8)
+      );
 
       setIsLoading((prev) => false);
     })();
   }, []);
 
-  // 무한 스크롤을 위한 useEffect
-  useEffect(() => {
-    (async () => {
-      const observer = new IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting) {
-          // // console.log("ㅋㅋㅋ");
-        }
-      }, options);
 
-      if (containerRef.current) {
-        observer.observe(containerRef.current);
-      }
-
-      return () => {
-        observer.disconnect();
-      };
-    })();
-  }, [containerRef]);
 
   const handleScroll = () => {
     const introElement = document.querySelector(".intro-element");
@@ -277,19 +276,11 @@ export default function Main({ searchResults }) {
     window.addEventListener("scroll", handleScroll);
 
     return () => {
+      console.log("zzz");
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
-  const filteredResults = data.filter((campground) => {
-    return campground.capacity >= 1 && campground.capacity <= 2;
-  });
-
-  const filteredResults02 = data.filter((campground) => {
-    return campground.location.includes("강원도");
-  });
-
-  const displayResults = searchResults.length > 0 ? searchResults : data.slice(0, 8);
 
   return isLoading ? (
     <Loader>
@@ -324,14 +315,13 @@ export default function Main({ searchResults }) {
                     campground={campground}
                   />
                 ))
-              : data.map((campground) => (
+              : displayData.map((campground) => (
                   <Card2
                     key={campground.productId + ""}
                     campground={campground}
                   />
                 ))}
           </Container>
-
           <ContextArea isDark={isDark}>
             <Element name="intro" className="intro-element">
               <Title isDark={isDark} inView={titleInView}>
@@ -340,12 +330,14 @@ export default function Main({ searchResults }) {
             </Element>
           </ContextArea>
           <Container>
-            {(filteredResults.length > 0
-              ? filteredResults
-              : data.slice(0, 8)
-            ).map((campground) => (
-              <Card2 key={campground.productId + ""} campground={campground} />
-            ))}
+            {(couple.length > 0 ? couple : data.slice(0, 8)).map(
+              (campground) => (
+                <Card2
+                  key={campground.productId + ""}
+                  campground={campground}
+                />
+              )
+            )}
           </Container>
 
           <ContextArea isDark={isDark}>
@@ -356,12 +348,14 @@ export default function Main({ searchResults }) {
             </Element>
           </ContextArea>
           <Container>
-            {(filteredResults02.length > 0
-              ? filteredResults02
-              : data.slice(0, 8)
-            ).map((campground) => (
-              <Card2 key={campground.productId + ""} campground={campground} />
-            ))}
+            {(gangwondo.length > 0 ? gangwondo : data.slice(0, 8)).map(
+              (campground) => (
+                <Card2
+                  key={campground.productId + ""}
+                  campground={campground}
+                />
+              )
+            )}
           </Container>
         </>
       ) : (
@@ -372,13 +366,13 @@ export default function Main({ searchResults }) {
             </Title>
           </ContextArea>
           <Container>
-            {displayResults.map((campground) => (
+            {displayData.map((campground) => (
               <Card2 key={campground.productId + ""} campground={campground} />
             ))}
           </Container>
         </>
       )}
-      <ScrollBtn onClick={() => window.scrollTo(0, 0)} ref={containerRef}>
+      <ScrollBtn onClick={() => window.scrollTo(0, 0)}>
         <FaChevronUp size={40} />
       </ScrollBtn>
     </>

@@ -5,6 +5,7 @@ import { useRef } from "react";
 import Review from "../Components/Review";
 import { useSelector } from "react-redux";
 import { getAllReview, handlePostReview } from "../utils/ReviewFunctions";
+import { toast } from "react-toastify";
 
 const Container = styled.div`
   max-width: 700px;
@@ -102,7 +103,7 @@ const PostBtn = styled.button`
   padding: 16px 16px 15px;
   text-decoration: none;
   cursor: pointer;
-  background: var(--white-50);
+  background: ${(props) => (props.disabled ? "black" : "var(--white-50)")};
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
@@ -133,6 +134,7 @@ export default function ReviewForm({ productId }) {
   const [isLoading, setIsLoading] = useState(false); // 보여줄 리뷰들이 로딩중인지를 저장하는 state입니다.
   const [content, setContent] = useState(""); // 작성할 리뷰의 내용입니다.
   const [showMine, setShowMine] = useState(false); // 현재 나의 리뷰만을 보여주는지 저장할 state입니다.
+  const [isReviewWritten, setIsReviewWritten] = useState(false);
   const selectRef = useRef(null); // 별점을 참조합니다.
   const userState = useSelector((state) => state.userReducer); // 유저정보
 
@@ -145,7 +147,7 @@ export default function ReviewForm({ productId }) {
     const result = await getAllReview(1, 10000);
 
     const filtered = result.filter((review) => {
-      return review.productId === +productId;
+      return review.productId === Number(productId);
     });
 
     return filtered;
@@ -156,12 +158,12 @@ export default function ReviewForm({ productId }) {
     event.preventDefault();
 
     if (content.length === 0) {
-      alert("리뷰를 작성해주세요.");
+      toast("리뷰를 작성해주세요.");
       return;
     }
 
     if (selectRef.current.value === "-") {
-      alert("별점을 선택해주세요.");
+      toast("별점을 선택해주세요.");
       return;
     }
 
@@ -175,11 +177,10 @@ export default function ReviewForm({ productId }) {
     const success = await handlePostReview(newReview);
 
     if (success === true) {
-      newReview.createdAt = new Date().toISOString();
-
-      setReviews((prev) => [newReview, ...prev]);
+      toast("리뷰를 작성했습니다.");
+      window.location.reload();
     } else {
-      alert("리뷰 작성이 실패했습니다.");
+      toast("리뷰 작성이 실패했습니다.");
     }
   };
 
@@ -193,6 +194,7 @@ export default function ReviewForm({ productId }) {
       setShowMine((prev) => false);
 
       const filtered = await showAllReviews();
+
       setReviews((prev) => [...filtered]);
     } else {
       // 만약, 현재 모든 리뷰를 보여주는 상황이라면
@@ -218,7 +220,18 @@ export default function ReviewForm({ productId }) {
       setIsLoading((prev) => true);
 
       const filtered = await showAllReviews();
+
       setReviews((prev) => [...filtered]);
+
+      let isMine = false;
+
+      filtered.forEach((review) => {
+        if (review.memberId === userState.userInfo.memberId) {
+          isMine = true;
+        }
+      });
+
+      setIsReviewWritten((prev) => isMine);
 
       setIsLoading((prev) => false);
     })();
@@ -258,7 +271,7 @@ export default function ReviewForm({ productId }) {
               <option value="4.5">4.5</option>
               <option value="5.0">5.0</option>
             </ScoreInput>
-            <PostBtn>리뷰 작성</PostBtn>
+            <PostBtn disabled={isReviewWritten}>리뷰 작성</PostBtn>
           </Inputs>
         )}
       </Form>
