@@ -65,9 +65,11 @@ export default function ProductList({ seller }) {
       const allProducts = await getAllCampgroundsInfo(1, 10000);
 
       if (allProducts) {
-        const mine = allProducts.filter(
-          (product) => product.memberId === seller.memberId
-        );
+        const mine = allProducts.filter((product) => {
+          return (
+            product.deleted === false && product.memberId === seller.memberId
+          );
+        });
         setMyProducts((prev) => mine);
       }
 

@@ -9,8 +9,8 @@ import { useEffect, useState } from "react";
 import { getAllCampgroundsInfo } from "../utils/ProductFunctions";
 import Spinner from "./Common/Spinner";
 import ModeBtn from "./ModeBtn";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Container = styled.header`
   width: 100%;
@@ -52,9 +52,8 @@ const Bottom = styled.div`
     display: flex;
   }
   @media screen and (max-width: 400px) {
-    padding-top : 20px;
+    padding-top: 20px;
     padding-bottom: 40px;
-
   }
 `;
 
@@ -66,8 +65,6 @@ const Line = styled.hr`
     ${(props) => (props.isDark ? "var(--white)" : "var(--black-500)")};
   margin-bottom: 0px;
   margin-top: 0px;
-
-  
 `;
 
 const Logo = styled.img`
@@ -98,14 +95,16 @@ const UserStatus = styled.div`
   }
 `;
 
-export default function Header({ setSearchResults }) {
+export default function Header({
+  searchOption,
+  setSearchOption,
+  selectedTag,
+  setSelectedTag,
+}) {
   const navigate = useNavigate();
   const isDark = useSelector((state) => state.modeReducer);
   const userState = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
-
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleSignOut = async () => {
     try {
@@ -116,20 +115,6 @@ export default function Header({ setSearchResults }) {
       return;
     }
   };
-
-  useEffect(() => {
-    (async () => {
-      setIsLoading((prev) => true);
-
-      // setData((prev) => [...dummyCampgrounds.data]);
-
-      // 실제 데이터 받아오는 과정
-      const initData = await getAllCampgroundsInfo(1, 1000);
-      setData((prev) => [...initData]);
-
-      setIsLoading((prev) => false);
-    })();
-  }, []);
 
   return (
     <>
@@ -166,11 +151,12 @@ export default function Header({ setSearchResults }) {
         </Top>
         <Bottom isDark={isDark}>
           <ModeBtn />
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            <Searchbar setSearchResults={setSearchResults} data={data} />
-          )}
+          <Searchbar
+            searchOption={searchOption}
+            setSearchOption={setSearchOption}
+            selectedTag={selectedTag}
+            setSelectedTag={setSelectedTag}
+          />
         </Bottom>
         <Line isDark={isDark} />
         <ToastContainer /> {/* 알림 메시지 컨테이너 */}

@@ -5,6 +5,7 @@ import { FcBusinessman } from "react-icons/fc";
 import { useQuery } from "react-query";
 import { getMemberInfo } from "../utils/MemberFunctions";
 import { AiFillCloseCircle } from "react-icons/ai";
+import { BsPencilSquare } from "react-icons/bs";
 import { GrUpdate } from "react-icons/gr";
 import { handleDeleteReview } from "../utils/ReviewFunctions";
 import { handleUpdateReview } from "../utils/ReviewFunctions";
@@ -183,8 +184,8 @@ const PostBtn = styled.button`
 `;
 
 const getScore = (score) => {
-  if ((score * 10) % 10 === 0) return score + 0.5;
-  else return score;
+  if ((score * 10) % 10 === 0) return String(score) + ".0";
+  else return score + "";
 };
 
 const getDate = (date) => {
@@ -225,9 +226,9 @@ export default function Review({ review, userId }) {
     const result = await handleUpdateReview(review.reviewId, updatedReview);
 
     if (result) {
-      alert("리뷰를 수정하였습니다.");
+      toast("리뷰를 수정하였습니다.");
     } else {
-      alert("리뷰 수정이 실패했습니다.");
+      toast("리뷰 수정이 실패했습니다.");
     }
 
     setUpdate(false);
@@ -250,10 +251,10 @@ export default function Review({ review, userId }) {
     );
 
     if (success) {
-      alert("성공적으로 삭제했습니다!");
+      toast("성공적으로 삭제했습니다!");
       window.location.reload();
     } else {
-      alert("삭제 실패");
+      toast("삭제 실패");
     }
   };
 
@@ -265,14 +266,11 @@ export default function Review({ review, userId }) {
             <UserIcon>
               <FcBusinessman size={"30px"} />
             </UserIcon>
-            <UserName>
-              {/* {isLoading ? "이름 찾는 중..." : data ? data.name : "무명"} */}
-              익명의 이용객
-            </UserName>
+            <UserName>익명의 이용객</UserName>
           </UserInfo>
           {review.memberId === userId && (
             <Icons>
-              <GrUpdate onClick={() => setUpdate(true)} size={"25px"} />
+              <BsPencilSquare onClick={() => setUpdate(true)} size={"25px"} />
               <AiFillCloseCircle onClick={deleteReview} size={"30px"} />
             </Icons>
           )}

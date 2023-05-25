@@ -53,9 +53,11 @@ const Container = styled.main`
 `;
 
 function App() {
+  const [searchOption, setSearchOption] = useState({});
+  const [selectedTag, setSelectedTag] = useState(-1);
+
   const isDark = useSelector((state) => state.modeReducer);
   const dispatch = useDispatch();
-  const [searchResults, setSearchResults] = useState([]);
   const userState = useSelector((state) => state.userReducer);
 
   useEffect(() => {
@@ -68,15 +70,18 @@ function App() {
           dispatch(handleLogout());
           return;
         }
-        console.log(userState.userInfo);
-        console.log(myInfo);
       }
     })();
   }, []);
 
   return (
     <Wrapper>
-      <Header setSearchResults={setSearchResults} />
+      <Header
+        searchOption={searchOption}
+        setSearchOption={setSearchOption}
+        selectedTag={selectedTag}
+        setSelectedTag={setSelectedTag}
+      />
       <Container isDark={isDark}>
         <Routes>
           <Route path="/signup" element={<SignUp />} />
@@ -91,10 +96,19 @@ function App() {
 
           <Route path="/:id" element={<Detail />} />
           <Route path="/404" element={<NotFound />} />
-          <Route path="/api/payments/success" element={<PaySuccessPage />} />
-          <Route path="/api/payments/cancel" element={<PayCancelPage />} />
-          <Route path="/api/payments/fail" element={<PayFailPage />} />
-          <Route path="/" element={<Main searchResults={searchResults} />} />
+          <Route path="api/payments/success" element={<PaySuccessPage />} />
+          <Route path="api/payments/cancel" element={<PayCancelPage />} />
+          <Route path="api/payments/fail" element={<PayFailPage />} />
+          <Route
+            path="/"
+            element={
+              <Main
+                searchOption={searchOption}
+                setSearchOption={setSearchOption}
+                setSelectedTag={setSelectedTag}
+              />
+            }
+          />
         </Routes>
       </Container>
       <ChatBox />

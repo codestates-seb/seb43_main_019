@@ -33,17 +33,23 @@ export const handleReservation = async (reservationId) => {
 // 수정된 예약 정보를 인자로 받습니다.
 // 성공 시 수정된 예약 정보를 반환합니다.
 // 실패 시 null을 반환합니다.
-export const handleUpdateReservation = async (updated) => {
+export const handleUpdateReservation = async (updated, userInfo) => {
   const { reservationId } = updated;
 
   try {
     const response = await axios.patch(
       `${BACK}${RES}/${reservationId}`,
-      updated
+      updated,
+      {
+        headers: {
+          Authorization: userInfo.accessToken,
+        },
+      }
     );
 
     return response.data;
   } catch (error) {
+    console.log(error);
     return null;
   }
 };
@@ -54,8 +60,6 @@ export const handleUpdateReservation = async (updated) => {
 // 실패 시 false를 반환합니다.
 export const handleCancelReservation = async (reservationId, memberInfo) => {
   try {
-    console.log(reservationId);
-    console.log(memberInfo);
     await axios.delete(`${BACK}${RES}/${reservationId}`, {
       headers: {
         Authorization: memberInfo.accessToken,
@@ -63,6 +67,25 @@ export const handleCancelReservation = async (reservationId, memberInfo) => {
     });
     return true;
   } catch (error) {
+    return false;
+  }
+};
+
+// 해당 날짜에 예약이 존재하는지 확인하는 함수입니다.
+export const handleCheckReservationDate = async (reservationInfo, userInfo) => {
+  try {
+    const response = await axios.post(
+      `${BACK}/api/reservations/existence`,
+      reservationInfo,
+      {
+        headers: {
+          Authorization: userInfo.accessToken,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
     return false;
   }
 };

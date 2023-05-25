@@ -225,11 +225,13 @@ export default function ReviewForm({ productId }) {
 
       let isMine = false;
 
-      filtered.forEach((review) => {
-        if (review.memberId === userState.userInfo.memberId) {
-          isMine = true;
-        }
-      });
+      if (userState.login) {
+        filtered.forEach((review) => {
+          if (review.memberId === userState.userInfo.memberId) {
+            isMine = true;
+          }
+        });
+      }
 
       setIsReviewWritten((prev) => isMine);
 

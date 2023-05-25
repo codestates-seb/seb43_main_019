@@ -113,6 +113,23 @@ const Btn = styled.button`
   }
 `;
 
+const ModalBtn = styled.button`
+  background-color: #4000c7;
+  text-decoration: none;
+  border: none;
+  padding: 20px;
+  color: white;
+  border-radius: 30px;
+  cursor: grab;
+`;
+
+const Exitbtn = styled(ModalBtn)`
+  background-color: var(--black);
+  color: var(--white);
+  margin: 10px;
+  padding: 5px 10px;
+`;
+
 const ModalStyle = {
   overlay: {
     position: "fixed",
@@ -155,11 +172,11 @@ function MyModal(props) {
   return (
     <Modal isOpen={isOpen} closeModal={closeModal} style={ModalStyle}>
       <Wrapper>
-        <CloseBtn onClick={closeModal} />
+        <Exitbtn onClick={closeModal}>&times;</Exitbtn>
         {isLoading ? (
           <Spinner />
         ) : campgrounds.length === 0 ? (
-          <h1>예약한 캠핑장이 없습니다.</h1>
+          <label style={{ marginTop: "50px" }}>예약한 캠핑장이 없습니다.</label>
         ) : (
           <>
             {campgrounds.map((campground) => (
