@@ -242,9 +242,7 @@ const ScrollBtn = styled.div`
   }
 
   @media (max-width: 400px) {
-    margin-left: -60px;
-    margin-right: 50px;
-    margin-bottom: -81px;
+    margin-left: 130px;
   }
 `;
 

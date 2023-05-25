@@ -67,6 +67,7 @@ const ContextArea = styled.div`
 
   @media screen and (max-width: 400px) {
     height: calc(100vh - 600px);
+    margin-bottom: 30px;
   }
 
   @media screen and (max-width: 400px) {

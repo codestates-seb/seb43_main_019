@@ -56,7 +56,7 @@ const Front = styled.div`
   background-color: ${(props) =>
     props.isDark ? "var(--white-50)" : "var(--white)"};
   color: var(--black-700);
-  /* /* border: none; */ */
+  /* border: none; */
   display: flex;
   flex-direction: column;
   align-items: center;
