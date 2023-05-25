@@ -5,16 +5,14 @@ import styled from "@emotion/styled";
 const { kakao } = window;
 
 const MapContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 50px 200px 200px 200px;
-  @media (max-width: 1111px) {
-    padding: 0px 100px 100px 100px;
-  }
+  width: 500px;
+  height: 300px;
+  border-radius: 20px;
 
-  @media (max-width: 400px) {
-    display: none;
+  @media screen and (max-width: 400px) {
+    width: 300px;
+    height: 200px;
+
   }
 `;
 
@@ -82,14 +80,7 @@ function Map({ productId }) {
     }
   }, [campgroundInfo, map]);
 
-  return (
-    <MapContainer>
-      <div
-        id="map"
-        style={{ width: mapSize.width, height: mapSize.height }}
-      ></div>
-    </MapContainer>
-  );
+  return <MapContainer id="map" />;
 }
 
 export default Map;

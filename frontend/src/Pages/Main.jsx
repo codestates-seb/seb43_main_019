@@ -41,6 +41,12 @@ const Container = styled.main`
   }
 
   gap: 10px;
+  @media screen and (max-width: 400px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  gap: 10px;
   justify-items: center;
   padding: 20px 0;
 `;
@@ -55,6 +61,10 @@ const ContextArea = styled.div`
   @media screen and (max-width: 400px) {
     height: calc(100vh - 600px);
   }
+
+  @media screen and (max-width: 400px) {
+    height: calc(100vh - 450px);
+  }
 `;
 
 const IntroArea = styled.div`
@@ -65,6 +75,10 @@ const IntroArea = styled.div`
   padding: 10px 0;
   top: 0;
   left: 0;
+
+  @media screen and (max-width: 400px) {
+    display: none;
+  }
 
   @media screen and (max-width: 400px) {
     display: none;
@@ -125,20 +139,22 @@ const TitleAnimation = keyframes`
 `;
 
 const Title = styled.h2`
-  margin-left: 150px !important;
+  margin-left: 250px;
+  margin-bottom: 30px;
   font-family: "Noto Sans KR", sans-serif;
   color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--black-700)")};
 
   @media screen and (max-width: 400px) {
-    margin-left: 0px !important;
+    margin-left: 0px ;
     padding-top: 30px;
     text-align: center;
     font-size: 22px;
   }
-
   /* Apply animation */
   opacity: 0;
   animation: ${TitleAnimation} 1s ease forwards;
+
+
 `;
 
 const ScrollBtn = styled.div`
