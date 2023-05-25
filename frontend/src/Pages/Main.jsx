@@ -125,8 +125,8 @@ const IntroTitle = styled.h2`
   display: flex;
   font-size: 30px;
   white-space: pre-line;
-  justify-content: center important!;
-  align-items: center important!;
+  justify-content: center ;
+  align-items: center ;
   opacity: ${({ inView }) => (inView ? 1 : 0)};
   transform: translateY(${({ inView }) => (inView ? "0" : "-100%")});
   transition: opacity 1s ease, transform 1s ease;

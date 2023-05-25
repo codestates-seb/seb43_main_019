@@ -4,7 +4,7 @@ import { useState } from "react";
 import { FcBusinessman } from "react-icons/fc";
 import { useQuery } from "react-query";
 import { getMemberInfo } from "../utils/MemberFunctions";
-import { AiFillCloseCircle } from "react-icons/ai";
+import { AiFillCloseCircle,AiFillEdit } from "react-icons/ai";
 import { GrUpdate } from "react-icons/gr";
 import { handleDeleteReview } from "../utils/ReviewFunctions";
 import { handleUpdateReview } from "../utils/ReviewFunctions";
@@ -13,10 +13,13 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
-  width: 100%;
+  width: 50%;
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid var(--gray-400);
+
+  @media screen and (max-width: 868px) {
+    width: 100%;
+  }
 `;
 
 const Header = styled.div`
@@ -25,7 +28,7 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  background-color: var(--gray-200);
+  border-radius: 10px;
 `;
 
 const UserIcon = styled.div`
@@ -45,7 +48,7 @@ const UserInfo = styled.div`
   align-items: center;
 `;
 
-const UserName = styled.h4`
+const UserName = styled.p`
   font-size: 15px;
 `;
 
@@ -60,20 +63,20 @@ const ReviewInfo = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-  background-color: var(--gray-100);
+  border-radius: 10px;
 `;
 
 const Icons = styled.div`
   width: 80px;
   height: 100%;
+  gap:10px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 `;
 
-const Score = styled.h4``;
+const Score = styled.p``;
 
-const DateDisplay = styled.h4``;
+const DateDisplay = styled.p``;
 
 const Overlay = styled.div`
   width: 100vw;
@@ -151,14 +154,13 @@ const ScoreInput = styled.select`
 
 const PostBtn = styled.button`
   overflow: hidden;
-  border: 1px solid var(--black);
-  color: var(--black-700);
+  background-color: #27374D;
+  color: var(--white);
   font-size: 13px;
   line-height: 13px;
   padding: 16px 16px 15px;
   text-decoration: none;
   cursor: pointer;
-  background: var(--white-50);
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
@@ -183,7 +185,7 @@ const PostBtn = styled.button`
 `;
 
 const getScore = (score) => {
-  if ((score * 10) % 10 === 0) return score + 0.5;
+  if ((score * 10) % 10 === 0) return score;
   else return score;
 };
 
@@ -272,7 +274,7 @@ export default function Review({ review, userId }) {
           </UserInfo>
           {review.memberId === userId && (
             <Icons>
-              <GrUpdate onClick={() => setUpdate(true)} size={"25px"} />
+              <AiFillEdit onClick={() => setUpdate(true)} size={"25px"} />
               <AiFillCloseCircle onClick={deleteReview} size={"30px"} />
             </Icons>
           )}

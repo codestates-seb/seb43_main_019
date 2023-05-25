@@ -12,6 +12,10 @@ const InputSpace = styled.div`
     margin-left: 200px;
 
   }  
+  @media screen and (max-width: 400px) {
+    margin-left: 0px;
+
+  }  
 
 `;
 
