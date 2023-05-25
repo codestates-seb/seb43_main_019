@@ -215,12 +215,6 @@ const Icon = styled(FontAwesomeIcon)`
     font-size: 15px;
     width: 80%;
   }
-
-  @media screen and (max-width: 400px) {
-    /* Adjust the card size for 400px width */
-    font-size: 15px;
-    width: 80%;
-  }
 `;
 
 const loremIpsum = "지금 바로 예약하세요!";

@@ -11,6 +11,8 @@ const ImageWrapper = styled.div`
 
   @media screen and (max-width: 400px) {
     border-radius: 20px;
+    width: 200px;
+    height: 200px;
 
   }
 `;
