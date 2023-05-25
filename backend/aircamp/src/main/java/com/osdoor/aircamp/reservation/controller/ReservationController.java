@@ -2,10 +2,7 @@ package com.osdoor.aircamp.reservation.controller;
 
 import com.osdoor.aircamp.dto.SingleResponseDto;
 import com.osdoor.aircamp.member.service.MemberService;
-import com.osdoor.aircamp.reservation.dto.ReservationDto;
-import com.osdoor.aircamp.reservation.dto.ReservationPatchDto;
-import com.osdoor.aircamp.reservation.dto.ReservationPostDto;
-import com.osdoor.aircamp.reservation.dto.ReservationIdResponseDto;
+import com.osdoor.aircamp.reservation.dto.*;
 import com.osdoor.aircamp.reservation.entity.Reservation;
 import com.osdoor.aircamp.reservation.mapper.ReservationMapper;
 import com.osdoor.aircamp.reservation.service.ReservationService;
@@ -91,6 +88,14 @@ public class ReservationController {
     public ResponseEntity cancelReservation(@PathVariable("reservation-id") @Positive long reservationId) {
         reservationService.cancelReservation(reservationId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    // 해당 날짜에 중복된 예약이 있는지 검증
+    @PostMapping("/existence")
+    public ResponseEntity<ReservationExistenceDto> checkReservationExistence(@RequestBody ReservationExistenceDto existenceDto) {
+        boolean existence = reservationService.checkReservationExistence(existenceDto);
+        existenceDto.setExistence(existence);
+        return ResponseEntity.ok(existenceDto);
     }
 }
 

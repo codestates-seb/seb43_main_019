@@ -8,6 +8,7 @@ import com.osdoor.aircamp.member.service.MemberService;
 import com.osdoor.aircamp.product.entity.Product;
 import com.osdoor.aircamp.product.service.ProductService;
 import com.osdoor.aircamp.reservation.dto.ReservationDto;
+import com.osdoor.aircamp.reservation.dto.ReservationExistenceDto;
 import com.osdoor.aircamp.reservation.dto.ReservationPostDto;
 import com.osdoor.aircamp.reservation.mapper.ReservationMapper;
 import com.osdoor.aircamp.reservation.entity.Reservation;
@@ -180,6 +181,18 @@ public class ReservationService {
                 .filter(reservation -> reservation.getMember().getMemberId().equals(memberId))
                 .map(ReservationDto::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    //
+    public boolean checkReservationExistence(ReservationExistenceDto existenceDto) {
+        List<ReservationStatus> statusList = Arrays.asList(
+                ReservationStatus.RESERVATION_IN_PROGRESS,
+                ReservationStatus.RESERVATION_COMPLETE);
+
+        return reservationRepository.findByProductIdAndReservationDateAndReservationStatusIn(
+                existenceDto.getProductId(),
+                existenceDto.getReservationDate(),
+                statusList).isPresent();
     }
 }
 
