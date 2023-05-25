@@ -53,7 +53,7 @@ public class ReservationService {
         Product product = productService.findProduct(reservationPostDto.getProductId());
 
         // 기존에 동일한 productId와 reservationDate를 가진 예약이 있는지 조회
-        Optional<Reservation> existingReservationOpt = reservationRepository.findReservationByProductIdAndReservationDate(
+        Optional<Reservation> existingReservationOpt = reservationRepository.findReservationByProductProductIdAndReservationDate(
                 reservationPostDto.getProductId(),
                 reservationPostDto.getReservationDate());
 
@@ -89,7 +89,7 @@ public class ReservationService {
 
         // productId, reservationDate 가 일치하며 예약이 진행중이거나 완료되었다면, Optional 객체에 담음
         Optional<Reservation> reservationOptional =
-                reservationRepository.findByProductIdAndReservationDateAndReservationStatusIn(
+                reservationRepository.findByProductProductIdAndReservationDateAndReservationStatusIn(
                         reservationPostDto.getProductId(), reservationPostDto.getReservationDate(), statusList);
 
         // reservationOptional 객체의 값이 존재하면 중복 예약으로 간주함
