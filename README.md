@@ -7,8 +7,8 @@
 
 ## 🐣 Intro
 - 안녕하세요. 팀 🚪OS DOOR 입니다.
-- 배포링크 : http://aircamp-codestates-019.s3-website.ap-northeast-2.amazonaws.com/
-- 프로젝트에 대한 자세한 설명은 상단 Wiki 메뉴를 참고해 주세요.
+- 배포링크 : [AIRCAMP](http://aircamp-codestates-019.s3-website.ap-northeast-2.amazonaws.com/)
+- 프로젝트에 대한 문서는 [GitHub Wiki](https://github.com/codestates-seb/seb43_main_019/wiki)를 참고해 주세요.
 
 ## 👩‍💻 Team
 | 주재민<br>(FE, FE팀장) | 오준석<br>(FE) | 김정환<br>(FE) | 유한별<br>(BE, BE팀장) | 조현우<br>(BE) | 변상현<br>(BE) |
