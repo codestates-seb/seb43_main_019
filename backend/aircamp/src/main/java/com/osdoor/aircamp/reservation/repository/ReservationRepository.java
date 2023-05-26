@@ -17,6 +17,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     Optional<Reservation> findReservationByProductProductIdAndReservationDate(Long productId, LocalDate reservationDate);
 
     // 특정 productID와 예약 날짜에 해당하는 예약을 찾는 메서드 v2
-    Optional<Reservation> findByProductIdAndReservationDateAndReservationStatusIn(Long productId, LocalDate reservationDate, List<ReservationStatus> statusList);
+//    Optional<Reservation> findByProductIdAndReservationDateAndReservationStatusIn(Long productId, LocalDate reservationDate, List<ReservationStatus> statusList);
 }
 

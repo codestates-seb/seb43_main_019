@@ -48,6 +48,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             if(member.getMemberStatus().getStatus().equals("탈퇴 상태")) {
                 throw new OAuth2AuthenticationException(new OAuth2Error("탈퇴한 회원"), auth2Attribute.getEmail());
             }
+
+            else return member;
         }
 
         if(memberRepository.existsByEmail(auth2Attribute.getEmail())) {
