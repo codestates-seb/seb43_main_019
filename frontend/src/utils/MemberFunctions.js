@@ -75,8 +75,7 @@ export const getMemberInfo = async (memberInfo) => {
 
     return userInfo;
   } catch (error) {
-    console.log("회원정보를 받아올 수 없습니다.");
-
+    console.log(error);
     return null;
   }
 };
@@ -126,7 +125,6 @@ export const handleStartLogin = async (data) => {
   const loginInfo = { email, password };
 
   try {
-    console.log(loginInfo);
     const response = await axios.post(`${BACK}/api/login`, loginInfo);
 
     const data = response.headers;

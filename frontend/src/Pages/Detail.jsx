@@ -365,7 +365,7 @@ function Detail() {
             <ContextArea isDark={isDark}>
               <Information isDark={isDark}>캠핑장 위치 📍</Information>
             </ContextArea>
-            <Map productId={id} />
+            {/* <Map productId={id} /> */}
             <Line />
             <ContextArea isDark={isDark}>
               <Information isDark={isDark}>숙소 정보 보기</Information>

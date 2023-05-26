@@ -121,10 +121,13 @@ export default function Header({
     <>
       <Container isDark={isDark}>
         <Top isDark={isDark}>
-          <Link to="/">
-            <Logo src={isDark ? "/img/Logo_Dark.png" : "/img/Logo_Light.png"} />
-            <Logo src="/img/Camp.png" />
-          </Link>
+          <Logo
+            onClick={() => {
+              setSearchOption({});
+              navigate("/");
+            }}
+            src={isDark ? "/img/Logo_Dark.png" : "/img/Logo_Light.png"}
+          />
           {userState.login === false ? (
             <UserStatus>
               <Link to="/login">

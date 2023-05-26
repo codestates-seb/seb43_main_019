@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import React, { useState } from "react";
 import { FaSortDown } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const InputSpace = styled.div`
   display: flex;
@@ -10,10 +11,10 @@ const InputSpace = styled.div`
 
   @media screen and (max-width: 868px) {
     margin-left: 200px;
-  }  
+  }
   @media screen and (max-width: 400px) {
     margin-left: 0px;
-  }  
+  }
 `;
 
 const InputWrapper = styled.div`
@@ -143,10 +144,20 @@ export default function Searchbar({
 }) {
   const [searchText, setSearchText] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const isDark = useSelector((state) => state.modeReducer);
 
-  const handleKeywordSearch = () => {
-    setSearchOption({ productName: searchText });
+  const isDark = useSelector((state) => state.modeReducer);
+  const location = useLocation();
+
+  const navigate = useNavigate();
+
+  const handleKeywordSearch = async () => {
+    const newOption = { productName: searchText };
+
+    await setSearchOption(newOption);
+
+    if (location.pathname !== "/") {
+      navigate("/");
+    }
   };
 
   const handleInputChange = (e) => {

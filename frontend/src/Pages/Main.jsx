@@ -182,7 +182,6 @@ export default function Main({
   const [isLoading, setIsLoading] = useState(false);
   const [inView, setInView] = useState(false); // inView 상태 추가
   const [titleInView, setTitleInView] = useState(false);
-  const [showAll, setShowAll] = useState(true);
 
   const userState = useSelector((state) => state.userReducer);
   const isDark = useSelector((state) => state.modeReducer);
@@ -204,7 +203,6 @@ export default function Main({
       setGangwondo((prev) => onlyGangwondo);
       setCouple((prev) => onlyCouple);
 
-      setShowAll(true);
       setDisplayData((prev) => liveDatas.slice(0, 8));
 
       setIsLoading((prev) => false);
@@ -259,8 +257,6 @@ export default function Main({
       if (Object.keys(searchOption).length === 0) {
         setDisplayData((prev) => liveDatas.slice(0, 8));
       } else {
-        setShowAll(false);
-
         let result = [];
         setDisplayData((prev) => []);
 
@@ -294,7 +290,7 @@ export default function Main({
 
   useEffect(() => {
     (async () => {
-      if (showAll) {
+      if (false) {
         const initData = await getAllCampgroundsInfo(1, 1000000);
         const liveDatas = initData.filter((prod) => prod.deleted === false);
         setDisplayData((prev) => liveDatas.slice(0, 8));
@@ -303,7 +299,7 @@ export default function Main({
         await setSearchOption({});
       }
     })();
-  }, [showAll]);
+  }, []);
 
   return isLoading ? (
     <Loader>
@@ -311,7 +307,7 @@ export default function Main({
     </Loader>
   ) : (
     <>
-      {showAll ? (
+      {Object.keys(searchOption).length === 0 ? (
         <>
           <IntroArea>
             <IntroContent>
