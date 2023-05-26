@@ -101,6 +101,10 @@ export default function Header({
   setSearchOption,
   selectedTag,
   setSelectedTag,
+  searchCategory,
+  setSearchCategory,
+  keyword,
+  setKeyword,
 }) {
   const navigate = useNavigate();
   const isDark = useSelector((state) => state.modeReducer);
@@ -123,7 +127,7 @@ export default function Header({
         <Top isDark={isDark}>
           <Logo
             onClick={() => {
-              setSearchOption({});
+              setKeyword("");
               navigate("/");
             }}
             src={isDark ? "/img/Logo_Dark.png" : "/img/Logo_Light.png"}
@@ -156,10 +160,10 @@ export default function Header({
         <Bottom isDark={isDark}>
           <ModeBtn />
           <Searchbar
-            searchOption={searchOption}
-            setSearchOption={setSearchOption}
-            selectedTag={selectedTag}
-            setSelectedTag={setSelectedTag}
+            searchCategory={searchCategory}
+            setSearchCategory={setSearchCategory}
+            keyword={keyword}
+            setKeyword={setKeyword}
           />
         </Bottom>
         <Line isDark={isDark} />

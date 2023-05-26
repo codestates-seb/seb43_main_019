@@ -8,6 +8,7 @@ import { getAllCampgroundsInfo } from "../utils/ProductFunctions";
 import Spinner from "../Components/Common/Spinner";
 import { Element, Scroller } from "react-scroll";
 import { getMemberInfo } from "../utils/MemberFunctions";
+import { checkPrice } from "../utils/functions";
 
 const Loader = styled.h1`
   width: 100vw;
@@ -174,6 +175,10 @@ export default function Main({
   searchOption,
   setSearchOption,
   setSelectedTag,
+  searchCategory,
+  setSearchCategory,
+  keyword,
+  setKeyword,
 }) {
   const [data, setData] = useState([]);
   const [displayData, setDisplayData] = useState([]);
@@ -253,6 +258,40 @@ export default function Main({
 
       const initData = await getAllCampgroundsInfo(1, 1000000);
       const liveDatas = initData.filter((prod) => prod.deleted === false);
+      let result = [];
+
+      console.log(`category: ${searchCategory}`);
+      console.log(`keyword: ${keyword} type: ${typeof keyword}`);
+      console.log("=====");
+
+      if (keyword.length === 0) {
+        result = [...liveDatas];
+      } else if (searchCategory === "productName") {
+        const filtered = liveDatas.filter((prod) =>
+          prod.productName.includes(keyword)
+        );
+        result = [...filtered];
+      } else if (searchCategory === "location") {
+        const filtered = liveDatas.filter((prod) =>
+          prod.location.includes(keyword)
+        );
+        result = [...filtered];
+      } else if (searchCategory === "capacity") {
+        const capacity = Number(keyword);
+
+        const filtered = liveDatas.filter((prod) => prod.capacity === capacity);
+        result = [...filtered];
+      } else if (searchCategory === "productPrice") {
+        const requiredPrice = Number(keyword);
+        const filtered = liveDatas.filter((prod) =>
+          checkPrice(prod.productPrice, requiredPrice)
+        );
+        result = [...filtered];
+      }
+
+      setDisplayData((prev) => [...result]);
+
+      /*
 
       if (Object.keys(searchOption).length === 0) {
         setDisplayData((prev) => liveDatas.slice(0, 8));
@@ -283,23 +322,11 @@ export default function Main({
 
         setDisplayData((prev) => [...result]);
       }
+      */
 
       setIsLoading((prev) => false);
     })();
-  }, [searchOption]);
-
-  useEffect(() => {
-    (async () => {
-      if (false) {
-        const initData = await getAllCampgroundsInfo(1, 1000000);
-        const liveDatas = initData.filter((prod) => prod.deleted === false);
-        setDisplayData((prev) => liveDatas.slice(0, 8));
-        setSelectedTag(-1);
-
-        await setSearchOption({});
-      }
-    })();
-  }, []);
+  }, [keyword]);
 
   return isLoading ? (
     <Loader>
@@ -307,7 +334,7 @@ export default function Main({
     </Loader>
   ) : (
     <>
-      {Object.keys(searchOption).length === 0 ? (
+      {keyword.length === 0 ? (
         <>
           <IntroArea>
             <IntroContent>

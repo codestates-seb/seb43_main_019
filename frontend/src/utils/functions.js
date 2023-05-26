@@ -81,3 +81,24 @@ export const makePhone = (phone) => {
     return phone.slice(0, 3) + "-" + phone.slice(3, 7) + "-" + phone.slice(7);
   }
 };
+
+export const getCategory = (category) => {
+  switch (category) {
+    case "productName":
+      return "이름";
+    case "location":
+      return "위치";
+    case "capacity":
+      return "인원";
+    case "productPrice":
+      return "가격";
+    default:
+      return "";
+  }
+};
+
+export const checkPrice = (productPrice, requiredPrice) => {
+  return (
+    productPrice * 0.9 <= requiredPrice && requiredPrice <= productPrice * 1.1
+  );
+};

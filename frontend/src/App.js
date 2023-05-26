@@ -55,6 +55,8 @@ const Container = styled.main`
 function App() {
   const [searchOption, setSearchOption] = useState({});
   const [selectedTag, setSelectedTag] = useState(-1);
+  const [searchCategory, setSearchCategory] = useState("productName");
+  const [keyword, setKeyword] = useState("");
 
   const isDark = useSelector((state) => state.modeReducer);
   const dispatch = useDispatch();
@@ -81,6 +83,10 @@ function App() {
         setSearchOption={setSearchOption}
         selectedTag={selectedTag}
         setSelectedTag={setSelectedTag}
+        searchCategory={searchCategory}
+        setSearchCategory={setSearchCategory}
+        keyword={keyword}
+        setKeyword={setKeyword}
       />
       <Container isDark={isDark}>
         <Routes>
@@ -105,6 +111,10 @@ function App() {
                 searchOption={searchOption}
                 setSearchOption={setSearchOption}
                 setSelectedTag={setSelectedTag}
+                searchCategory={searchCategory}
+                setSearchCategory={setSearchCategory}
+                keyword={keyword}
+                setKeyword={setKeyword}
               />
             }
           />
