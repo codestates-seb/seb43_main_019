@@ -3,11 +3,12 @@
 # 💻 캠핑장 예약 서비스 개발
 
 국내 캠핑장 예약 페이지 프로젝트<br>
-개발 기간: 23.04.28 - 23.05.31
+개발 기간: 23.04.28 - 23.05.25
 
 ## 🐣 Intro
 - 안녕하세요. 팀 🚪OS DOOR 입니다.
 - 배포링크 : http://aircamp-codestates-019.s3-website.ap-northeast-2.amazonaws.com/
+- 프로젝트에 대한 자세한 설명은 상단 Wiki 메뉴를 참고해 주세요.
 
 ## 👩‍💻 Team
 | 주재민<br>(FE, FE팀장) | 오준석<br>(FE) | 김정환<br>(FE) | 유한별<br>(BE, BE팀장) | 조현우<br>(BE) | 변상현<br>(BE) |
