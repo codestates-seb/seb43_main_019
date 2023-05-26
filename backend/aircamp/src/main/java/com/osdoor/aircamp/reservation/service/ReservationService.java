@@ -189,7 +189,7 @@ public class ReservationService {
                 ReservationStatus.RESERVATION_IN_PROGRESS,
                 ReservationStatus.RESERVATION_COMPLETE);
 
-        return reservationRepository.findByProductIdAndReservationDateAndReservationStatusIn(
+        return reservationRepository.findByProductProductIdAndReservationDateAndReservationStatusIn(
                 existenceDto.getProductId(),
                 existenceDto.getReservationDate(),
                 statusList).isPresent();

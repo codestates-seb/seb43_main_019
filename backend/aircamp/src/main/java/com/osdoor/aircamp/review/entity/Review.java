@@ -1,5 +1,6 @@
 package com.osdoor.aircamp.review.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.osdoor.aircamp.audit.Auditable;
 import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.product.entity.Product;
@@ -25,10 +26,12 @@ public class Review extends Auditable {
     @Column(nullable = false)
     private double score;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "PRODUCT_ID")
     private Product product;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;

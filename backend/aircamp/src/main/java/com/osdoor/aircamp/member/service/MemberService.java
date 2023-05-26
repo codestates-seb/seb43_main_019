@@ -11,7 +11,6 @@ import com.osdoor.aircamp.helper.event.MemberRegistrationEvent;
 import com.osdoor.aircamp.member.repositoy.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -95,7 +94,7 @@ public class MemberService {
                 .ifPresent(findMember::setBusinessRegistrationDate);
 
         // 사업자등록번호 값이 존재하는 경우, 해당 회원의 isSellerVerified 값을 true 로 변경.
-        if(!findMember.getBusinessRegistrationNumber().isEmpty()) findMember.setSellerVerified(true);
+        if(findMember.getBusinessRegistrationNumber() != null) findMember.setSellerVerified(true);
 
         findMember.setModifiedBy(setByField(member));
 //        Optional.ofNullable(member.getVerificationToken())

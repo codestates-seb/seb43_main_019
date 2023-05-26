@@ -1,5 +1,7 @@
 package com.osdoor.aircamp.product.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.osdoor.aircamp.audit.Auditable;
 import com.osdoor.aircamp.member.entity.Favorite;
 import com.osdoor.aircamp.member.entity.Member;
@@ -58,14 +60,17 @@ public class Product extends Auditable {
 
     private String imageUrl;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "FAVORITE_ID")
     private Favorite favorite;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
-  
+
+    @JsonManagedReference
     @OneToMany(mappedBy = "product")
     private List<Review> reviews;
 }
