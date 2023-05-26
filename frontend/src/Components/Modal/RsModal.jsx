@@ -159,11 +159,7 @@ function MyModal(props) {
 
       const result = await getMemberReservations(userInfo);
 
-      const reservations = result.filter(
-        (reservation) => reservation.reservationStatus !== "RESERVATION_CANCEL"
-      );
-
-      setCampgrounds((prev) => [...reservations]);
+      setCampgrounds((prev) => [...result]);
 
       setIsLoading((prev) => false);
     })();

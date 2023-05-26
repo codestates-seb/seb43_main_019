@@ -12,49 +12,37 @@ import { useState } from "react";
 const Container = styled.form`
   width: 80%;
   margin-bottom: 10px;
-  display: grid;
   padding: 10px;
-  grid-template-columns: 1fr 1fr;
   border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-`;
-
-const Img = styled.div`
-  min-width: 250px;
-  width: 80%;
-  min-height: 250px;
-  height: 100%;
-  border-radius: 20px;
-  background-image: url(${(props) => props.bgphoto});
-  background-size: cover;
-  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Managements = styled.div`
-  margin-left: 20px;
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: center;
   justify-content: center;
-  padding: 0 10px;
 `;
 
 const InputLine = styled.div`
   display: flex;
   align-items: center;
-  justify-items: start;
+  justify-items: center;
   width: 100%;
   height: 30px;
 
   margin-bottom: 10px;
 `;
 
-const Label = styled.h4`
-  width: 120px;
+const Label = styled.div`
+  width: 70px;
   height: 100%;
   display: flex;
-  justify-content: start;
   align-items: center;
+  justify-content: start;
 `;
 
 const Input = styled.input`
@@ -104,6 +92,7 @@ const Btn = styled.button`
 
 export default function Reservation({ campground, userInfo }) {
   const [isUpdate, setIsUpdate] = useState(false);
+  const [canUpdate, setCanUpdate] = useState(true);
   const { register, handleSubmit } = useForm({
     defaultValues: {
       reservationName: campground.reservationName,
@@ -119,10 +108,10 @@ export default function Reservation({ campground, userInfo }) {
     );
 
     if (success) {
-      toast("삭제되었습니다.");
-      // window.location.reload();
+      toast("취소되었습니다.");
+      window.location.reload();
     } else {
-      toast("삭제가 안되었습니다.");
+      toast("취소에 실패했습니다.");
     }
   };
 
@@ -155,34 +144,54 @@ export default function Reservation({ campground, userInfo }) {
     }
   };
 
+  useEffect(() => {
+    if (campground.reservationStatus === "RESERVATION_CANCEL") {
+      setCanUpdate(false);
+    }
+  }, []);
+
   return (
     <Container onSubmit={handleSubmit(handleReservation)}>
-      <Img bgphoto={campground.imageUr} />
       <Managements>
         <InputLine>
+          <Label>
+            <label>이름</label>
+          </Label>
           <Input
             placeholder="이름"
             {...register("reservationName", { required: true })}
           />
         </InputLine>
         <InputLine>
+          <Label>
+            <label>전화번호</label>
+          </Label>
           <Input
             placeholder="전화번호"
             {...register("reservationPhone", { required: true })}
           />
         </InputLine>
         <InputLine>
+          <Label>
+            <label>이메일</label>
+          </Label>
           <Input
             placeholder="이메일"
             type="email"
             {...register("reservationEmail", { required: true })}
           />
         </InputLine>
-        <Btns>
-          <Btn onClick={() => setIsUpdate((prev) => true)}>수정</Btn>
-          <Btn onClick={() => setIsUpdate((prev) => false)}>삭제</Btn>
-        </Btns>
       </Managements>
+      <Btns>
+        {canUpdate ? (
+          <>
+            <Btn onClick={() => setIsUpdate((prev) => true)}>수정</Btn>
+            <Btn onClick={() => setIsUpdate((prev) => false)}>취소</Btn>
+          </>
+        ) : (
+          <span>취소가 완료된 예약입니다.</span>
+        )}
+      </Btns>
     </Container>
   );
 }

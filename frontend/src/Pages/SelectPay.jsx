@@ -72,7 +72,6 @@ const PayPage = () => {
   const handleSubmitPayment = async (event) => {
     event.preventDefault();
     try {
-      console.log("handleSubmitPayment시작!!");
       const paymentData = {
         reservation_id: reservationId.reservationId,
         actual_payment_amount: productPrice,

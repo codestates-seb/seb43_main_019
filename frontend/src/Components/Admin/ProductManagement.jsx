@@ -44,7 +44,8 @@ export default function ProductManagement() {
       setIsLoading((prev) => true);
 
       const result = await getAllCampgroundsInfo(1, 10000);
-      setCampgrounds((prev) => result);
+      const allCampgrounds = result.filter((prod) => prod.deleted === false);
+      setCampgrounds((prev) => allCampgrounds);
 
       setIsLoading((prev) => false);
     })();

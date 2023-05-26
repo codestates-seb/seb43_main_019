@@ -228,7 +228,7 @@ export default function SignUp() {
           <Input
             id="phone"
             isDark={isDark}
-            placeholder="'-'를 포함한 전화번호를 입력하세요."
+            placeholder="'-'를 제외한 전화번호를 입력하세요."
             {...register("phone", { required: true })}
           />
         </Line3>

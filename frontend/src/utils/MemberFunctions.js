@@ -52,6 +52,7 @@ export const handleUpdateMemberInfo = async (memberInfo, updatedInfo) => {
 
     return response.data;
   } catch (error) {
+    console.log(error);
     return false;
   }
 };
@@ -101,9 +102,9 @@ export const getAllMemberInfo = async (memberInfo) => {
 // 멤버 정보를 인자로 받습니다.
 // 성공 시 true를 반환합니다.
 // 실패 시 false를 반환합니다.
-export const handleUserWithdrawal = async (memberId, memberInfo) => {
+export const handleUserWithdrawal = async (deletedId, memberInfo) => {
   try {
-    await axios.delete(`${BACK}/api/members/${memberInfo.memberId}`, {
+    await axios.delete(`${BACK}/api/members/${deletedId}`, {
       headers: {
         Authorization: memberInfo.accessToken,
       },

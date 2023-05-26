@@ -22,7 +22,6 @@ const Container = styled.main`
   margin: 0 auto;
   width: 100%;
   height: auto;
-  min-height: 100vh;
 
   display: grid;
   grid-template-columns: 1fr;
@@ -48,6 +47,7 @@ const Container = styled.main`
 
 const ContextArea = styled.div`
   width: 100%;
+
   margin-top: 20px;
   padding: 35px 0;
   top: 0;
@@ -111,8 +111,8 @@ const IntroTitle = styled.h2`
   display: flex;
   font-size: 30px;
   white-space: pre-line;
-  justify-content: center ;
-  align-items: center ;
+  justify-content: center;
+  align-items: center;
   opacity: ${({ inView }) => (inView ? 1 : 0)};
   transform: translateY(${({ inView }) => (inView ? "0" : "-100%")});
   transition: opacity 1s ease, transform 1s ease;
@@ -139,11 +139,9 @@ const Title = styled.h2`
   margin-left: 250px;
   margin-bottom: 30px;
   margin-left: 250px;
-  margin-bottom: 30px;
   font-family: "Noto Sans KR", sans-serif;
   color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--black-700)")};
   @media screen and (max-width: 400px) {
-    margin-left: 0px;
     margin-left: 0px;
     padding-top: 30px;
     text-align: center;
@@ -254,8 +252,6 @@ export default function Main({
 
   useEffect(() => {
     (async () => {
-      console.log(searchOption);
-
       setIsLoading((prev) => true);
 
       const initData = await getAllCampgroundsInfo(1, 1000000);
@@ -367,7 +363,6 @@ export default function Main({
               )
             )}
           </Container>
-
           <ContextArea isDark={isDark}>
             <Element name="intro" className="intro-element">
               <Title isDark={isDark} inView={titleInView}>

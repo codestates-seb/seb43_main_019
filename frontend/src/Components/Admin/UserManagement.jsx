@@ -22,9 +22,12 @@ export default function UserManagement() {
     (async () => {
       setIsLoading((prev) => true);
 
-      const usersInfo = await getAllMemberInfo(userState.userInfo);
+      const reuslt = await getAllMemberInfo(userState.userInfo);
+
+      const usersInfo = reuslt.filter(
+        (user) => user.memberStatus !== "MEMBER_QUIT"
+      );
       setUsers((prev) => usersInfo);
-      // setUsers((prev) => dummyUsers);
 
       setIsLoading((prev) => false);
     })();

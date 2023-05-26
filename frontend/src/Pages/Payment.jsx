@@ -219,7 +219,6 @@ const PaymentPage = () => {
       });
     } catch (error) {
       setIsAgreed(false);
-      console.error("예약 정보 등록 실패:", error);
     }
   };
 

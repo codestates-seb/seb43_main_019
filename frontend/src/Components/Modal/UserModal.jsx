@@ -7,6 +7,7 @@ import { useState } from "react";
 import { handleUserWithdrawal } from "../../utils/MemberFunctions";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const CloseBtn = styled(AiFillCloseCircle)`
   width: 50px;
@@ -129,10 +130,11 @@ export default function UserModal(props) {
     );
 
     if (success === true) {
-      alert("삭제가 완료되었습니다.");
-      navigate("/admin/user-management");
+      toast("삭제가 완료되었습니다.");
+      closeModal();
+      window.location.reload();
     } else {
-      alert("삭제를 실패했습니다.");
+      toast("삭제를 실패했습니다.");
     }
   };
 

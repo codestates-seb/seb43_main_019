@@ -147,15 +147,16 @@ export default function AdminProductModal(props) {
     }
 
     const success = await handleDeleteCampground(
-      campground.productIdx,
+      campground.productId,
       userState.userInfo
     );
 
     if (success === true) {
-      alert("삭제가 완료되었습니다.");
-      navigate("/admin/product-management");
+      toast("삭제가 완료되었습니다.");
+      closeModal();
+      window.location.reload();
     } else {
-      alert("삭제를 실패했습니다.");
+      toast("삭제를 실패했습니다.");
     }
   };
 

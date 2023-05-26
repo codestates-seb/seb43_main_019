@@ -12,7 +12,6 @@ export default function Profile() {
       setUserId(data.id);
       setNickname(data.properties.nickname);
     } catch (err) {
-      console.log(err);
       return;
     }
   };

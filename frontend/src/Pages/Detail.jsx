@@ -157,7 +157,7 @@ const Line02 = styled.hr`
   margin-bottom: 0px;
 `;
 
-const Form = styled.form`
+const Form = styled.div`
   max-width: 450px;
   width: 80%;
   height: 500px;
@@ -309,15 +309,14 @@ function Detail() {
         userState.userInfo
       );
 
-      if (isReservated === false) {
+      if (isReservated.existence === true) {
         toast("이미 예약이 되어있는 날짜입니다.");
-        navigate(`/${id}`);
         return;
       }
 
       navigate("/Payment", { state: { data, startDate: formattedDate } });
     } else {
-      alert("로그인이 필요한 서비스입니다."); // 로그인이 필요한 경우 경고창 표시
+      toast("로그인이 필요한 서비스입니다."); // 로그인이 필요한 경우 경고창 표시
       navigate("/login"); // 로그인 페이지로 이동
     }
   };
@@ -346,58 +345,66 @@ function Detail() {
     </Loader>
   ) : (
     <>
-    <Container>
-      <ContextArea isDark={isDark}>
-      <Title isDark={isDark}>{`${productName}입니다. 예약을 진행해보세요.🚘`}</Title>
-      </ContextArea>
-      <Line02 />
-      <ContentContainer>
-        <InfoContainer>
-          <ContextArea isDark={isDark}>
-            <Information isDark={isDark}>캠핑장 사진 보기</Information>
-           </ContextArea>
-         <ImgContainer>
-          <CampgroundImage src={imageUrl} />
-          </ImgContainer>
-          <Line />
-          <ContextArea isDark={isDark}>
-            <Information isDark={isDark}>캠핑장 위치 📍</Information>
-           </ContextArea>
-          <Map productId={id} />
-          <Line />
-          <ContextArea isDark={isDark}>
-            <Information isDark={isDark}>숙소 정보 보기</Information>
-           </ContextArea>
-           <ContextArea isDark={isDark}>
-           <Information isDark={isDark}>{`${content}`}</Information>
-           </ContextArea>
+      <Container>
+        <ContextArea isDark={isDark}>
+          <Title
+            isDark={isDark}
+          >{`${productName}입니다. 예약을 진행해보세요.🚘`}</Title>
+        </ContextArea>
+        <Line02 />
+        <ContentContainer>
+          <InfoContainer>
+            <ContextArea isDark={isDark}>
+              <Information isDark={isDark}>캠핑장 사진 보기</Information>
+            </ContextArea>
+            <ImgContainer>
+              <CampgroundImage src={imageUrl} />
+            </ImgContainer>
+            <Line />
+            <ContextArea isDark={isDark}>
+              <Information isDark={isDark}>캠핑장 위치 📍</Information>
+            </ContextArea>
+            <Map productId={id} />
+            <Line />
+            <ContextArea isDark={isDark}>
+              <Information isDark={isDark}>숙소 정보 보기</Information>
+            </ContextArea>
+            <ContextArea isDark={isDark}>
+              <Information isDark={isDark}>{`${content}`}</Information>
+            </ContextArea>
 
-           <Line />
-          <ContextArea isDark={isDark}>
-            <Information isDark={isDark}>날짜를 선택하시고 예약을 진행하세요.👇👇</Information>
-           </ContextArea>
-           <Picker startDate={startDate} setStartDate={setStartDate} />
-        </InfoContainer>
-        <FormContainer>
-          <Form>
-          <ContextArea02 isDark={isDark}>
-            <PriceArea isDark={isDark}>{`₩${productPrice}/박`}</PriceArea>
-           </ContextArea02>
-           <Form02>
-           <ContextArea02 isDark={isDark}>
-           <Form02Information isDark={isDark}>{`위치 : ${location}`}</Form02Information>
-           </ContextArea02>
-           <Line02 />
-           <ContextArea02 isDark={isDark}>
-           <Form02Information isDark={isDark}>{`수용인원 : ${capacity}인`}</Form02Information>
-           </ContextArea02>
-           </Form02>
-           <DetailButton onClick={handleReservation}>예약 하기</DetailButton>
-          </Form>
-        </FormContainer>
-      </ContentContainer>
-      <ReviewForm productId={id} />
-    </Container>
+            <Line />
+            <ContextArea isDark={isDark}>
+              <Information isDark={isDark}>
+                날짜를 선택하시고 예약을 진행하세요.👇👇
+              </Information>
+            </ContextArea>
+            <Picker startDate={startDate} setStartDate={setStartDate} />
+          </InfoContainer>
+          <FormContainer>
+            <Form>
+              <ContextArea02 isDark={isDark}>
+                <PriceArea isDark={isDark}>{`₩${productPrice}/박`}</PriceArea>
+              </ContextArea02>
+              <Form02>
+                <ContextArea02 isDark={isDark}>
+                  <Form02Information
+                    isDark={isDark}
+                  >{`위치 : ${location}`}</Form02Information>
+                </ContextArea02>
+                <Line02 />
+                <ContextArea02 isDark={isDark}>
+                  <Form02Information
+                    isDark={isDark}
+                  >{`수용인원 : ${capacity}인`}</Form02Information>
+                </ContextArea02>
+              </Form02>
+              <DetailButton onClick={handleReservation}>예약 하기</DetailButton>
+            </Form>
+          </FormContainer>
+        </ContentContainer>
+        <ReviewForm productId={id} />
+      </Container>
       <ScrollBtn onClick={() => window.scrollTo(0, 0)} ref={containerRef}>
         <FaChevronUp size={40} />
       </ScrollBtn>

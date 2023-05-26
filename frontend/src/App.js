@@ -95,9 +95,9 @@ function App() {
           <Route path="/Pay" element={<SelectPay />} />
           <Route path="/:id" element={<Detail />} />
           <Route path="/404" element={<NotFound />} />
-          <Route path="api/payments/success" element={<PaySuccessPage />} />
-          <Route path="api/payments/cancel" element={<PayCancelPage />} />
-          <Route path="api/payments/fail" element={<PayFailPage />} />
+          <Route path="/api/payments/success" element={<PaySuccessPage />} />
+          <Route path="/api/payments/cancel" element={<PayCancelPage />} />
+          <Route path="/api/payments/fail" element={<PayFailPage />} />
           <Route
             path="/"
             element={

@@ -182,7 +182,6 @@ function MyModal(props) {
   const handleUpdate = async () => {
     if (checkValidPassword(password) === false) {
       toast("비밀번호가 양식과 맞지 않습니다.");
-      toast("비밀번호가 양식과 맞지 않습니다.");
       return;
     }
 
