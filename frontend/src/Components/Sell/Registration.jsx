@@ -159,7 +159,7 @@ const sampleImgs = [
   "https://cdn.pixabay.com/photo/2015/05/23/00/25/utah-780108_1280.jpg",
 ];
 
-export default function Registration({ seller }) {
+export default function Registration() {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [selectImg, setSelectImg] = useState(false);
@@ -196,7 +196,7 @@ export default function Registration({ seller }) {
       cancellationDeadline: cancellationDeadline,
       productPrice,
       productPhone: "010-1111-1111",
-      memberId: 1,
+      memberId: userState.userInfo.memberId,
     };
 
     const formData = new FormData();

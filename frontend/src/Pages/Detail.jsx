@@ -114,15 +114,17 @@ const ContentContainer = styled.div`
 
 const FormContainer = styled.div`
   flex: 1;
-  position: sticky;
   max-height: calc(100vh - 150px); /* Adjust the height as needed */
-  top: 0;
-  right: 0;
   overflow-y: auto;
   display: flex;
   justify-content: center;
   z-index: 1;
-
+  position: sticky;
+  top: 140px;
+  @media screen and (max-width: 900px) {
+    top: 0;
+  }
+  right: 0;
   @media (max-width: 768px) {
     order: 2;
   }
@@ -169,7 +171,6 @@ const Form = styled.div`
   border-radius: 20px;
   border: 1px solid var(--black-500);
   margin-top: 35px;
-
   @media screen and (max-width: 400px) {
     margin-top: 120px;
   }

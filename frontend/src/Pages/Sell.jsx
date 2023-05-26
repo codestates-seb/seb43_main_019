@@ -56,10 +56,8 @@ export default function Sell() {
   return (
     <Wrapper>
       <SellSideMenu current={selected} handleMenuClick={handleMenuClick} />
-      {selected === "registration" && (
-        <Registration seller={userState.userInfo} />
-      )}
-      {selected === "list" && <ProductList seller={userState.userInfo} />}
+      {selected === "registration" && <Registration />}
+      {selected === "list" && <ProductList />}
       {selected === "statistic" && <Statistic />}
     </Wrapper>
   );

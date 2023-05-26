@@ -18,6 +18,7 @@ const Container = styled.header`
   color: ${(props) => (props.isDark ? "var( --white)" : "var(--black)")};
   position: fixed;
   top: 0;
+  left: 0;
   z-index: 10;
   @media screen and (max-width: 900px) {
     height: 100px;

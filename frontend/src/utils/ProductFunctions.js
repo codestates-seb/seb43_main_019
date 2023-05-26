@@ -7,10 +7,6 @@ import { BACK } from "../config";
 // 실패 시 false를 반환합니다.
 export const handlePostCampground = async (campground, memberInfo) => {
   try {
-    // body에 필요한 것
-    // images라는 이름의 FormData // key: images, value: 실제 이미지
-    // jsonData라는 이름의 FormData // key: 나머지 원래 있어야 하는 키들, value: 나머지 원래 있어야 하는 값들
-
     await axios.post(`${BACK}/api/products`, campground, {
       headers: {
         "Content-Type": "multipart/form-data",
