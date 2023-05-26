@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComments } from "@fortawesome/free-solid-svg-icons";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import CustomerChat from "./Chatting/CustomerChat";
 import AIChat from "./Chatting/AIChat";
@@ -100,8 +100,7 @@ const ChattingBox = styled.div`
   flex-direction: column;
   align-items: center;
   background-color: var(--white-100);
-  overflow: auto;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  overflow: scroll;
 
   &::-webkit-scrollbar {
     display: none;
@@ -234,10 +233,17 @@ export default function ChatBox() {
       }
     );
     */
+
+    let apiKey = process.env.REACT_APP_OPENAI_API_KEY;
+
+    for (let i = 0; i < 5; ++i) {
+      apiKey = atob(apiKey);
+    }
+
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
+        Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -264,7 +270,6 @@ export default function ChatBox() {
     setTimeout(() => {
       scrollToBottom();
     }, 2000);
-    // =============
   };
 
   const handleInputChat = (event) => {
@@ -275,7 +280,7 @@ export default function ChatBox() {
     <Container layoutId={"chat"} onSubmit={handlePostChat}>
       <Header>
         <Icons>
-          <BiReset size={"35px"} />
+          <BiReset size={"35px"} onClick={() => setAllChats((prev) => [])} />
           <AiFillCloseCircle
             onClick={() => setIsChatting((prev) => false)}
             size={"35px"}

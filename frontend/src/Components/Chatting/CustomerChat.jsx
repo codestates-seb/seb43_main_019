@@ -4,9 +4,8 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const Container = styled.div`
   width: 100%;
-  min-height: 70px;
-  max-height: 70px;
-  height: 100%;
+  height: auto;
+  margin: 5px 0;
   display: grid;
   grid-template-columns: 6fr 1fr;
   align-items: center;
@@ -29,7 +28,7 @@ const PersonIcon = styled.div`
 
 const Chat = styled.div`
   width: 100%;
-  height: 80%;
+  height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -43,7 +42,7 @@ const Chat = styled.div`
   &::after {
     content: "";
     position: absolute;
-    top: 19px;
+    top: 50%;
     right: -12px;
     border-left: 12px solid var(--white);
     border-right: 0px solid transparent;
