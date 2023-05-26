@@ -11,7 +11,6 @@ import { getMemberInfo } from "../utils/MemberFunctions";
 
 const Loader = styled.h1`
   width: 100vw;
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -393,14 +392,6 @@ export default function Main({
               <Card2 key={campground.productId + ""} campground={campground} />
             ))}
           </Container>
-          <Title
-            isDark={isDark}
-            inView={titleInView}
-            onClick={() => setShowAll(true)}
-            style={{ cursor: "pointer" }}
-          >
-            전체 상품 보기↪️
-          </Title>
         </>
       )}
       <ScrollBtn onClick={() => window.scrollTo(0, 0)}>

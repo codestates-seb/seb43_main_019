@@ -39,7 +39,7 @@ const Products = styled.div`
   }
 `;
 
-export default function ProductList({ seller }) {
+export default function ProductList() {
   const [myProducts, setMyProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [myInfo, setMyInfo] = useState(null);
@@ -63,11 +63,17 @@ export default function ProductList({ seller }) {
       setMyInfo(myInfoResult);
 
       const allProducts = await getAllCampgroundsInfo(1, 10000);
+      console.log(allProducts);
+      console.log(
+        `memberId: ${userState.userInfo.memberId}, type: ${typeof userState
+          .userInfo.memberId}`
+      );
 
       if (allProducts) {
         const mine = allProducts.filter((product) => {
           return (
-            product.deleted === false && product.memberId === seller.memberId
+            product.deleted === false &&
+            product.memberId === userState.userInfo.memberId
           );
         });
         setMyProducts((prev) => mine);

@@ -130,11 +130,6 @@ export default function Mypage() {
     setRsModalOpen(true);
   };
   const openSeModal = () => {
-    if (myInfo.birthDate === null) {
-      toast("카카오 계정은 등록할 수 없습니다.");
-      return;
-    }
-
     setSeModalOpen(true);
   };
 
