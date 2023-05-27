@@ -53,8 +53,6 @@ const Container = styled.main`
 `;
 
 function App() {
-  const [searchOption, setSearchOption] = useState({});
-  const [selectedTag, setSelectedTag] = useState(-1);
   const [searchCategory, setSearchCategory] = useState("productName");
   const [keyword, setKeyword] = useState("");
 
@@ -79,10 +77,6 @@ function App() {
   return (
     <Wrapper>
       <Header
-        searchOption={searchOption}
-        setSearchOption={setSearchOption}
-        selectedTag={selectedTag}
-        setSelectedTag={setSelectedTag}
         searchCategory={searchCategory}
         setSearchCategory={setSearchCategory}
         keyword={keyword}
@@ -108,9 +102,6 @@ function App() {
             path="/"
             element={
               <Main
-                searchOption={searchOption}
-                setSearchOption={setSearchOption}
-                setSelectedTag={setSelectedTag}
                 searchCategory={searchCategory}
                 setSearchCategory={setSearchCategory}
                 keyword={keyword}

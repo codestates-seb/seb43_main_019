@@ -172,9 +172,6 @@ const options = {
 };
 
 export default function Main({
-  searchOption,
-  setSearchOption,
-  setSelectedTag,
   searchCategory,
   setSearchCategory,
   keyword,
@@ -259,10 +256,6 @@ export default function Main({
       const initData = await getAllCampgroundsInfo(1, 1000000);
       const liveDatas = initData.filter((prod) => prod.deleted === false);
       let result = [];
-
-      console.log(`category: ${searchCategory}`);
-      console.log(`keyword: ${keyword} type: ${typeof keyword}`);
-      console.log("=====");
 
       if (keyword.length === 0) {
         result = [...liveDatas];

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { handleLogin } from "../Redux/Actions";
 import { useEffect } from "react";
@@ -109,6 +109,7 @@ export default function Login() {
   const userState = useSelector((state) => state.userReducer);
   const isDark = useSelector((state) => state.modeReducer);
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const handleSignIn = async (data) => {
     const result = await handleStartLogin(data);
@@ -129,6 +130,11 @@ export default function Login() {
   useEffect(() => {
     if (userState.login) {
       navigate("/");
+    }
+
+    if (location.search.includes("error")) {
+      toast("이미 존재하는 계정입니다.");
+      navigate("/login");
     }
   }, []);
 

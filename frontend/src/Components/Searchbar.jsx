@@ -216,8 +216,9 @@ export default function Searchbar({
         {isDropdownOpen && (
           <DropdownContent>
             <div>
-              <TagsContainer>
-                <Text>원하는 검색어를 입력해보세요.💁🏻‍♀️</Text>
+              <TagsContainer style={{ flexDirection: "column" }}>
+                <Text>원하는 검색어를 상단에 입력해보세요. 💁🏻‍♀️</Text>
+                <Text>하단의 태그를 선택하면 태그별 검색도 가능합니다.</Text>
               </TagsContainer>
               <TagsContainer>
                 <Tag

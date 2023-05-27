@@ -97,10 +97,6 @@ const UserStatus = styled.div`
 `;
 
 export default function Header({
-  searchOption,
-  setSearchOption,
-  selectedTag,
-  setSelectedTag,
   searchCategory,
   setSearchCategory,
   keyword,
