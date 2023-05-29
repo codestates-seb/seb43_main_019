@@ -50,6 +50,11 @@
   list-style: none;
 }
 
+.react-datepicker__day--disabled {
+  cursor: default !important;
+  color: #ccc !important;
+}
+
 .react-datepicker__week :first-child {
   color: red;
 }

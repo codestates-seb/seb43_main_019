@@ -4,22 +4,26 @@ import { handleMode } from "../Redux/Actions";
 
 const Container = styled.div`
   font-size: 20px;
-  width: 100px;
-  height: 50px;
+  width: 80px;
+  height: 40px;
   border-radius: 50px;
   position: fixed;
-  bottom: 20px;
   left: 50px;
   background-color: ${(props) =>
-    props.isDark ? "var(--black-700)" : "var(--white)"};
+    props.isDark ? "var(--white)" : "var(--white)"};
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 10;
   border: ${(props) =>
-    props.isDark ? "1px solid var(--white)" : "1px solid var(--black)"};
+    props.isDark ? "1px solid var(--white)" : "1px solid var(--black-500)"};
   &:hover {
     cursor: pointer;
+
+    @media screen and (max-width: 400px) {
+      width: 40px; /* Adjust the width to the desired value for mobile devices */
+    height: 20px;
+  }
   }
 `;
 

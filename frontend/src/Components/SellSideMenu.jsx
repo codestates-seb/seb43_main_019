@@ -1,13 +1,18 @@
 import styled from "@emotion/styled";
 
 const SideMenu = styled.ul`
-  max-width: 300px;
+  max-width: 220px;
   width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 140px;
-  left: 0;
-  border-right: 1px solid var(--gray-400);
+  height: 20%;
+  background: var(--white);
+  margin: 110px 0 0 40px; // 왼쪽 40px, 위쪽 110px
+  padding: 10px 0px 20px 0px;
+  border: 1px solid var(--black-500);
+  border-radius: 20px;
+  /* box-shadow:0px 4px 5px var(--gray-200); */
+  /* position: fixed; */
+  top: 100px;
+
   @media screen and (max-width: 900px) {
     top: 100px;
     display: none;
@@ -15,17 +20,25 @@ const SideMenu = styled.ul`
 `;
 
 const SideItem = styled.li`
-  width: 100%;
-  height: 70px;
-  background-color: ${(props) =>
-    props.current ? "var(--gray-200)" : "var(--white)"};
-  display: flex;
-  align-items: center;
-  justify-items: start;
-  padding-left: 20px;
-  border-bottom: 1px solid var(--gray-400);
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--black);
+  font-weight: 300;
+  text-align: center;
+  position: relative;
+  height: 40px;
+  border: none;
+  line-height: 40px;
+  margin-top: 10px;
+  overflow: hidden;
+  width: 90%;
+  margin-left: 5%;
 
   cursor: pointer;
+  border-radius: 10px;
+  box-shadow: ${(props) =>
+    props.current &&
+    "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px"};
 
   @media screen and (max-width: 900px) {
     width: 100vw;
@@ -34,49 +47,27 @@ const SideItem = styled.li`
   }
 `;
 
-const types = [
-  "crud",
-  "manage",
-  "exposure",
-  "inquiry",
-  "reservation",
-  "category",
-];
-
-export default function SellSideMenu({ type, handleType }) {
+export default function SellSideMenu({ current, handleMenuClick }) {
   return (
     <SideMenu>
       <SideItem
-        current={type === "crud"}
-        onClick={() => handleType("crud")}
-        style={{ borderTop: " 1px solid var(--gray-400)" }}
+        current={current === "registration"}
+        onClick={() => handleMenuClick("registration")}
       >
-        상품등록수정
+        상품 등록 🏕️
       </SideItem>
       <SideItem
-        current={type === "manage"}
-        onClick={() => handleType("manage")}
+        current={current === "list"}
+        onClick={() => handleMenuClick("list")}
       >
-        상품게시물관리
+        등록 상품 조회 🥾
       </SideItem>
-      <SideItem
-        current={type === "inquiry"}
-        onClick={() => handleType("inquiry")}
+      {/* <SideItem
+        current={current === "statistic"}
+        onClick={() => handleMenuClick("statistic")}
       >
-        상품조회
-      </SideItem>
-      <SideItem
-        current={type === "reservation"}
-        onClick={() => handleType("reservation")}
-      >
-        예약상품조회
-      </SideItem>
-      <SideItem
-        current={type === "category"}
-        onClick={() => handleType("category")}
-      >
-        상품카테고리등록관리
-      </SideItem>
+        예약 통계 🔦
+      </SideItem> */}
     </SideMenu>
   );
 }

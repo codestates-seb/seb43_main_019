@@ -1,127 +1,117 @@
 import styled from "@emotion/styled";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import ProductModal from "./Modal/ProductModal";
+import { getMemberInfo, validUser } from "../utils/MemberFunctions";
+import { formatPrice } from "../utils/functions";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
- width: 250px;
- height: 350px;
- background: white;
- border-radius: 10px;
- transition: border-radius 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background-color: transparent;
+  width: 250px;
+  height: 350px;
+  perspective: 1000px;
+  border-radius: 10px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  transition: border-radius 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+`;
 
- /* &:shadow {
-  box-shadow: inset 0 -3em 3em rgba(0,0,0,0.1),
-             0 0  0 2px rgb(190, 190, 190),
-             0.3em 0.3em 1em rgba(0,0,0,0.3);
- } */
+const Inner = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+`;
 
-  &:active {
-    transform: scale(0.95);
-  }
-
-  &::before {
-    // 전체적인 은은한 그림자 넣는 거
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    box-shadow: inset 0px 0px 25px 5px rgba(255, 255, 255, 0.5);
-    z-index: 1;
-  }
-
-  &::after {
-    content: "예약하기";
-    position: absolute;
-    bottom: -20%;
-    left: 0;
-    padding-left: 15px;
-    background-color: ${(props) =>
-      props.isDark ? "var(--gray-400)" : "var(--gray-100)"};
-    width: 100%;
-    height: 60px;
-    color: ${(props) => (props.isDark ? "var(--white)" : "var(--black)")};
-    line-height: 50px;
-    text-transform: uppercase;
-    z-index: 2;
-    transition: all 0.2s ease-in;
-
-    font-size: 20px;
-    font-weight: bold;
-  }
-
-  &:hover::after {
-    bottom: 0;
-  }
-
-  &:active::after {
-    content: "자세히 보기";
-    height: 65px;
-  }
-
-  &:hover .image {
-    // width, height 적절히 설정
-    /* top: 20%;
-    left: 30%; */
-    width: 300px;
-    height: 300px;
-    animation: none;
-    // transform: rotate(15deg) translate(-35%, -25%);
-  }
-
-  &:hover .text {
-    left: 5%;
-    width: auto;
-    color: ${(props) => (props.isDark ? "var(--white)" : "var(--black)")};
-  }
+const Front = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 2em;
+  backface-visibility: hidden;
+  background-color: ${(props) =>
+    props.isDark ? "var(--white-50)" : "var(--white)"};
+  color: var(--black-700);
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 `;
 
 const Img = styled.div`
-  // width, height 적절히 설정
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 200px;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 30px;
+  width: 100%;
   height: 200px;
-  filter: drop-shadow(3px 3px 5px #18181815);
-  transform: translate(-50%, -50%);
-  animation: shoes 1s ease infinite alternate;
-  transition: all 0.5s ease-in;
   background-image: url(${(props) => props.bgphoto});
   background-size: cover;
   background-position: center;
+  border-bottom: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 `;
 
-const Text = styled.div`
-  position: absolute;
-  top: 2%;
-  left: -100%;
-  color: #181818;
-  transition: all 0.2s ease-in;
+const Infos = styled.div`
+  width: 100%;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  padding-left: 30px;
 `;
 
-const Title = styled.span`
-  font-size: 20px;
-  font-weight: 400;
-  margin: 0;
-`;
-
-const Price = styled.p`
+const Info = styled.h5`
   font-size: 15px;
-  font-weight: bold;
   margin: 0;
+  margin-bottom: 5px;
 `;
 
-export default function Card({ campground }) {
+export default function Card({ campground, myInfo }) {
+  const [openModal, setOpenModal] = useState(false);
+  const [isSellerLoading, setIsSellerLoading] = useState(false);
+
   const isDark = useSelector((state) => state.modeReducer);
+  const userState = useSelector((state) => state.userReducer);
+
+  const navigate = useNavigate();
+
+  const handleOpenModal = () => {
+    setOpenModal((prev) => true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal((prev) => false);
+  };
 
   return (
-    <Container isDark={isDark}>
-      <Img className="image" bgphoto={campground.img} />
-      <Text className="text">
-        <Title>{campground.name}</Title>
-        <Price>{`₩ ${campground.price} / 박`}</Price>
-      </Text>
-    </Container>
+    <>
+      <Container onClick={handleOpenModal}>
+        <Inner className="inner">
+          <Front isDark={isDark}>
+            <Img bgphoto={campground.imageUrl} />
+            <Infos>
+              <Info>{`이름: ${campground.productName}`}</Info>
+              <Info>{`위치: ${campground.location}`}</Info>
+              <Info>{`판매자: ${
+                isSellerLoading ? "로딩중" : myInfo.name
+              }`}</Info>
+              <Info>{`가격: ${formatPrice(campground.productPrice)}`}</Info>
+            </Infos>
+          </Front>
+        </Inner>
+      </Container>
+      <ProductModal
+        isOpen={openModal}
+        closeModal={handleCloseModal}
+        campground={campground}
+      />
+    </>
   );
 }

@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPhone, faMap, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faPhone, faMap, faBarcode } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { formatPrice } from "../utils/functions";
 
 const Container = styled.div`
   background-color: transparent;
@@ -11,11 +12,25 @@ const Container = styled.div`
   height: 350px;
   perspective: 1000px;
   border-radius: 10px;
+  border: 1 soild;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   transition: border-radius 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   &:hover .inner {
     transform: rotateY(180deg);
+  }
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    width: calc(100% - 25px);
+    height: 230px;
+    margin-bottom: 50px;
+  }
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    width: calc(100% - 25px);
+    height: 230px;
   }
 `;
 
@@ -23,6 +38,7 @@ const Inner = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+
   text-align: center;
   transition: transform 0.6s;
   transform-style: preserve-3d;
@@ -33,11 +49,13 @@ const Front = styled.div`
   width: 100%;
   height: 100%;
   border-radius: 2em;
+  border: 1px solid var(--black-500); /* Add border */
+  border: 1px solid var(--black-500); /* Add border */
   backface-visibility: hidden;
   background-color: ${(props) =>
     props.isDark ? "var(--white-50)" : "var(--white)"};
   color: var(--black-700);
-  border: none;
+  /* border: none; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -61,17 +79,47 @@ const Img = styled.div`
 const Name = styled.div`
   margin-bottom: 10px;
   font-size: 18px;
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    font-size: 12px;
+  }
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    font-size: 12px;
+  }
 `;
 
 const Selection = styled.div`
   margin: 30px 0 10px 0;
   font-size: 13px;
   /* color : #DF2E38; */
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    font-size: 8px;
+  }
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    font-size: 8px;
+  }
 `;
 
 const Price = styled.div`
   /* margin: 30px 0 10px 0; */
   font-size: 25px;
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    font-size: 20px;
+  }
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    font-size: 20px;
+  }
 `;
 
 const Back = styled.div`
@@ -79,6 +127,8 @@ const Back = styled.div`
   width: 100%;
   height: 100%;
   border-radius: 2em;
+  border: 1px solid var(--black-500); /* Add border */
+  border: 1px solid var(--black-500); /* Add border */
   backface-visibility: hidden;
   background-color: ${(props) =>
     props.isDark ? "var(--white-50)" : "var(--white)"};
@@ -107,6 +157,7 @@ const Descriptions = styled.div`
   align-items: center;
   text-align: center; // 추가
   color: var(--black-700);
+  height: 250px;
 `;
 
 const Description = styled.div`
@@ -115,6 +166,16 @@ const Description = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center; // 추가
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    font-size: 15px;
+  }
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    font-size: 15px;
+  }
 `;
 
 const Icons = styled.div`
@@ -123,11 +184,30 @@ const Icons = styled.div`
   align-items: center;
   color: var(--black-700);
   margin-bottom: 100px;
+
+  height: 100px;
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    margin-bottom: 70px;
+    justify-content: space-around;
+  }
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    margin-bottom: 70px;
+    justify-content: space-around;
+  }
 `;
 
 const Icon = styled(FontAwesomeIcon)`
   font-size: 25px;
   cursor: pointer;
+
+  @media screen and (max-width: 400px) {
+    /* Adjust the card size for 400px width */
+    font-size: 15px;
+    width: 80%;
+  }
 `;
 
 const loremIpsum = "지금 바로 예약하세요!";
@@ -135,6 +215,7 @@ const loremIpsum = "지금 바로 예약하세요!";
 export default function Card2({ campground }) {
   const isDark = useSelector((state) => state.modeReducer);
   const [infoType, setInfoType] = useState(null);
+  const navigate = useNavigate();
 
   const handleInfoType = (clickedType) => {
     setInfoType((prev) => clickedType);
@@ -142,14 +223,14 @@ export default function Card2({ campground }) {
 
   const getInfo = (type) => {
     switch (type) {
-      case "seller":
-        return `판매자: ${campground.seller}`;
+      case "price":
+        return `가격: ${formatPrice(campground.productPrice)}`;
       case "call":
-        return `안심번호: ${campground.call}`;
+        return `안심번호: ${campground.productPhone}`;
       case "location":
         return `위치: ${campground.location}`;
       default:
-        return loremIpsum;
+        return campground.content;
     }
   };
 
@@ -157,22 +238,26 @@ export default function Card2({ campground }) {
     <Container>
       <Inner className="inner">
         <Front isDark={isDark}>
-          <Img bgphoto={campground.img} />
-          <Selection>
-            {campground.selection},{campground.restriction}
-          </Selection>
-          <Name>{campground.name}</Name>
-          <Price>{campground.price}</Price>
+          <Img
+            bgphoto={
+              campground.imageUrl === "http://~"
+                ? "https://yeyak.seoul.go.kr/cmsdata/web_upload/svc/20230329/1680050914280HZAYFX8GLLMTVZI2H6BD0WGPV_IM02.jpg"
+                : campground.imageUrl
+            }
+          />
+          <Selection></Selection>
+          <Name>{campground.productName}</Name>
+          <Price>{formatPrice(campground.productPrice)}</Price>
         </Front>
         <Back isDark={isDark}>
           <Info>
-            <Link to={`/${campground.id}`}>
+            <Link to={`/${campground.productId}`}>
               <Descriptions isDark={isDark}>
                 <Description>{getInfo(infoType)}</Description>
               </Descriptions>
             </Link>
             <Icons isDark={isDark}>
-              <Icon onClick={() => handleInfoType("seller")} icon={faUser} />
+              <Icon onClick={() => handleInfoType("price")} icon={faBarcode} />
               <Icon onClick={() => handleInfoType("call")} icon={faPhone} />
               <Icon onClick={() => handleInfoType("location")} icon={faMap} />
             </Icons>
