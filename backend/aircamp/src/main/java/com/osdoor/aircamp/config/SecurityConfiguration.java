@@ -1,5 +1,6 @@
 package com.osdoor.aircamp.config;
 
+import com.osdoor.aircamp.auth.oauth.CustomOAuth2UserService;
 import com.osdoor.aircamp.auth.filter.JwtAuthenticationFilter;
 import com.osdoor.aircamp.auth.filter.JwtVerificationFilter;
 import com.osdoor.aircamp.auth.handler.MemberAccessDeniedHandler;
@@ -7,6 +8,7 @@ import com.osdoor.aircamp.auth.handler.MemberAuthenticationEntryPoint;
 import com.osdoor.aircamp.auth.handler.MemberAuthenticationFailureHandler;
 import com.osdoor.aircamp.auth.handler.MemberAuthenticationSuccessHandler;
 import com.osdoor.aircamp.auth.jwt.JwtTokenizer;
+import com.osdoor.aircamp.auth.oauth.OAuth2SuccessHandler;
 import com.osdoor.aircamp.auth.utils.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -33,6 +35,8 @@ public class SecurityConfiguration {
 
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -66,8 +70,12 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.PATCH, "/api/reservations/**").hasRole("USER")
                         .antMatchers(HttpMethod.GET, "/api/reservations/**").hasAnyRole("USER", "ADMIN")
                         .antMatchers(HttpMethod.DELETE, "/api/reservations/**").hasRole("USER")
-                        .anyRequest().permitAll()
-                );
+                        .anyRequest().permitAll())
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService)
+                .and()
+                .successHandler(oAuth2SuccessHandler);
 
         return http.build();
     }
@@ -80,8 +88,11 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000",
+                "https://aircamp019.link/",
+                "http://aircamp-codestates-019.s3-website.ap-northeast-2.amazonaws.com/"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
+        configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Refresh"));
 
