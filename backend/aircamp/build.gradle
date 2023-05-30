@@ -2,7 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.11'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-	id "org.asciidoctor.jvm.convert" version "3.3.2"    // (1)
+	id "org.asciidoctor.jvm.convert" version "3.3.2"
 }
 
 group = 'com.osdoor'
@@ -20,7 +20,11 @@ repositories {
 }
 
 ext {
-	set('snippetsDir', file("build/generated-snippets"))
+    set('snippetsDir', file("build/generated-snippets"))
+}
+
+configurations {
+    asciidoctorExtensions
 }
 
 dependencies {
@@ -33,6 +37,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
     testImplementation 'org.springframework.security:spring-security-test'
 
     implementation 'org.springframework.boot:spring-boot-starter-validation' // 유효성 검증을 위해서 필요
@@ -58,6 +63,24 @@ tasks.named('test') {
 }
 
 tasks.named('asciidoctor') {
-	inputs.dir snippetsDir
-	dependsOn test
+    configurations "asciidoctorExtensions"
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+task copyDocument(type: Copy) {
+    dependsOn asciidoctor
+    from file("${asciidoctor.outputDir}")
+    into file("src/main/resources/static/docs")
+}
+
+build {
+    dependsOn copyDocument
+}
+
+bootJar {
+    dependsOn copyDocument
+    from ("${asciidoctor.outputDir}") {
+        into 'static/docs'
+    }
 }
