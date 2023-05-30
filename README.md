@@ -43,7 +43,7 @@ AIRCAMP는 캠핑장을 예약하는 구매자와 캠핑장을 판매 및 등록
 |회원탈퇴|- 회원탈퇴를 할 수 있습니다. <br>- 탈퇴한 아이디(이메일)로는 다시 가입할 수 없습니다.|마이페이지<br>⬇️<br>개인정보관리<br>⬇️<br>회원탈퇴|
 |관리자 페이지|- 관리자는 모든 유저의 정보를 조회할 수 있고 회원 삭제가 가능합니다.<br>- 관리자는 모든 상품의 정보를 조회할 수 있고 상품 삭제가 가능합니다. |관리자는 AIRCAMP 사이트 도메인에<br> /admin 을 붙여서 관리자 <br>페이지에 진입 할 수 있습니다.|
 |다크모드|- 다크모드 전환 아이콘을 클릭하여 다크모드로 전환 할 수 있습니다.<br>- AIRCAMP 사이트의 기본 설정은 LIGHT 모드 입니다. |메인페이지 좌측상단|
-
+<br><br>
 ![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&text=OS%20DOOR&height=300&fontSize=90&animation=twinkling)
 # 🚪Team OS DOOR<br>
 - 안녕하세요 팀 OS DOOR 입니다.
