@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import axios from "axios";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -87,11 +88,11 @@ function App() {
           <Route path="/payment" element={<Payment />} />
           <Route path={"/oauth2/*"} element={<KakaoLogin />} />
           <Route path="/Pay" element={<SelectPay />} />
-          <Route path="/:id" element={<Detail />} />
           <Route path="/404" element={<NotFound />} />
           <Route path="/api/payments/success" element={<PaySuccessPage />} />
           <Route path="/api/payments/cancel" element={<PayCancelPage />} />
           <Route path="/api/payments/fail" element={<PayFailPage />} />
+          <Route path="/:id" element={<Detail />} />
           <Route
             path="/"
             element={
