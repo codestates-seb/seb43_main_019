@@ -8,8 +8,8 @@ import { ToastContainer, toast } from "react-toastify";
 import {
   handleUpdateMemberInfo,
   handleUserWithdrawal,
-} from "../../utils/MemberFunctions";
-import { checkValidPassword, checkValidPhone } from "../../utils/Functions";
+} from "../../Util/MemberFunctions";
+import { checkValidPassword, checkValidPhone } from "../../Util/Functions";
 
 import "react-toastify/dist/ReactToastify.css";
 

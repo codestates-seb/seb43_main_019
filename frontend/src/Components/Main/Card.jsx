@@ -4,7 +4,7 @@ import { faPhone, faMap, faBarcode } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { formatPrice } from "../../utils/Functions";
+import { formatPrice } from "../../Util/Functions";
 
 const Container = styled.div`
   background-color: transparent;

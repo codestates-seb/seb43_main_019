@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import {
   handleCancelReservation,
   handleUpdateReservation,
-} from "../../utils/ReservationFunctions";
+} from "../../Util/ReservationFunctions";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { useState } from "react";

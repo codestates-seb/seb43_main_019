@@ -7,9 +7,9 @@ import { useState } from "react";
 import {
   handleDeleteCampground,
   handleUpdateCampground,
-} from "../../utils/ProductFunctions";
+} from "../../Utils/ProductFunctions";
 import { useDispatch, useSelector } from "react-redux";
-import { getMemberInfo, validUser } from "../../utils/MemberFunctions";
+import { getMemberInfo, validUser } from "../../Utils/MemberFunctions";
 import { toast } from "react-toastify";
 import { handleLogout } from "../../Redux/Actions";
 

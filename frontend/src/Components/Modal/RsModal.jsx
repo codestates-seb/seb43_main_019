@@ -1,9 +1,7 @@
 import styled from "@emotion/styled";
 import Modal from "react-modal";
 import { useState, useEffect } from "react";
-import {
-  getMemberReservations,
-} from "../../utils/ProductFunctions";
+import { getMemberReservations } from "../../Util/ProductFunctions";
 import Reservation from "../MyPage/Reservation";
 import Spinner from "../Common/Spinner";
 import { useSelector } from "react-redux";

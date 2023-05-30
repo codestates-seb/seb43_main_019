@@ -24,7 +24,7 @@ import PayCancelPage from "./Pages/PayCancelPage";
 import PayFailPage from "./Pages/PayFailPage";
 
 import { handleLogout } from "./Redux/Actions";
-import { getMemberInfo } from "./utils/MemberFunctions";
+import { getMemberInfo } from "./Util/MemberFunctions";
 
 // 모든 요청에 withCredentials가 true로 설정됩니다.
 axios.defaults.withCredentials = true;
