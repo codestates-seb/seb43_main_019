@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import Card2 from "../Card2";
+import Card from "../Main/Card";
 
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -66,7 +66,7 @@ export default function Reservation() {
             data
               .filter((campground) => campground.productId === 1)
               .map((campground) => (
-                <Card2 key={campground.productId} campground={campground} />
+                <Card key={campground.productId} campground={campground} />
               ))
           )}
         </Products>

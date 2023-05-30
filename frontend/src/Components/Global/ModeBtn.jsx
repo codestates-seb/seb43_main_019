@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { handleMode } from "../Redux/Actions";
+import { handleMode } from "../../Redux/Actions";
 
 const Container = styled.div`
   font-size: 20px;
@@ -22,8 +22,8 @@ const Container = styled.div`
 
     @media screen and (max-width: 400px) {
       width: 40px; /* Adjust the width to the desired value for mobile devices */
-    height: 20px;
-  }
+      height: 20px;
+    }
   }
 `;
 

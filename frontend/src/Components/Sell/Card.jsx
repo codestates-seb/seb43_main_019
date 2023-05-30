@@ -1,9 +1,8 @@
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
-import ProductModal from "./Modal/ProductModal";
-import { getMemberInfo, validUser } from "../utils/MemberFunctions";
-import { formatPrice } from "../utils/functions";
+import ProductModal from "../Modal/ProductModal";
+import { formatPrice } from "../../utils/Functions";
 import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`

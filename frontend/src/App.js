@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Routes, Route } from "react-router-dom";
 
-import Header from "./Components/Header";
+import Header from "./Components/Global/Header";
 import Main from "./Pages/Main";
 import SignUp from "./Pages/SignUp";
 import Login from "./Pages/Login";
@@ -15,8 +15,7 @@ import Detail from "./Pages/Detail";
 import Sell from "./Pages/Sell";
 import Admin from "./Pages/Admin";
 import KakaoLogin from "./Pages/KakaoLogin";
-import Profile from "./Pages/Profile";
-import ChatBox from "./Components/ChatBox";
+import ChatBox from "./Components/Global/ChatBox";
 import NotFound from "./Pages/NotFound";
 import SelectPay from "./Pages/SelectPay";
 import PaySuccessPage from "./Pages/PaySuccessPage";
@@ -85,7 +84,6 @@ function App() {
           <Route path="/mypage" element={<Mypage />} />
           <Route path={"/sell/*"} element={<Sell />} />
           <Route path={"/admin/*"} element={<Admin />} />
-          <Route path="/profile" element={<Profile />} />
           <Route path="/payment" element={<Payment />} />
           <Route path={"/oauth2/*"} element={<KakaoLogin />} />
           <Route path="/Pay" element={<SelectPay />} />

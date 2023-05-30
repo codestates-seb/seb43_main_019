@@ -1,14 +1,12 @@
 import styled, { keyframes } from "styled-components";
 import { useSelector } from "react-redux";
-import { useEffect, useRef, useState } from "react";
-import Card2 from "../Components/Card2";
+import { useEffect, useState } from "react";
+import Card from "../Components/Main/Card";
 import { FaChevronUp } from "react-icons/fa";
-import { getCampgroundInfo } from "../utils/ProductFunctions";
 import { getAllCampgroundsInfo } from "../utils/ProductFunctions";
 import Spinner from "../Components/Common/Spinner";
-import { Element, Scroller } from "react-scroll";
-import { getMemberInfo } from "../utils/MemberFunctions";
-import { checkPrice } from "../utils/functions";
+import { Element } from "react-scroll";
+import { checkPrice } from "../utils/Functions";
 
 const Loader = styled.h1`
   width: 100vw;
@@ -349,13 +347,13 @@ export default function Main({
           <Container>
             {displayData.length > 0
               ? displayData.map((campground) => (
-                  <Card2
+                  <Card
                     key={campground.productId + ""}
                     campground={campground}
                   />
                 ))
               : displayData.map((campground) => (
-                  <Card2
+                  <Card
                     key={campground.productId + ""}
                     campground={campground}
                   />
@@ -371,10 +369,7 @@ export default function Main({
           <Container>
             {(couple.length > 0 ? couple : data.slice(0, 8)).map(
               (campground) => (
-                <Card2
-                  key={campground.productId + ""}
-                  campground={campground}
-                />
+                <Card key={campground.productId + ""} campground={campground} />
               )
             )}
           </Container>
@@ -388,10 +383,7 @@ export default function Main({
           <Container>
             {(gangwondo.length > 0 ? gangwondo : data.slice(0, 8)).map(
               (campground) => (
-                <Card2
-                  key={campground.productId + ""}
-                  campground={campground}
-                />
+                <Card key={campground.productId + ""} campground={campground} />
               )
             )}
           </Container>
@@ -405,7 +397,7 @@ export default function Main({
           </ContextArea>
           <Container>
             {displayData.map((campground) => (
-              <Card2 key={campground.productId + ""} campground={campground} />
+              <Card key={campground.productId + ""} campground={campground} />
             ))}
           </Container>
         </>
