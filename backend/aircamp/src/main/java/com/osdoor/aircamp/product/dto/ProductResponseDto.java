@@ -1,14 +1,15 @@
 package com.osdoor.aircamp.product.dto;
 
 import com.osdoor.aircamp.member.entity.Member;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class ProductResponseDto {
 
     private Long productId;
@@ -23,9 +24,9 @@ public class ProductResponseDto {
     private Double latitude;
     private Double longitude;
     private Boolean deleted;
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
     private String createdBy;
-    private LocalDateTime modifiedAt;
+    private LocalDate modifiedAt;
     private String modifiedBy;
     private String imageUrl;
     private Long memberId;
