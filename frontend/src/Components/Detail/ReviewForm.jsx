@@ -2,11 +2,11 @@ import styled from "@emotion/styled";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useRef } from "react";
-import Review from "../Components/Review";
+import Review from "../Detail/Review";
 import { useSelector } from "react-redux";
-import { getAllReview, handlePostReview } from "../utils/ReviewFunctions";
+import { getAllReview, handlePostReview } from "../../utils/ReviewFunctions";
 import { toast } from "react-toastify";
-import Spinner from "./Common/Spinner";
+import Spinner from "../Common/Spinner";
 
 const Container = styled.div`
   max-width: 1000px;
@@ -111,7 +111,7 @@ const PostBtn = styled.button`
   padding: 16px 16px 15px;
   text-decoration: none;
   cursor: pointer;
-  background: #27374D;
+  background: #27374d;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
@@ -138,14 +138,12 @@ const PostBtn = styled.button`
 const Reviews = styled.div`
   display: flex;
   flex-direction: row;
-  flex-wrap : wrap;
+  flex-wrap: wrap;
 
   @media screen and (max-width: 868px) {
     flex-direction: column;
   }
-
-
-  `;
+`;
 
 export default function ReviewForm({ productId }) {
   const [reviews, setReviews] = useState([]); // 현재 보여줄 리뷰들입니다.
@@ -242,13 +240,13 @@ export default function ReviewForm({ productId }) {
       setReviews((prev) => [...filtered]);
 
       let isMine = false;
-      if (userState.login){
-      filtered.forEach((review) => {
-        if (review.memberId === userState.userInfo.memberId) {
-          isMine = true;
-        }
-      });
-    }
+      if (userState.login) {
+        filtered.forEach((review) => {
+          if (review.memberId === userState.userInfo.memberId) {
+            isMine = true;
+          }
+        });
+      }
 
       setIsReviewWritten((prev) => isMine);
 
@@ -304,6 +302,5 @@ export default function ReviewForm({ productId }) {
         ))}
       </Reviews>
     </Container>
-    
   );
 }

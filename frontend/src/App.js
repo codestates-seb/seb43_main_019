@@ -1,34 +1,30 @@
 import styled from "styled-components";
 import axios from "axios";
-import Header from "./Components/Header";
-import ModeBtn from "./Components/ModeBtn";
-import { Routes, Route, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { Routes, Route } from "react-router-dom";
+
+import Header from "./Components/Header";
 import Main from "./Pages/Main";
 import SignUp from "./Pages/SignUp";
 import Login from "./Pages/Login";
 import Payment from "./Pages/Payment";
 import Mypage from "./Pages/Mypage";
 import Detail from "./Pages/Detail";
-// import "./Style/App.css";
-import AccountSearch from "./Pages/AccountSearch";
 import Sell from "./Pages/Sell";
 import Admin from "./Pages/Admin";
-import { useEffect, useState } from "react";
-import { handleLogin, handleLogout } from "./Redux/Actions";
 import KakaoLogin from "./Pages/KakaoLogin";
-import { JS_KEY } from "./config";
 import Profile from "./Pages/Profile";
 import ChatBox from "./Components/ChatBox";
-import ComponentExamples from "./Pages/ComponentExamples";
 import NotFound from "./Pages/NotFound";
-import Test from "./Pages/Test";
 import SelectPay from "./Pages/SelectPay";
-import { getMemberInfo } from "./utils/MemberFunctions";
-import { toast } from "react-toastify";
 import PaySuccessPage from "./Pages/PaySuccessPage";
 import PayCancelPage from "./Pages/PayCancelPage";
 import PayFailPage from "./Pages/PayFailPage";
+
+import { handleLogout } from "./Redux/Actions";
+import { getMemberInfo } from "./utils/MemberFunctions";
 
 // 모든 요청에 withCredentials가 true로 설정됩니다.
 axios.defaults.withCredentials = true;
