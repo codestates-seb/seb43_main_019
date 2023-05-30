@@ -1,19 +1,23 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
-import CampgroundImage from "../Components/DeatilImage";
-import Picker from "../Components/Picker";
-import CampgroundInfo from "../Components/DetailInfo";
-import Map from "../Components/Map";
 import { useParams, useNavigate } from "react-router-dom";
-import { DetailButton } from "../Components/Common/Button";
 import { useSelector } from "react-redux";
-import { getCampgroundInfo } from "../utils/ProductFunctions";
-import ReviewForm from "../Components/ReviewForm";
 import { format } from "date-fns";
+
+// 컴포넌트 관련 모듈들
+import CampgroundImage from "../Components/Detail/DetailImage";
+import Picker from "../Components/Detail/Picker";
+import Map from "../Components/Detail/Map";
+import ReviewForm from "../Components/Detail/ReviewForm";
 import Spinner from "../Components/Common/Spinner";
+
+// 유틸리티 함수 및 라이브러리 관련 모듈들
+import { getCampgroundInfo } from "../utils/ProductFunctions";
 import { toast } from "react-toastify";
 import { FaChevronUp } from "react-icons/fa";
-import { handleCheckReservationDate } from "../utils/ReservationFunctions";
+
+// 공통 컴포넌트 관련 모듈
+import { DetailButton } from "../Components/Common/Button";
 
 const Loader = styled.h1`
   width: 100vw;
@@ -57,7 +61,7 @@ const Title = styled.h2`
   color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--black-700)")};
 
   @media screen and (max-width: 400px) {
-    margin-left: 0px;
+    margin-left: 0px ;
     padding-top: 30px;
     text-align: center;
     font-size: 22px;
@@ -73,7 +77,7 @@ const Information = styled.p`
   color: ${(props) => (props.isDark ? "var(--white-50)" : "var(--black-700)")};
 
   @media screen and (max-width: 400px) {
-    margin-left: 0px;
+    margin-left: 0px ;
     padding-top: 30px;
     text-align: center;
     font-size: 22px;
@@ -88,11 +92,13 @@ const Form02Information = styled.p`
   align-items: start;
   margin-left: 30px;
 
+
   @media screen and (max-width: 400px) {
     text-align: center;
     font-size: 12px;
   }
 `;
+
 
 const ContentContainer = styled.div`
   display: flex;
@@ -110,6 +116,7 @@ const ContentContainer = styled.div`
   @media screen and (max-width: 400px) {
     flex-direction: column;
   }
+
 `;
 
 const FormContainer = styled.div`
@@ -127,6 +134,7 @@ const FormContainer = styled.div`
   right: 0;
   @media (max-width: 768px) {
     order: 2;
+
   }
 `;
 
@@ -138,7 +146,8 @@ const InfoContainer = styled.div`
   justify-content: start;
   align-items: start;
   text-align: start;
-  height: calc(300vh - 150px);
+  height: calc(300vh - 150px);  
+
 `;
 
 const Line = styled.hr`
@@ -155,11 +164,12 @@ const Line02 = styled.hr`
   width: 100%;
   margin: 0 auto;
   border: 1px solid var(--black-500);
-  ${(props) => (props.isDark ? "var(--white)" : "var(--black-500)")};
+    ${(props) => (props.isDark ? "var(--white)" : "var(--black-500)")};
   margin-bottom: 0px;
 `;
 
-const Form = styled.div`
+
+const Form = styled.form`
   max-width: 450px;
   width: 80%;
   height: 500px;
@@ -190,6 +200,7 @@ const Form02 = styled.div`
   box-shadow: 12px 17px 51px var(--gray-300);
 
   @media screen and (max-width: 400px) {
+
   }
 `;
 
@@ -210,6 +221,7 @@ const ImgContainer = styled.div`
   @media screen and (max-width: 400px) {
     width: 300px;
     height: 200px;
+
   }
 
   @media (max-width: 900px) {
@@ -246,6 +258,7 @@ const options = {
   threshold: 0.5,
 };
 
+
 function Detail() {
   const [startDate, setStartDate] = useState(null);
   const { id } = useParams();
@@ -266,58 +279,39 @@ function Detail() {
     fetchData();
   }, [id]);
 
-  // 무한 스크롤을 위한 useEffect
-  useEffect(() => {
-    (async () => {
-      const observer = new IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting) {
-          // console.log("ㅋㅋㅋ");
+    // 무한 스크롤을 위한 useEffect
+    useEffect(() => {
+      (async () => {
+        const observer = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+            // console.log("ㅋㅋㅋ");
+          }
+        }, options);
+  
+        if (containerRef.current) {
+          observer.observe(containerRef.current);
         }
-      }, options);
+  
+        return () => {
+          observer.disconnect();
+        };
+      })();
+    }, [containerRef]);
 
-      if (containerRef.current) {
-        observer.observe(containerRef.current);
-      }
+  const { content, productPrice, productName, location, imageUrl, capacity } =
+    data || {};
 
-      return () => {
-        observer.disconnect();
-      };
-    })();
-  }, [containerRef]);
-
-  const {
-    content,
-    productPrice,
-    productName,
-    address,
-    location,
-    imageUrl,
-    productPhone,
-    capacity,
-  } = data || {};
-
-  const handleReservation = async () => {
+  const handleReservation = () => {
     if (!startDate) {
-      alert("날짜를 선택해주세요."); // 날짜 선택하지 않은 경우 경고창 표시
+      toast("날짜를 선택해주세요."); // 날짜 선택하지 않은 경우 경고창 표시
       return;
     }
 
     if (userState.login) {
       const formattedDate = format(startDate, "yyyy-MM-dd");
-
-      const isReservated = await handleCheckReservationDate(
-        { productId: data.productId, reservationDate: formattedDate },
-        userState.userInfo
-      );
-
-      if (isReservated.existence === true) {
-        toast("이미 예약이 되어있는 날짜입니다.");
-        return;
-      }
-
       navigate("/Payment", { state: { data, startDate: formattedDate } });
     } else {
-      toast("로그인이 필요한 서비스입니다."); // 로그인이 필요한 경우 경고창 표시
+      alert("로그인이 필요한 서비스입니다."); // 로그인이 필요한 경우 경고창 표시
       navigate("/login"); // 로그인 페이지로 이동
     }
   };
@@ -340,75 +334,69 @@ function Detail() {
     );
   }
 
+  
+
   return isLoading ? (
     <Loader>
       <Spinner />
     </Loader>
   ) : (
     <>
-      <Container>
-        <ContextArea isDark={isDark}>
-          <Title
-            isDark={isDark}
-          >{`${productName}입니다. 예약을 진행해보세요.🚘`}</Title>
-        </ContextArea>
-        <Line02 />
-        <ContentContainer>
-          <InfoContainer>
-            <ContextArea isDark={isDark}>
-              <Information isDark={isDark}>캠핑장 사진 보기</Information>
-            </ContextArea>
-            <ImgContainer>
-              <CampgroundImage src={imageUrl} />
-            </ImgContainer>
-            <Line />
-            <ContextArea isDark={isDark}>
-              <Information isDark={isDark}>캠핑장 위치 📍</Information>
-            </ContextArea>
-            <Map productId={id} />
-            <Line />
-            <ContextArea isDark={isDark}>
-              <Information isDark={isDark}>숙소 정보 보기</Information>
-            </ContextArea>
-            <ContextArea isDark={isDark}>
-              <Information isDark={isDark}>{`${content}`}</Information>
-            </ContextArea>
+    <Container>
+      <ContextArea isDark={isDark}>
+      <Title isDark={isDark}>{`${productName}입니다. 예약을 진행해보세요.🚘`}</Title>
+      </ContextArea>
+      <Line02 />
+      <ContentContainer>
+        <InfoContainer>
+          <ContextArea isDark={isDark}>
+            <Information isDark={isDark}>캠핑장 사진 보기</Information>
+           </ContextArea>
+         <ImgContainer>
+          <CampgroundImage src={imageUrl} />
+          </ImgContainer>
+          <Line />
+          <ContextArea isDark={isDark}>
+            <Information isDark={isDark}>캠핑장 위치 📍</Information>
+           </ContextArea>
+          <Map productId={id} />
+          <Line />
+          <ContextArea isDark={isDark}>
+            <Information isDark={isDark}>숙소 정보 보기</Information>
+           </ContextArea>
+           <ContextArea isDark={isDark}>
+           <Information isDark={isDark}>{`${content}`}</Information>
+           </ContextArea>
 
-            <Line />
-            <ContextArea isDark={isDark}>
-              <Information isDark={isDark}>
-                날짜를 선택하시고 예약을 진행하세요.👇👇
-              </Information>
-            </ContextArea>
-            <Picker startDate={startDate} setStartDate={setStartDate} />
-          </InfoContainer>
-          <FormContainer>
-            <Form>
-              <ContextArea02 isDark={isDark}>
-                <PriceArea isDark={isDark}>{`₩${productPrice}/박`}</PriceArea>
-              </ContextArea02>
-              <Form02>
-                <ContextArea02 isDark={isDark}>
-                  <Form02Information
-                    isDark={isDark}
-                  >{`위치 : ${location}`}</Form02Information>
-                </ContextArea02>
-                <Line02 />
-                <ContextArea02 isDark={isDark}>
-                  <Form02Information
-                    isDark={isDark}
-                  >{`수용인원 : ${capacity}인`}</Form02Information>
-                </ContextArea02>
-              </Form02>
-              <DetailButton onClick={handleReservation}>예약 하기</DetailButton>
-            </Form>
-          </FormContainer>
-        </ContentContainer>
-        <ReviewForm productId={id} />
-      </Container>
+           <Line />
+          <ContextArea isDark={isDark}>
+            <Information isDark={isDark}>날짜를 선택하시고 예약을 진행하세요.👇👇</Information>
+           </ContextArea>
+           <Picker startDate={startDate} setStartDate={setStartDate} />
+        </InfoContainer>
+        <FormContainer>
+          <Form>
+          <ContextArea02 isDark={isDark}>
+            <PriceArea isDark={isDark}>{`₩${productPrice}/박`}</PriceArea>
+           </ContextArea02>
+           <Form02>
+           <ContextArea02 isDark={isDark}>
+           <Form02Information isDark={isDark}>{`위치 : ${location}`}</Form02Information>
+           </ContextArea02>
+           <Line02 />
+           <ContextArea02 isDark={isDark}>
+           <Form02Information isDark={isDark}>{`수용인원 : ${capacity}인`}</Form02Information>
+           </ContextArea02>
+           </Form02>
+           <DetailButton onClick={handleReservation}>예약 하기</DetailButton>
+          </Form>
+        </FormContainer>
+      </ContentContainer>
+      <ReviewForm productId={id} />
+    </Container>
       <ScrollBtn onClick={() => window.scrollTo(0, 0)} ref={containerRef}>
-        <FaChevronUp size={40} />
-      </ScrollBtn>
+      <FaChevronUp size={40} />
+    </ScrollBtn>
     </>
   );
 }

@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
+
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 import Menus from "../Components/Admin/Menus";
-import TotalStatistics from "../Components/Admin/TotalStatistics";
 import UserManagement from "../Components/Admin/UserManagement";
 import ProductManagement from "../Components/Admin/ProductManagement";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
 
 const Wrapper = styled.div`
   width: 100%;

@@ -1,34 +1,30 @@
 import styled from "styled-components";
 import axios from "axios";
-import Header from "./Components/Header";
-import ModeBtn from "./Components/ModeBtn";
-import { Routes, Route, useParams } from "react-router-dom";
+
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { Routes, Route } from "react-router-dom";
+
+import Header from "./Components/Global/Header";
 import Main from "./Pages/Main";
 import SignUp from "./Pages/SignUp";
 import Login from "./Pages/Login";
 import Payment from "./Pages/Payment";
 import Mypage from "./Pages/Mypage";
 import Detail from "./Pages/Detail";
-// import "./Style/App.css";
-import AccountSearch from "./Pages/AccountSearch";
 import Sell from "./Pages/Sell";
 import Admin from "./Pages/Admin";
-import { useEffect, useState } from "react";
-import { handleLogin, handleLogout } from "./Redux/Actions";
 import KakaoLogin from "./Pages/KakaoLogin";
-import { JS_KEY } from "./config";
-import Profile from "./Pages/Profile";
-import ChatBox from "./Components/ChatBox";
-import ComponentExamples from "./Pages/ComponentExamples";
+import ChatBox from "./Components/Global/ChatBox";
 import NotFound from "./Pages/NotFound";
-import Test from "./Pages/Test";
 import SelectPay from "./Pages/SelectPay";
-import { getMemberInfo } from "./utils/MemberFunctions";
-import { toast } from "react-toastify";
 import PaySuccessPage from "./Pages/PaySuccessPage";
 import PayCancelPage from "./Pages/PayCancelPage";
 import PayFailPage from "./Pages/PayFailPage";
+
+import { handleLogout } from "./Redux/Actions";
+import { getMemberInfo } from "./utils/MemberFunctions";
 
 // 모든 요청에 withCredentials가 true로 설정됩니다.
 axios.defaults.withCredentials = true;
@@ -89,15 +85,14 @@ function App() {
           <Route path="/mypage" element={<Mypage />} />
           <Route path={"/sell/*"} element={<Sell />} />
           <Route path={"/admin/*"} element={<Admin />} />
-          <Route path="/profile" element={<Profile />} />
           <Route path="/payment" element={<Payment />} />
           <Route path={"/oauth2/*"} element={<KakaoLogin />} />
           <Route path="/Pay" element={<SelectPay />} />
-          <Route path="/:id" element={<Detail />} />
           <Route path="/404" element={<NotFound />} />
           <Route path="/api/payments/success" element={<PaySuccessPage />} />
           <Route path="/api/payments/cancel" element={<PayCancelPage />} />
           <Route path="/api/payments/fail" element={<PayFailPage />} />
+          <Route path="/:id" element={<Detail />} />
           <Route
             path="/"
             element={

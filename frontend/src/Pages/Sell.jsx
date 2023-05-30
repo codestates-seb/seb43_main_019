@@ -1,13 +1,13 @@
 import styled from "@emotion/styled";
+
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import SellSideMenu from "../Components/SellSideMenu";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+
+import SellSideMenu from "../Components/Sell/SellSideMenu";
 import Registration from "../Components/Sell/Registration";
 import ProductList from "../Components/Sell/ProductList";
-import Reservation from "../Components/Sell/Reservation";
-import Statistic from "../Components/Statistic";
-import { toast } from "react-toastify";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -58,7 +58,6 @@ export default function Sell() {
       <SellSideMenu current={selected} handleMenuClick={handleMenuClick} />
       {selected === "registration" && <Registration />}
       {selected === "list" && <ProductList />}
-      {selected === "statistic" && <Statistic />}
     </Wrapper>
   );
 }

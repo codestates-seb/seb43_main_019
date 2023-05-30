@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+
 import {
   handleUpdateMemberInfo,
   handleUserWithdrawal,
 } from "../../utils/MemberFunctions";
-import { checkValidPassword, checkValidPhone } from "../../utils/functions";
-import { useDispatch, useSelector } from "react-redux";
-import { handleLogout } from "../../Redux/Actions";
-import { ToastContainer, toast } from "react-toastify";
+import { checkValidPassword, checkValidPhone } from "../../utils/Functions";
+
 import "react-toastify/dist/ReactToastify.css";
 
 Modal.setAppElement("#root");

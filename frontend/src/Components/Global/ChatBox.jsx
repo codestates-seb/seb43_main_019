@@ -1,13 +1,10 @@
 import styled from "@emotion/styled";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faComments } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import CustomerChat from "./Chatting/CustomerChat";
-import AIChat from "./Chatting/AIChat";
+import CustomerChat from "../Chatting/CustomerChat";
+import AIChat from "../Chatting/AIChat";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { BiReset } from "react-icons/bi";
-import axios from "axios";
 
 const Btn = styled(motion.div)`
   width: 70px;

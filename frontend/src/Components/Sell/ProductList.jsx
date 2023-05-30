@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
-import Campground from "../Campground";
-import Card from "../Card";
+import Card from "../Sell/Card";
 import { useState } from "react";
 import { useEffect } from "react";
 import { getAllCampgroundsInfo } from "../../utils/ProductFunctions";

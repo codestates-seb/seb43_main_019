@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { FaSortDown } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getCategory } from "../utils/functions";
+import { getCategory } from "../../utils/Functions";
 import { useEffect } from "react";
 
 const InputSpace = styled.div`

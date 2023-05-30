@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { RiErrorWarningFill } from "react-icons/ri";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;

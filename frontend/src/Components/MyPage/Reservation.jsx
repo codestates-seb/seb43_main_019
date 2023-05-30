@@ -1,10 +1,9 @@
 import styled from "@emotion/styled";
 import { useEffect } from "react";
-import { formatPrice } from "../utils/functions";
 import {
   handleCancelReservation,
   handleUpdateReservation,
-} from "../utils/ReservationFunctions";
+} from "../../utils/ReservationFunctions";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
