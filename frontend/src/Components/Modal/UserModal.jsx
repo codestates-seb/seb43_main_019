@@ -3,7 +3,6 @@ import Modal from "react-modal";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { FcBusinessman } from "react-icons/fc";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
 import { handleUserWithdrawal } from "../../utils/MemberFunctions";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";

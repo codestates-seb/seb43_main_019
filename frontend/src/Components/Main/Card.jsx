@@ -210,8 +210,6 @@ const Icon = styled(FontAwesomeIcon)`
   }
 `;
 
-const loremIpsum = "지금 바로 예약하세요!";
-
 export default function Card2({ campground }) {
   const isDark = useSelector((state) => state.modeReducer);
   const [infoType, setInfoType] = useState(null);
