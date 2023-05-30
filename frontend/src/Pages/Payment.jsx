@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 import { BiDollar } from "react-icons/bi";
 import { RiArrowDownSLine } from "react-icons/ri";
 import KakaoPayButton from "../Components/Payment/KakaoPayBtn";
-import { formatPrice } from "../Util/Functions";
-import { postReservationsData } from "../Util/ProductFunctions";
+import { formatPrice } from "../Utils/Functions";
+import { postReservationsData } from "../Utils/ProductFunctions";
 
 const Container = styled.div`
   width: 100%;

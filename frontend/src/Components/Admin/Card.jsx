@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ProductModal from "../Modal/ProductModal";
-import { getMemberInfo } from "../../Utilss/MemberFunctions";
+import { getMemberInfo } from "../../Utils/MemberFunctions";
 
 const Container = styled.div`
   background-color: transparent;

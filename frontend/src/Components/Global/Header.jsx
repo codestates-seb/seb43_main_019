@@ -6,7 +6,7 @@ import { handleLogout } from "../../Redux/Actions";
 import { CommonButton } from "../Common/Button";
 import Searchbar from "./Searchbar";
 import { useEffect, useState } from "react";
-import { getAllCampgroundsInfo } from "../../Util/ProductFunctions";
+import { getAllCampgroundsInfo } from "../../Utils/ProductFunctions";
 import Spinner from "../Common/Spinner";
 import ModeBtn from "./ModeBtn";
 import { ToastContainer, toast } from "react-toastify";

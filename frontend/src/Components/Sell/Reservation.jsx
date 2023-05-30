@@ -3,7 +3,7 @@ import Card from "../Main/Card";
 
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { getAllCampgroundsInfo } from "../../utils/ProductFunctions";
+import { getAllCampgroundsInfo } from "../../Utils/ProductFunctions";
 import Spinner from "../Common/Spinner";
 
 const Container = styled.div`

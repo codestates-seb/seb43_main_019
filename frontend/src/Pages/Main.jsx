@@ -3,10 +3,10 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Card from "../Components/Main/Card";
 import { FaChevronUp } from "react-icons/fa";
-import { getAllCampgroundsInfo } from "../Util/ProductFunctions";
+import { getAllCampgroundsInfo } from "../Utils/ProductFunctions";
 import Spinner from "../Components/Common/Spinner";
 import { Element } from "react-scroll";
-import { checkPrice } from "../Util/Functions";
+import { checkPrice } from "../Utils/Functions";
 
 const Loader = styled.h1`
   width: 100vw;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getCampgroundInfo } from "../../Util/ProductFunctions";
+import { getCampgroundInfo } from "../../Utils/ProductFunctions";
 import styled from "@emotion/styled";
 
 const { kakao } = window;

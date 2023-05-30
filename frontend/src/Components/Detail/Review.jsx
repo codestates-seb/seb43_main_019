@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { FcBusinessman } from "react-icons/fc";
-import { getMemberInfo } from "../../Util/MemberFunctions";
+import { getMemberInfo } from "../../Utils/MemberFunctions";
 import { AiFillCloseCircle, AiFillEdit } from "react-icons/ai";
-import { handleDeleteReview } from "../../Util/ReviewFunctions";
-import { handleUpdateReview } from "../../Util/ReviewFunctions";
+import { handleDeleteReview } from "../../Utils/ReviewFunctions";
+import { handleUpdateReview } from "../../Utils/ReviewFunctions";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
