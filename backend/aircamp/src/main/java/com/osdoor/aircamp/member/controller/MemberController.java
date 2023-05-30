@@ -1,11 +1,10 @@
 package com.osdoor.aircamp.member.controller;
 
-import com.osdoor.aircamp.dto.SingleResponseDto;
+import com.osdoor.aircamp.common.dto.SingleResponseDto;
 import com.osdoor.aircamp.member.dto.MemberPatchDto;
 import com.osdoor.aircamp.member.dto.MemberPostDto;
 import com.osdoor.aircamp.member.dto.ReSignUpDto;
 import com.osdoor.aircamp.member.entity.Member;
-import com.osdoor.aircamp.helper.email.VerificationEmail;
 import com.osdoor.aircamp.member.mapper.MemberMapper;
 import com.osdoor.aircamp.member.service.MemberService;
 import org.springframework.http.HttpStatus;

@@ -1,7 +1,7 @@
 package com.osdoor.aircamp.reservation.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.osdoor.aircamp.audit.Auditable;
+import com.osdoor.aircamp.common.audit.Auditable;
 import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.payment.entity.Payment;
 import com.osdoor.aircamp.product.entity.Product;

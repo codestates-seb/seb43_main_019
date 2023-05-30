@@ -28,7 +28,7 @@ out/
 application-local.yml
 application-server.yml
 application.yml
-
+.DS_Store
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/

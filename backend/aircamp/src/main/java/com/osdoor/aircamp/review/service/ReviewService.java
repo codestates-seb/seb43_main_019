@@ -1,7 +1,7 @@
 package com.osdoor.aircamp.review.service;
 
-import com.osdoor.aircamp.exception.BusinessLogicException;
-import com.osdoor.aircamp.exception.ExceptionCode;
+import com.osdoor.aircamp.common.exception.BusinessLogicException;
+import com.osdoor.aircamp.common.exception.ExceptionCode;
 import com.osdoor.aircamp.member.service.MemberService;
 import com.osdoor.aircamp.review.entity.Review;
 import com.osdoor.aircamp.review.repository.ReviewRepository;
@@ -12,7 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
