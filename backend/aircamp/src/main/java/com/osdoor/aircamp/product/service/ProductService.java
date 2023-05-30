@@ -1,9 +1,9 @@
 package com.osdoor.aircamp.product.service;
 
-import com.osdoor.aircamp.auth.utils.AuthorizationUtils;
-import com.osdoor.aircamp.aws.S3Upload;
-import com.osdoor.aircamp.exception.BusinessLogicException;
-import com.osdoor.aircamp.exception.ExceptionCode;
+import com.osdoor.aircamp.common.auth.utils.AuthorizationUtils;
+import com.osdoor.aircamp.common.aws.S3Upload;
+import com.osdoor.aircamp.common.exception.BusinessLogicException;
+import com.osdoor.aircamp.common.exception.ExceptionCode;
 import com.osdoor.aircamp.helper.api.KakaoRestApiHelper;
 import com.osdoor.aircamp.product.repository.ProductRepository;
 import com.osdoor.aircamp.product.entity.Product;

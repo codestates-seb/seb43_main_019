@@ -1,8 +1,8 @@
 package com.osdoor.aircamp.reservation.service;
 
-import com.osdoor.aircamp.auth.utils.AuthorizationUtils;
-import com.osdoor.aircamp.exception.BusinessLogicException;
-import com.osdoor.aircamp.exception.ExceptionCode;
+import com.osdoor.aircamp.common.auth.utils.AuthorizationUtils;
+import com.osdoor.aircamp.common.exception.BusinessLogicException;
+import com.osdoor.aircamp.common.exception.ExceptionCode;
 import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.member.service.MemberService;
 import com.osdoor.aircamp.product.entity.Product;

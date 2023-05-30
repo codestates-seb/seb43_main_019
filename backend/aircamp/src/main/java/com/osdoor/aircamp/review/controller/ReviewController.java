@@ -1,13 +1,6 @@
 package com.osdoor.aircamp.review.controller;
 
-import com.osdoor.aircamp.dto.MultiResponseDto;
-import com.osdoor.aircamp.member.dto.MemberPatchDto;
-import com.osdoor.aircamp.member.dto.MemberPostDto;
-import com.osdoor.aircamp.member.entity.Member;
-import com.osdoor.aircamp.helper.email.VerificationEmail;
-import com.osdoor.aircamp.member.mapper.MemberMapper;
-import com.osdoor.aircamp.member.service.MemberService;
-import com.osdoor.aircamp.product.entity.Product;
+import com.osdoor.aircamp.common.dto.MultiResponseDto;
 import com.osdoor.aircamp.review.dto.ReviewPatchDto;
 import com.osdoor.aircamp.review.dto.ReviewPostDto;
 import com.osdoor.aircamp.review.entity.Review;

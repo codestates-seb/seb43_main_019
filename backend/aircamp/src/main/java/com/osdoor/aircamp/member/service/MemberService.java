@@ -1,12 +1,12 @@
 package com.osdoor.aircamp.member.service;
 
-import com.osdoor.aircamp.auth.utils.AuthorizationUtils;
-import com.osdoor.aircamp.auth.utils.CustomAuthorityUtils;
+import com.osdoor.aircamp.common.auth.utils.AuthorizationUtils;
+import com.osdoor.aircamp.common.auth.utils.CustomAuthorityUtils;
 import com.osdoor.aircamp.helper.email.VerificationEmail;
 import com.osdoor.aircamp.member.entity.Favorite;
 import com.osdoor.aircamp.member.entity.Member;
-import com.osdoor.aircamp.exception.BusinessLogicException;
-import com.osdoor.aircamp.exception.ExceptionCode;
+import com.osdoor.aircamp.common.exception.BusinessLogicException;
+import com.osdoor.aircamp.common.exception.ExceptionCode;
 import com.osdoor.aircamp.helper.event.MemberRegistrationEvent;
 import com.osdoor.aircamp.member.repositoy.MemberRepository;
 import lombok.extern.slf4j.Slf4j;

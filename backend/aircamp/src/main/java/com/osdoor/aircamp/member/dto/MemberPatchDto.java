@@ -1,6 +1,6 @@
 package com.osdoor.aircamp.member.dto;
 
-import com.osdoor.aircamp.validator.NotSpace;
+import com.osdoor.aircamp.common.validator.NotSpace;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

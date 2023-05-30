@@ -1,13 +1,11 @@
 package com.osdoor.aircamp.reservation.controller;
 
-import com.osdoor.aircamp.dto.SingleResponseDto;
+import com.osdoor.aircamp.common.dto.SingleResponseDto;
 import com.osdoor.aircamp.member.service.MemberService;
 import com.osdoor.aircamp.reservation.dto.*;
 import com.osdoor.aircamp.reservation.entity.Reservation;
 import com.osdoor.aircamp.reservation.mapper.ReservationMapper;
 import com.osdoor.aircamp.reservation.service.ReservationService;
-import com.osdoor.aircamp.utils.UriCreator;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,7 +15,6 @@ import org.springframework.dao.OptimisticLockingFailureException;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.net.URI;
 import java.util.List;
 
 @RestController

@@ -1,6 +1,6 @@
 package com.osdoor.aircamp.payment.entity;
 
-import com.osdoor.aircamp.audit.Auditable;
+import com.osdoor.aircamp.common.audit.Auditable;
 import com.osdoor.aircamp.reservation.entity.PaymentStatus;
 import com.osdoor.aircamp.reservation.entity.Reservation;
 import lombok.Getter;

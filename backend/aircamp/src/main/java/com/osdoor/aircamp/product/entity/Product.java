@@ -2,7 +2,7 @@ package com.osdoor.aircamp.product.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.osdoor.aircamp.audit.Auditable;
+import com.osdoor.aircamp.common.audit.Auditable;
 import com.osdoor.aircamp.member.entity.Favorite;
 import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.review.entity.Review;

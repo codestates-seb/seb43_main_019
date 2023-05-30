@@ -1,13 +1,10 @@
 package com.osdoor.aircamp.payment.controller;
 
-import com.osdoor.aircamp.exception.BusinessLogicException;
-import com.osdoor.aircamp.exception.ExceptionCode;
+import com.osdoor.aircamp.common.exception.BusinessLogicException;
+import com.osdoor.aircamp.common.exception.ExceptionCode;
 import com.osdoor.aircamp.payment.service.PaymentService;
-import com.osdoor.aircamp.payment.dto.KakaoApproveResponse;
-import com.osdoor.aircamp.payment.dto.KakaoCancelResponse;
 import com.osdoor.aircamp.reservation.entity.Reservation;
 import com.osdoor.aircamp.reservation.service.ReservationService;
-import com.osdoor.aircamp.reservation.dto.ReservationPatchDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
