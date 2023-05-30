@@ -58,6 +58,8 @@ AIRCAMP는 캠핑장을 예약하는 구매자와 캠핑장을 판매 및 등록
 
 ##  기술 스택
 
+![아키텍처 다이어그램](https://ifh.cc/g/DoX1zH.jpg)<br>
+
 ### 🔨 Front-end
 | Html | JavaScript | React |
 | :---: | :---: | :---: |
