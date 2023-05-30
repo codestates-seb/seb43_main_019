@@ -71,7 +71,9 @@ AIRCAMP는 캠핑장을 예약하는 구매자와 캠핑장을 판매 및 등록
 - Java 11
 - Spring FrameWork (Spring Boot, Spring MVC, Spring Security, Spring Data) version 2.7.11
 - Gradle
+- MySQL 8.0.32
+- tomcat 9.0.74
 - AWS EC2, RDS, S3
-- Git, GitHub Actions, 
+- Git, GitHub Actions
 
 ![footer](https://capsule-render.vercel.app/api?type=waving&color=gradient&height=250&animation=twinkling&section=footer)
