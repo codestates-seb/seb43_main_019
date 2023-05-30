@@ -2,16 +2,13 @@ package com.osdoor.aircamp.review.dto;
 
 import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.product.entity.Product;
-import com.osdoor.aircamp.validator.NotSpace;
-import com.osdoor.aircamp.validator.ReviewScore;
-import com.sun.xml.bind.v2.TODO;
+import com.osdoor.aircamp.common.validator.NotSpace;
+import com.osdoor.aircamp.common.validator.ReviewScore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
 
 @Getter
 @AllArgsConstructor

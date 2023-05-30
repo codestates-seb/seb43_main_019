@@ -2,13 +2,13 @@ package com.osdoor.aircamp.product.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.osdoor.aircamp.dto.MultiResponseDto;
+import com.osdoor.aircamp.common.dto.MultiResponseDto;
 import com.osdoor.aircamp.product.dto.ProductPatchDto;
 import com.osdoor.aircamp.product.dto.ProductPostDto;
 import com.osdoor.aircamp.product.entity.Product;
 import com.osdoor.aircamp.product.mapper.ProductMapper;
 import com.osdoor.aircamp.product.service.ProductService;
-import com.osdoor.aircamp.utils.UriCreator;
+import com.osdoor.aircamp.common.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
