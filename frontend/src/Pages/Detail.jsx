@@ -1,19 +1,26 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
-import CampgroundImage from "../Components/DeatilImage";
-import Picker from "../Components/Picker";
-import CampgroundInfo from "../Components/DetailInfo";
-import Map from "../Components/Map";
 import { useParams, useNavigate } from "react-router-dom";
-import { DetailButton } from "../Components/Common/Button";
 import { useSelector } from "react-redux";
-import { getCampgroundInfo } from "../utils/ProductFunctions";
-import ReviewForm from "../Components/ReviewForm";
 import { format } from "date-fns";
+
+// 컴포넌트 관련 모듈들
+import CampgroundImage from "../Components/Detail/DetailImage";
+import Picker from "../Components/Detail/Picker";
+import Map from "../Components/Detail/Map";
+import ReviewForm from "../Components/Detail/ReviewForm";
 import Spinner from "../Components/Common/Spinner";
+
+// 유틸리티 함수 및 라이브러리 관련 모듈들
+import { getCampgroundInfo } from "../utils/ProductFunctions";
 import { toast } from "react-toastify";
 import { FaChevronUp } from "react-icons/fa";
+
+// 예약 관련 유틸리티 함수
 import { handleCheckReservationDate } from "../utils/ReservationFunctions";
+
+// 공통 컴포넌트 관련 모듈
+import { DetailButton } from "../Components/Common/Button";
 
 const Loader = styled.h1`
   width: 100vw;
@@ -285,20 +292,12 @@ function Detail() {
     })();
   }, [containerRef]);
 
-  const {
-    content,
-    productPrice,
-    productName,
-    address,
-    location,
-    imageUrl,
-    productPhone,
-    capacity,
-  } = data || {};
+  const { content, productPrice, productName, location, imageUrl, capacity } =
+    data || {};
 
   const handleReservation = async () => {
     if (!startDate) {
-      alert("날짜를 선택해주세요."); // 날짜 선택하지 않은 경우 경고창 표시
+      toast("날짜를 선택해주세요."); // 날짜 선택하지 않은 경우 경고창 표시
       return;
     }
 

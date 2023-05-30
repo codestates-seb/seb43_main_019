@@ -1,13 +1,10 @@
 import styled from "@emotion/styled";
-import { useEffect } from "react";
 import { useState } from "react";
 import { FcBusinessman } from "react-icons/fc";
-import { useQuery } from "react-query";
-import { getMemberInfo } from "../utils/MemberFunctions";
-import { AiFillCloseCircle,AiFillEdit } from "react-icons/ai";
-import { GrUpdate } from "react-icons/gr";
-import { handleDeleteReview } from "../utils/ReviewFunctions";
-import { handleUpdateReview } from "../utils/ReviewFunctions";
+import { getMemberInfo } from "../../utils/MemberFunctions";
+import { AiFillCloseCircle, AiFillEdit } from "react-icons/ai";
+import { handleDeleteReview } from "../../utils/ReviewFunctions";
+import { handleUpdateReview } from "../../utils/ReviewFunctions";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -69,7 +66,7 @@ const ReviewInfo = styled.div`
 const Icons = styled.div`
   width: 80px;
   height: 100%;
-  gap:10px;
+  gap: 10px;
   display: flex;
   align-items: center;
 `;
@@ -154,7 +151,7 @@ const ScoreInput = styled.select`
 
 const PostBtn = styled.button`
   overflow: hidden;
-  background-color: #27374D;
+  background-color: #27374d;
   color: var(--white);
   font-size: 13px;
   line-height: 13px;
