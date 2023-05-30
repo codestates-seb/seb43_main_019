@@ -1,14 +1,13 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { BiDollar } from "react-icons/bi";
 import { RiArrowDownSLine } from "react-icons/ri";
 import KakaoPayButton from "../Components/Payment/KakaoPayBtn";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { useLocation } from "react-router-dom";
+import { formatPrice } from "../utils/Functions";
 import { postReservationsData } from "../utils/ProductFunctions";
-import { formatPrice } from "../utils/functions";
 
 const Container = styled.div`
   width: 100%;

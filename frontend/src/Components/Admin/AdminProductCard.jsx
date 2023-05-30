@@ -1,8 +1,6 @@
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
-import ProductModal from "../Modal/ProductModal";
-import { getMemberInfo } from "../../utils/MemberFunctions";
 import AdminProductModal from "./AdminProductModal";
 
 const Container = styled.div`

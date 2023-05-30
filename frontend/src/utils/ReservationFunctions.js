@@ -74,8 +74,6 @@ export const handleCancelReservation = async (reservationId, memberInfo) => {
 // 해당 날짜에 예약이 존재하는지 확인하는 함수입니다.
 export const handleCheckReservationDate = async (reservationInfo, userInfo) => {
   try {
-    console.log(reservationInfo);
-
     const response = await axios.post(
       `${BACK}/api/reservations/existence`,
       reservationInfo,
@@ -85,7 +83,6 @@ export const handleCheckReservationDate = async (reservationInfo, userInfo) => {
         },
       }
     );
-    console.log(response);
     return response.data;
   } catch (error) {
     console.log(error);

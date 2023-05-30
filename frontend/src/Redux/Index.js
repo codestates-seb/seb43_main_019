@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import userReducer from "./userReducer";
-import modeReducer from "./modeReducer";
+import UserReducer from "./UserReducer";
+import ModeReducer from "./ModeReducer";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 
@@ -10,6 +10,6 @@ const persistConfig = {
   whitelist: ["userReducer", "modeReducer"], // target (reducer name)
 };
 
-const rootReducer = combineReducers({ userReducer, modeReducer });
+const rootReducer = combineReducers({ UserReducer, ModeReducer });
 
 export default persistReducer(persistConfig, rootReducer);

@@ -1,13 +1,12 @@
 import styled, { keyframes } from "styled-components";
 import { useSelector } from "react-redux";
-import { useEffect, useRef, useState } from "react";
-import Card2 from "../Components/Card2";
+import { useEffect, useState } from "react";
+import Card from "../Components/Main/Card";
 import { FaChevronUp } from "react-icons/fa";
-import { getCampgroundInfo } from "../utils/ProductFunctions";
 import { getAllCampgroundsInfo } from "../utils/ProductFunctions";
 import Spinner from "../Components/Common/Spinner";
-import { Element, Scroller } from "react-scroll";
-import { getMemberInfo } from "../utils/MemberFunctions";
+import { Element } from "react-scroll";
+import { checkPrice } from "../utils/Functions";
 
 const Loader = styled.h1`
   width: 100vw;
@@ -171,9 +170,10 @@ const options = {
 };
 
 export default function Main({
-  searchOption,
-  setSearchOption,
-  setSelectedTag,
+  searchCategory,
+  setSearchCategory,
+  keyword,
+  setKeyword,
 }) {
   const [data, setData] = useState([]);
   const [displayData, setDisplayData] = useState([]);
@@ -182,7 +182,6 @@ export default function Main({
   const [isLoading, setIsLoading] = useState(false);
   const [inView, setInView] = useState(false); // inView 상태 추가
   const [titleInView, setTitleInView] = useState(false);
-  const [showAll, setShowAll] = useState(true);
 
   const userState = useSelector((state) => state.userReducer);
   const isDark = useSelector((state) => state.modeReducer);
@@ -204,7 +203,6 @@ export default function Main({
       setGangwondo((prev) => onlyGangwondo);
       setCouple((prev) => onlyCouple);
 
-      setShowAll(true);
       setDisplayData((prev) => liveDatas.slice(0, 8));
 
       setIsLoading((prev) => false);
@@ -255,12 +253,40 @@ export default function Main({
 
       const initData = await getAllCampgroundsInfo(1, 1000000);
       const liveDatas = initData.filter((prod) => prod.deleted === false);
+      let result = [];
+
+      if (keyword.length === 0) {
+        result = [...liveDatas];
+      } else if (searchCategory === "productName") {
+        const filtered = liveDatas.filter((prod) =>
+          prod.productName.includes(keyword)
+        );
+        result = [...filtered];
+      } else if (searchCategory === "location") {
+        const filtered = liveDatas.filter((prod) =>
+          prod.location.includes(keyword)
+        );
+        result = [...filtered];
+      } else if (searchCategory === "capacity") {
+        const capacity = Number(keyword);
+
+        const filtered = liveDatas.filter((prod) => prod.capacity === capacity);
+        result = [...filtered];
+      } else if (searchCategory === "productPrice") {
+        const requiredPrice = Number(keyword);
+        const filtered = liveDatas.filter((prod) =>
+          checkPrice(prod.productPrice, requiredPrice)
+        );
+        result = [...filtered];
+      }
+
+      setDisplayData((prev) => [...result]);
+
+      /*
 
       if (Object.keys(searchOption).length === 0) {
         setDisplayData((prev) => liveDatas.slice(0, 8));
       } else {
-        setShowAll(false);
-
         let result = [];
         setDisplayData((prev) => []);
 
@@ -287,23 +313,11 @@ export default function Main({
 
         setDisplayData((prev) => [...result]);
       }
+      */
 
       setIsLoading((prev) => false);
     })();
-  }, [searchOption]);
-
-  useEffect(() => {
-    (async () => {
-      if (showAll) {
-        const initData = await getAllCampgroundsInfo(1, 1000000);
-        const liveDatas = initData.filter((prod) => prod.deleted === false);
-        setDisplayData((prev) => liveDatas.slice(0, 8));
-        setSelectedTag(-1);
-
-        await setSearchOption({});
-      }
-    })();
-  }, [showAll]);
+  }, [keyword]);
 
   return isLoading ? (
     <Loader>
@@ -311,7 +325,7 @@ export default function Main({
     </Loader>
   ) : (
     <>
-      {showAll ? (
+      {keyword.length === 0 ? (
         <>
           <IntroArea>
             <IntroContent>
@@ -333,13 +347,13 @@ export default function Main({
           <Container>
             {displayData.length > 0
               ? displayData.map((campground) => (
-                  <Card2
+                  <Card
                     key={campground.productId + ""}
                     campground={campground}
                   />
                 ))
               : displayData.map((campground) => (
-                  <Card2
+                  <Card
                     key={campground.productId + ""}
                     campground={campground}
                   />
@@ -355,10 +369,7 @@ export default function Main({
           <Container>
             {(couple.length > 0 ? couple : data.slice(0, 8)).map(
               (campground) => (
-                <Card2
-                  key={campground.productId + ""}
-                  campground={campground}
-                />
+                <Card key={campground.productId + ""} campground={campground} />
               )
             )}
           </Container>
@@ -372,10 +383,7 @@ export default function Main({
           <Container>
             {(gangwondo.length > 0 ? gangwondo : data.slice(0, 8)).map(
               (campground) => (
-                <Card2
-                  key={campground.productId + ""}
-                  campground={campground}
-                />
+                <Card key={campground.productId + ""} campground={campground} />
               )
             )}
           </Container>
@@ -389,7 +397,7 @@ export default function Main({
           </ContextArea>
           <Container>
             {displayData.map((campground) => (
-              <Card2 key={campground.productId + ""} campground={campground} />
+              <Card key={campground.productId + ""} campground={campground} />
             ))}
           </Container>
         </>

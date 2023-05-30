@@ -88,8 +88,6 @@ export const getAllCampgroundsInfo = async (page, size) => {
 // 실패 시 false를 반환합니다.
 export const handleDeleteCampground = async (productId, memberInfo) => {
   try {
-    console.log(`productId: ${productId}`);
-    console.log(memberInfo);
     await axios.delete(`${BACK}/api/products/${productId}`, {
       headers: {
         Authorization: memberInfo.accessToken,
@@ -114,7 +112,6 @@ export const postPaymentData = async (data, reservationId, memberInfo) => {
         },
       }
     );
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -129,7 +126,6 @@ export const postReservationsData = async (data, memberInfo) => {
         Authorization: memberInfo.accessToken,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -138,7 +134,6 @@ export const postReservationsData = async (data, memberInfo) => {
 
 export const getMemberReservations = async (memberInfo) => {
   try {
-    console.log(memberInfo);
     const response = await axios.get(
       `${BACK}/api/reservations/member/${memberInfo.memberId}`,
       {

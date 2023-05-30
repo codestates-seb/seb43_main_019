@@ -2,6 +2,9 @@ import styled from "@emotion/styled";
 import React, { useState } from "react";
 import { FaSortDown } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getCategory } from "../../utils/Functions";
+import { useEffect } from "react";
 
 const InputSpace = styled.div`
   display: flex;
@@ -10,10 +13,10 @@ const InputSpace = styled.div`
 
   @media screen and (max-width: 868px) {
     margin-left: 200px;
-  }  
+  }
   @media screen and (max-width: 400px) {
     margin-left: 0px;
-  }  
+  }
 `;
 
 const InputWrapper = styled.div`
@@ -135,18 +138,32 @@ const Text = styled.p`
   font-size: 15px;
 `;
 
+const Category = styled.span`
+  position: absolute;
+  left: -40px;
+  top: 10px;
+`;
+
 export default function Searchbar({
-  searchOption,
-  setSearchOption,
-  selectedTag,
-  setSelectedTag,
+  searchCategory,
+  setSearchCategory,
+  keyword,
+  setKeyword,
 }) {
   const [searchText, setSearchText] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const isDark = useSelector((state) => state.modeReducer);
 
-  const handleKeywordSearch = () => {
-    setSearchOption({ productName: searchText });
+  const isDark = useSelector((state) => state.modeReducer);
+  const location = useLocation();
+
+  const navigate = useNavigate();
+
+  const handleKeywordSearch = async () => {
+    await setKeyword(searchText);
+
+    if (location.pathname !== "/") {
+      navigate("/");
+    }
   };
 
   const handleInputChange = (e) => {
@@ -167,12 +184,13 @@ export default function Searchbar({
     setIsDropdownOpen(isOpen);
   };
 
-  const handleTagClick = (key, value, tagId) => {
-    if (selectedTag !== tagId) {
-      setSelectedTag((prev) => tagId);
-      setSearchOption({ ...searchOption, [key]: value });
-    }
+  const handleTagClick = (category) => {
+    setSearchCategory(category);
   };
+
+  useEffect(() => {
+    setSearchText("");
+  }, [searchCategory]);
 
   return (
     <InputSpace>
@@ -180,8 +198,13 @@ export default function Searchbar({
         onMouseEnter={() => handleDropdownToggle2(true)}
         onMouseLeave={() => handleDropdownToggle2(false)}
       >
+        <Category>{getCategory(searchCategory)}</Category>
         <Input
-          type="text"
+          type={
+            searchCategory === "productName" || searchCategory === "location"
+              ? "text"
+              : "number"
+          }
           value={searchText}
           onChange={handleInputChange}
           onKeyPress={handleKeyPress}
@@ -193,35 +216,38 @@ export default function Searchbar({
         {isDropdownOpen && (
           <DropdownContent>
             <div>
-              <TagsContainer>
-                <Text>원하는 검색어를 입력해보세요.💁🏻‍♀️</Text>
+              <TagsContainer style={{ flexDirection: "column" }}>
+                <Text>원하는 검색어를 상단에 입력해보세요. 💁🏻‍♀️</Text>
+                <Text>하단의 태그를 선택하면 태그별 검색도 가능합니다.</Text>
               </TagsContainer>
               <TagsContainer>
                 <Tag
-                  className={selectedTag === 0 ? "selected" : ""}
-                  onClick={() => handleTagClick("productName", "서울시", 0)}
-                >
-                  <TagText># 서울시</TagText>
-                </Tag>
-                <Tag
-                  className={selectedTag === 1 ? "selected" : ""}
-                  onClick={() => handleTagClick("productName", "강원도", 1)}
-                >
-                  <TagText># 강원도</TagText>
-                </Tag>
-                <Tag
-                  className={selectedTag === 2 ? "selected" : ""}
-                  onClick={() => handleTagClick("capacity", [1, 2], 2)}
-                >
-                  <TagText># 1~2인</TagText>
-                </Tag>
-                <Tag
-                  className={selectedTag === 3 ? "selected" : ""}
-                  onClick={() =>
-                    handleTagClick("productPrice", [10000, 100000], 3)
+                  className={
+                    searchCategory === "productName" ? "productName" : ""
                   }
+                  onClick={() => handleTagClick("productName")}
                 >
-                  <TagText># 10000원~100000원</TagText>
+                  <TagText># 이름</TagText>
+                </Tag>
+                <Tag
+                  className={searchCategory === "location" ? "selected" : ""}
+                  onClick={() => handleTagClick("location")}
+                >
+                  <TagText># 위치</TagText>
+                </Tag>
+                <Tag
+                  className={searchCategory === "capacity" ? "selected" : ""}
+                  onClick={() => handleTagClick("capacity")}
+                >
+                  <TagText># 인원수</TagText>
+                </Tag>
+                <Tag
+                  className={
+                    searchCategory === "productPrice" ? "selected" : ""
+                  }
+                  onClick={() => handleTagClick("productPrice")}
+                >
+                  <TagText># 가격</TagText>
                 </Tag>
               </TagsContainer>
             </div>

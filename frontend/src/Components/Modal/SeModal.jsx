@@ -3,7 +3,6 @@ import Modal from "react-modal";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import {
-  handleUpdateMemberInfo,
   registerSellerAccount,
   updateSellerAccount,
 } from "../../utils/MemberFunctions";
@@ -12,7 +11,7 @@ import {
   makeCode,
   validBusinessDate,
   validBusinessNumber,
-} from "../../utils/functions";
+} from "../../utils/Functions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";

@@ -6,12 +6,16 @@ import { useNavigate } from "react-router-dom";
 import { CommonButton } from "../Components/Common/Button";
 import { Input, AuthCodeInput } from "../Components/Common/Input";
 import { Label, Label02, Label03 } from "../Components/Common/Label";
-import { getToday, makePhone } from "../utils/functions";
 import { getEmailCode, handleJoin } from "../utils/MemberFunctions";
-import { checkValidPassword, checkValidPhone } from "../utils/functions";
 import { Line, Line2, Line3, Line4 } from "../Components/Common/Line";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {
+  checkValidPassword,
+  checkValidPhone,
+  getToday,
+  makePhone,
+} from "../utils/Functions";
 
 const Wrapper = styled.div`
   width: 100%;

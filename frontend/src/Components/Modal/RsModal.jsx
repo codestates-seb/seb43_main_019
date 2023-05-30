@@ -8,7 +8,7 @@ import {
   handleUpdateCampground,
 } from "../../utils/ProductFunctions";
 import { getAllCampgroundsInfo } from "../../utils/ProductFunctions";
-import Reservation from "../Reservation";
+import Reservation from "../MyPage/Reservation";
 import Spinner from "../Common/Spinner";
 import { useSelector } from "react-redux";
 

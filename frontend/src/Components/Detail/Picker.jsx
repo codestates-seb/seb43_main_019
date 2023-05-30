@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styled from "@emotion/styled";
-import "../Components/Picker.css";
+import "../../Style/Picker.css";
 
 const Container = styled.div`
   position: relative;

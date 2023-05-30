@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPhone, faMap, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faPhone, faMap, faBarcode } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { formatPrice } from "../utils/functions";
+import { formatPrice } from "../../utils/Functions";
 
 const Container = styled.div`
   background-color: transparent;
@@ -59,8 +59,6 @@ const Front = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-
 `;
 
 const Img = styled.div`
@@ -159,6 +157,7 @@ const Descriptions = styled.div`
   align-items: center;
   text-align: center; // 추가
   color: var(--black-700);
+  height: 250px;
 `;
 
 const Description = styled.div`
@@ -186,6 +185,7 @@ const Icons = styled.div`
   color: var(--black-700);
   margin-bottom: 100px;
 
+  height: 100px;
   @media screen and (max-width: 400px) {
     /* Adjust the card size for 400px width */
     margin-bottom: 70px;
@@ -215,6 +215,7 @@ const loremIpsum = "지금 바로 예약하세요!";
 export default function Card2({ campground }) {
   const isDark = useSelector((state) => state.modeReducer);
   const [infoType, setInfoType] = useState(null);
+  const navigate = useNavigate();
 
   const handleInfoType = (clickedType) => {
     setInfoType((prev) => clickedType);
@@ -222,8 +223,8 @@ export default function Card2({ campground }) {
 
   const getInfo = (type) => {
     switch (type) {
-      case "seller":
-        return `판매자: 수정필요!`;
+      case "price":
+        return `가격: ${formatPrice(campground.productPrice)}`;
       case "call":
         return `안심번호: ${campground.productPhone}`;
       case "location":
@@ -256,7 +257,7 @@ export default function Card2({ campground }) {
               </Descriptions>
             </Link>
             <Icons isDark={isDark}>
-              <Icon onClick={() => handleInfoType("seller")} icon={faUser} />
+              <Icon onClick={() => handleInfoType("price")} icon={faBarcode} />
               <Icon onClick={() => handleInfoType("call")} icon={faPhone} />
               <Icon onClick={() => handleInfoType("location")} icon={faMap} />
             </Icons>

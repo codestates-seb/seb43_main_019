@@ -52,17 +52,6 @@ export default function KakaoLogin() {
         accessToken: "Bearer " + accessToken,
       };
 
-      // 이미 있는 계정인지 테스트
-      // 이미 회원가입되어 있다 => 그 계정은 이메일 인증이 되어 있다.
-      const account = await getMemberInfo(kakaoUser);
-
-      if (account) {
-        if (account.emailVerified === true) {
-          alert("이미 존재하는 계정입니다.");
-          navigate("/login");
-        }
-      }
-
       dispatch(handleLogin(kakaoUser));
 
       navigate("/");

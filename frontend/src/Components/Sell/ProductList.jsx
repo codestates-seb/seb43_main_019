@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
-import Campground from "../Campground";
-import Card from "../Card";
+import Card from "../Sell/Card";
 import { useState } from "react";
 import { useEffect } from "react";
 import { getAllCampgroundsInfo } from "../../utils/ProductFunctions";
@@ -63,11 +62,6 @@ export default function ProductList() {
       setMyInfo(myInfoResult);
 
       const allProducts = await getAllCampgroundsInfo(1, 10000);
-      console.log(allProducts);
-      console.log(
-        `memberId: ${userState.userInfo.memberId}, type: ${typeof userState
-          .userInfo.memberId}`
-      );
 
       if (allProducts) {
         const mine = allProducts.filter((product) => {

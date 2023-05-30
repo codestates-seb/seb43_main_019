@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getCampgroundInfo } from "../utils/ProductFunctions";
+import { getCampgroundInfo } from "../../utils/ProductFunctions";
 import styled from "@emotion/styled";
 
 const { kakao } = window;
@@ -8,11 +8,10 @@ const MapContainer = styled.div`
   width: 500px;
   height: 300px;
   border-radius: 20px;
-
+  border: 2px solid black;
   @media screen and (max-width: 400px) {
     width: 300px;
     height: 200px;
-
   }
 `;
 

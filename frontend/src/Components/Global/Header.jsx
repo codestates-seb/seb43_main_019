@@ -2,12 +2,12 @@ import styled from "@emotion/styled";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { handleLogout } from "../Redux/Actions";
-import { CommonButton } from "./Common/Button";
+import { handleLogout } from "../../Redux/Actions";
+import { CommonButton } from "../Common/Button";
 import Searchbar from "./Searchbar";
 import { useEffect, useState } from "react";
-import { getAllCampgroundsInfo } from "../utils/ProductFunctions";
-import Spinner from "./Common/Spinner";
+import { getAllCampgroundsInfo } from "../../utils/ProductFunctions";
+import Spinner from "../Common/Spinner";
 import ModeBtn from "./ModeBtn";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -97,10 +97,10 @@ const UserStatus = styled.div`
 `;
 
 export default function Header({
-  searchOption,
-  setSearchOption,
-  selectedTag,
-  setSelectedTag,
+  searchCategory,
+  setSearchCategory,
+  keyword,
+  setKeyword,
 }) {
   const navigate = useNavigate();
   const isDark = useSelector((state) => state.modeReducer);
@@ -121,10 +121,13 @@ export default function Header({
     <>
       <Container isDark={isDark}>
         <Top isDark={isDark}>
-          <Link to="/">
-            <Logo src={isDark ? "/img/Logo_Dark.png" : "/img/Logo_Light.png"} />
-            <Logo src="/img/Camp.png" />
-          </Link>
+          <Logo
+            onClick={() => {
+              setKeyword("");
+              navigate("/");
+            }}
+            src={isDark ? "/img/Logo_Dark.png" : "/img/Logo_Light.png"}
+          />
           {userState.login === false ? (
             <UserStatus>
               <Link to="/login">
@@ -153,10 +156,10 @@ export default function Header({
         <Bottom isDark={isDark}>
           <ModeBtn />
           <Searchbar
-            searchOption={searchOption}
-            setSearchOption={setSearchOption}
-            selectedTag={selectedTag}
-            setSelectedTag={setSelectedTag}
+            searchCategory={searchCategory}
+            setSearchCategory={setSearchCategory}
+            keyword={keyword}
+            setKeyword={setKeyword}
           />
         </Bottom>
         <Line isDark={isDark} />
