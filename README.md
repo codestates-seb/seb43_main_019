@@ -62,9 +62,16 @@ AIRCAMP는 캠핑장을 예약하는 구매자와 캠핑장을 판매 및 등록
 
 
 ### 🔨 Front-end
-| Html | JavaScript | React |
+| Html | JavaScript | React | 
 | :---: | :---: | :---: |
 | <img alt="Html" src ="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/440px-HTML5_logo_and_wordmark.svg.png" width="65" height="65" /> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/js-icon.svg" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/react-icon.svg" alt="icon" width="65" height="65" /></div> |
+
+- Redux: 4.2.1
+- redux-persist: 6.0.0
+- Axios: 1.4.0
+- Framer Motion: 10.12.8
+- React Hook Form: 7.43.9
+- @emotion/styled: 11.10.8
 
 ### ⛏ Back-end
 | Java | mySQL | Rest | AWS | Spring | Spring<br>Boot |
