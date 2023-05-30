@@ -1,16 +1,20 @@
 package com.osdoor.aircamp.reservation.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.osdoor.aircamp.audit.Auditable;
 import com.osdoor.aircamp.member.entity.Member;
+import com.osdoor.aircamp.payment.entity.Payment;
 import com.osdoor.aircamp.product.entity.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity(name = "RESERVATIONS")
 public class Reservation extends Auditable {
     @Id
@@ -39,18 +43,30 @@ public class Reservation extends Auditable {
     private LocalDate paymentDate; // 결제일
 
     @Enumerated(EnumType.STRING)
-    private ReservationStatus reservationStatus = ReservationStatus.RESERVATION_REQUEST;
+    private ReservationStatus reservationStatus = ReservationStatus.RESERVATION_IN_PROGRESS;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus = PaymentStatus.NOT_PAYMENT;
 
     @Column(nullable = false)
     private boolean deleted = false;
 
+    @Version
+    private int version;
+
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRODUCT_ID")
     private Product product;
+
+    @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL)
+    private Payment payment;
 
     public void setMember(Member member) {
         this.member = member;

@@ -1,28 +1,31 @@
 package com.osdoor.aircamp.reservation.mapper;
 
-import com.osdoor.aircamp.member.entity.Member;
 import com.osdoor.aircamp.reservation.dto.ReservationPatchDto;
 import com.osdoor.aircamp.reservation.dto.ReservationPostDto;
 import com.osdoor.aircamp.reservation.dto.ReservationResponseDto;
 import com.osdoor.aircamp.reservation.entity.Reservation;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ReservationMapper {
+    @Mapping(target = "member", ignore = true)
+    @Mapping(target = "product", ignore = true)
+    @Mapping(target = "version", ignore = true)
+    @Mapping(target = "payment", ignore = true)
     Reservation reservationPatchDtoToReservation(ReservationPatchDto reservationPatchDto);
     List<ReservationResponseDto> reservationsToReservationResponseDtos(List<Reservation> reservations);
-    
-    default Reservation reservationPostDtoToReservation(ReservationPostDto reservationPostDto) {
-        Reservation reservation = new Reservation();
-        Member member = new Member();
-        member.setMemberId(reservationPostDto.getMemberId()); // member 객체에 memberId 주입
 
-        reservation.setMember(member); // reservation 객체에 member 객체 주입
-        
-        return reservation;
-    }
+    @Mapping(target = "reservationStatus", ignore = true)
+    @Mapping(target = "reservationId", ignore = true)
+    @Mapping(target = "paymentDate", ignore = true)
+    @Mapping(target = "paymentStatus", ignore = true)
+    @Mapping(target = "deleted", ignore = true)
+    @Mapping(target = "version", ignore = true)
+    @Mapping(target = "payment", ignore = true)
+    Reservation reservationPostDtoToReservation(ReservationPostDto reservationPostDto);
 
     default ReservationResponseDto reservationToReservationResponseDto(Reservation reservation){
         ReservationResponseDto reservationResponseDto = new ReservationResponseDto();

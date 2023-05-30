@@ -24,8 +24,8 @@ public class MemberResponseDto {
     private String birthDate;
     private int usageCount;
     private long favoriteId;
-    private boolean isEmailVerified;
-    private boolean isSellerVerified;
+    private boolean emailVerified;
+    private boolean sellerVerified;
     private String businessRegistrationNumber;
     private String businessRegistrationDate;
   
