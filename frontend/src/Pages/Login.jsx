@@ -1,15 +1,19 @@
-import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { handleLogin } from "../Redux/Actions";
-import axios from "axios";
-import { useEffect } from "react";
-import { REST_API_KEY, REDIRECT_URI } from "../secret";
-import { LoginButton, SocialLogin } from "../Components/Common/Button";
 
-const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import { useLocation, useNavigate, Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+
+import { LoginButton, SocialLogin } from "../Components/Common/Button";
+import { handleStartLogin } from "../utils/MemberFunctions";
+import { handleLogin } from "../Redux/Actions";
+
+import "react-toastify/dist/ReactToastify.css";
+
+const KAKAO_AUTH_URL =
+  "http://ec2-3-34-91-147.ap-northeast-2.compute.amazonaws.com/oauth2/authorization/kakao";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -35,6 +39,10 @@ const Form = styled.form`
   border-radius: 20px;
   border: 1px solid var(--black-500);
   margin-top: 80px;
+
+  @media screen and (max-width: 400px) {
+    margin-top: 120px;
+  }
 `;
 
 const Space = styled.div`
@@ -47,11 +55,10 @@ const Space = styled.div`
 
 const Logo = styled.img`
   width: auto;
-  height: 90px;
+  height: 130px;
   padding-top: 50px;
   margin-bottom: 20px;
 `;
-
 
 const AccountRelated = styled.span`
   color: var(--black-700);
@@ -101,47 +108,35 @@ const KakaoImg = styled.img`
 export default function Login() {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
-
   const userState = useSelector((state) => state.userReducer);
   const isDark = useSelector((state) => state.modeReducer);
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const handleSignIn = async (data) => {
-    const { id, password } = data;
-    const loginInfo = { userId: id, password };
+    const result = await handleStartLogin(data);
 
-    // 로그인
-    try {
-      const result = await axios.post("http://localhost:4000/user/login", {
-        loginInfo,
-      });
-
-      const userInfo = result.data;
-
-      dispatch(handleLogin(userInfo));
-    } catch (error) {
-      const { status } = error.response;
-
-      if (status === 401) {
-        alert("Id 혹은 비밀번호를 잘못 입력하셨습니다.");
-      } else {
-        alert("잘못된 정보입니다.");
-      }
-
-      return;
+    if (result) {
+      dispatch(handleLogin(result));
+      navigate("/");
+      toast("로그인에 성공하셨습니다.");
+    } else {
+      toast("로그인에 실패하셨습니다.");
     }
-
-    navigate("/");
   };
 
-  const handleSocialLogin = () => {
+  const handleSocialLogin = async () => {
     window.location.href = KAKAO_AUTH_URL;
   };
 
   useEffect(() => {
-    console.log(userState.login);
     if (userState.login) {
       navigate("/");
+    }
+
+    if (location.search.includes("error")) {
+      toast("이미 존재하는 계정입니다.");
+      navigate("/login");
     }
   }, []);
 
@@ -149,22 +144,19 @@ export default function Login() {
     <Wrapper>
       <Form isDark={isDark} onSubmit={handleSubmit(handleSignIn)}>
         <div>
-        <Logo src={"/img/Logo_Light.png"} />
-        <Logo src="/img/Camp.png"/>
+          <Logo src={"/img/login.png"} />
         </div>
         <Space pos={"start"}>
-        <Link to="/account-search">
-          <AccountRelated>아이디/비밀번호 찾기</AccountRelated>
-        </Link>
-        <Link to="/signup">
-          <AccountRelated>회원가입</AccountRelated>
-        </Link>
+          <Link to="/signup">
+            <AccountRelated>회원가입</AccountRelated>
+          </Link>
         </Space>
         <Input
           isDark={isDark}
           id="id"
-          placeholder="아이디를 입력해주세요."
-          {...register("id", { required: true })}
+          type="email"
+          placeholder="이메일을 입력해주세요."
+          {...register("email", { required: true })}
         />
         <Input
           isDark={isDark}
@@ -175,15 +167,16 @@ export default function Login() {
         <Others>
           <div>
             <LoginButton>Log In</LoginButton>
-            </div>
-            <SocialLoginWrapper>
+          </div>
+          <SocialLoginWrapper>
             <SocialLogin onClick={() => handleSocialLogin()}>
-              <KakaoImg src={"/img/kakao.png"}/>
+              <KakaoImg src={"/img/kakao.png"} />
               카카오 로그인
             </SocialLogin>
-            </SocialLoginWrapper>
+          </SocialLoginWrapper>
         </Others>
       </Form>
+      <ToastContainer /> {/* 알림 메시지 컨테이너 */}
     </Wrapper>
   );
 }

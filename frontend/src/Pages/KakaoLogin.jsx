@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
-import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { handleLogin } from "../Redux/Actions";
+
+import Spinner from "../Components/Common/Spinner";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -14,37 +15,48 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const Loader = styled.h1``;
-
 export default function KakaoLogin() {
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const location = useLocation();
-  const KAKAO_CODE = location.search.split("=")[1];
-
-  const getKakaoToken = async () => {
-    const result = await axios.post("http://localhost:4000/user/kakaologin", {
-      KAKAO_CODE,
-    });
-    const userInfo = result.data;
-
-    console.log(userInfo);
-
-    dispatch(handleLogin(userInfo));
-
-    navigate("/");
-  };
-
   useEffect(() => {
-    if (!location.search) return;
+    (async () => {
+      const searchParams = new URLSearchParams(location.search);
 
-    getKakaoToken();
+      const accessToken = searchParams.get("accessToken");
+      const refreshToken = searchParams.get("refreshToken");
+
+      const validTokens = accessToken.split(".");
+
+      const encoded = validTokens[1];
+
+      const sanitizedString = encoded.replace(/-/g, "+").replace(/_/g, "/");
+
+      const decoded = decodeURIComponent(
+        Array.prototype.map
+          .call(atob(sanitizedString), function (c) {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join("")
+      );
+
+      const decodedObject = JSON.parse(decoded);
+
+      const kakaoUser = {
+        ...decodedObject,
+        accessToken: "Bearer " + accessToken,
+      };
+
+      dispatch(handleLogin(kakaoUser));
+
+      navigate("/");
+    })();
   }, []);
 
   return (
     <Wrapper>
-      <Loader>잠시만 기다려주세요...</Loader>
+      <Spinner />
     </Wrapper>
   );
 }
