@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRef } from "react";
 import Review from "../Detail/Review";
 import { useSelector } from "react-redux";
-import { getAllReview, handlePostReview } from "../../utils/ReviewFunctions";
+import { getAllReview, handlePostReview } from "../../utilss/ReviewFunctions";
 import { toast } from "react-toastify";
 import Spinner from "../Common/Spinner";
 

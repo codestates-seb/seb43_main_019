@@ -12,7 +12,7 @@ import ReviewForm from "../Components/Detail/ReviewForm";
 import Spinner from "../Components/Common/Spinner";
 
 // 유틸리티 함수 및 라이브러리 관련 모듈들
-import { getCampgroundInfo } from "../utils/ProductFunctions";
+import { getCampgroundInfo } from "../utilss/ProductFunctions";
 import { toast } from "react-toastify";
 import { FaChevronUp } from "react-icons/fa";
 
