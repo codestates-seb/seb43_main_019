@@ -1,14 +1,15 @@
 import styled from "@emotion/styled";
 import Modal from "react-modal";
+
 import { useState, useEffect } from "react";
-import { getMemberReservations } from "../../Tools/ProductFunctions";
-import Reservation from "../MyPage/Reservation";
-import Spinner from "../Common/Spinner";
 import { useSelector } from "react-redux";
 
-Modal.setAppElement("#root");
+import Reservation from "../MyPage/Reservation";
+import Spinner from "../Common/Spinner";
 
-// modal
+import { getMemberReservations } from "../../Tools/ProductFunctions";
+
+Modal.setAppElement("#root");
 
 const Wrapper = styled.div`
   display: flex;
@@ -53,8 +54,10 @@ const ModalStyle = {
 
 function MyModal(props) {
   const { isOpen, closeModal, userInfo } = props;
+
   const [isLoading, setIsLoading] = useState(false);
   const [campgrounds, setCampgrounds] = useState([]);
+
   const userState = useSelector((state) => state.UserReducer);
 
   useEffect(() => {

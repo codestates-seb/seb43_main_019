@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import AdminProductModal from "./AdminProductModal";
+import AdminProductModal from "../Modal/AdminProductModal";
 
 const Container = styled.div`
   background-color: transparent;
@@ -67,10 +67,9 @@ const Info = styled.h5`
 `;
 
 export default function AdminProductCard({ campground }) {
-  const isDark = useSelector((state) => state.ModeReducer);
   const [openModal, setOpenModal] = useState(false);
-  const [seller, setSeller] = useState("");
-  const [isSellerLoading, setIsSellerLoading] = useState(false);
+
+  const isDark = useSelector((state) => state.ModeReducer);
 
   const handleOpenModal = () => {
     setOpenModal((prev) => true);

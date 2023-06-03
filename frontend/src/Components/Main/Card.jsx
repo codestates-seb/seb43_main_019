@@ -1,9 +1,11 @@
 import styled from "@emotion/styled";
+
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone, faMap, faBarcode } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { Link } from "react-router-dom";
+
 import { formatPrice } from "../../Tools/Functions";
 
 const Container = styled.div`
@@ -21,16 +23,9 @@ const Container = styled.div`
   }
 
   @media screen and (max-width: 400px) {
-    /* Adjust the card size for 400px width */
     width: calc(100% - 25px);
     height: 230px;
     margin-bottom: 50px;
-  }
-
-  @media screen and (max-width: 400px) {
-    /* Adjust the card size for 400px width */
-    width: calc(100% - 25px);
-    height: 230px;
   }
 `;
 
@@ -38,7 +33,6 @@ const Inner = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-
   text-align: center;
   transition: transform 0.6s;
   transform-style: preserve-3d;
@@ -50,12 +44,10 @@ const Front = styled.div`
   height: 100%;
   border-radius: 2em;
   border: 1px solid var(--black-500); /* Add border */
-  border: 1px solid var(--black-500); /* Add border */
   backface-visibility: hidden;
   background-color: ${(props) =>
     props.isDark ? "var(--white-50)" : "var(--white)"};
   color: var(--black-700);
-  /* border: none; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -81,12 +73,6 @@ const Name = styled.div`
   font-size: 18px;
 
   @media screen and (max-width: 400px) {
-    /* Adjust the card size for 400px width */
-    font-size: 12px;
-  }
-
-  @media screen and (max-width: 400px) {
-    /* Adjust the card size for 400px width */
     font-size: 12px;
   }
 `;
@@ -94,30 +80,16 @@ const Name = styled.div`
 const Selection = styled.div`
   margin: 30px 0 10px 0;
   font-size: 13px;
-  /* color : #DF2E38; */
 
   @media screen and (max-width: 400px) {
-    /* Adjust the card size for 400px width */
-    font-size: 8px;
-  }
-
-  @media screen and (max-width: 400px) {
-    /* Adjust the card size for 400px width */
     font-size: 8px;
   }
 `;
 
 const Price = styled.div`
-  /* margin: 30px 0 10px 0; */
   font-size: 25px;
 
   @media screen and (max-width: 400px) {
-    /* Adjust the card size for 400px width */
-    font-size: 20px;
-  }
-
-  @media screen and (max-width: 400px) {
-    /* Adjust the card size for 400px width */
     font-size: 20px;
   }
 `;
@@ -127,7 +99,6 @@ const Back = styled.div`
   width: 100%;
   height: 100%;
   border-radius: 2em;
-  border: 1px solid var(--black-500); /* Add border */
   border: 1px solid var(--black-500); /* Add border */
   backface-visibility: hidden;
   background-color: ${(props) =>
@@ -151,7 +122,6 @@ const Info = styled.div`
 const Descriptions = styled.div`
   width: 250px;
   padding: 0 10px;
-  /* height: 300px; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -168,12 +138,6 @@ const Description = styled.div`
   text-align: center; // 추가
 
   @media screen and (max-width: 400px) {
-    /* Adjust the card size for 400px width */
-    font-size: 15px;
-  }
-
-  @media screen and (max-width: 400px) {
-    /* Adjust the card size for 400px width */
     font-size: 15px;
   }
 `;
@@ -187,13 +151,6 @@ const Icons = styled.div`
 
   height: 100px;
   @media screen and (max-width: 400px) {
-    /* Adjust the card size for 400px width */
-    margin-bottom: 70px;
-    justify-content: space-around;
-  }
-
-  @media screen and (max-width: 400px) {
-    /* Adjust the card size for 400px width */
     margin-bottom: 70px;
     justify-content: space-around;
   }
@@ -204,16 +161,15 @@ const Icon = styled(FontAwesomeIcon)`
   cursor: pointer;
 
   @media screen and (max-width: 400px) {
-    /* Adjust the card size for 400px width */
     font-size: 15px;
     width: 80%;
   }
 `;
 
 export default function Card2({ campground }) {
-  const isDark = useSelector((state) => state.ModeReducer);
   const [infoType, setInfoType] = useState(null);
-  const navigate = useNavigate();
+
+  const isDark = useSelector((state) => state.ModeReducer);
 
   const handleInfoType = (clickedType) => {
     setInfoType((prev) => clickedType);
@@ -236,13 +192,7 @@ export default function Card2({ campground }) {
     <Container>
       <Inner className="inner">
         <Front isDark={isDark}>
-          <Img
-            bgphoto={
-              campground.imageUrl === "http://~"
-                ? "https://yeyak.seoul.go.kr/cmsdata/web_upload/svc/20230329/1680050914280HZAYFX8GLLMTVZI2H6BD0WGPV_IM02.jpg"
-                : campground.imageUrl
-            }
-          />
+          <Img bgphoto={campground.imageUrl} />
           <Selection></Selection>
           <Name>{campground.productName}</Name>
           <Price>{formatPrice(campground.productPrice)}</Price>

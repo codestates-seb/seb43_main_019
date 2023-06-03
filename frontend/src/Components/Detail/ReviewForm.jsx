@@ -1,12 +1,14 @@
 import styled from "@emotion/styled";
-import { useEffect } from "react";
-import { useState } from "react";
-import { useRef } from "react";
-import Review from "../Detail/Review";
+
+import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
-import { getAllReview, handlePostReview } from "../../Tools/ReviewFunctions";
 import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+
+import Review from "../Detail/Review";
 import Spinner from "../Common/Spinner";
+
+import { getAllReview, handlePostReview } from "../../Tools/ReviewFunctions";
 
 const Container = styled.div`
   max-width: 1000px;
@@ -26,7 +28,6 @@ const Form = styled.div`
   display: flex;
   flex-direction: column;
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-  /* border-bottom: 1px solid var(--gray-400); */
 `;
 
 const Infos = styled.div`
@@ -36,21 +37,17 @@ const Infos = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* background-color: var(--gray-100); */
 `;
 
 const Info = styled.h4``;
 
 const MyReviewBtn = styled.div`
   overflow: hidden;
-  /* border: 1px solid var(--black); */
-  /* color: var(--black-700); */
   font-size: 13px;
   line-height: 13px;
   padding: 16px 16px 15px;
   text-decoration: none;
   cursor: pointer;
-  /* background: var(--white-50); */
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
@@ -61,7 +58,6 @@ const MyReviewBtn = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 15px;
-  cursor: pointer;
 `;
 
 const Inputs = styled.form`
@@ -148,15 +144,14 @@ const Reviews = styled.div`
 export default function ReviewForm({ productId }) {
   const [reviews, setReviews] = useState([]); // 현재 보여줄 리뷰들입니다.
   const [isLoading, setIsLoading] = useState(false); // 보여줄 리뷰들이 로딩중인지를 저장하는 state입니다.
-  const [content, setContent] = useState(""); // 작성할 리뷰의 내용입니다.
   const [showMine, setShowMine] = useState(false); // 현재 나의 리뷰만을 보여주는지 저장할 state입니다.
   const [isReviewWritten, setIsReviewWritten] = useState(false);
-  const selectRef = useRef(null); // 별점을 참조합니다.
+
   const userState = useSelector((state) => state.UserReducer); // 유저정보
 
-  const handleWriteReview = (event) => {
-    setContent((prev) => event.target.value);
-  };
+  const selectRef = useRef(null); // 별점을 참조합니다.
+
+  const { register, handleSubmit } = useForm();
 
   // 현재 상품에 대한 모든 리뷰를 가져오는 함수입니다.
   const showAllReviews = async () => {
@@ -170,8 +165,8 @@ export default function ReviewForm({ productId }) {
   };
 
   // 리뷰 작성 후 리뷰를 등록하는 함수입니다.
-  const postReview = async (event) => {
-    event.preventDefault();
+  const postReview = async (data) => {
+    const { content } = data;
 
     if (content.length === 0) {
       toast("리뷰를 작성해주세요.");
@@ -258,7 +253,7 @@ export default function ReviewForm({ productId }) {
     <Spinner />
   ) : (
     <Container>
-      <Form>
+      <Form onSubmit={handleSubmit(postReview)}>
         <Infos>
           <Info>{`후기 ${reviews.length}개`}</Info>
           {userState.login && (
@@ -270,9 +265,8 @@ export default function ReviewForm({ productId }) {
         {userState.login && (
           <Inputs onSubmit={postReview}>
             <TextInput
-              value={content}
-              onChange={handleWriteReview}
               placeholder="리뷰를 작성해 주세요."
+              {...register("content", { required: true })}
             />
             <ScoreInput ref={selectRef}>
               <option value="-">별점</option>

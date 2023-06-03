@@ -1,13 +1,15 @@
 import styled from "@emotion/styled";
 import Modal from "react-modal";
+
 import { AiFillCloseCircle } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { handleDeleteCampground } from "../../Tools/ProductFunctions";
 import { useDispatch, useSelector } from "react-redux";
-import { getMemberInfo } from "../../Tools/MemberFunctions";
 import { toast } from "react-toastify";
+
+import { handleDeleteCampground } from "../../Tools/ProductFunctions";
+import { getMemberInfo } from "../../Tools/MemberFunctions";
 import { handleLogout } from "../../Redux/Actions";
 
 const CloseBtn = styled(AiFillCloseCircle)`
@@ -42,15 +44,8 @@ const Img = styled.div`
   background-position: center;
 `;
 
-const ImageInput = styled.input`
-  position: absolute;
-  bottom: 10px;
-  left: 80px;
-`;
-
 const Managements = styled.form`
   margin-left: 20px;
-
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -64,7 +59,6 @@ const InputLine = styled.div`
   justify-items: start;
   width: 100%;
   height: 30px;
-
   margin-bottom: 10px;
 `;
 
@@ -86,7 +80,6 @@ const Input = styled.input`
 
 const Btns = styled.div`
   width: 100%;
-
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -126,13 +119,15 @@ const ModalStyle = {
 
 export default function AdminProductModal(props) {
   const { isOpen, closeModal, campground } = props;
-  const { register, handleSubmit } = useForm();
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(campground.imageUrl);
-  const navigate = useNavigate();
 
   const userState = useSelector((state) => state.UserReducer);
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const { register, handleSubmit } = useForm();
 
   const handleProductUpdate = async (data) => {
     const myInfo = await getMemberInfo(userState.userInfo);

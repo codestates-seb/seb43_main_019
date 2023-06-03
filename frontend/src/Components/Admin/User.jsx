@@ -1,8 +1,10 @@
 import styled from "@emotion/styled";
+
+import { useState } from "react";
 import { FcBusinessman } from "react-icons/fc";
 import { BsInfoCircleFill } from "react-icons/bs";
+
 import UserModal from "../Modal/UserModal";
-import { useState } from "react";
 
 const Container = styled.div`
   width: 80%;

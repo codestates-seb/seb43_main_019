@@ -1,16 +1,18 @@
 import styled from "@emotion/styled";
 import Modal from "react-modal";
+
 import { AiFillCloseCircle } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+
 import {
   handleDeleteCampground,
   handleUpdateCampground,
 } from "../../Tools/ProductFunctions";
-import { useSelector } from "react-redux";
 import { getMemberInfo } from "../../Tools/MemberFunctions";
-import { toast } from "react-toastify";
 
 const CloseBtn = styled(AiFillCloseCircle)`
   width: 50px;
@@ -128,13 +130,16 @@ const ModalStyle = {
 
 export default function ProductModal(props) {
   const { isOpen, closeModal, campground } = props;
-  const { register, handleSubmit, setFocus, watch } = useForm();
+
   const [isUpdate, setIsUpdate] = useState(true);
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(campground.imageUrl);
-  const navigate = useNavigate();
 
   const userState = useSelector((state) => state.UserReducer);
+
+  const navigate = useNavigate();
+
+  const { register, handleSubmit } = useForm();
 
   const handleImageChange = (event) => {
     const imageFile = event.target.files[0];

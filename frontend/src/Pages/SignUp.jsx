@@ -77,7 +77,7 @@ export default function SignUp() {
 
   const navigate = useNavigate();
 
-  const { register, handleSubmit, setFocus, watch } = useForm();
+  const { register, handleSubmit, setFocus } = useForm();
 
   const handleCode = (event) => {
     setCode((prev) => event.target.value);

@@ -1,10 +1,13 @@
 import styled from "@emotion/styled";
+
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import CustomerChat from "../Chatting/CustomerChat";
-import AIChat from "../Chatting/AIChat";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { BiReset } from "react-icons/bi";
+import { useForm } from "react-hook-form";
+
+import CustomerChat from "../Chatting/CustomerChat";
+import AIChat from "../Chatting/AIChat";
 
 const Btn = styled(motion.div)`
   width: 70px;
@@ -161,17 +164,18 @@ const ChatInputBtn = styled.button`
 
 export default function ChatBox() {
   const [isChatting, setIsChatting] = useState(false);
-  const [chat, setChat] = useState("");
   const [allChats, setAllChats] = useState([]);
 
   const chatRef = useRef(null);
+
+  const { register, handleSubmit, reset } = useForm();
 
   const scrollToBottom = () => {
     chatRef.current.scrollTop = chatRef.current.scrollHeight;
   };
 
-  const handlePostChat = async (event) => {
-    event.preventDefault();
+  const handlePostChat = async (data) => {
+    const { chat } = data;
 
     if (chat.length === 0) return;
 
@@ -182,7 +186,7 @@ export default function ChatBox() {
     };
 
     setAllChats((prev) => [...prev, myChat]);
-    setChat((prev) => "");
+    reset();
 
     scrollToBottom();
 
@@ -225,12 +229,8 @@ export default function ChatBox() {
     }, 2000);
   };
 
-  const handleInputChat = (event) => {
-    setChat((prev) => event.target.value);
-  };
-
   return isChatting ? (
-    <Container layoutId={"chat"} onSubmit={handlePostChat}>
+    <Container layoutId={"chat"} onSubmit={handleSubmit(handlePostChat)}>
       <Header>
         <Icons>
           <BiReset size={"35px"} onClick={() => setAllChats((prev) => [])} />
@@ -250,7 +250,10 @@ export default function ChatBox() {
         )}
       </ChattingBox>
       <ChatInputBox>
-        <ChatInput value={chat} onChange={(event) => handleInputChat(event)} />
+        <ChatInput
+          placeholder="내용을 입력하세요..."
+          {...register("chat", { required: true })}
+        />
         <ChatInputBtn>입력</ChatInputBtn>
       </ChatInputBox>
     </Container>

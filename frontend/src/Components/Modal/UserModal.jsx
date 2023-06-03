@@ -1,12 +1,13 @@
 import styled from "@emotion/styled";
 import Modal from "react-modal";
+
 import { AiFillCloseCircle } from "react-icons/ai";
 import { FcBusinessman } from "react-icons/fc";
 import { useForm } from "react-hook-form";
-import { handleUserWithdrawal } from "../../Tools/MemberFunctions";
-import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+
+import { handleUserWithdrawal } from "../../Tools/MemberFunctions";
 
 const CloseBtn = styled(AiFillCloseCircle)`
   width: 50px;
@@ -118,9 +119,10 @@ const ModalStyle = {
 
 export default function UserModal(props) {
   const { isOpen, closeModal, user } = props;
-  const { register, handleSubmit } = useForm();
-  const navigate = useNavigate();
+
   const userState = useSelector((state) => state.UserReducer);
+
+  const { register, handleSubmit } = useForm();
 
   const handleUserUpdate = async (data) => {
     const success = await handleUserWithdrawal(

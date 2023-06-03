@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { getCampgroundInfo } from "../../Tools/ProductFunctions";
 import styled from "@emotion/styled";
+
+import { getCampgroundInfo } from "../../Tools/ProductFunctions";
 
 const { kakao } = window;
 
@@ -18,26 +19,10 @@ const MapContainer = styled.div`
 function Map({ productId }) {
   const [campgroundInfo, setCampgroundInfo] = useState(null);
   const [map, setMap] = useState(null);
+  const [mapSize, setMapSize] = useState({ width: 800, height: 650 });
   const [center, setCenter] = useState(
     new kakao.maps.LatLng(33.450701, 126.570667)
   );
-  const [mapSize, setMapSize] = useState({ width: 800, height: 650 });
-
-  useEffect(() => {
-    const handleResize = () => {
-      const windowWidth = window.innerWidth;
-      const newWidth = Math.max(Math.min(windowWidth, 1800), 320);
-      const newHeight = Math.round((newWidth / 800) * 650); // 비율을 유지하여 높이 계산
-      setMapSize({ width: newWidth, height: newHeight });
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize(); // 초기 로드 시 크기 설정
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   useEffect(() => {
     const fetchCampgroundInfo = async () => {
@@ -78,6 +63,22 @@ function Map({ productId }) {
       marker.setMap(map);
     }
   }, [campgroundInfo, map]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const windowWidth = window.innerWidth;
+      const newWidth = Math.max(Math.min(windowWidth, 1800), 320);
+      const newHeight = Math.round((newWidth / 800) * 650); // 비율을 유지하여 높이 계산
+      setMapSize({ width: newWidth, height: newHeight });
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // 초기 로드 시 크기 설정
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return <MapContainer id="map" />;
 }

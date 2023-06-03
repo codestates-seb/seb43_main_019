@@ -1,14 +1,16 @@
 import styled from "@emotion/styled";
-import { SellInput } from "../Common/Input";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { CommonButton } from "../Common/Button";
-import { Label } from "../Common/Label";
 import { useState } from "react";
-import { handlePostCampground } from "../../Tools/ProductFunctions";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useEffect } from "react";
+
+import { SellInput } from "../Common/Input";
+import { CommonButton } from "../Common/Button";
+import { Label } from "../Common/Label";
+
+import { handlePostCampground } from "../../Tools/ProductFunctions";
 
 const Container = styled.div`
   margin: 100px 20px;
@@ -153,23 +155,16 @@ const SampleImg = styled.div`
   background-position: center;
 `;
 
-const sampleImgs = [
-  "https://cdn.pixabay.com/photo/2016/01/26/23/32/camp-1163419_1280.jpg",
-  "https://cdn.pixabay.com/photo/2020/02/09/08/08/tent-4832252_1280.jpg",
-  "https://cdn.pixabay.com/photo/2015/05/23/00/25/utah-780108_1280.jpg",
-];
-
 export default function Registration() {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
-  const [selectImg, setSelectImg] = useState(false);
+
   const isDark = useSelector((state) => state.ModeReducer);
-  const { register, handleSubmit, reset } = useForm();
+  const userState = useSelector((state) => state.UserReducer);
 
   const navigate = useNavigate();
 
-  const userState = useSelector((state) => state.UserReducer);
-  const dispatch = useDispatch();
+  const { register, handleSubmit, reset } = useForm();
 
   const postProduct = async (data) => {
     if (imageUrl === "") {
@@ -297,20 +292,6 @@ export default function Registration() {
           </Inputs>
         </Form>
       </Container>
-      {selectImg && (
-        <>
-          <Overlay onClick={() => setSelectImg(false)} />
-          <Modal>
-            {sampleImgs.map((sampleImg) => (
-              <SampleImg
-                bgphoto={sampleImg}
-                key={sampleImg}
-                onClick={() => handleImageChange(sampleImg)}
-              />
-            ))}
-          </Modal>
-        </>
-      )}
     </>
   );
 }

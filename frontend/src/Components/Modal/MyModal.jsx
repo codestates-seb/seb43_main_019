@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import styled from "styled-components";
+import React, { useState } from "react";
+
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 import {
@@ -14,8 +14,6 @@ import { checkValidPassword, checkValidPhone } from "../../Tools/Functions";
 import "react-toastify/dist/ReactToastify.css";
 
 Modal.setAppElement("#root");
-
-// modal
 
 export const ModalBackdrop = styled.div`
   display: flex;
@@ -161,12 +159,12 @@ const Label = styled.div`
 
 function MyModal(props) {
   const { isOpen, closeModal, userInfo, myInfo } = props;
+
   const [name, setName] = useState(myInfo.name);
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState(myInfo.phone);
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const handleName = (event) => {
     setName((prev) => event.target.value);

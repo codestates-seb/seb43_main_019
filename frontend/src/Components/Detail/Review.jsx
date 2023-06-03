@@ -1,13 +1,16 @@
 import styled from "@emotion/styled";
+
 import { useState } from "react";
 import { FcBusinessman } from "react-icons/fc";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+
 import { getMemberInfo } from "../../Tools/MemberFunctions";
 import { AiFillCloseCircle, AiFillEdit } from "react-icons/ai";
 import { handleDeleteReview } from "../../Tools/ReviewFunctions";
 import { handleUpdateReview } from "../../Tools/ReviewFunctions";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 50%;
@@ -192,21 +195,24 @@ const getDate = (date) => {
 
 export default function Review({ review, userId }) {
   const [update, setUpdate] = useState(false);
-  const [updatedContent, setUpdatedContent] = useState(review.content);
   const [updatedScore, setUpdatedScore] = useState(review.score + "");
+
   const userState = useSelector((state) => state.UserReducer);
+
   const navigate = useNavigate();
 
-  const handleUpdateContent = (event) => {
-    setUpdatedContent((prev) => event.target.value);
-  };
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      updatedContent: review.content,
+    },
+  });
 
   const handleUpdateScore = (event) => {
     setUpdatedScore((prev) => event.target.value);
   };
 
-  const updateReview = async (event) => {
-    event.preventDefault();
+  const updateReview = async (data) => {
+    const { updatedContent } = data;
 
     const myInfo = await getMemberInfo(userState.userInfo);
 
@@ -284,11 +290,10 @@ export default function Review({ review, userId }) {
           <Overlay onClick={() => setUpdate(false)} />
           <Modal>
             <h2>리뷰 수정</h2>
-            <Inputs onSubmit={updateReview}>
+            <Inputs onSubmit={handleSubmit(updateReview)}>
               <TextInput
-                value={updatedContent}
-                onChange={handleUpdateContent}
                 placeholder="리뷰를 수정해 주세요."
+                {...register("updatedContent", { required: true })}
               />
               <ScoreInput value={updatedScore} onChange={handleUpdateScore}>
                 <option value="-">별점</option>

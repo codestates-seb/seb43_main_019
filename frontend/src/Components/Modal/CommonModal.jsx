@@ -4,8 +4,6 @@ import styled from "@emotion/styled";
 
 Modal.setAppElement("#root");
 
-// modal
-
 export const ModalBackdrop = styled.div`
   display: flex;
   justify-content: center;

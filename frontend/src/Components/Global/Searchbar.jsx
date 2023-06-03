@@ -1,10 +1,11 @@
 import styled from "@emotion/styled";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
 import { FaSortDown } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+
 import { getCategory } from "../../Tools/Functions";
-import { useEffect } from "react";
 
 const InputSpace = styled.div`
   display: flex;
@@ -42,17 +43,16 @@ const Input = styled.input`
     border-radius: 4px 4px 2px 2px;
     border-color: var(--black-700);
   }
+
   &:hover {
     outline: 1px solid lightgrey;
     border: 1px solid var(--black-700);
   }
 
-  background-color: var(--white);
-  color: var(--black);
-
   @media screen and (max-width: 768px) {
     width: 300px;
   }
+
   @media screen and (max-width: 400px) {
     width: 200px;
     margin-left: 170px;
@@ -147,16 +147,14 @@ const Category = styled.span`
 export default function Searchbar({
   searchCategory,
   setSearchCategory,
-  keyword,
   setKeyword,
 }) {
   const [searchText, setSearchText] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const isDark = useSelector((state) => state.ModeReducer);
-  const location = useLocation();
-
   const navigate = useNavigate();
+
+  const location = useLocation();
 
   const handleKeywordSearch = async () => {
     await setKeyword(searchText);

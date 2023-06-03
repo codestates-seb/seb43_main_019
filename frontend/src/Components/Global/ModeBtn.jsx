@@ -1,5 +1,7 @@
-import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+
+import { useDispatch, useSelector } from "react-redux";
+
 import { handleMode } from "../../Redux/Actions";
 
 const Container = styled.div`

@@ -1,15 +1,15 @@
 import styled from "@emotion/styled";
-import axios from "axios";
+
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { handleLogout } from "../../Redux/Actions";
 import { CommonButton } from "../Common/Button";
-import Searchbar from "./Searchbar";
-import { useEffect, useState } from "react";
-import { getAllCampgroundsInfo } from "../../Tools/ProductFunctions";
-import Spinner from "../Common/Spinner";
+
 import ModeBtn from "./ModeBtn";
+import Searchbar from "./Searchbar";
+
 import { ToastContainer, toast } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
 
 const Container = styled.header`
@@ -20,6 +20,7 @@ const Container = styled.header`
   top: 0;
   left: 0;
   z-index: 10;
+
   @media screen and (max-width: 900px) {
     height: 100px;
   }
@@ -52,6 +53,7 @@ const Bottom = styled.div`
     height: 40px;
     display: flex;
   }
+
   @media screen and (max-width: 400px) {
     padding-top: 20px;
     padding-bottom: 40px;
@@ -102,10 +104,12 @@ export default function Header({
   keyword,
   setKeyword,
 }) {
-  const navigate = useNavigate();
   const isDark = useSelector((state) => state.ModeReducer);
   const userState = useSelector((state) => state.UserReducer);
+
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const handleSignOut = async () => {
     try {
@@ -158,7 +162,6 @@ export default function Header({
           <Searchbar
             searchCategory={searchCategory}
             setSearchCategory={setSearchCategory}
-            keyword={keyword}
             setKeyword={setKeyword}
           />
         </Bottom>

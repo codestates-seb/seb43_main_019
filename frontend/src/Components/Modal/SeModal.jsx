@@ -1,7 +1,13 @@
 import React from "react";
 import Modal from "react-modal";
 import styled from "styled-components";
+
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { toast } from "react-toastify";
+
 import {
   registerSellerAccount,
   updateSellerAccount,
@@ -12,10 +18,7 @@ import {
   validBusinessDate,
   validBusinessNumber,
 } from "../../Tools/Functions";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { toast } from "react-toastify";
+
 import { handleLogout } from "../../Redux/Actions";
 
 Modal.setAppElement("#root");
@@ -150,11 +153,15 @@ const ModalStyle = {
 
 function MyModal(props) {
   const { isOpen, closeModal } = props;
+
   const [isUpdate, setIsUpdate] = useState(false);
-  const { register, handleSubmit } = useForm();
-  const navigate = useNavigate();
+
   const userState = useSelector((state) => state.UserReducer);
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const { register, handleSubmit } = useForm();
 
   const handleChangeBusinessNumber = async (data) => {
     let { code, date } = data;
