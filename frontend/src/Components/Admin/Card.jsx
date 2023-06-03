@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ProductModal from "../Modal/ProductModal";
-import { getMemberInfo } from "../../Utils/MemberFunctions";
+import { getMemberInfo } from "../../utils/MemberFunctions";
 
 const Container = styled.div`
   background-color: transparent;
@@ -68,7 +68,7 @@ const Info = styled.h5`
 `;
 
 export default function Card({ campground }) {
-  const isDark = useSelector((state) => state.modeReducer);
+  const isDark = useSelector((state) => state.ModeReducer);
   const [openModal, setOpenModal] = useState(false);
   const [seller, setSeller] = useState("");
   const [isSellerLoading, setIsSellerLoading] = useState(false);

@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import User from "./User";
 import { useState } from "react";
 import { useEffect } from "react";
-import { getAllMemberInfo } from "../../Utils/MemberFunctions";
+import { getAllMemberInfo } from "../../Tools/MemberFunctions";
 import { useSelector } from "react-redux";
 
 const Container = styled.div`
@@ -16,7 +16,7 @@ const Container = styled.div`
 export default function UserManagement() {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
 
   useEffect(() => {
     (async () => {

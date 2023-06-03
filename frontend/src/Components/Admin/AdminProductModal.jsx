@@ -4,12 +4,9 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import {
-  handleDeleteCampground,
-  handleUpdateCampground,
-} from "../../Utils/ProductFunctions";
+import { handleDeleteCampground } from "../../Tools/ProductFunctions";
 import { useDispatch, useSelector } from "react-redux";
-import { getMemberInfo, validUser } from "../../Utils/MemberFunctions";
+import { getMemberInfo } from "../../Tools/MemberFunctions";
 import { toast } from "react-toastify";
 import { handleLogout } from "../../Redux/Actions";
 
@@ -134,7 +131,7 @@ export default function AdminProductModal(props) {
   const [imageUrl, setImageUrl] = useState(campground.imageUrl);
   const navigate = useNavigate();
 
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
   const dispatch = useDispatch();
 
   const handleProductUpdate = async (data) => {
