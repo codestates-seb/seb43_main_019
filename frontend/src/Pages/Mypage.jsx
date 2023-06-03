@@ -1,14 +1,17 @@
 import styled from "styled-components";
+import Spinner from "../Components/Common/Spinner";
+
 import { useEffect, useState } from "react";
 import { FaAddressCard, FaTwitch, FaSellcast } from "react-icons/fa";
-import Spinner from "../Components/Common/Spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 import MyModal from "../Components/Modal/MyModal";
 import RsModal from "../Components/Modal/RsModal";
 import SeModal from "../Components/Modal/SeModal";
+
 import { getMemberInfo } from "../Tools/MemberFunctions";
-import { toast } from "react-toastify";
 import { handleLogout } from "../Redux/Actions";
 
 const Wrapper = styled.div`
@@ -114,8 +117,8 @@ export default function Mypage() {
   const [MyModalOpen, setMyModalOpen] = useState(false);
   const [RsModalOpen, setRsModalOpen] = useState(false);
   const [SeModalOpen, setSeModalOpen] = useState(false);
-  const [myInfo, setMyInfo] = useState({ name: "", phone: "" });
   const [isSeller, setIsSeller] = useState(false);
+  const [myInfo, setMyInfo] = useState({ name: "", phone: "" });
 
   const userState = useSelector((state) => state.UserReducer);
   const isDark = useSelector((state) => state.ModeReducer);
@@ -143,13 +146,13 @@ export default function Mypage() {
   };
 
   useEffect(() => {
-    (async () => {
-      if (userState.login === false) {
-        toast("로그인이 되지 않았습니다.");
-        navigate("/login");
-        return;
-      }
+    if (userState.login === false) {
+      toast("로그인이 되지 않았습니다.");
+      navigate("/login");
+      return;
+    }
 
+    (async () => {
       setIsLoading((prev) => true);
 
       const data = await getMemberInfo(userState.userInfo);

@@ -66,23 +66,24 @@ const AuthCodeLine = styled.div`
 `;
 
 export default function SignUp() {
-  const navigate = useNavigate();
   const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [authRequired, setAuthRequired] = useState(false);
   const [code, setCode] = useState("");
   const [today, setToday] = useState("");
   const [authCode, setAuthCode] = useState("");
-  const [authRequired, setAuthRequired] = useState(false);
-  const { register, handleSubmit, setFocus, watch } = useForm();
+
   const isDark = useSelector((state) => state.ModeReducer);
   const userState = useSelector((state) => state.UserReducer);
+
+  const navigate = useNavigate();
+
+  const { register, handleSubmit, setFocus, watch } = useForm();
 
   const handleCode = (event) => {
     setCode((prev) => event.target.value);
   };
 
   const handleVerificationSubmit = async () => {
-    // const email = watch("email");
-
     if (authCode === null) {
       toast("인증코드 발송에 실패했습니다.");
       return;

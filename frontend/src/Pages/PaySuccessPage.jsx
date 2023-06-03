@@ -65,6 +65,7 @@ const PaySuccessPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
+
   const reservationId = searchParams.get("reservation_id");
   const pgToken = searchParams.get("pg_token");
 

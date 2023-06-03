@@ -1,5 +1,4 @@
 import axios from "axios";
-import { BACK } from "../config";
 
 // 리뷰를 작성하는 함수입니다.
 // 리뷰(객체)를 인자로 받습니다.
@@ -10,11 +9,11 @@ export const handlePostReview = async (review) => {
   // 이는 처음 정보를 입력 받을 때, 처리해주시기 바랍니다.
 
   try {
-    await axios.post(`${BACK}/api/reviews`, review);
+    await axios.post(`${process.env.REACT_APP_BACK}/api/reviews`, review);
 
     return true;
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     return false;
   }
 };
@@ -26,12 +25,13 @@ export const handlePostReview = async (review) => {
 export const handleUpdateReview = async (reviewId, updatedReview) => {
   try {
     const response = await axios.patch(
-      `${BACK}/api/reviews/${reviewId}`,
+      `${process.env.REACT_APP_BACK}/api/reviews/${reviewId}`,
       updatedReview
     );
 
     return response.data;
   } catch (error) {
+    console.log(error.message);
     return null;
   }
 };
@@ -42,10 +42,13 @@ export const handleUpdateReview = async (reviewId, updatedReview) => {
 // 실패 시 null을 반환합니다.
 export const getReview = async (reviewId) => {
   try {
-    const response = await axios.get(`${BACK}/api/reviews/${reviewId}`);
+    const response = await axios.get(
+      `${process.env.REACT_APP_BACK}/api/reviews/${reviewId}`
+    );
 
     return response.data;
   } catch (error) {
+    console.log(error.message);
     return null;
   }
 };
@@ -57,10 +60,11 @@ export const getReview = async (reviewId) => {
 export const getAllReview = async (page, size) => {
   try {
     const response = await axios.get(
-      `${BACK}/api/reviews?page=${page}&size=${size}`
+      `${process.env.REACT_APP_BACK}/api/reviews?page=${page}&size=${size}`
     );
     return response.data.data;
   } catch (error) {
+    console.log(error.message);
     return null;
   }
 };
@@ -71,14 +75,17 @@ export const getAllReview = async (page, size) => {
 // 실패 시 false를 반환합니다.
 export const handleDeleteReview = async (reviewId, memberInfo) => {
   try {
-    await axios.delete(`${BACK}/api/reviews/${reviewId}`, {
-      headers: {
-        Authorization: memberInfo.accessToken,
-      },
-    });
+    await axios.delete(
+      `${process.env.REACT_APP_BACK}/api/reviews/${reviewId}`,
+      {
+        headers: {
+          Authorization: memberInfo.accessToken,
+        },
+      }
+    );
     return true;
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     return false;
   }
 };

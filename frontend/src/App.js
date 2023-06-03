@@ -90,18 +90,11 @@ function App() {
           <Route path="/payment" element={<Payment />} />
           <Route path={"/sell/*"} element={<Sell />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/404" element={<NotFound />} />
           <Route path="/:id" element={<Detail />} />
+          <Route path="/404" element={<NotFound />} />
           <Route
             path="/"
-            element={
-              <Main
-                searchCategory={searchCategory}
-                setSearchCategory={setSearchCategory}
-                keyword={keyword}
-                setKeyword={setKeyword}
-              />
-            }
+            element={<Main searchCategory={searchCategory} keyword={keyword} />}
           />
         </Routes>
       </Container>

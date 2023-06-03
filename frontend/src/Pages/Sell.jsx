@@ -19,10 +19,12 @@ const Wrapper = styled.div`
 const sellMenu = ["registration", "list", "statistic"];
 
 export default function Sell() {
+  const [selected, setSelected] = useState("");
+
+  const userState = useSelector((state) => state.UserReducer);
+
   const navigate = useNavigate();
   const params = useParams();
-  const [selected, setSelected] = useState("");
-  const userState = useSelector((state) => state.UserReducer);
 
   const handleMenuClick = (clicked) => {
     navigate(`/sell/${clicked}`);

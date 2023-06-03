@@ -64,10 +64,12 @@ const Text2 = styled.div`
 
 const PayPage = () => {
   const [redirectUrl, setRedirectUrl] = useState("");
+
+  const userState = useSelector((state) => state.UserReducer);
+
   const navigate = useNavigate();
   const location = useLocation();
   const { reservationId, productPrice } = location.state || {};
-  const userState = useSelector((state) => state.UserReducer);
 
   const handleSubmitPayment = async (event) => {
     event.preventDefault();

@@ -10,8 +10,6 @@ const Btn = styled(motion.div)`
   width: 70px;
   height: 70px;
   border-radius: 100%;
-  /* background-color: var(--gray-200); */
-  /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,27 +19,6 @@ const Btn = styled(motion.div)`
   right: 10px;
   cursor: pointer;
 
-  &:active {
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
-      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
-  }
-`;
-
-const CloseBtn = styled.div`
-  width: 30px;
-  height: 30px;
-  border-radius: 100%;
-  background-color: white;
-  position: absolute;
-  right: 10px;
-  top: 5px;
-  z-index: 2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 20px;
-  font-weight: bold;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   &:active {
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
       rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
@@ -182,9 +159,6 @@ const ChatInputBtn = styled.button`
   }
 `;
 
-const tempAnswer =
-  "롯데리아는 대한민국의 대표적인 패스트푸드 체인점 중 하나로, 다양한 햄버거와 감자튀김, 음료 등을 판매하고 있습니다. 롯데그룹의 일원으로 1979년 창립되어 현재 국내뿐 아니라 해외에도 많은 매장을 운영하고 있습니다. 로고 색상은 빨강과 노랑색으로, 맛있는 햄버거와 빠르고 편리한 서비스로 인해 국민적인 인기를 얻고 있습니다. 또한, 최근에는 신메뉴 개발과 함께 건강한 식단을 제공하는 메뉴도 출시하고 있습니다";
-
 export default function ChatBox() {
   const [isChatting, setIsChatting] = useState(false);
   const [chat, setChat] = useState("");
@@ -212,25 +186,6 @@ export default function ChatBox() {
 
     scrollToBottom();
 
-    // 진짜 대화
-
-    /*
-    const response = await axios.post(
-      "https://api.openai.com/v1/chat/completions",
-      {
-        model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: `${chat}` }],
-        temperature: 1,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    */
-
     let apiKey = process.env.REACT_APP_OPENAI_API_KEY;
 
     for (let i = 0; i < 5; ++i) {
@@ -249,6 +204,7 @@ export default function ChatBox() {
         temperature: 1,
       }),
     });
+
     const json = await response.json();
     const answer = json.choices[0].message.content;
 

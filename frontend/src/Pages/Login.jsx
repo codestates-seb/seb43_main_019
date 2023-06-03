@@ -106,12 +106,14 @@ const KakaoImg = styled.img`
 `;
 
 export default function Login() {
-  const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
   const userState = useSelector((state) => state.UserReducer);
   const isDark = useSelector((state) => state.ModeReducer);
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
   const location = useLocation();
+
+  const { register, handleSubmit } = useForm();
 
   const handleSignIn = async (data) => {
     const result = await handleStartLogin(data);

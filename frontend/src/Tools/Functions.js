@@ -1,5 +1,5 @@
 // 현재 날짜를 문자열로 반환하는 함수
-// 예) "2023-05-06"
+// 예) "2023-05-06" 형태의 문자열을 반환합니다.
 export const getToday = () => {
   const date = new Date();
   const year = date.getFullYear();
@@ -15,9 +15,10 @@ export const getToday = () => {
 // 유효하다면 true를 반환합니다.
 // 유효하지 않다면 false를 반환합니다.
 export const checkValidPassword = (password) => {
-  const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  const passwordPattern =
+    /^(?=.*[A-Z])(?=.*[a-z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-  return regex.test(password);
+  return passwordPattern.test(password);
 };
 
 // 전화번호가 유효한지 판별하는 함수입니다.
@@ -43,6 +44,7 @@ export const getRandomId = () => {
 };
 
 // 사업자 등록 번호의 패턴이 유효한지 판별하는 함수입니다.
+// 유효한 패턴 예시: 123-45-67890
 export const validBusinessNumber = (code) => {
   const codePattern = /^\d{3}-\d{2}-\d{5}$/;
 
@@ -50,6 +52,7 @@ export const validBusinessNumber = (code) => {
 };
 
 // 사업자 등록 일자의 패턴이 유효한지 판별하는 함수입니다.
+// 유효한 패턴: 2023-05-05
 export const validBusinessDate = (date) => {
   const codePattern = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -64,11 +67,13 @@ export const validCoordinate = (coord) => {
 };
 
 // 사업자 등록 번호 양식을 맞추는 함수입니다.
+// "1234567890" -> "123-45-67890"과 같이 변경합니다.
 export const makeCode = (code) => {
   return code.slice(0, 3) + "-" + code.slice(3, 5) + "-" + code.slice(5);
 };
 
 // 생년월일 양식을 맞추는 함수입니다.
+// 20230505 -> "2023-05-05"와 같이 변경합니다.
 export const maekDate = (date) => {
   return date.slice(0, 4) + "-" + date.slice(4, 6) + "-" + date.slice(6);
 };
@@ -82,6 +87,7 @@ export const makePhone = (phone) => {
   }
 };
 
+// 상세검색에서 이용할 함수로, category 이름에 따른 종류가 반환됩니다.
 export const getCategory = (category) => {
   switch (category) {
     case "productName":
@@ -97,6 +103,7 @@ export const getCategory = (category) => {
   }
 };
 
+// 상세 검색에서 입력한 가격의 범위를 반호나합니다.
 export const checkPrice = (productPrice, requiredPrice) => {
   return (
     productPrice * 0.9 <= requiredPrice && requiredPrice <= productPrice * 1.1

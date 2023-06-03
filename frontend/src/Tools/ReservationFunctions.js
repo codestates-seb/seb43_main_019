@@ -1,5 +1,4 @@
 import axios from "axios";
-import { BACK } from "../config";
 const RES = "/api/reservations";
 
 // 새로운 예약을 등록하는 함수입니다.
@@ -8,9 +7,10 @@ const RES = "/api/reservations";
 // 실패 시 false를 반환합니다.
 export const handleNewReservation = async (reservation) => {
   try {
-    await axios.post(`${BACK}${RES}`, reservation);
+    await axios.post(`${process.env.REACT_APP_BACK}${RES}`, reservation);
     return true;
   } catch (error) {
+    console.log(error.message);
     return false;
   }
 };
@@ -21,10 +21,13 @@ export const handleNewReservation = async (reservation) => {
 // 실패 시 null을 반환합니다.
 export const handleReservation = async (reservationId) => {
   try {
-    const response = await axios.get(`${BACK}${RES}/${reservationId}`);
+    const response = await axios.get(
+      `${process.env.REACT_APP_BACK}${RES}/${reservationId}`
+    );
 
     return response.data;
   } catch (error) {
+    console.log(error.message);
     return null;
   }
 };
@@ -38,7 +41,7 @@ export const handleUpdateReservation = async (updated, userInfo) => {
 
   try {
     const response = await axios.patch(
-      `${BACK}${RES}/${reservationId}`,
+      `${process.env.REACT_APP_BACK}${RES}/${reservationId}`,
       updated,
       {
         headers: {
@@ -49,7 +52,7 @@ export const handleUpdateReservation = async (updated, userInfo) => {
 
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     return null;
   }
 };
@@ -60,13 +63,14 @@ export const handleUpdateReservation = async (updated, userInfo) => {
 // 실패 시 false를 반환합니다.
 export const handleCancelReservation = async (reservationId, memberInfo) => {
   try {
-    await axios.delete(`${BACK}${RES}/${reservationId}`, {
+    await axios.delete(`${process.env.REACT_APP_BACK}${RES}/${reservationId}`, {
       headers: {
         Authorization: memberInfo.accessToken,
       },
     });
     return true;
   } catch (error) {
+    console.log(error.message);
     return false;
   }
 };
@@ -75,7 +79,7 @@ export const handleCancelReservation = async (reservationId, memberInfo) => {
 export const handleCheckReservationDate = async (reservationInfo, userInfo) => {
   try {
     const response = await axios.post(
-      `${BACK}/api/reservations/existence`,
+      `${process.env.REACT_APP_BACK}/api/reservations/existence`,
       reservationInfo,
       {
         headers: {
@@ -85,7 +89,7 @@ export const handleCheckReservationDate = async (reservationInfo, userInfo) => {
     );
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     return false;
   }
 };

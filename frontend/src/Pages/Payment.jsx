@@ -166,26 +166,18 @@ const PaymentButtonContainer = styled.div`
 `;
 
 const PaymentPage = () => {
-  const location = useLocation();
-  const { data, startDate } = location.state || {};
   const [isVisible, setIsVisible] = useState(false);
-  const userState = useSelector((state) => state.UserReducer);
-  const navigate = useNavigate();
-  const { register, handleSubmit, watch } = useForm();
-  const [isAgreed, setIsAgreed] = useState(false);
   const [reservationId, setReservationId] = useState(null);
   const [productPrice, setProductPrice] = useState(null);
+  const [isAgreed, setIsAgreed] = useState(false);
 
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
+  const userState = useSelector((state) => state.UserReducer);
 
-  useEffect(() => {
-    if (!userState.login) {
-      alert("로그인이 필요한 서비스입니다.");
-      navigate("/login");
-    }
-  }, []);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { data, startDate } = location.state || {};
+
+  const { register, handleSubmit, watch } = useForm();
 
   const handleAgreementChange = (e) => {
     setIsAgreed(e.target.checked);
@@ -220,6 +212,16 @@ const PaymentPage = () => {
       setIsAgreed(false);
     }
   };
+
+  useEffect(() => {
+    if (!userState.login) {
+      alert("로그인이 필요한 서비스입니다.");
+      navigate("/login");
+      return;
+    }
+
+    setIsVisible(true);
+  }, []);
 
   return (
     <Container>

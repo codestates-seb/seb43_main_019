@@ -1,5 +1,4 @@
 import axios from "axios";
-import { BACK } from "../config";
 
 // 캠핑장 정보를 등록하는 함수입니다.
 // 캠프장 정보와 멤버 정보를 인자로 받습니다.
@@ -7,7 +6,7 @@ import { BACK } from "../config";
 // 실패 시 false를 반환합니다.
 export const handlePostCampground = async (campground, memberInfo) => {
   try {
-    await axios.post(`${BACK}/api/products`, campground, {
+    await axios.post(`${process.env.REACT_APP_BACK}/api/products`, campground, {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: memberInfo.accessToken,
@@ -16,7 +15,7 @@ export const handlePostCampground = async (campground, memberInfo) => {
 
     return true;
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     return false;
   }
 };
@@ -32,7 +31,7 @@ export const handleUpdateCampground = async (
 ) => {
   try {
     const response = await axios.patch(
-      `${BACK}/api/products/${productId}`,
+      `${process.env.REACT_APP_BACK}/api/products/${productId}`,
       updatedInfo,
       {
         headers: {
@@ -45,7 +44,8 @@ export const handleUpdateCampground = async (
 
     return data;
   } catch (error) {
-    return false;
+    console.log(error.message);
+    return null;
   }
 };
 
@@ -55,11 +55,15 @@ export const handleUpdateCampground = async (
 // 실패 시 null을 반환합니다.
 export const getCampgroundInfo = async (productId) => {
   try {
-    const response = await axios.get(`${BACK}/api/products/${productId}`);
+    const response = await axios.get(
+      `${process.env.REACT_APP_BACK}/api/products/${productId}`
+    );
+
     const { data } = response;
     return data;
   } catch (error) {
-    return false;
+    console.log(error.message);
+    return null;
   }
 };
 
@@ -70,14 +74,14 @@ export const getCampgroundInfo = async (productId) => {
 export const getAllCampgroundsInfo = async (page, size) => {
   try {
     const response = await axios.get(
-      `${BACK}/api/products?page=${page}&size=${size}`
+      `${process.env.REACT_APP_BACK}/api/products?page=${page}&size=${size}`
     );
 
     const infos = response.data.data;
 
     return infos;
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     return null;
   }
 };
@@ -88,14 +92,18 @@ export const getAllCampgroundsInfo = async (page, size) => {
 // 실패 시 false를 반환합니다.
 export const handleDeleteCampground = async (productId, memberInfo) => {
   try {
-    await axios.delete(`${BACK}/api/products/${productId}`, {
-      headers: {
-        Authorization: memberInfo.accessToken,
-      },
-    });
+    await axios.delete(
+      `${process.env.REACT_APP_BACK}/api/products/${productId}`,
+      {
+        headers: {
+          Authorization: memberInfo.accessToken,
+        },
+      }
+    );
 
     return true;
   } catch (error) {
+    console.log(error.message);
     return false;
   }
 };
@@ -104,7 +112,7 @@ export const handleDeleteCampground = async (productId, memberInfo) => {
 export const postPaymentData = async (data, reservationId, memberInfo) => {
   try {
     const response = await axios.post(
-      `${BACK}/api/payments/ready?reservation_id=${reservationId}`,
+      `${process.env.REACT_APP_BACK}/api/payments/ready?reservation_id=${reservationId}`,
       data,
       {
         headers: {
@@ -114,18 +122,22 @@ export const postPaymentData = async (data, reservationId, memberInfo) => {
     );
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 };
 
 // 새로운 예약 등록
 export const postReservationsData = async (data, memberInfo) => {
   try {
-    const response = await axios.post(`${BACK}/api/reservations`, data, {
-      headers: {
-        Authorization: memberInfo.accessToken,
-      },
-    });
+    const response = await axios.post(
+      `${process.env.REACT_APP_BACK}/api/reservations`,
+      data,
+      {
+        headers: {
+          Authorization: memberInfo.accessToken,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error(error);
@@ -135,7 +147,7 @@ export const postReservationsData = async (data, memberInfo) => {
 export const getMemberReservations = async (memberInfo) => {
   try {
     const response = await axios.get(
-      `${BACK}/api/reservations/member/${memberInfo.memberId}`,
+      `${process.env.REACT_APP_BACK}/api/reservations/member/${memberInfo.memberId}`,
       {
         headers: {
           Authorization: memberInfo.accessToken,
@@ -144,7 +156,8 @@ export const getMemberReservations = async (memberInfo) => {
     );
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
+
     return [];
   }
 };

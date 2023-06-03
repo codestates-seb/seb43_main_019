@@ -43,14 +43,22 @@ const menuToTitle = (menu) => {
 const adminMenus = ["total-statistics", "user-management", "productmanagement"];
 
 export default function Admin() {
-  const navigate = useNavigate();
   const [selected, setSelected] = useState("");
-  const params = useParams();
+
   const userState = useSelector((state) => state.UserReducer);
+
+  const navigate = useNavigate();
+  const params = useParams();
 
   const handleMenuClick = (clicked) => {
     navigate(`/admin/${clicked}`);
   };
+
+  useEffect(() => {
+    const menu = params["*"];
+
+    setSelected((prev) => menu);
+  }, [params]);
 
   useEffect(() => {
     if (userState.login === false) {
@@ -70,12 +78,6 @@ export default function Admin() {
       navigate("/admin");
     }
   }, []);
-
-  useEffect(() => {
-    const menu = params["*"];
-
-    setSelected((prev) => menu);
-  }, [params]);
 
   return (
     <Wrapper>

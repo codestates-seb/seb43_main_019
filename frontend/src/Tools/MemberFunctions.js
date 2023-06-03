@@ -1,6 +1,4 @@
 import axios from "axios";
-import { BACK } from "../config";
-import { toast } from "react-toastify";
 
 // 이메일 인증 코드를 받아오는 함수입니다.
 // 이메일을 인자로 받습니다.
@@ -9,13 +7,14 @@ import { toast } from "react-toastify";
 export const getEmailCode = async (email) => {
   try {
     const response = await axios.post(
-      `${BACK}/api/members/email-verify?email=${email}`
+      `${process.env.REACT_APP_BACK}/api/members/email-verify?email=${email}`
     );
 
     const code = response.data.data;
 
     return code;
   } catch (error) {
+    console.log(error.message);
     return null;
   }
 };
@@ -26,10 +25,11 @@ export const getEmailCode = async (email) => {
 // 실패 시 false를 반환합니다.
 export const handleJoin = async (joinInfo) => {
   try {
-    await axios.post(`${BACK}/api/members`, joinInfo);
+    await axios.post(`${process.env.REACT_APP_BACK}/api/members`, joinInfo);
 
     return true;
   } catch (error) {
+    console.log(error.message);
     return false;
   }
 };
@@ -41,7 +41,7 @@ export const handleJoin = async (joinInfo) => {
 export const handleUpdateMemberInfo = async (memberInfo, updatedInfo) => {
   try {
     const response = await axios.patch(
-      `${BACK}/api/members/${memberInfo.memberId}`,
+      `${process.env.REACT_APP_BACK}/api/members/${memberInfo.memberId}`,
       updatedInfo,
       {
         headers: {
@@ -52,7 +52,7 @@ export const handleUpdateMemberInfo = async (memberInfo, updatedInfo) => {
 
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     return false;
   }
 };
@@ -64,7 +64,7 @@ export const handleUpdateMemberInfo = async (memberInfo, updatedInfo) => {
 export const getMemberInfo = async (memberInfo) => {
   try {
     const response = await axios.get(
-      `${BACK}/api/members/${memberInfo.memberId}`,
+      `${process.env.REACT_APP_BACK}/api/members/${memberInfo.memberId}`,
       {
         headers: {
           Authorization: memberInfo.accessToken,
@@ -75,7 +75,7 @@ export const getMemberInfo = async (memberInfo) => {
 
     return userInfo;
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     return null;
   }
 };
@@ -85,14 +85,17 @@ export const getMemberInfo = async (memberInfo) => {
 // 실패 시 null을 반환합니다.
 export const getAllMemberInfo = async (memberInfo) => {
   try {
-    const response = await axios.get(`${BACK}/api/members`, {
-      headers: {
-        Authorization: memberInfo.accessToken,
-      },
-    });
+    const response = await axios.get(
+      `${process.env.REACT_APP_BACK}/api/members`,
+      {
+        headers: {
+          Authorization: memberInfo.accessToken,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     return null;
   }
 };
@@ -103,15 +106,18 @@ export const getAllMemberInfo = async (memberInfo) => {
 // 실패 시 false를 반환합니다.
 export const handleUserWithdrawal = async (deletedId, memberInfo) => {
   try {
-    await axios.delete(`${BACK}/api/members/${deletedId}`, {
-      headers: {
-        Authorization: memberInfo.accessToken,
-      },
-    });
+    await axios.delete(
+      `${process.env.REACT_APP_BACK}/api/members/${deletedId}`,
+      {
+        headers: {
+          Authorization: memberInfo.accessToken,
+        },
+      }
+    );
 
     return true;
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     return false;
   }
 };
@@ -125,7 +131,10 @@ export const handleStartLogin = async (data) => {
   const loginInfo = { email, password };
 
   try {
-    const response = await axios.post(`${BACK}/api/login`, loginInfo);
+    const response = await axios.post(
+      `${process.env.REACT_APP_BACK}/api/login`,
+      loginInfo
+    );
 
     const data = response.headers;
 
@@ -139,8 +148,7 @@ export const handleStartLogin = async (data) => {
 
     return userInfo;
   } catch (error) {
-    console.log(error);
-
+    console.log(error.message);
     return null;
   }
 };
@@ -153,7 +161,7 @@ export const handleKakaoLogin = async (KAKAO_CODE) => {
   const state = "state";
   try {
     const response = await axios.get(
-      `${BACK}/login/oauth2/code/kakao?code=${KAKAO_CODE}&state=${state}`
+      `${process.env.REACT_APP_BACK}/login/oauth2/code/kakao?code=${KAKAO_CODE}&state=${state}`
     );
     const data = response.headers;
 
@@ -165,6 +173,7 @@ export const handleKakaoLogin = async (KAKAO_CODE) => {
 
     return decoded;
   } catch (error) {
+    console.log(error.message);
     return null;
   }
 };
@@ -176,7 +185,7 @@ export const handleKakaoLogin = async (KAKAO_CODE) => {
 export const registerSellerAccount = async (userInfo, registratonInfo) => {
   try {
     const response = await axios.post(
-      `${BACK}/api/sellers/${userInfo.memberId}`,
+      `${process.env.REACT_APP_BACK}/api/sellers/${userInfo.memberId}`,
       registratonInfo,
       {
         headers: {
@@ -187,7 +196,7 @@ export const registerSellerAccount = async (userInfo, registratonInfo) => {
 
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     return null;
   }
 };
@@ -199,7 +208,7 @@ export const registerSellerAccount = async (userInfo, registratonInfo) => {
 export const updateSellerAccount = async (userInfo, registratonInfo) => {
   try {
     const response = await axios.patch(
-      `${BACK}/api/sellers/${userInfo.memberId}`,
+      `${process.env.REACT_APP_BACK}/api/sellers/${userInfo.memberId}`,
       registratonInfo,
       {
         headers: {
@@ -210,7 +219,7 @@ export const updateSellerAccount = async (userInfo, registratonInfo) => {
 
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     return null;
   }
 };

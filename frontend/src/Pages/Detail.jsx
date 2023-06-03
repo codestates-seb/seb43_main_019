@@ -1,20 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
+
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { format } from "date-fns";
+import { toast } from "react-toastify";
+import { FaChevronUp } from "react-icons/fa";
 
-// 컴포넌트 관련 모듈들
 import CampgroundImage from "../Components/Detail/DetailImage";
 import Picker from "../Components/Detail/Picker";
 import Map from "../Components/Detail/Map";
 import ReviewForm from "../Components/Detail/ReviewForm";
 import Spinner from "../Components/Common/Spinner";
 
-// 유틸리티 함수 및 라이브러리 관련 모듈들
 import { getCampgroundInfo } from "../Tools/ProductFunctions";
-import { toast } from "react-toastify";
-import { FaChevronUp } from "react-icons/fa";
 
 // 공통 컴포넌트 관련 모듈
 import { DetailButton } from "../Components/Common/Button";
@@ -244,53 +243,18 @@ const ScrollBtn = styled.div`
   }
 `;
 
-const options = {
-  root: null,
-  rootMargin: "0px",
-  threshold: 0.5,
-};
-
 function Detail() {
   const [startDate, setStartDate] = useState(null);
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const isDark = useSelector((state) => state.ModeReducer);
   const [isLoading, setIsLoading] = useState(false);
-  const userState = useSelector((state) => state.UserReducer);
   const [data, setData] = useState(null);
 
-  // 타겟 요소 지정
+  const isDark = useSelector((state) => state.ModeReducer);
+  const userState = useSelector((state) => state.UserReducer);
+
+  const navigate = useNavigate();
+  const { id } = useParams();
+
   let containerRef = useRef(null);
-
-  useEffect(() => {
-    async function fetchData() {
-      const data = await getCampgroundInfo(id);
-      setData(data);
-    }
-    fetchData();
-  }, [id]);
-
-  // 무한 스크롤을 위한 useEffect
-  useEffect(() => {
-    (async () => {
-      const observer = new IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting) {
-          // console.log("ㅋㅋㅋ");
-        }
-      }, options);
-
-      if (containerRef.current) {
-        observer.observe(containerRef.current);
-      }
-
-      return () => {
-        observer.disconnect();
-      };
-    })();
-  }, [containerRef]);
-
-  const { content, productPrice, productName, location, imageUrl, capacity } =
-    data || {};
 
   const handleReservation = () => {
     if (!startDate) {
@@ -315,27 +279,31 @@ function Detail() {
       navigate("/404");
       return;
     }
-  });
 
-  if (!data) {
-    return (
-      <Loader>
-        <Spinner />
-      </Loader>
-    );
-  }
+    (async () => {
+      setIsLoading((prev) => true);
 
-  return isLoading ? (
-    <Loader>
-      <Spinner />
-    </Loader>
-  ) : (
+      const data = await getCampgroundInfo(id);
+
+      if (data === null) {
+        toast("해당 id의 상품이 존재하지 않습니다.");
+        navigate("/404");
+        return;
+      }
+
+      setData((prev) => data);
+
+      setIsLoading((prev) => false);
+    })();
+  }, [id]);
+
+  return isLoading === false && data ? (
     <>
       <Container>
         <ContextArea isDark={isDark}>
           <Title
             isDark={isDark}
-          >{`${productName}입니다. 예약을 진행해보세요.🚘`}</Title>
+          >{`${data.productName}입니다. 예약을 진행해보세요.🚘`}</Title>
         </ContextArea>
         <Line02 />
         <ContentContainer>
@@ -344,7 +312,7 @@ function Detail() {
               <Information isDark={isDark}>캠핑장 사진 보기</Information>
             </ContextArea>
             <ImgContainer>
-              <CampgroundImage src={imageUrl} />
+              <CampgroundImage src={data.imageUrl} />
             </ImgContainer>
             <Line />
             <ContextArea isDark={isDark}>
@@ -356,7 +324,7 @@ function Detail() {
               <Information isDark={isDark}>숙소 정보 보기</Information>
             </ContextArea>
             <ContextArea isDark={isDark}>
-              <Information isDark={isDark}>{`${content}`}</Information>
+              <Information isDark={isDark}>{`${data.content}`}</Information>
             </ContextArea>
 
             <Line />
@@ -370,19 +338,21 @@ function Detail() {
           <FormContainer>
             <Form>
               <ContextArea02 isDark={isDark}>
-                <PriceArea isDark={isDark}>{`₩${productPrice}/박`}</PriceArea>
+                <PriceArea
+                  isDark={isDark}
+                >{`₩${data.productPrice}/박`}</PriceArea>
               </ContextArea02>
               <Form02>
                 <ContextArea02 isDark={isDark}>
                   <Form02Information
                     isDark={isDark}
-                  >{`위치 : ${location}`}</Form02Information>
+                  >{`위치 : ${data.location}`}</Form02Information>
                 </ContextArea02>
                 <Line02 />
                 <ContextArea02 isDark={isDark}>
                   <Form02Information
                     isDark={isDark}
-                  >{`수용인원 : ${capacity}인`}</Form02Information>
+                  >{`수용인원 : ${data.capacity}인`}</Form02Information>
                 </ContextArea02>
               </Form02>
               <DetailButton onClick={handleReservation}>예약 하기</DetailButton>
@@ -395,6 +365,10 @@ function Detail() {
         <FaChevronUp size={40} />
       </ScrollBtn>
     </>
+  ) : (
+    <Loader>
+      <Spinner />
+    </Loader>
   );
 }
 

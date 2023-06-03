@@ -1,11 +1,14 @@
 import styled, { keyframes } from "styled-components";
+import Spinner from "../Components/Common/Spinner";
+
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import Card from "../Components/Main/Card";
 import { FaChevronUp } from "react-icons/fa";
-import { getAllCampgroundsInfo } from "../Tools/ProductFunctions";
-import Spinner from "../Components/Common/Spinner";
 import { Element } from "react-scroll";
+
+import Card from "../Components/Main/Card";
+
+import { getAllCampgroundsInfo } from "../Tools/ProductFunctions";
 import { checkPrice } from "../Tools/Functions";
 
 const Loader = styled.h1`
@@ -162,19 +165,7 @@ const ScrollBtn = styled.div`
   }
 `;
 
-// 관측에 적용할 수 있는 옵션
-const options = {
-  root: null,
-  rootMargin: "0px",
-  threshold: 0.5,
-};
-
-export default function Main({
-  searchCategory,
-  setSearchCategory,
-  keyword,
-  setKeyword,
-}) {
+export default function Main({ searchCategory, keyword }) {
   const [data, setData] = useState([]);
   const [displayData, setDisplayData] = useState([]);
   const [couple, setCouple] = useState([]);
@@ -183,31 +174,7 @@ export default function Main({
   const [inView, setInView] = useState(false); // inView 상태 추가
   const [titleInView, setTitleInView] = useState(false);
 
-  const userState = useSelector((state) => state.UserReducer);
   const isDark = useSelector((state) => state.ModeReducer);
-
-  useEffect(() => {
-    (async () => {
-      setIsLoading((prev) => true);
-
-      const initData = await getAllCampgroundsInfo(1, 1000000);
-      const liveDatas = initData.filter((prod) => prod.deleted === false);
-      const onlyGangwondo = liveDatas.filter((data) =>
-        data.location.includes("강원도")
-      );
-      const onlyCouple = liveDatas.filter(
-        (data) => 1 <= data.capacity && data.capacity <= 2
-      );
-
-      setData((prev) => [...liveDatas]);
-      setGangwondo((prev) => onlyGangwondo);
-      setCouple((prev) => onlyCouple);
-
-      setDisplayData((prev) => liveDatas.slice(0, 8));
-
-      setIsLoading((prev) => false);
-    })();
-  }, []);
 
   const handleScroll = () => {
     const introElement = document.querySelector(".intro-element");
@@ -285,6 +252,29 @@ export default function Main({
       setIsLoading((prev) => false);
     })();
   }, [keyword]);
+
+  useEffect(() => {
+    (async () => {
+      setIsLoading((prev) => true);
+
+      const initData = await getAllCampgroundsInfo(1, 1000000);
+      const liveDatas = initData.filter((prod) => prod.deleted === false);
+      const onlyGangwondo = liveDatas.filter((data) =>
+        data.location.includes("강원도")
+      );
+      const onlyCouple = liveDatas.filter(
+        (data) => 1 <= data.capacity && data.capacity <= 2
+      );
+
+      setData((prev) => [...liveDatas]);
+      setGangwondo((prev) => onlyGangwondo);
+      setCouple((prev) => onlyCouple);
+
+      setDisplayData((prev) => liveDatas.slice(0, 8));
+
+      setIsLoading((prev) => false);
+    })();
+  }, []);
 
   return isLoading ? (
     <Loader>
