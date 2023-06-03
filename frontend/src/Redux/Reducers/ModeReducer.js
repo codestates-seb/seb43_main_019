@@ -1,4 +1,4 @@
-import { DARK, LIGHT, MODE } from "./Actions";
+import { DARK, LIGHT, MODE } from "../Actions";
 
 const modeReducer = (state = false, action) => {
   switch (action.type) {
