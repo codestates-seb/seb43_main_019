@@ -12,7 +12,7 @@ import ReviewForm from "../Components/Detail/ReviewForm";
 import Spinner from "../Components/Common/Spinner";
 
 // 유틸리티 함수 및 라이브러리 관련 모듈들
-import { getCampgroundInfo } from "../Utils/ProductFunctions";
+import { getCampgroundInfo } from "../Tools/ProductFunctions";
 import { toast } from "react-toastify";
 import { FaChevronUp } from "react-icons/fa";
 
@@ -254,9 +254,9 @@ function Detail() {
   const [startDate, setStartDate] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();
-  const isDark = useSelector((state) => state.modeReducer);
+  const isDark = useSelector((state) => state.ModeReducer);
   const [isLoading, setIsLoading] = useState(false);
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
   const [data, setData] = useState(null);
 
   // 타겟 요소 지정

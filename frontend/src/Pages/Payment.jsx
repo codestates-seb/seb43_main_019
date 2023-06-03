@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 import { BiDollar } from "react-icons/bi";
 import { RiArrowDownSLine } from "react-icons/ri";
 import KakaoPayButton from "../Components/Payment/KakaoPayBtn";
-import { formatPrice } from "../Utils/Functions";
-import { postReservationsData } from "../Utils/ProductFunctions";
+import { formatPrice } from "../Tools/Functions";
+import { postReservationsData } from "../Tools/ProductFunctions";
 
 const Container = styled.div`
   width: 100%;
@@ -169,7 +169,7 @@ const PaymentPage = () => {
   const location = useLocation();
   const { data, startDate } = location.state || {};
   const [isVisible, setIsVisible] = useState(false);
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
   const navigate = useNavigate();
   const { register, handleSubmit, watch } = useForm();
   const [isAgreed, setIsAgreed] = useState(false);

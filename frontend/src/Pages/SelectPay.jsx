@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import KakaoPayButton from "../Components/Payment/KakaoPayBtn";
-import { postPaymentData } from "../Utils/ProductFunctions";
+import { postPaymentData } from "../Tools/ProductFunctions";
 import { useSelector } from "react-redux";
 
 const Wrapper = styled.div`
@@ -67,7 +67,7 @@ const PayPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { reservationId, productPrice } = location.state || {};
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
 
   const handleSubmitPayment = async (event) => {
     event.preventDefault();

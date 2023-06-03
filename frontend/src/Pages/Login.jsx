@@ -7,7 +7,7 @@ import { useLocation, useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 import { LoginButton, SocialLogin } from "../Components/Common/Button";
-import { handleStartLogin } from "../Utils/MemberFunctions";
+import { handleStartLogin } from "../Tools/MemberFunctions";
 import { handleLogin } from "../Redux/Actions";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -108,8 +108,8 @@ const KakaoImg = styled.img`
 export default function Login() {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
-  const userState = useSelector((state) => state.userReducer);
-  const isDark = useSelector((state) => state.modeReducer);
+  const userState = useSelector((state) => state.UserReducer);
+  const isDark = useSelector((state) => state.ModeReducer);
   const dispatch = useDispatch();
   const location = useLocation();
 

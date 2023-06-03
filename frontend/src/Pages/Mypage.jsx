@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import MyModal from "../Components/Modal/MyModal";
 import RsModal from "../Components/Modal/RsModal";
 import SeModal from "../Components/Modal/SeModal";
-import { getMemberInfo } from "../Utils/MemberFunctions";
+import { getMemberInfo } from "../Tools/MemberFunctions";
 import { toast } from "react-toastify";
 import { handleLogout } from "../Redux/Actions";
 
@@ -117,8 +117,8 @@ export default function Mypage() {
   const [myInfo, setMyInfo] = useState({ name: "", phone: "" });
   const [isSeller, setIsSeller] = useState(false);
 
-  const userState = useSelector((state) => state.userReducer);
-  const isDark = useSelector((state) => state.modeReducer);
+  const userState = useSelector((state) => state.UserReducer);
+  const isDark = useSelector((state) => state.ModeReducer);
 
   const dispatch = useDispatch();
 

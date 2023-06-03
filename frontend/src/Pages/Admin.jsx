@@ -46,7 +46,7 @@ export default function Admin() {
   const navigate = useNavigate();
   const [selected, setSelected] = useState("");
   const params = useParams();
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
 
   const handleMenuClick = (clicked) => {
     navigate(`/admin/${clicked}`);
