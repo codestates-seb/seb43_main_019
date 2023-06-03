@@ -211,7 +211,7 @@ const Icon = styled(FontAwesomeIcon)`
 `;
 
 export default function Card2({ campground }) {
-  const isDark = useSelector((state) => state.modeReducer);
+  const isDark = useSelector((state) => state.ModeReducer);
   const [infoType, setInfoType] = useState(null);
   const navigate = useNavigate();
 

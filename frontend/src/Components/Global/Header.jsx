@@ -103,8 +103,8 @@ export default function Header({
   setKeyword,
 }) {
   const navigate = useNavigate();
-  const isDark = useSelector((state) => state.modeReducer);
-  const userState = useSelector((state) => state.userReducer);
+  const isDark = useSelector((state) => state.ModeReducer);
+  const userState = useSelector((state) => state.UserReducer);
   const dispatch = useDispatch();
 
   const handleSignOut = async () => {

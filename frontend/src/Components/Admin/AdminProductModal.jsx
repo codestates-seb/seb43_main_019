@@ -134,7 +134,7 @@ export default function AdminProductModal(props) {
   const [imageUrl, setImageUrl] = useState(campground.imageUrl);
   const navigate = useNavigate();
 
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
   const dispatch = useDispatch();
 
   const handleProductUpdate = async (data) => {

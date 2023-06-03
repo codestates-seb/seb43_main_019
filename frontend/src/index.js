@@ -23,8 +23,3 @@ root.render(
     </Provider>
   </BrowserRouter>
 );
-
-/*
-<PersistGate persistor={persistor}>
-</PersistGate>
-*/

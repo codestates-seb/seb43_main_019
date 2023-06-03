@@ -68,7 +68,7 @@ const Info = styled.h5`
 `;
 
 export default function Card({ campground }) {
-  const isDark = useSelector((state) => state.modeReducer);
+  const isDark = useSelector((state) => state.ModeReducer);
   const [openModal, setOpenModal] = useState(false);
   const [seller, setSeller] = useState("");
   const [isSellerLoading, setIsSellerLoading] = useState(false);

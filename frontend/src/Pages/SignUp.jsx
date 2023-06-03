@@ -73,8 +73,8 @@ export default function SignUp() {
   const [authCode, setAuthCode] = useState("");
   const [authRequired, setAuthRequired] = useState(false);
   const { register, handleSubmit, setFocus, watch } = useForm();
-  const isDark = useSelector((state) => state.modeReducer);
-  const userState = useSelector((state) => state.userReducer);
+  const isDark = useSelector((state) => state.ModeReducer);
+  const userState = useSelector((state) => state.UserReducer);
 
   const handleCode = (event) => {
     setCode((prev) => event.target.value);

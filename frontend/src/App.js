@@ -52,9 +52,9 @@ function App() {
   const [searchCategory, setSearchCategory] = useState("productName");
   const [keyword, setKeyword] = useState("");
 
-  const isDark = useSelector((state) => state.modeReducer);
+  const isDark = useSelector((state) => state.ModeReducer);
   const dispatch = useDispatch();
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
 
   useEffect(() => {
     (async () => {

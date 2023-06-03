@@ -39,7 +39,7 @@ const Products = styled.div`
 export default function Reservation() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
 
   useEffect(() => {
     (async () => {

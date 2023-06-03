@@ -134,7 +134,7 @@ export default function ProductModal(props) {
   const [imageUrl, setImageUrl] = useState(campground.imageUrl);
   const navigate = useNavigate();
 
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
 
   const handleImageChange = (event) => {
     const imageFile = event.target.files[0];

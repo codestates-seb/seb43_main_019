@@ -117,8 +117,8 @@ export default function Mypage() {
   const [myInfo, setMyInfo] = useState({ name: "", phone: "" });
   const [isSeller, setIsSeller] = useState(false);
 
-  const userState = useSelector((state) => state.userReducer);
-  const isDark = useSelector((state) => state.modeReducer);
+  const userState = useSelector((state) => state.UserReducer);
+  const isDark = useSelector((state) => state.ModeReducer);
 
   const dispatch = useDispatch();
 

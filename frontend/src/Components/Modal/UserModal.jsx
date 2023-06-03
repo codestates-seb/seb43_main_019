@@ -120,7 +120,7 @@ export default function UserModal(props) {
   const { isOpen, closeModal, user } = props;
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
 
   const handleUserUpdate = async (data) => {
     const success = await handleUserWithdrawal(

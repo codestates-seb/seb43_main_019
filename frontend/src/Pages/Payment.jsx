@@ -169,7 +169,7 @@ const PaymentPage = () => {
   const location = useLocation();
   const { data, startDate } = location.state || {};
   const [isVisible, setIsVisible] = useState(false);
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
   const navigate = useNavigate();
   const { register, handleSubmit, watch } = useForm();
   const [isAgreed, setIsAgreed] = useState(false);

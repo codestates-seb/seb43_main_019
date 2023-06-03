@@ -183,8 +183,8 @@ export default function Main({
   const [inView, setInView] = useState(false); // inView 상태 추가
   const [titleInView, setTitleInView] = useState(false);
 
-  const userState = useSelector((state) => state.userReducer);
-  const isDark = useSelector((state) => state.modeReducer);
+  const userState = useSelector((state) => state.UserReducer);
+  const isDark = useSelector((state) => state.ModeReducer);
 
   useEffect(() => {
     (async () => {
@@ -256,7 +256,7 @@ export default function Main({
       let result = [];
 
       if (keyword.length === 0) {
-        result = [...liveDatas];
+        result = [...liveDatas.slice(0, 8)];
       } else if (searchCategory === "productName") {
         const filtered = liveDatas.filter((prod) =>
           prod.productName.includes(keyword)
@@ -281,39 +281,6 @@ export default function Main({
       }
 
       setDisplayData((prev) => [...result]);
-
-      /*
-
-      if (Object.keys(searchOption).length === 0) {
-        setDisplayData((prev) => liveDatas.slice(0, 8));
-      } else {
-        let result = [];
-        setDisplayData((prev) => []);
-
-        if (searchOption.productName) {
-          const filtered = liveDatas.filter((prod) =>
-            prod.productName.includes(searchOption.productName)
-          );
-          result = [...result, ...filtered];
-        } else if (searchOption.capacity) {
-          const filtered = liveDatas.filter(
-            (prod) =>
-              searchOption.capacity[0] <= prod.capacity &&
-              prod.capacity <= searchOption.capacity[1]
-          );
-          result = [...result, ...filtered];
-        } else if (searchOption.productPrice) {
-          const filtered = liveDatas.filter(
-            (prod) =>
-              searchOption.productPrice[0] <= prod.productPrice &&
-              prod.productPrice <= searchOption.productPrice[1]
-          );
-          result = [...result, ...filtered];
-        }
-
-        setDisplayData((prev) => [...result]);
-      }
-      */
 
       setIsLoading((prev) => false);
     })();
@@ -345,19 +312,13 @@ export default function Main({
             </Element>
           </ContextArea>
           <Container>
-            {displayData.length > 0
-              ? displayData.map((campground) => (
-                  <Card
-                    key={campground.productId + ""}
-                    campground={campground}
-                  />
-                ))
-              : displayData.map((campground) => (
-                  <Card
-                    key={campground.productId + ""}
-                    campground={campground}
-                  />
-                ))}
+            {displayData.length > 0 ? (
+              displayData.map((campground) => (
+                <Card key={campground.productId + ""} campground={campground} />
+              ))
+            ) : (
+              <h1>데이터가 없습니다.</h1>
+            )}
           </Container>
           <ContextArea isDark={isDark}>
             <Element name="intro" className="intro-element">

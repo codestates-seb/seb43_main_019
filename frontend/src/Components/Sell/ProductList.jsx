@@ -45,7 +45,7 @@ export default function ProductList() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
 
   useEffect(() => {
     (async () => {

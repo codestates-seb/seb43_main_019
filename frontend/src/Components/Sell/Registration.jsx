@@ -163,12 +163,12 @@ export default function Registration() {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [selectImg, setSelectImg] = useState(false);
-  const isDark = useSelector((state) => state.modeReducer);
+  const isDark = useSelector((state) => state.ModeReducer);
   const { register, handleSubmit, reset } = useForm();
 
   const navigate = useNavigate();
 
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
   const dispatch = useDispatch();
 
   const postProduct = async (data) => {

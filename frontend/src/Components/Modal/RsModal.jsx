@@ -1,9 +1,7 @@
 import styled from "@emotion/styled";
 import Modal from "react-modal";
 import { useState, useEffect } from "react";
-import {
-  getMemberReservations,
-} from "../../utils/ProductFunctions";
+import { getMemberReservations } from "../../utils/ProductFunctions";
 import Reservation from "../MyPage/Reservation";
 import Spinner from "../Common/Spinner";
 import { useSelector } from "react-redux";
@@ -57,7 +55,7 @@ function MyModal(props) {
   const { isOpen, closeModal, userInfo } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [campgrounds, setCampgrounds] = useState([]);
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
 
   useEffect(() => {
     (async () => {

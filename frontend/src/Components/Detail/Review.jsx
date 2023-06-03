@@ -194,7 +194,7 @@ export default function Review({ review, userId }) {
   const [update, setUpdate] = useState(false);
   const [updatedContent, setUpdatedContent] = useState(review.content);
   const [updatedScore, setUpdatedScore] = useState(review.score + "");
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
   const navigate = useNavigate();
 
   const handleUpdateContent = (event) => {

@@ -152,7 +152,7 @@ export default function ReviewForm({ productId }) {
   const [showMine, setShowMine] = useState(false); // 현재 나의 리뷰만을 보여주는지 저장할 state입니다.
   const [isReviewWritten, setIsReviewWritten] = useState(false);
   const selectRef = useRef(null); // 별점을 참조합니다.
-  const userState = useSelector((state) => state.userReducer); // 유저정보
+  const userState = useSelector((state) => state.UserReducer); // 유저정보
 
   const handleWriteReview = (event) => {
     setContent((prev) => event.target.value);

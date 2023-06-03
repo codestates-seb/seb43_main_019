@@ -108,8 +108,8 @@ const KakaoImg = styled.img`
 export default function Login() {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
-  const userState = useSelector((state) => state.userReducer);
-  const isDark = useSelector((state) => state.modeReducer);
+  const userState = useSelector((state) => state.UserReducer);
+  const isDark = useSelector((state) => state.ModeReducer);
   const dispatch = useDispatch();
   const location = useLocation();
 

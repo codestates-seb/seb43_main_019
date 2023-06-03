@@ -1,6 +1,6 @@
 import { LOGIN, LOGOUT } from "./Actions";
 
-const userReducer = (state = { login: false, userInfo: null }, action) => {
+const UserReducer = (state = { login: false, userInfo: null }, action) => {
   switch (action.type) {
     case LOGIN:
       return { login: true, userInfo: action.payload.userInfo };
@@ -11,4 +11,4 @@ const userReducer = (state = { login: false, userInfo: null }, action) => {
   }
 };
 
-export default userReducer;
+export default UserReducer;

@@ -153,7 +153,7 @@ export default function Searchbar({
   const [searchText, setSearchText] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const isDark = useSelector((state) => state.modeReducer);
+  const isDark = useSelector((state) => state.ModeReducer);
   const location = useLocation();
 
   const navigate = useNavigate();

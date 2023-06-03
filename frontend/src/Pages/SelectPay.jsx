@@ -67,7 +67,7 @@ const PayPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { reservationId, productPrice } = location.state || {};
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
 
   const handleSubmitPayment = async (event) => {
     event.preventDefault();
