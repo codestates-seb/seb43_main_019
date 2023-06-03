@@ -7,6 +7,3 @@ export const OPENAI_API_KEY =
   "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";
 export const BACK =
   "http://ec2-3-34-91-147.ap-northeast-2.compute.amazonaws.com";
-
-// export const REDIRECT_URI2 = "http://localhost:3000/kakaologin";
-// export const REST_API_KEY2 = "9423df705f01425a43775e4e5c906736";

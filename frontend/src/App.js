@@ -32,7 +32,6 @@ axios.defaults.withCredentials = true;
 const Wrapper = styled.div`
   width: 100vw;
   height: auto;
-  //height: auto;
   position: relative;
 `;
 
@@ -53,8 +52,8 @@ function App() {
   const [keyword, setKeyword] = useState("");
 
   const isDark = useSelector((state) => state.ModeReducer);
-  const dispatch = useDispatch();
   const userState = useSelector((state) => state.UserReducer);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
@@ -80,18 +79,18 @@ function App() {
       />
       <Container isDark={isDark}>
         <Routes>
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/mypage" element={<Mypage />} />
-          <Route path={"/sell/*"} element={<Sell />} />
           <Route path={"/admin/*"} element={<Admin />} />
-          <Route path="/payment" element={<Payment />} />
-          <Route path={"/oauth2/*"} element={<KakaoLogin />} />
-          <Route path="/Pay" element={<SelectPay />} />
-          <Route path="/404" element={<NotFound />} />
           <Route path="/api/payments/success" element={<PaySuccessPage />} />
           <Route path="/api/payments/cancel" element={<PayCancelPage />} />
           <Route path="/api/payments/fail" element={<PayFailPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/mypage" element={<Mypage />} />
+          <Route path={"/oauth2/*"} element={<KakaoLogin />} />
+          <Route path="/Pay" element={<SelectPay />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path={"/sell/*"} element={<Sell />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/404" element={<NotFound />} />
           <Route path="/:id" element={<Detail />} />
           <Route
             path="/"
