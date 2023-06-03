@@ -6,7 +6,7 @@ import { FaChevronUp } from "react-icons/fa";
 import { getAllCampgroundsInfo } from "../Utils/ProductFunctions";
 import Spinner from "../Components/Common/Spinner";
 import { Element } from "react-scroll";
-import { checkPrice } from "../Utils/Functions";
+import { checkPrice } from "../Utils/Functionsx";
 
 const Loader = styled.h1`
   width: 100vw;
