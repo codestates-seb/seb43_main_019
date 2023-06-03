@@ -9,7 +9,7 @@ import {
   handleUpdateMemberInfo,
   handleUserWithdrawal,
 } from "../../Utils/MemberFunctions";
-import { checkValidPassword, checkValidPhone } from "../../Utils/Functionsx";
+import { checkValidPassword, checkValidPhone } from "../../Utils/Functions";
 
 import "react-toastify/dist/ReactToastify.css";
 

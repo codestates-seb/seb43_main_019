@@ -15,7 +15,7 @@ import {
   checkValidPhone,
   getToday,
   makePhone,
-} from "../Utils/Functionsx";
+} from "../Utils/Functions";
 import { getEmailCode, handleJoin } from "../Utils/MemberFunctions";
 
 import "react-toastify/dist/ReactToastify.css";
