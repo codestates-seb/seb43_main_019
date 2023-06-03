@@ -6,7 +6,7 @@ import { handleLogout } from "../../Redux/Actions";
 import { CommonButton } from "../Common/Button";
 import Searchbar from "./Searchbar";
 import { useEffect, useState } from "react";
-import { getAllCampgroundsInfo } from "../../Utils/ProductFunctions";
+import { getAllCampgroundsInfo } from "../../Tools/ProductFunctions";
 import Spinner from "../Common/Spinner";
 import ModeBtn from "./ModeBtn";
 import { ToastContainer, toast } from "react-toastify";
@@ -103,8 +103,8 @@ export default function Header({
   setKeyword,
 }) {
   const navigate = useNavigate();
-  const isDark = useSelector((state) => state.modeReducer);
-  const userState = useSelector((state) => state.userReducer);
+  const isDark = useSelector((state) => state.ModeReducer);
+  const userState = useSelector((state) => state.UserReducer);
   const dispatch = useDispatch();
 
   const handleSignOut = async () => {

@@ -34,7 +34,7 @@ const Icon = styled.span`
 `;
 
 export default function ModeBtn() {
-  const isDark = useSelector((state) => state.modeReducer);
+  const isDark = useSelector((state) => state.ModeReducer);
   const dispatch = useDispatch();
 
   const handleModeChange = () => {

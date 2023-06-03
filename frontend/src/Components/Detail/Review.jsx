@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { FcBusinessman } from "react-icons/fc";
-import { getMemberInfo } from "../../Utils/MemberFunctions";
+import { getMemberInfo } from "../../Tools/MemberFunctions";
 import { AiFillCloseCircle, AiFillEdit } from "react-icons/ai";
-import { handleDeleteReview } from "../../Utils/ReviewFunctions";
-import { handleUpdateReview } from "../../Utils/ReviewFunctions";
-import { useDispatch, useSelector } from "react-redux";
+import { handleDeleteReview } from "../../Tools/ReviewFunctions";
+import { handleUpdateReview } from "../../Tools/ReviewFunctions";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -194,7 +194,7 @@ export default function Review({ review, userId }) {
   const [update, setUpdate] = useState(false);
   const [updatedContent, setUpdatedContent] = useState(review.content);
   const [updatedScore, setUpdatedScore] = useState(review.score + "");
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
   const navigate = useNavigate();
 
   const handleUpdateContent = (event) => {

@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import ProductModal from "../Modal/ProductModal";
-import { formatPrice } from "../../Utils/Functions";
+import { formatPrice } from "../../Tools/Functions";
 import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
@@ -76,8 +76,8 @@ export default function Card({ campground, myInfo }) {
   const [openModal, setOpenModal] = useState(false);
   const [isSellerLoading, setIsSellerLoading] = useState(false);
 
-  const isDark = useSelector((state) => state.modeReducer);
-  const userState = useSelector((state) => state.userReducer);
+  const isDark = useSelector((state) => state.ModeReducer);
+  const userState = useSelector((state) => state.UserReducer);
 
   const navigate = useNavigate();
 

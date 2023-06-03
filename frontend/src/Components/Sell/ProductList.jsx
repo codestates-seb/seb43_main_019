@@ -2,9 +2,9 @@ import styled from "@emotion/styled";
 import Card from "../Sell/Card";
 import { useState } from "react";
 import { useEffect } from "react";
-import { getAllCampgroundsInfo } from "../../Utils/ProductFunctions";
+import { getAllCampgroundsInfo } from "../../Tools/ProductFunctions";
 import { useDispatch, useSelector } from "react-redux";
-import { getMemberInfo, validUser } from "../../Utils/MemberFunctions";
+import { getMemberInfo } from "../../Tools/MemberFunctions";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { handleLogout } from "../../Redux/Actions";
@@ -45,7 +45,7 @@ export default function ProductList() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
 
   useEffect(() => {
     (async () => {

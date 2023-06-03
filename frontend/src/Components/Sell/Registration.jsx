@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { CommonButton } from "../Common/Button";
 import { Label } from "../Common/Label";
 import { useState } from "react";
-import { handlePostCampground } from "../../Utils/ProductFunctions";
+import { handlePostCampground } from "../../Tools/ProductFunctions";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
@@ -163,12 +163,12 @@ export default function Registration() {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [selectImg, setSelectImg] = useState(false);
-  const isDark = useSelector((state) => state.modeReducer);
+  const isDark = useSelector((state) => state.ModeReducer);
   const { register, handleSubmit, reset } = useForm();
 
   const navigate = useNavigate();
 
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
   const dispatch = useDispatch();
 
   const postProduct = async (data) => {

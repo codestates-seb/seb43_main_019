@@ -5,13 +5,13 @@ import { useForm } from "react-hook-form";
 import {
   registerSellerAccount,
   updateSellerAccount,
-} from "../../Utils/MemberFunctions";
+} from "../../Tools/MemberFunctions";
 import {
   maekDate,
   makeCode,
   validBusinessDate,
   validBusinessNumber,
-} from "../../Utils/Functions";
+} from "../../Tools/Functions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -153,7 +153,7 @@ function MyModal(props) {
   const [isUpdate, setIsUpdate] = useState(false);
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
   const dispatch = useDispatch();
 
   const handleChangeBusinessNumber = async (data) => {
@@ -219,7 +219,7 @@ function MyModal(props) {
       );
 
       if (result) {
-        toast("틍록이 완료되었습니다.");
+        toast("등록이 완료되었습니다.");
         dispatch(handleLogout());
         navigate("/login");
         return;
@@ -245,7 +245,7 @@ function MyModal(props) {
               type="text"
               name=""
               required="number"
-              placeholder="'-' 없이 입력"
+              placeholder="'-' 없이 10자리의 숫자 입력"
               {...register("code", { required: true })}
             />
           </div>
@@ -257,7 +257,7 @@ function MyModal(props) {
               type="text"
               name=""
               required="date"
-              placeholder="'-' 없이 입력"
+              placeholder="'-' 없이 생년월일 8자리 입력"
               {...register("date", { required: true })}
             />
           </div>

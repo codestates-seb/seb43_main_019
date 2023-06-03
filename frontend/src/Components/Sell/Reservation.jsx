@@ -3,7 +3,7 @@ import Card from "../Main/Card";
 
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { getAllCampgroundsInfo } from "../../Utils/ProductFunctions";
+import { getAllCampgroundsInfo } from "../../utils/ProductFunctions";
 import Spinner from "../Common/Spinner";
 
 const Container = styled.div`
@@ -39,7 +39,7 @@ const Products = styled.div`
 export default function Reservation() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
 
   useEffect(() => {
     (async () => {

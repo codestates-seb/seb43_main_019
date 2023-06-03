@@ -4,7 +4,7 @@ import { faPhone, faMap, faBarcode } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { formatPrice } from "../../Utils/Functions";
+import { formatPrice } from "../../Tools/Functions";
 
 const Container = styled.div`
   background-color: transparent;
@@ -211,7 +211,7 @@ const Icon = styled(FontAwesomeIcon)`
 `;
 
 export default function Card2({ campground }) {
-  const isDark = useSelector((state) => state.modeReducer);
+  const isDark = useSelector((state) => state.ModeReducer);
   const [infoType, setInfoType] = useState(null);
   const navigate = useNavigate();
 

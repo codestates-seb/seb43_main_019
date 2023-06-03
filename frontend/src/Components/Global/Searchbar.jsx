@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { FaSortDown } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getCategory } from "../../Utils/Functions";
+import { getCategory } from "../../Tools/Functions";
 import { useEffect } from "react";
 
 const InputSpace = styled.div`
@@ -153,7 +153,7 @@ export default function Searchbar({
   const [searchText, setSearchText] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const isDark = useSelector((state) => state.modeReducer);
+  const isDark = useSelector((state) => state.ModeReducer);
   const location = useLocation();
 
   const navigate = useNavigate();
