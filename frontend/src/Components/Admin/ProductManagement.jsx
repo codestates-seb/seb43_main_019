@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import AdminProductCard from "../Admin/AdminProductCard";
 import { useEffect, useState } from "react";
-import { getAllCampgroundsInfo } from "../../Utils/ProductFunctions";
+import { getAllCampgroundsInfo } from "../../Tools/ProductFunctions";
 
 const Container = styled.div`
   width: 100%;

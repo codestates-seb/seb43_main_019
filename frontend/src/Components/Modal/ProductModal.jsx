@@ -7,9 +7,9 @@ import { useState } from "react";
 import {
   handleDeleteCampground,
   handleUpdateCampground,
-} from "../../Utils/ProductFunctions";
+} from "../../Tools/ProductFunctions";
 import { useSelector } from "react-redux";
-import { getMemberInfo } from "../../Utils/MemberFunctions";
+import { getMemberInfo } from "../../Tools/MemberFunctions";
 import { toast } from "react-toastify";
 
 const CloseBtn = styled(AiFillCloseCircle)`

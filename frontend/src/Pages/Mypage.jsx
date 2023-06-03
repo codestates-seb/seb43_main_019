@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import MyModal from "../Components/Modal/MyModal";
 import RsModal from "../Components/Modal/RsModal";
 import SeModal from "../Components/Modal/SeModal";
-import { getMemberInfo } from "../Utils/MemberFunctions";
+import { getMemberInfo } from "../Tools/MemberFunctions";
 import { toast } from "react-toastify";
 import { handleLogout } from "../Redux/Actions";
 

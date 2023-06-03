@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import User from "./User";
 import { useState } from "react";
 import { useEffect } from "react";
-import { getAllMemberInfo } from "../../Utils/MemberFunctions";
+import { getAllMemberInfo } from "../../Tools/MemberFunctions";
 import { useSelector } from "react-redux";
 
 const Container = styled.div`
