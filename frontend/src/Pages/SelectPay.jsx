@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import KakaoPayButton from "../Components/Payment/KakaoPayBtn";
-import { postPaymentData } from "../utilss/ProductFunctions";
+import { postPaymentData } from "../Utils/ProductFunctions";
 import { useSelector } from "react-redux";
 
 const Wrapper = styled.div`

@@ -5,13 +5,13 @@ import { useForm } from "react-hook-form";
 import {
   registerSellerAccount,
   updateSellerAccount,
-} from "../../utilss/MemberFunctions";
+} from "../../Utils/MemberFunctions";
 import {
   maekDate,
   makeCode,
   validBusinessDate,
   validBusinessNumber,
-} from "../../utilss/Functions";
+} from "../../Utils/Functions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";

@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { CommonButton } from "../Common/Button";
 import { Label } from "../Common/Label";
 import { useState } from "react";
-import { handlePostCampground } from "../../utilss/ProductFunctions";
+import { handlePostCampground } from "../../Utils/ProductFunctions";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useEffect } from "react";

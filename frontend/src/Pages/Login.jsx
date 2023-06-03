@@ -7,7 +7,7 @@ import { useLocation, useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 import { LoginButton, SocialLogin } from "../Components/Common/Button";
-import { handleStartLogin } from "../utilss/MemberFunctions";
+import { handleStartLogin } from "../Utils/MemberFunctions";
 import { handleLogin } from "../Redux/Actions";
 
 import "react-toastify/dist/ReactToastify.css";
