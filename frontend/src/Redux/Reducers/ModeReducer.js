@@ -1,6 +1,6 @@
 import { DARK, LIGHT, MODE } from "../Actions";
 
-const modeReducer = (state = false, action) => {
+const ModeReducer = (state = false, action) => {
   switch (action.type) {
     case DARK:
       return true;
@@ -13,4 +13,4 @@ const modeReducer = (state = false, action) => {
   }
 };
 
-export default modeReducer;
+export default ModeReducer;

@@ -24,7 +24,7 @@ import PayCancelPage from "./Pages/PayCancelPage";
 import PayFailPage from "./Pages/PayFailPage";
 
 import { handleLogout } from "./Redux/Actions";
-import { getMemberInfo } from "./Utils/MemberFunctions";
+import { getMemberInfo } from "./Tools/MemberFunctions";
 
 // 모든 요청에 withCredentials가 true로 설정됩니다.
 axios.defaults.withCredentials = true;
@@ -52,9 +52,9 @@ function App() {
   const [searchCategory, setSearchCategory] = useState("productName");
   const [keyword, setKeyword] = useState("");
 
-  const isDark = useSelector((state) => state.modeReducer);
+  const isDark = useSelector((state) => state.ModeReducer);
   const dispatch = useDispatch();
-  const userState = useSelector((state) => state.userReducer);
+  const userState = useSelector((state) => state.UserReducer);
 
   useEffect(() => {
     (async () => {
