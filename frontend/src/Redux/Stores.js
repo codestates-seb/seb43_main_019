@@ -1,6 +1,6 @@
 import { legacy_createStore as createStore } from "redux";
 import { persistStore } from "redux-persist";
-import rootReducer from "./Index";
+import rootReducer from "./Index/Index";
 
 export const store = createStore(rootReducer);
 
