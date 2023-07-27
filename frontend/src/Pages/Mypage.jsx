@@ -13,6 +13,7 @@ import SeModal from "../Components/Modal/SeModal";
 
 import { getMemberInfo } from "../Tools/MemberFunctions";
 import { handleLogout } from "../Redux/Actions";
+import useHandleMyPage from "../Hooks/useHandleMyPage";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -111,64 +112,26 @@ const SellLink = styled.p`
 `;
 
 export default function Mypage() {
-  const navigate = useNavigate();
+  const {
+    isLoading,
+    myInfo,
+    isDark,
+    openMyModal,
+    handleMyModal,
+    openRsModal,
+    handleRsModal,
+    openSeModal,
+    handleSeModal,
+    userState,
+    isSeller,
+    navigate,
+  } = useHandleMyPage();
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [MyModalOpen, setMyModalOpen] = useState(false);
-  const [RsModalOpen, setRsModalOpen] = useState(false);
-  const [SeModalOpen, setSeModalOpen] = useState(false);
-  const [isSeller, setIsSeller] = useState(false);
-  const [myInfo, setMyInfo] = useState({ name: "", phone: "" });
-
-  const userState = useSelector((state) => state.UserReducer);
-  const isDark = useSelector((state) => state.ModeReducer);
-
-  const dispatch = useDispatch();
-
-  const openMyModal = () => {
-    setMyModalOpen(true);
-  };
-  const openRsModal = () => {
-    setRsModalOpen(true);
-  };
-  const openSeModal = () => {
-    setSeModalOpen(true);
-  };
-
-  const closeMyModal = () => {
-    setMyModalOpen(false);
-  };
-  const closeRsModal = () => {
-    setRsModalOpen(false);
-  };
-  const closeSeModal = () => {
-    setSeModalOpen(false);
-  };
-
-  useEffect(() => {
-    if (userState.login === false) {
-      toast("로그인이 되지 않았습니다.");
-      navigate("/login");
-      return;
-    }
-
-    (async () => {
-      setIsLoading((prev) => true);
-
-      const data = await getMemberInfo(userState.userInfo);
-
-      if (data === null) {
-        toast("토큰이 만료되었습니다.");
-        dispatch(handleLogout());
-        navigate("/login");
-        return;
-      }
-
-      setMyInfo((prev) => data);
-
-      setIsLoading((prev) => false);
-    })();
-  }, []);
+  if (userState.login === false) {
+    toast("로그인이 되지 않았습니다.");
+    navigate("/login");
+    return;
+  }
 
   return (
     <Wrapper>
@@ -181,36 +144,57 @@ export default function Mypage() {
           </UserArea>
           <ButtonArea>
             <div>
-              <ProfileCard onClick={openMyModal}>
+              <ProfileCard
+                onClick={() => {
+                  handleMyModal(true);
+                }}
+              >
                 <FaAddressCard size={25} /> &nbsp;개인정보관리
               </ProfileCard>
               <MyModal
-                isOpen={MyModalOpen}
-                closeModal={closeMyModal}
+                isOpen={openMyModal}
+                closeModal={() => {
+                  handleMyModal(false);
+                }}
                 userInfo={userState.userInfo}
                 myInfo={myInfo}
                 isSeller={isSeller}
               />
             </div>
             <div>
-              <ProfileCard onClick={openRsModal}>
+              <ProfileCard
+                onClick={() => {
+                  handleRsModal(true);
+                }}
+              >
                 <FaTwitch size={25} />
                 &nbsp;예약관리
               </ProfileCard>
               <RsModal
-                isOpen={RsModalOpen}
-                closeModal={closeRsModal}
+                isOpen={openRsModal}
+                closeModal={() => {
+                  handleRsModal(false);
+                }}
                 userInfo={userState.userInfo}
               />
             </div>
             <div>
-              <ProfileCard onClick={openSeModal}>
+              <ProfileCard
+                onClick={() => {
+                  handleSeModal(true);
+                }}
+              >
                 <FaSellcast size={25} />
                 {userState.userInfo.roles.includes("SELLER")
                   ? "판매자 수정"
                   : "판매자 등록"}
               </ProfileCard>
-              <SeModal isOpen={SeModalOpen} closeModal={closeSeModal} />
+              <SeModal
+                isOpen={openSeModal}
+                closeModal={() => {
+                  handleSeModal(false);
+                }}
+              />
             </div>
           </ButtonArea>
           {userState.userInfo.roles.includes("SELLER") && (

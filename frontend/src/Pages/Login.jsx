@@ -11,6 +11,7 @@ import { handleStartLogin } from "../Tools/MemberFunctions";
 import { handleLogin } from "../Redux/Actions";
 
 import "react-toastify/dist/ReactToastify.css";
+import useLogin from "../Hooks/useLogin";
 
 const KAKAO_AUTH_URL =
   "http://ec2-3-34-91-147.ap-northeast-2.compute.amazonaws.com/oauth2/authorization/kakao";
@@ -106,41 +107,28 @@ const KakaoImg = styled.img`
 `;
 
 export default function Login() {
-  const userState = useSelector((state) => state.UserReducer);
-  const isDark = useSelector((state) => state.ModeReducer);
-  const dispatch = useDispatch();
-
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const { register, handleSubmit } = useForm();
-
-  const handleSignIn = async (data) => {
-    const result = await handleStartLogin(data);
-
-    if (result) {
-      dispatch(handleLogin(result));
-      navigate("/");
-      toast("로그인에 성공하셨습니다.");
-    } else {
-      toast("로그인에 실패하셨습니다.");
-    }
-  };
-
-  const handleSocialLogin = async () => {
-    window.location.href = KAKAO_AUTH_URL;
-  };
+  const {
+    userState,
+    isDark,
+    handleSubmit,
+    handleSignIn,
+    register,
+    handleSocialLogin,
+    navigate,
+    location,
+  } = useLogin();
 
   useEffect(() => {
     if (userState.login) {
       navigate("/");
     }
-
-    if (location.search.includes("error")) {
-      toast("이미 존재하는 계정입니다.");
-      navigate("/login");
-    }
   }, []);
+
+  if (location.search.includes("error")) {
+    toast("이미 존재하는 계정입니다.");
+    navigate("/login");
+    return;
+  }
 
   return (
     <Wrapper>
