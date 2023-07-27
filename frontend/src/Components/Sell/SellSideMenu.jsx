@@ -62,12 +62,6 @@ export default function SellSideMenu({ current, handleMenuClick }) {
       >
         등록 상품 조회 🥾
       </SideItem>
-      {/* <SideItem
-        current={current === "statistic"}
-        onClick={() => handleMenuClick("statistic")}
-      >
-        예약 통계 🔦
-      </SideItem> */}
     </SideMenu>
   );
 }

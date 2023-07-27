@@ -1,16 +1,12 @@
 import styled from "@emotion/styled";
 
-import { useDispatch, useSelector } from "react-redux";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 import { SellInput } from "../Common/Input";
 import { CommonButton } from "../Common/Button";
 import { Label } from "../Common/Label";
 
-import { handlePostCampground } from "../../Tools/ProductFunctions";
+import useRegist from "../../Hooks/useRegist";
 
 const Container = styled.div`
   margin: 100px 20px;
@@ -63,12 +59,17 @@ const Image = styled.div`
 
   width: 80%;
   height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 `;
 
 const ImageInput = styled.input`
   left: 0;
   right: 0%;
   margin: auto auto;
+  display: none;
 `;
 
 const Inputs = styled.div`
@@ -108,112 +109,18 @@ const StyledCommonButton = styled(CommonButton)`
 
 const StyledSellInput = styled(SellInput)``;
 
-const Overlay = styled.div`
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  left: 0;
-  top: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  z-index: 5;
-`;
-
-const Modal = styled.div`
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto auto;
-  width: 800px;
-  height: 400px;
-  background-color: white;
-  z-index: 10;
-  border-radius: 20px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
-    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  justify-items: center;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-`;
-
-const SampleImg = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: black;
-  border-radius: 20px;
-  background-image: url(${(props) => props.bgphoto});
-  background-size: cover;
-  background-position: center;
-`;
-
 export default function Registration() {
-  const [image, setImage] = useState(null);
-  const [imageUrl, setImageUrl] = useState("");
-
   const isDark = useSelector((state) => state.ModeReducer);
-  const userState = useSelector((state) => state.UserReducer);
 
-  const navigate = useNavigate();
-
-  const { register, handleSubmit, reset } = useForm();
-
-  const postProduct = async (data) => {
-    if (imageUrl === "") {
-      toast("사진을 등록해주세요.");
-      return;
-    }
-
-    const {
-      productName,
-      address,
-      location,
-      content,
-      capacity,
-      cancellationDeadline,
-      productPrice,
-    } = data;
-
-    const jsonData = {
-      productName,
-      address,
-      location,
-      content,
-      capacity: +capacity,
-      cancellationDeadline: cancellationDeadline,
-      productPrice,
-      productPhone: "010-1111-1111",
-      memberId: userState.userInfo.memberId,
-    };
-
-    const formData = new FormData();
-    formData.append("images", image);
-    formData.append("jsonData", JSON.stringify(jsonData));
-
-    const success = await handlePostCampground(formData, userState.userInfo);
-
-    if (success) {
-      toast("등록에 성공했습니다.");
-      reset();
-      navigate("/");
-    } else {
-      toast("등록에 실패했습니다.");
-    }
-  };
-
-  const handleImageChange = (event) => {
-    const imgFile = event.target.files[0];
-    setImage((prev) => imgFile);
-    setImageUrl((prev) => URL.createObjectURL(imgFile));
-  };
+  const {
+    handleSubmit,
+    postProduct,
+    imageUrl,
+    handleImageChange,
+    register,
+    imageInputRef,
+    handleImageInputClick,
+  } = useRegist();
 
   return (
     <>
@@ -221,13 +128,21 @@ export default function Registration() {
         <Title isDark={isDark}>고객님의 캠핑장을 등록해주세요.🙋🏻‍♀️</Title>
         <Form onSubmit={handleSubmit(postProduct)}>
           <ImageSpace>
-            <Image bgphoto={imageUrl} />
-            <ImageInput
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-            />
+            <Image
+              bgphoto={imageUrl}
+              onClick={() => {
+                handleImageInputClick();
+              }}
+            >
+              {imageUrl.length === 0 && "클릭하여 이미지를 등록해주세요."}
+            </Image>
           </ImageSpace>
+          <ImageInput
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            ref={imageInputRef}
+          />
           <Inputs>
             <SmallInput>
               <Label htmlFor="productName">이름</Label>

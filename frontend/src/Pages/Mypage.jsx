@@ -203,7 +203,10 @@ export default function Mypage() {
                 판매등록을 원하신다면 아래 링크를 눌러주세요👇🏻
               </SellMent>
               <SellLink isDark={isDark}>
-                <span onClick={() => navigate("/sell")}>
+                <span
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigate("/sell")}
+                >
                   판매 등록하러 가기↪️
                 </span>
               </SellLink>

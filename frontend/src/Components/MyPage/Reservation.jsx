@@ -1,14 +1,5 @@
 import styled from "@emotion/styled";
-
-import { useEffect } from "react";
-import { toast } from "react-toastify";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
-
-import {
-  handleCancelReservation,
-  handleUpdateReservation,
-} from "../../Tools/ReservationFunctions";
+import useHandleOneReservation from "../../Hooks/useHandleOneReservation";
 
 const Container = styled.form`
   width: 80%;
@@ -92,65 +83,8 @@ const Btn = styled.button`
 `;
 
 export default function Reservation({ campground, userInfo }) {
-  const [isUpdate, setIsUpdate] = useState(false);
-  const [canUpdate, setCanUpdate] = useState(true);
-
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      reservationName: campground.reservationName,
-      reservationPhone: campground.reservationPhone,
-      reservationEmail: campground.reservationEmail,
-    },
-  });
-
-  const deleteReservation = async () => {
-    const success = await handleCancelReservation(
-      campground.reservationId,
-      userInfo
-    );
-
-    if (success) {
-      toast("취소되었습니다.");
-      window.location.reload();
-    } else {
-      toast("취소에 실패했습니다.");
-    }
-  };
-
-  const updateReservation = async (data) => {
-    const { reservationName, reservationPhone, reservationEmail } = data;
-
-    const updated = {
-      reservationId: campground.reservationId,
-      reservationDate: campground.reservationDate,
-      reservationName,
-      reservationPhone,
-      reservationEmail,
-      reservationStatus: campground.reservationStatus,
-    };
-    const result = await handleUpdateReservation(updated, userInfo);
-
-    if (result) {
-      toast("수정에 성공했습니다.");
-      window.location.reload();
-    } else {
-      toast("수정에 실패했습니다.");
-    }
-  };
-
-  const handleReservation = async (data) => {
-    if (isUpdate) {
-      await updateReservation(data);
-    } else {
-      await deleteReservation();
-    }
-  };
-
-  useEffect(() => {
-    if (campground.reservationStatus === "RESERVATION_CANCEL") {
-      setCanUpdate(false);
-    }
-  }, []);
+  const { handleSubmit, handleReservation, register, canUpdate, setIsUpdate } =
+    useHandleOneReservation(campground, userInfo);
 
   return (
     <Container onSubmit={handleSubmit(handleReservation)}>

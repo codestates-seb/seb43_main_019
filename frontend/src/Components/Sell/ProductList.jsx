@@ -1,16 +1,6 @@
 import styled from "@emotion/styled";
-
-import { useState } from "react";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-
 import Card from "../Sell/Card";
-
-import { getMemberInfo } from "../../Tools/MemberFunctions";
-import { getAllCampgroundsInfo } from "../../Tools/ProductFunctions";
-import { handleLogout } from "../../Redux/Actions";
+import useProductList from "../../Hooks/useProductList";
 
 const Container = styled.div`
   width: 100%;
@@ -42,44 +32,7 @@ const Products = styled.div`
 `;
 
 export default function ProductList() {
-  const [myProducts, setMyProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [myInfo, setMyInfo] = useState(null);
-
-  const userState = useSelector((state) => state.UserReducer);
-  const dispatch = useDispatch();
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    (async () => {
-      setIsLoading((prev) => true);
-
-      const myInfoResult = await getMemberInfo(userState.userInfo);
-
-      if (myInfoResult === null) {
-        toast("토큰이 만료되었습니다.");
-        dispatch(handleLogout());
-        navigate("/login");
-        return;
-      }
-      setMyInfo(myInfoResult);
-
-      const allProducts = await getAllCampgroundsInfo(1, 10000);
-
-      if (allProducts) {
-        const mine = allProducts.filter((product) => {
-          return (
-            product.deleted === false &&
-            product.memberId === userState.userInfo.memberId
-          );
-        });
-        setMyProducts((prev) => mine);
-      }
-
-      setIsLoading((prev) => false);
-    })();
-  }, []);
+  const { isLoading, myProducts, myInfo } = useProductList();
 
   return (
     <Container>
